@@ -39,7 +39,7 @@ local function main()
    end
   end
   for i,y in ipairs({-2.5,2.5}) do
-   assert(sub.laneLists[i].nodes[1][1][1]==-100 and sub.laneLists[i].nodes[1][1][2]==y,"internal endpoints match native double tram offsets")
+   assert(sub.laneLists[i].nodes[1][1][1]==-30 and sub.laneLists[i].nodes[1][1][2]==y,"internal endpoints match native double tram offsets")
   end
   local function reachable(a,b)
    local visited,queue={},{a}
@@ -53,27 +53,43 @@ local function main()
   for track,terminal in ipairs(sub.station.terminals) do
    local laneIndex,nodeIndex=terminal.vehicleNode[1],terminal.vehicleNode[2]
    local point=assert(sub.laneLists[laneIndex+1].nodes[nodeIndex+1])[1]
-   assert(laneIndex==track-1 and point[1]==40 and point[2]==(track==1 and -6 or 6),"internal terminal actually targets its own platform midpoint")
+   assert(laneIndex==track-1 and point[1]==40 and point[2]==(track==1 and -2.5 or 2.5),"internal terminal actually targets its own platform midpoint")
    for _,reference in ipairs(terminal.personNodes) do
     local lane=assert(sub.laneLists[reference[1]+1])
     assert(lane.transportModes[1]=="PERSON" and lane.nodes[reference[2]+1],"passenger references adjust with crossover option")
    end
    for approach,y in ipairs({-2.5,2.5}) do
-    local from=vector({-100,y,0},1);local to=vector(point,1)
+    local from=vector({-30,y,0},1);local to=vector(point,1)
     assert(reachable(from,to)==(setting==2 or approach==track),"both approaches reach both platforms only when crossover is present")
    end
   end
   if setting==2 then
-   local degree=0;for _ in pairs(graph["-40.000000,0.000000,0.000000"] or {}) do degree=degree+1 end
+   local degree=0;for _ in pairs(graph["-15.000000,0.000000,0.000000"] or {}) do degree=degree+1 end
    assert(degree==4,"explicit four-arm shared crossover coordinate")
+   for _,i in ipairs({3,4}) do
+    local lane=sub.laneLists[i]
+    local first,last=lane.nodes[1],lane.nodes[#lane.nodes]
+    assert(first[1][1]==-30 and last[1][1]==0,"30m crossover envelope")
+    assert(first[2][2]==0 and last[2][2]==0,"switch endpoints tangent to main tracks, not angled junctions")
+    local before,after=lane.nodes[2][2],lane.nodes[3][2]
+    assert(before[1]==after[1] and before[2]==after[2],"crossover midpoint has continuous tangents")
+   end
   end
   assert(sub.laneLists[#sub.laneLists].linkable,"public pedestrian access")
   assert(#sub.models>4,"existing rail model visuals generated")
+  assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
+  for i=1,2 do
+   for _,node in ipairs(sub.laneLists[i].nodes) do
+    assert(node[1][2]==(i==1 and -2.5 or 2.5),"native 5m spacing without flared track")
+   end
+  end
   for _,model in ipairs(sub.models) do
+   assert(not model.id:find("_standard.mdl",1,true),"no sleeper-track models or railway buffers")
+   if model.id:find("single_rail.mdl",1,true) then assert(model.transf[15]==-0.52,"rail-only geometry embedded in pavement") end
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
  end
- print("PASS: straight external approach, four-mode internal switch topology, both terminals, crossover-on/off reachability and finite decorative geometry. Native acceptance still requires a game test.")
+ print("PASS: compact tram spacing, smooth crossover endpoint tangents, both terminals, no sleeper/buffer models and static crossover reachability. Native acceptance still requires a game test.")
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),"\n");os.exit(1) end

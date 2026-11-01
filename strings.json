@@ -16,7 +16,7 @@
         "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Double (Test)",
         "UM_LIGHTRAIL_DOUBLE_DESC": "Two separate tram lanes with the mixed lightrail modes used by the working single-track prototype. First test with existing Bidirectional Stops. Complete routing, per-direction track use and multiple-vehicle safety require testing.",
         "UM_TWIN_TERMINUS_NAME": "UM Twin Terminus (Test)",
-        "UM_TWIN_TERMINUS_DESC": "Experimental two-track terminus using internal mixed-mode vehicle paths, one double front approach and decorative game rail models. Crossover enabled by default. Native placement, platform routes and crossing safety still require testing.",
+        "UM_TWIN_TERMINUS_DESC": "Compact tram-based two-track terminus: 5m track spacing, a 30m crossover, side platforms and bare rails embedded in paving. Smooth switch tangents replace the previous angled joins. Place a new test station; crossover routing is still unproven.",
         "UM_CROSSOVER": "Crossover",
         "UM_SWITCH_OFF": "No crossover",
         "UM_SWITCH_ON": "Scissors crossover"
@@ -38,7 +38,7 @@
         "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Dubbel (Test)",
         "UM_LIGHTRAIL_DOUBLE_DESC": "Twee gescheiden tramrijpaden met de vervoersmodi van het werkende enkelspoor. Test eerst met de bestaande Tweerichtingshaltes. Routekeuze, spoorgebruik per richting en meerdere voertuigen moeten nog worden getest.",
         "UM_TWIN_TERMINUS_NAME": "UM Dubbel Kopstation (Test)",
-        "UM_TWIN_TERMINUS_DESC": "Experimenteel kopstation met interne lightrailrijpaden, een dubbele vooraansluiting en bestaande railmodellen. Kruiswissel staat standaard aan. Plaatsing, perronroutes en veilige kruising moeten nog worden getest.",
+        "UM_TWIN_TERMINUS_DESC": "Compact kopstation op trambasis: 5m spoorafstand, 30m kruiswissel, zijperrons en kale rails in het wegdek. Wissels sluiten vloeiend aan. Plaats een nieuw teststation; de wisselroutes zijn nog niet bewezen.",
         "UM_CROSSOVER": "Kruiswissel",
         "UM_SWITCH_OFF": "Zonder wissel",
         "UM_SWITCH_ON": "Met kruiswissel"

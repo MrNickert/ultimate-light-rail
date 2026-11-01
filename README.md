@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.6.1 / revision 16.
+Private technische proefmod voor Transport Fever 3, versie 0.6.2 / revision 17.
 
 ## Bewezen enkelspoorbasis
 
@@ -8,21 +8,23 @@ De combinatie UM Bidirectional Stop (Test) en UM Lightrail (Test) levert in het 
 
 Dit bewijst nog geen verkeer met meerdere voertuigen, dubbelspoorbedrijf, reizigersafhandeling of algemene wegintegratie.
 
-## Actieve proef: kopstation met interne wissels
+## Actieve proef: compact tramkopstation
 
-Revision 15 werd in het spel als Construction Not Possible geweigerd, zonder specifieke foutcode in stdout. Revision 16 vervangt de root-STREET-wisselkruisingen door interne voertuiglanes volgens het native stationsschema. De externe aansluiting is nu een enkele rechte dubbele straat-edge. De interne rijpaden gebruiken de vier onderzochte tram/spoormodi, expliciete reservering en tweerichtingsverkeer; deze combinatie moet in deze constructie nog worden getest.
+De eerdere variant was plaatsbaar, maar te groot en met spoorwegmodellen vormgegeven. Het native log liet elke ingangslane zijn eigen perron heen en terug bereiken, maar geen kruiselingse wisselroutes. Beide punten worden in revision 17 aangepakt.
 
-Dezelfde **UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)** heeft twee interne perronsporen, elk een eigen haltepunt, een eilandperron en een kruiswissel. Bestaande railmodellen en stootblokken verzorgen een voorlopige decoratieve weergave. De wissel kan in het bouwmenu uitgeschakeld worden als vergelijkingsvariant; standaard staat hij aan.
+**UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)** gebruikt nu de normale tramspoorafstand van 5 meter, een wisselzone van 30 meter, twee zijperrons en kale rails in verharding. Dwarsliggers en spoorwegstootblokken zijn verwijderd. Eindraaklijnen van de kruiswissel liggen nu exact parallel aan de hoofdsporen. De totale lengte daalt van ongeveer 230 naar ongeveer 130 meter.
 
-Zie [Proef 11](docs/proef-11-interne-wissels.md). Vervang de bestanden, laad een testsave en probeer een nieuw station op vrije vlakke grond. Als het met kruiswissel plaatsbaar is: plaats een exemplaar en laat tien seconden lopen. Is de preview rood, vergelijk dan op dezelfde plaats met Zonder wissel. Nog geen lijn of voertuig toevoegen; eerst beoordelen we de native bouw- en routegegevens.
+Zie [Proef 12](docs/proef-12-compact-tramkopstation.md). Vervang de bestanden, laad de testsave en plaats een nieuw station met Met kruiswissel op vrije grond. Laat tien seconden lopen. Eerst beoordelen we de nieuwe uitstraling en daadwerkelijke kruiselingse routes. Bestaande grote stations worden niet automatisch verkleind.
 
-De werkende oude haltes en spoorprofielen blijven behouden. De nieuwe interne routewerking en kruisingsveiligheid zijn niet door de lokale controles bewezen.
+De plaatsbaarheid en wisselwerking van deze compacte variant zijn nog niet in het spel bewezen. Het corrigeren van de knik is een gerichte geometriewijziging; een werkend wisselpad moet nog gemeten worden.
 
 ## Uitkomst van de dubbele verbinding
 
 De dubbelspoorverbinding uit revision 14 geeft in het native log een pad van zes edges in beide richtingen. De gebruiker ziet dat het voertuig de getekende lijn over hetzelfde rijpad heen en terug volgt en dat het tweede zichtbare spoor bij de enkelspoorovergang lijkt te eindigen. Daarmee zijn twee bereikbare onafhankelijke rijroutes en een spoor per richting nog niet bewezen. Het nieuwe kopstation moet daarom eerst expliciete toegang tot beide perronsporen aantonen.
 
 ## Ontwikkelkoers
+
+Zie [de vastgelegde ontwerpkeuzes](docs/ontwerpkeuzes.md): compacte tram-/lightrailvormgeving blijft leidend; spoorweguitstraling en extra ruimte zijn geen vanzelfsprekende technische noodzaak.
 
 Tram is de eerste basis vanwege lightrailvoertuigen en mogelijke wegintegratie. Treinspoor blijft een alternatief bij een aangetoonde functionele grens. Een zelfstandig metronetwerk is toegestaan; een trein/tramovergang is geen vereiste. De beoogde verdere stappen zijn dubbele stations/wissels, verkeersafhandeling met meerdere voertuigen, ondergrondse varianten en een Metro-interface.
 

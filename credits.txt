@@ -19,3 +19,5 @@ lightrail_test.street_template.lua uses the same derived Urban Games tram templa
 lightrail_double.street_template.lua uses the same Urban Games basis and native double tram lane offsets, with the researched transport modes and a separate build menu entry.
 
 The internal terminus references Urban Games standard 2m track and bumper models as decorative installed-game resources; no models are redistributed.
+
+Revision 17 compact terminus uses only the shared bare single_rail model for embedded rail visuals, replacing the previous sleeper-track and bumper visuals.

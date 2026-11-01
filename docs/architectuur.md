@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 17
+
+De plaatsbare interne kopstationvariant gaf geen kruiselingse perronroutes. Revision 17 corrigeert de hoekige wisselaansluitingen en keert terug naar compacte tramvormgeving: 5m spoorafstand, 30m wisselzone, zijperrons en railstrengen in verharding. Geen spoorwegsegmentmodellen of buffers. Zie proef-12-compact-tramkopstation.md en ontwerpkeuzes.md. De nieuwe native wisselwerking is nog niet bewezen.
+
 # Actieve proef vanaf revision 16
 
 De root-STREET-wisselstraat uit revision 15 was niet plaatsbaar; er is geen specifieke afwijzingsreden gelogd. De nieuwe variant heeft een enkele rechte externe dubbele straataansluiting en interne voertuiglanes met vier modi volgens de native halteconstructievorm. Decoratieve railmodellen zijn gescheiden van de transportgeometrie. Plaatsbaarheid en interne heen-/terugroutes moeten nog worden gemeten. Zie proef-11-interne-wissels.md.

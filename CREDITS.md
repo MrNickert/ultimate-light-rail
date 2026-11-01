@@ -19,3 +19,5 @@ lightrail_test.street_template.lua gebruikt dezelfde afgeleide Urban Games-tramt
 lightrail_double.street_template.lua gebruikt dezelfde Urban Games-basis en de originele dubbele tram-lane-offsets, met de onderzochte extra vervoersmodi en een eigen bouwmenu-entry.
 
 De interne kopstationvariant verwijst ook naar ::/infrastructure/track/standard/2m_standard.mdl en bumper_standard.mdl van Urban Games, uitsluitend als decoratieve geinstalleerde modellen. Ze worden niet meegeleverd en leveren geen treinspoor aan het rijpad.
+
+Vanaf revision 17 gebruikt de compacte kopstationweergave uitsluitend ::/infrastructure/track/shared/single_rail.mdl als kale metalen railstreng in verharding. De eerdere standaard railsegmenten met dwarsliggers en bumper-modellen worden door dit stationsscript niet meer gebruikt.

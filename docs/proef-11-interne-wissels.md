@@ -33,3 +33,7 @@ De diagnose uit revision 15 meet de daadwerkelijk gegenereerde ingangslanes naar
 Lokaal zijn beide wisselopties getest: slechts een rechte externe straat-edge, correcte interne terminal- en reizigersverwijzingen, vier modi op alle voertuiglanes, twee aparte perronsporen en geen dubbele of omgekeerd overlappende curves. Zonder wissel kan in het geometrische model elk ingangsspoor alleen zijn eigen perron bereiken; met wissel kunnen beide ingangssporen beide perrons bereiken. Decoratieve modeltransformaties zijn eindig en de modellen bestaan in de geinstalleerde game met lege native metadata.
 
 Deze controles vervangen de native bouw- en routecontrole niet. Plaatsbaarheid, verbinden van interne lanes aan de externe straat, functioneren van de kruiswissel, voertuigomkering en reserveringsveiligheid zijn nog open voor deze constructie.
+
+## Uitkomst en ontwerpcorrectie
+
+Deze variant was plaatsbaar. De log vond per ingangslane alleen het eigen perron heen en terug, niet de kruiselingse perronroutes. De gebruiker wees de spoorweguitstraling en grote wisselstraat af als verkeerde ontwerprichting. Proef 12 verkleint de opbouw naar tramspoorafstand, verwijdert dwarsliggers/stootblokken en maakt de wisselaansluitingen geometrisch tangentieel.
