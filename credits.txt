@@ -15,3 +15,5 @@ edge_test.street_template.lua is also derived from Urban Games tram_new.street_t
 mode_probe.street_template.lua uses the same Urban Games tram template basis with additional transport modes. Native rail reference resources are loaded from the game, not redistributed.
 
 lightrail_test.street_template.lua uses the same derived Urban Games tram template as mode_probe, with a separate description and build menu entry.
+
+lightrail_double.street_template.lua uses the same Urban Games basis and native double tram lane offsets, with the researched transport modes and a separate build menu entry.

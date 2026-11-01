@@ -28,3 +28,7 @@ Als het nieuwe profiel niet in het menu verschijnt of niet op het halteuiteinde 
 ## Nog niet bewezen
 
 Een complete lijn, voertuigen keren, voertuigtoegang vanuit een remise, reizigerstoegang, reserveringsveiligheid en integratie met gewone wegtramtrack. De testsave blijft onderzoeksmateriaal. De koers is tram eerst; een zelfstandig metronetwerk zonder wegintegratie blijft een aanvaardbare uitkomst. Een spoor-tramovergang is geen verplichte scope.
+
+## Uitgevoerd resultaat
+
+Het native log vond met dit profiel vier edges in beide richtingen voor alle gemeten modi. De gebruiker bevestigde een werkende lijn, remise-aansluiting, rijdende Citylink/lightrail, stoppen en deuren bedienen, zelfstandig keren en vertrek over hetzelfde spoor. Opslaan/herladen is getest; alles blijft werken. Dit is de enkelsporige referentie. Dubbelspoor wordt afzonderlijk getest in proef-09-dubbelspoor.md.

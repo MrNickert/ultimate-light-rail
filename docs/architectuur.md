@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 14
+
+De enkelspoorbasis is door de gebruiker getest met een complete lijn, remise-aansluiting, rijdend voertuig, deurbediening, zelfstandig keren en opslaan/herladen. Nieuw is een afzonderlijk dubbel STREET-tramprofiel met twee native gescheiden lane-offsets en de gemeten extra spoortrammodi. De haltes blijven in deze proef enkelsporig; tweesporige stations, wissels en spoorgebruik per richting volgen afzonderlijk. Zie proef-09-dubbelspoor.md.
+
 # Actieve proef vanaf revision 13
 
 De stationpassages blijken lokaal voor alle gemeten modi in beide richtingen bereikbaar. Het totale pad via gewone dubbele tramtrack blijft eenrichtingsverkeer. Een bouwbare kopie van precies het stationprofiel, UM Lightrail (Test), maakt een vergelijking met een uniform tussenstuk mogelijk. Zie proef-08-lightrailverbinding.md. Er zijn nog geen bewezen complete lijn, voertuigen die keren of integratie met gewone wegtramtrack.

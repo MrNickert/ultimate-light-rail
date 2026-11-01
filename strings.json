@@ -12,7 +12,9 @@
         "UM_BIDIRECTIONAL_STOP_NAME": "UM Bidirectional Stop (Test)",
         "UM_BIDIRECTIONAL_STOP_DESC": "Direct-bound tram stop using the profile tested with native paths in both directions. Complete line operation and vehicle reversal still require testing. No hidden loop or reverse commands.",
         "UM_LIGHTRAIL_TRACK_NAME": "UM Lightrail (Test)",
-        "UM_LIGHTRAIL_TRACK_DESC": "Experimental lightrail connection matching the Bidirectional Stop profile. Select electric tramtrack. Test a complete same-profile connection before attempting road integration. Native line operation and vehicle reversal are unproven."
+        "UM_LIGHTRAIL_TRACK_DESC": "Experimental lightrail connection matching the Bidirectional Stop profile. Select electric tramtrack. Test a complete same-profile connection before attempting road integration. Native line operation and vehicle reversal are unproven.",
+        "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Double (Test)",
+        "UM_LIGHTRAIL_DOUBLE_DESC": "Two separate tram lanes with the mixed lightrail modes used by the working single-track prototype. First test with existing Bidirectional Stops. Complete routing, per-direction track use and multiple-vehicle safety require testing."
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
@@ -27,6 +29,8 @@
         "UM_BIDIRECTIONAL_STOP_NAME": "UM Tweerichtingshalte (Test)",
         "UM_BIDIRECTIONAL_STOP_DESC": "Spoorgebonden tramhalte met het profiel waarop paden in beide richtingen zijn gemeten. Complete lijnwerking en voertuigen keren zijn nog niet bewezen. Geen keerlus of omkeercommando.",
         "UM_LIGHTRAIL_TRACK_NAME": "UM Lightrail (Test)",
-        "UM_LIGHTRAIL_TRACK_DESC": "Experimenteel verbindingsspoor met hetzelfde profiel als de Tweerichtingshalte. Kies elektrische tramtrack. Test eerst de volledige verbinding met dit profiel; lijnwerking en voertuigen keren zijn nog onbewezen."
+        "UM_LIGHTRAIL_TRACK_DESC": "Experimenteel verbindingsspoor met hetzelfde profiel als de Tweerichtingshalte. Kies elektrische tramtrack. Test eerst de volledige verbinding met dit profiel; lijnwerking en voertuigen keren zijn nog onbewezen.",
+        "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Dubbel (Test)",
+        "UM_LIGHTRAIL_DOUBLE_DESC": "Twee gescheiden tramrijpaden met de vervoersmodi van het werkende enkelspoor. Test eerst met de bestaande Tweerichtingshaltes. Routekeuze, spoorgebruik per richting en meerdere voertuigen moeten nog worden getest."
     }
 }
