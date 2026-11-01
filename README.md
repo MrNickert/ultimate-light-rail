@@ -1,16 +1,14 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.4.1 / revision 11.
+Private technische proefmod voor Transport Fever 3, versie 0.4.2 / revision 12.
 
-## Actieve proef: halte met gemeten tweerichtingsprofiel
+## Actieve proef: terugroute lokaliseren
 
-De richtingproef in revision 10 toont dat het enkele STREET-tramprofiel met extra TRAM_TRACK/ELECTRIC_TRAM_TRACK-modi door de engine als forwardOnly=false en needsReservation=true wordt opgebouwd. Geisoleerde padvragen voor gewone en elektrische trams werken daarop in beide richtingen. De gewone enkele tram-lane bleef eenrichtingsverkeer.
+De nieuwe haltes uit revision 11 zijn geplaatst. Hun native segmenten hebben forwardOnly=false en needsReservation=true. Toch vindt de complete TRAM/ELECTRIC_TRAM-route via gewone tramtrack alleen een heenpad van zes edges en geen terugpad. Een tweerichtingssegment blijkt dus nog geen complete tweerichtingsroute te garanderen.
 
-Revision 11 voegt een afzonderlijke **UM Bidirectional Stop (Test)** / **UM Tweerichtingshalte (Test)** toe. Die gebruikt de eerder geaccepteerde directe terminalbinding en precies het gemeten profiel. De eerdere haltes en profielen blijven ongewijzigd.
+Revision 12 breidt uitsluitend de alleen-lezen diagnose uit. Lokale paden over een station worden vergeleken met paden tussen de terminals, voor de trammodi, railtrammodi en gecombineerde modeverzamelingen. De bestaande haltes en profielen blijven ongewijzigd.
 
-Zie [Proef 06](docs/proef-06-tweerichtingshalte.md). Vervang de bestanden, laad de save opnieuw, plaats twee nieuwe haltes, verbind via gewone elektrische tramtrack en maak een lijn met alleen die twee. Laat tien seconden lopen en beoordeel het log voor de heen- en terugroute. Nog geen voertuig inzetten.
-
-**Een complete lijn en daadwerkelijke voertuigomkering zijn nog niet bewezen.** Het vorige resultaat geldt alleen voor het losse segment. De nieuwe combinatie moet in de engine worden getest.
+Zie [Proef 07](docs/proef-07-route-diagnose.md). Sla de huidige opstelling op, vervang de bestanden, laad dezelfde save en laat tien seconden lopen. Niets opnieuw bouwen. De lijnverbinding en voertuigomkering zijn nog niet opgelost.
 
 ## Ontwikkelkoers
 

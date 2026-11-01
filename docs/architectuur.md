@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 12
+
+De tweerichtingshalte is plaatsbaar, maar de complete verbinding via gewone tramtrack blijft voor TRAM/ELECTRIC_TRAM in een richting onvindbaar. De segmentvlaggen alleen verklaren dit niet. Proef-07-route-diagnose.md vergelijkt lokale stationpaden, terminalpaden en verschillende modeverzamelingen zonder geometrie te wijzigen. Terugroute en voertuigomkering blijven onopgelost.
+
 # Actieve proef vanaf revision 11
 
 De vergelijkingsproef toonde tweeweg-TRAM/ELECTRIC_TRAM-paden op het STREET-profiel met extra railtrammodi: de engine genereerde forwardOnly=false, needsReservation=true. De nieuwe afzonderlijke bidirectional_stop koppelt dit exacte profiel aan de eerder geaccepteerde directe terminalbinding. Zie proef-06-tweerichtingshalte.md. Lijnwerking en voertuigomkering zijn nog niet bewezen. De gebruikerskeuze is tram eerst, trein alleen als alternatief bij een aangetoonde functionele grens; een trein/tramovergang is geen verplichte scope.

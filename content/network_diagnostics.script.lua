@@ -23,13 +23,28 @@ local function report()
     local segments=api.engine.system.streetSystem.getNode2SegmentMap()
     local terminals={}
     local inspected={}
+    local modeGroups={}
+    local function addModeGroup(label,names)
+        local values={}
+        for _,name in ipairs(names) do
+            if modes[name]==nil then return end
+            values[#values+1]=modes[name]
+        end
+        modeGroups[#modeGroups+1]={label=label,values=values}
+    end
+    addModeGroup("TRAM",{"TRAM"})
+    addModeGroup("ELECTRIC_TRAM",{"ELECTRIC_TRAM"})
+    addModeGroup("TRAM_TRACK",{"TRAM_TRACK"})
+    addModeGroup("ELECTRIC_TRAM_TRACK",{"ELECTRIC_TRAM_TRACK"})
+    addModeGroup("TRAM+TRAM_TRACK",{"TRAM","TRAM_TRACK"})
+    addModeGroup("ELECTRIC_TRAM+ELECTRIC_TRAM_TRACK",{"ELECTRIC_TRAM","ELECTRIC_TRAM_TRACK"})
     local function probe(label,a,b)
-        for _,name in ipairs({"TRAM","ELECTRIC_TRAM"}) do
+        for _,group in ipairs(modeGroups) do
             local ok,path=pcall(function()
-                return api.engine.util.pathfinding.findPathNodeToNode({a},{b},{modes[name]})
+                return api.engine.util.pathfinding.findPathNodeToNode({a},{b},group.values)
             end)
             message("probe "..label.." nodes="..nodeLabel(a).."->"..nodeLabel(b)
-                .." mode="..name.." edges="..(ok and tostring(path and #path or 0) or "query-failed"))
+                .." mode="..group.label.." edges="..(ok and tostring(path and #path or 0) or "query-failed"))
         end
     end
     local constructions=0
@@ -38,6 +53,7 @@ local function report()
         if isPrototype(con) then
             constructions=constructions+1
             message("construction="..entity.." resource="..con.fileName.." stubs="..#con.frozenEdges.." stations="..#con.stations)
+            local segmentEnds={}
             for _,edgeEntity in ipairs(con.frozenEdges) do
                 local base=api.engine.getComponent(edgeEntity,ct.BASE_EDGE)
                 if base then
@@ -53,9 +69,27 @@ local function report()
                                 message("segment-network="..edgeEntity.." edge="..(i-1)
                                     .." forwardOnly="..tostring(edge.forwardOnly)
                                     .." reservation="..tostring(edge.needsReservation))
+                                for _,node in ipairs(edge.conns) do
+                                    local key=nodeLabel(node)
+                                    if not segmentEnds[key] then segmentEnds[key]={node=node,count=0} end
+                                    segmentEnds[key].count=segmentEnds[key].count+1
+                                end
                             end
                         end
                     end
+                end
+            end
+            if con.fileName:find("bidirectional_stop",1,true) then
+                local endpoints={}
+                for _,entry in pairs(segmentEnds) do
+                    if entry.count==1 then endpoints[#endpoints+1]=entry.node end
+                end
+                table.sort(endpoints,function(a,b)return nodeLabel(a)<nodeLabel(b)end)
+                if #endpoints==2 then
+                    probe("station-span construction="..entity,endpoints[1],endpoints[2])
+                    probe("station-span-reverse construction="..entity,endpoints[2],endpoints[1])
+                else
+                    message("station-span construction="..entity.." unavailable endpoints="..#endpoints.."; no local direction conclusion")
                 end
             end
             for _,stationEntity in ipairs(con.stations) do
@@ -103,19 +137,23 @@ local function report()
         if a.station~=b.station then return a.station<b.station end
         return a.node.index<b.node.index
     end)
+    -- Focus on the new pair when older one-way comparison stops remain nearby.
+    if terminals[1] and terminals[1].priority==-1 then
+        while terminals[#terminals].priority~=-1 do table.remove(terminals) end
+    end
     while #terminals>4 do table.remove(terminals) end
     message("total prototype constructions="..constructions.." sampled terminals="..#terminals)
     for from=1,#terminals do
         for to=1,#terminals do
             if from~=to then
-                for _,modeName in ipairs({"TRAM","ELECTRIC_TRAM"}) do
+                for _,group in ipairs(modeGroups) do
                     local ok,path=pcall(function()
                         return api.engine.util.pathfinding.findPathNodeToNode(
-                            {terminals[from].node},{terminals[to].node},{modes[modeName]})
+                            {terminals[from].node},{terminals[to].node},group.values)
                     end)
                     if ok then
                         message("path "..terminals[from].station.."->"..terminals[to].station
-                            .." mode="..modeName.." edges="..(path and #path or 0)
+                            .." mode="..group.label.." edges="..(path and #path or 0)
                             .." nodes="..nodeLabel(terminals[from].node).."->"..nodeLabel(terminals[to].node))
                     else message("path query failed: "..tostring(path)) end
                 end
@@ -161,7 +199,7 @@ function data()
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=6 then saved={version=6,elapsed=0} end
+        if saved.version~=7 then saved={version=7,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0

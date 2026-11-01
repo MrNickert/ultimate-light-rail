@@ -26,7 +26,7 @@ local function fixture(failPath)
   system={streetSystem={getNode2SegmentMap=function() return {[1]={11,99},[2]={11},[3]={21},[4]={21,98}} end}},
   util={transport={calcPosition=function(geometry,t) return t==0 and geometry.a or geometry.b end},
    pathfinding={findPathNodeToNode=setmetatable({}, {__call=function(_,from,to,modes)
-    queries[#queries+1]={from=from[1].entity,to=to[1].entity,mode=modes[1]}
+    queries[#queries+1]={from=from[1].entity,to=to[1].entity,mode=modes[1],modeCount=#modes}
     if failPath then error("read query rejected") end
     if modes[1]=="ELECTRIC_TRAM" then return {} end
     return {{entity=1,index=0}}
@@ -81,7 +81,7 @@ check(#output==previous,"unchanged topology does not spam logs")
 script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
 script.update({},state,5)
 check(#queries==12,"old saved done=true no longer suppresses the report")
-check(state.value.version==6,"saved diagnostic state upgraded")
+check(state.value.version==7,"saved diagnostic state upgraded")
 -- The new two-track stops expose four terminals instead of two.
 script,state,output,queries,objects=fixture(false)
 for _,entity in ipairs({10,20}) do
@@ -109,6 +109,20 @@ script.update({},state,5)
 local report=table.concat(output,"\n")
 check(report:find("total prototype constructions=1 sampled terminals=1",1,true),"new bidirectional stop resource is inspected alone")
 check(report:find("segment-network=11 edge=0 forwardOnly=false reservation=true",1,true),"direct station segment flags reported from actual segment network")
+-- Compare local station paths with the complete connection using both mode families.
+script,state,output,queries,objects=fixture(false)
+api.type["enum"].TransportMode.TRAM_TRACK="TRAM_TRACK"
+api.type["enum"].TransportMode.ELECTRIC_TRAM_TRACK="ELECTRIC_TRAM_TRACK"
+for _,id in ipairs({10,20}) do objects[id].CONSTRUCTION.fileName="mrnickert_ultimate_metro::/bidirectional_stop.con" end
+objects[11].TRANSPORT_NETWORK=objects[301].TRANSPORT_NETWORK
+objects[21].TRANSPORT_NETWORK=objects[401].TRANSPORT_NETWORK
+script.update({},state,5)
+local full=table.concat(output,"\n")
+check(full:find("probe station-span construction=10",1,true),"local station span is probed independently of the interstation route")
+check(full:find("mode=ELECTRIC_TRAM+ELECTRIC_TRAM_TRACK",1,true),"combined tram/rail mode paths are reported")
+local combined=false
+for _,query in ipairs(queries) do if query.modeCount==2 then combined=true end end
+check(combined,"native query receives both actual modes, not just a combined label")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")
 end
 local ok,message=pcall(main)

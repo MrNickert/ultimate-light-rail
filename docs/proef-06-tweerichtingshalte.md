@@ -34,3 +34,7 @@ De eerdere haltes en het gemeten profiel worden niet gewijzigd. Gebouwde eenrich
 Plaatsbaarheid van de nieuwe combinatie, routebereikbaarheid tussen haltes, lijnplanneracceptatie, voertuigomkering, passagiersafhandeling en reserveringsveiligheid zijn nog niet getest. Een pad in beide richtingen is geen bewijs dat een tram bij de terminal de rijrichting mag veranderen. De engine kan extra voertuig- of lijnvoorwaarden stellen.
 
 De gekozen ontwikkelkoers blijft eerst tram als basis onderzoeken vanwege de bestaande lightrailvoertuigen en mogelijke wegintegratie. Een eigen lightrail-infrastructuur is een productrichting; een overstap naar treinspoor is alleen nodig als de benodigde functies binnen de tramroute onhaalbaar blijken. Een overgang tussen trein- en tramsporen is geen verplichte scope.
+
+## Uitgevoerd resultaat
+
+Beide haltes konden worden geplaatst en hun vier segmenten melden forwardOnly=false en needsReservation=true. De volledige TRAM/ELECTRIC_TRAM-verbinding werd echter alleen in een richting gevonden: zes edges heen en nul terug. Daarmee is de lijnroute nog niet bewezen. Vervolg is uitsluitend de diagnose in proef-07-route-diagnose.md; de opstelling hoeft niet opnieuw gebouwd te worden.

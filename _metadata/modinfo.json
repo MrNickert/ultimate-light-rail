@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
-    "summary": "Private research: tram stop using a STREET profile measured with paths in both directions.",
-    "description": "Revision 11 adds a separate UM Bidirectional Stop (Test). It combines the accepted direct midpoint terminal binding from revision 9 with the exact mixed-mode STREET profile measured in direction-probe row B: forwardOnly=false, needsReservation=true, and paths in both directions for TRAM, ELECTRIC_TRAM, TRAM_TRACK and ELECTRIC_TRAM_TRACK. Only that isolated segment behavior is proven. New station placement, complete line routing, native vehicle reversal, passenger access and reservation safety still need testing. Place two NEW bidirectional stops on a separate test save, connect via ordinary electric tramtrack and inspect diagnostics. Existing stations and the measured profile are unchanged. No hidden loop, duplicate reverse curves, automatic commands or requirement for a tram/rail transition.",
+    "summary": "Read-only route diagnostics for the existing bidirectional tram stop prototype.",
+    "description": "Revision 12 changes only diagnostics and documentation. The revision-11 stops place successfully and their segment networks report forwardOnly=false and needsReservation=true, but the complete link via ordinary tramtrack still has a TRAM/ELECTRIC_TRAM path only in one direction. Extended read-only probes compare local station spans with complete terminal routes for TRAM, ELECTRIC_TRAM, both railtram modes and combined tram/railtram mode sets. The saved setup does not need rebuilding. Replace the files, reload the existing test save and run ten seconds. No station, profile, vehicle, line or world commands are changed. This update does not repair the route or prove vehicle reversal.",
     "authors": [
         {
             "name": "MrNickert",
