@@ -6,6 +6,13 @@ local function main()
  local con=resource("content/twin_terminus.con.lua")
  assert(con.updateScript.fileName=="mrnickert_ultimate_metro::/twin_terminus.script@updateFn")
  assert(con.params[1].key=="crossover" and con.params[1].defaultIndex==2,"crossover enabled by default")
+ local approach=resource("content/lightrail_double.street_template.lua")
+ assert(#approach.menuCategory.categories==0,"saved station approach remains loadable but is hidden from building menu")
+ assert(approach.roadType=="STREET" and #approach.laneConfigs==2,"station approach topology preserved")
+ for _,lane in ipairs(approach.laneConfigs) do
+  local modes={};for _,mode in ipairs(lane.transportModes) do modes[mode]=true end
+  assert(modes.TRAM and modes.ELECTRIC_TRAM and modes.TRAM_TRACK and modes.ELECTRIC_TRAM_TRACK,"required internal approach modes retained")
+ end
  local script=resource("content/twin_terminus.script.lua")
  local function vector(v,sign)return string.format("%.6f,%.6f,%.6f",v[1]*sign+0,v[2]*sign+0,v[3]*sign+0)end
  local function key(n)return vector(n[1],1)end
@@ -89,7 +96,7 @@ local function main()
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
  end
- print("PASS: compact tram spacing, smooth crossover endpoint tangents, both terminals, no sleeper/buffer models and static crossover reachability. Native acceptance still requires a game test.")
+ print("PASS: compact tram spacing, smooth crossover endpoint tangents, both terminals, no sleeper/buffer models and static crossover reachability. Runtime cleanup still needs a save/reload smoke test.")
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),"\n");os.exit(1) end

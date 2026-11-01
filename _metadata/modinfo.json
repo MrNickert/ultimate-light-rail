@@ -1,7 +1,7 @@
 {
-    "name": "Ultimate Metro (Prototype)",
-    "summary": "Compact tram-based terminus retry with native track spacing and smooth crossover joins.",
-    "description": "Revision 17 follows the tram-first design correction: removes sleeper-track pieces and railway buffers, keeps 5m tram track spacing without flaring and reduces the entry/switch area from 130m to 40m while retaining 80m platforms. Two side platforms replace the broad island. Bare rail-only game meshes are embedded in paving and are purely decorative. Previous revision placed and each approach could reach its own platform both ways, but no cross-platform route was found. This version gives the crossover horizontal endpoint tangents matching both main tracks. That addresses an identified geometric kink; native cross-platform routing remains unproven. Place one NEW Twin Terminus on a test copy and run ten seconds. Existing placed stations are not automatically resized or migrated. Core tram profiles and the working baseline remain unchanged.",
+    "name": "Ultimate Metro",
+    "summary": "Compact two-platform metro terminus for reversible lightrail on ordinary electric tramtrack.",
+    "description": "Adds Metro Terminus, a compact tram-based terminus with two 80m side platforms and an optional scissors crossover. Connect ordinary native electric tramtrack at the double front entrance and use a reversible lightrail vehicle such as Citylink. The development test covered passenger access and boarding, native reversal, two busy crossing lines, multiple vehicles waiting and proceeding at occupied switch routes, and save/reload persistence. This remains an early mod with limited test coverage; station visuals and internal catenary are unfinished. Version 0.7.0 removes obsolete experiment resources and automatic diagnostics. The working station and its internal approach keep their resource IDs, parameter indices, costs and geometry, so current working stations remain compatible. Older experiment objects must be removed before loading this cleaned version. Do not remove the mod while its stations remain.",
     "authors": [
         {
             "name": "MrNickert",

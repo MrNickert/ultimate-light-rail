@@ -1,23 +1,15 @@
-# Credits en bronvermelding
+# Credits
 
-Transport Fever 3 is van Urban Games. Dit prototype gebruikt de volgende originele resources bij het uitvoeren:
+Transport Fever 3 en de gebruikte native game-assets zijn van Urban Games.
 
-- ::/stations/street/small_stops/small_new.mdl en bijbehorende menuafbeeldingen.
-- ::/infrastructure/street/tram/tram_new.street en gedeelde grondtexturen.
-- ::/stations/shared/industry_floor_high_priority.gtex.
+De mod verwijst tijdens het spelen naar:
 
-Het interne test_track.street_template.lua is afgeleid van street/tram/tram_new.street_template.lua in base/content/infrastructure/street.zip, met gewijzigde lane-offsets en zonder eigen bouwmenu-entry. De schema's voor de stationconstructie zijn onderzocht in de meegeleverde stationsscripts.
+- ::/stations/street/small_stops/small_new.mdl en de bijbehorende menuafbeeldingen;
+- ::/infrastructure/street/tram/tram_new.street en gedeelde straatgrondtexturen;
+- ::/stations/shared/industry_floor_high_priority.gtex;
+- ::/infrastructure/track/shared/single_rail.mdl, uitsluitend als kale decoratieve railstreng in het verharde vlak;
+- de native station-HUD-configuratie.
 
-Geen meshes, texturen of modellen uit het spel worden meegedistribueerd. De geïnstalleerde game levert die resources. De eigen testhalte, documentatie en controles zijn gemaakt voor dit prototype van MrNickert.
+Het verborgen lightrail_double.street_template.lua is afgeleid van Urban Games street/tram/tram_new.street_template.lua, met de onderzochte extra tram/spoormodi en zonder publieke bouwmenu-entry. De stationsconstructievorm is onderzocht aan de hand van de meegeleverde tram- en stationsscripts.
 
-Het interne edge_test.street_template.lua gebruikt dezelfde Urban Games-basis, met een enkele voorwaartse lane voor de directe haltebindingsproef. Er worden geen game-assets gekopieerd.
-
-mode_probe.street_template.lua is afgeleid van het eigen edge_test-profiel en dezelfde Urban Games-basis; uitsluitend de vervoersmodusverzamelingen zijn uitgebreid. De richtingproef verwijst daarnaast naar het native standard_catenary.street_template, zonder dat bestand of de railassets mee te leveren.
-
-lightrail_test.street_template.lua gebruikt dezelfde afgeleide Urban Games-tramtemplate als mode_probe, met uitsluitend eigen beschrijving en bouwmenu-entry.
-
-lightrail_double.street_template.lua gebruikt dezelfde Urban Games-basis en de originele dubbele tram-lane-offsets, met de onderzochte extra vervoersmodi en een eigen bouwmenu-entry.
-
-De interne kopstationvariant verwijst ook naar ::/infrastructure/track/standard/2m_standard.mdl en bumper_standard.mdl van Urban Games, uitsluitend als decoratieve geinstalleerde modellen. Ze worden niet meegeleverd en leveren geen treinspoor aan het rijpad.
-
-Vanaf revision 17 gebruikt de compacte kopstationweergave uitsluitend ::/infrastructure/track/shared/single_rail.mdl als kale metalen railstreng in verharding. De eerdere standaard railsegmenten met dwarsliggers en bumper-modellen worden door dit stationsscript niet meer gebruikt.
+Geen modellen, meshes, materialen of texturen worden gekopieerd in het pakket. De geinstalleerde game levert deze resources. De eigen constructiescriptcode, vertalingen, documentatie en controles zijn van dit project van MrNickert.

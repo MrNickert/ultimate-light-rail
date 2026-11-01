@@ -1,26 +1,54 @@
-"""Build a clean private prototype package; no game files or saves are modified."""
+"""Validate and package the current mod. Does not modify game files or saves."""
 from pathlib import Path
 import hashlib
 import json
+import re
 import zipfile
-root=Path(__file__).resolve().parents[1]
-mod=json.loads((root/"mod.json").read_text(encoding="utf-8"))
-info=json.loads((root/"_metadata/modinfo.json").read_text(encoding="utf-8"))
-assert len(info["name"])<=32 and len(info["summary"])<=100
-assert mod["modId"]=="mrnickert_ultimate_metro" and mod["severityRemove"]=="Critical"
-files=["mod.json","strings.json","credits.txt","_metadata/modinfo.json","content/surface_stop.con.lua",
-       "content/surface_stop.script.lua","content/crossover_stop.con.lua","content/crossover_stop.script.lua","content/edge_stop.con.lua","content/edge_stop.script.lua","content/edge_test.street_template.lua","content/mode_probe.street_template.lua","content/lightrail_test.street_template.lua","content/lightrail_double.street_template.lua","content/direction_probe.con.lua","content/direction_probe.script.lua","content/bidirectional_stop.con.lua","content/bidirectional_stop.script.lua","content/twin_terminus.con.lua","content/twin_terminus.script.lua","content/direction_probe_diagnostics.gs.lua","content/direction_probe_diagnostics.script.lua","content/test_track.street_template.lua","content/network_diagnostics.gs.lua","content/network_diagnostics.script.lua"]
+
+ROOT = Path(__file__).resolve().parents[1]
+VERSION = "0.7.0"
+CONTENT = {
+    "content/twin_terminus.con.lua",
+    "content/twin_terminus.script.lua",
+    "content/lightrail_double.street_template.lua",
+}
+FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json"})
+
+mod = json.loads((ROOT / "mod.json").read_text(encoding="utf-8"))
+info = json.loads((ROOT / "_metadata/modinfo.json").read_text(encoding="utf-8"))
+strings = json.loads((ROOT / "strings.json").read_text(encoding="utf-8"))
+assert mod["modId"] == "mrnickert_ultimate_metro"
+assert mod["severityRemove"] == "Critical"
 assert "runScript" not in mod and "postRunScript" not in mod
-outdir=root/"dist";outdir.mkdir(exist_ok=True)
-out=outdir/"ultimate-metro-0.6.2-compact-tram-terminus.zip"
-with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as archive:
- for name in files:
-  data=(root/name).read_bytes();assert not data.startswith(b"\xef\xbb\xbf");text=data.decode("utf-8")
-  assert name==name.lower() and " " not in name
-  if name.endswith(".lua"):
-   assert "api.cmd" not in text and "addModifier" not in text
-  archive.write(root/name,mod["modId"]+"/"+name)
-with zipfile.ZipFile(out) as archive:assert archive.testzip() is None
+assert len(info["name"]) <= 32 and len(info["summary"]) <= 100
+actual = {p.relative_to(ROOT).as_posix() for p in (ROOT / "content").rglob("*") if p.is_file()}
+assert actual == CONTENT, f"Unexpected or missing runtime files: {actual ^ CONTENT}"
+
+payload = {}
+keys = set()
+for name in FILES:
+    data = (ROOT / name).read_bytes()
+    assert not data.startswith(b"\xef\xbb\xbf"), f"UTF-8 BOM: {name}"
+    text = data.decode("utf-8")
+    assert name == name.lower() and " " not in name
+    if name.endswith(".lua"):
+        assert "api.cmd" not in text and "addModifier" not in text
+        assert not name.endswith(".gs.lua"), "No automatic diagnostic scripts in the clean build"
+        keys.update(re.findall(r'_\("([^"]+)"\)', text))
+        for resource in re.findall(re.escape(mod["modId"]) + r"::/([a-z0-9_./]+)", text):
+            assert f"content/{resource}.lua" in CONTENT, f"Missing local dependency: {resource}"
+    payload[name] = data
+for language in ("en", "nl"):
+    assert set(strings[language]) == keys, f"Missing or unused strings for {language}"
+
+out = ROOT / "dist" / f"ultimate-metro-{VERSION}-clean.zip"
+out.parent.mkdir(exist_ok=True)
+with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as archive:
+    for name, data in payload.items():
+        archive.writestr(mod["modId"] + "/" + name, data)
+with zipfile.ZipFile(out) as archive:
+    assert archive.testzip() is None
+    assert set(archive.namelist()) == {mod["modId"] + "/" + name for name in FILES}
 print(out)
-print("SHA256:",hashlib.sha256(out.read_bytes()).hexdigest())
-print("25 prototype files verified; no world commands or vanilla modifiers")
+print("SHA256:", hashlib.sha256(out.read_bytes()).hexdigest())
+print(f"{len(FILES)} files verified; complete local dependencies and localization; no diagnostic hooks")

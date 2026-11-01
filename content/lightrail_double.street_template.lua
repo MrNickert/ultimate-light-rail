@@ -10,9 +10,9 @@ return {
 		cost = 120,
 		country = true,
 		description = {
-			description = _("UM_LIGHTRAIL_DOUBLE_DESC"),
+			description = _("METRO_APPROACH_DESC"),
 			icon = "::/infrastructure/street/tram/tram_new.tga",
-			name = _("UM_LIGHTRAIL_DOUBLE_NAME"),
+			name = _("METRO_APPROACH_NAME"),
 			previewIcon = "::/infrastructure/street/tram/tram_new_preview.tga",
 		},
 		emissions = {
@@ -22,9 +22,8 @@ return {
 			radius = 0,
 		},
 		fillGroundTex = "::/infrastructure/street/shared/street_fill.gtex",
-        -- Native double-tram spacing, with the measured mixed transport modes.
-        -- Separate offsets avoid coincident reverse curves. Each lane may still
-        -- be engine-bidirectional; per-direction use requires native route tests.
+        -- Internal station approach. Keep this resource ID for saved base edges.
+        -- Hidden from the build menu: use ordinary native tramtrack outside stations.
         laneConfigs = {
             {forward=false,height=0,offset=-0.25,speed=15,
                 transportModes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"},width=5.5},
@@ -32,7 +31,7 @@ return {
                 transportModes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"},width=5.5},
         },
 		maintenanceCost = 20,
-		menuCategory = { categories = {{category="roads_small",filterCategories={},order=9003}} },
+		menuCategory = { categories = {} },
 		modifiers = {
 			maxSpeedModifier = 0,
 			noiseModifier = 0,
