@@ -1,3 +1,7 @@
+# Let op: revision 6 is ingetrokken
+
+De proefinstructie voor 0.2.2 hieronder is historisch en mag niet worden uitgevoerd. Deze versie crasht bij plaatsen wegens dubbele voertuigedges. Gebruik herstelpakket 0.2.3 / revision 7 en volg herstel-023.md. De lijnverbinding is nog onopgelost.
+
 # Proef 02: tweesporig kopstation met kruiswissel
 
 Versie 0.2.2, revision 6. Dit is een nieuwe constructie naast de oude UM Surface Stop. Bestaande proefhaltes worden niet verbouwd.

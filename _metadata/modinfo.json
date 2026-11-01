@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
     "summary": "Experimental surface tram terminus. Native reversal is not yet proven; test saves only.",
-    "description": "Private prototype revision 6: two-track surface tram terminus with scissors crossover and explicit reverse-direction lanes over the same physical tracks. Native probes in revision 5 accepted inbound paths but rejected reverse traversal of the same edges, despite forwardOnly=false. This version supplies actual opposite geometry. Native routing, terminal reversal, crossing safety and passenger access remain unproven. Place two NEW crossover stations on a test save. One vehicle only. No hidden loop or vehicle commands. Internal rails and catenary visuals remain unfinished. Read-only diagnostics inspect both directions. Do not remove while constructions remain.",
+    "description": "Private recovery build revision 7. Withdraws revision 6 (0.2.2), which crashes TF3 with Duplicate edges found. Restores the exact crossover construction script from revision 5 (0.2.1), which was placed successfully in-game. Placement fixes remain; the line connection and native reversal are still unresolved. Replace all mod files before restarting, then load a normal save from before the crash. Avoid the crash save, which may include the invalid construction. No automatic save repair or world commands. Internal rails and catenary visuals remain unfinished. Do not publish.",
     "authors": [
         {
             "name": "MrNickert",

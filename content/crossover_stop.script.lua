@@ -19,16 +19,6 @@ local function lane(points,modes,reservation)
     return {nodes=nodes,transportModes=modes,speedLimit=15,
         forwardOnly=false,linkable=false,needsReservation=reservation}
 end
-local function reverseLane(original)
-    local nodes={}
-    for i=#original.nodes,1,-1 do
-        local n=original.nodes[i]
-        nodes[#nodes+1]={{n[1][1],n[1][2],n[1][3]},
-            {-n[2][1],-n[2][2],-n[2][3]},n[3]}
-    end
-    return {nodes=nodes,transportModes=original.transportModes,
-        speedLimit=original.speedLimit,forwardOnly=true,linkable=false,needsReservation=false}
-end
 local function crossover(x0,x1,y0,y1,modes)
     -- Horizontal end tangents meet the straight tracks without a kink.
     local t={x1-x0,0,0}
@@ -90,13 +80,6 @@ function data()
         sub.groundFaces=result.groundFaces;result.groundFaces=nil
         sub.terrainAlignmentLists=result.terrainAlignmentLists;result.terrainAlignmentLists=nil
         sub.laneLists[8].linkable=true
-        -- Native probes show that TRAM paths do not traverse a lane backwards,
-        -- even with forwardOnly=false. Supply explicit opposite geometry for
-        -- each platform track and crossover; these are not physical loops.
-        for i=1,4 do
-            sub.laneLists[i].forwardOnly=true
-            sub.laneLists[#sub.laneLists+1]=reverseLane(sub.laneLists[i])
-        end
         return result
     end}
 end

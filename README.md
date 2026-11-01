@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.2.2 / revision 6.
+Private technische proefmod voor Transport Fever 3, versie 0.2.3 / revision 7.
 
 ## Actieve proef
 
@@ -10,11 +10,13 @@ Een nieuwe bovengrondse kopstationconstructie met twee perronsporen en een kruis
 
 Zie [Proef 02: plaatsen en testen](docs/proef-02-kruiswissel.md). Zoek in het menu voor wegstations naar **UM Crossover Terminus (Test)** / **UM Kruiswisselkopstation (Test)**. Plaats twee nieuwe stations, met de ingangen naar elkaar toe, en verbind hun korte standaard tramtrackaansluitingen. De oude UM Surface Stop blijft als vergelijkingsmateriaal beschikbaar en wordt niet verbouwd.
 
-## Expliciete terugweg in revision 6
+## Herstel na crash in revision 6
 
-De spelproeven van revision 5 vinden een pad van ingang naar perron, maar geen pad terug over dezelfde enkele edge, ondanks forwardOnly=false. Revision 6 voegt expliciete tegenrichtinglanes toe voor beide perronsporen en beide kruiswisselcurves, met exact dezelfde fysieke geometrie en tegengestelde raaklijnen. Dit is geen keerlus. De lokale bereikbaarheidstest behandelt tramlanes nu als gerichte verbindingen; de oude test nam ten onrechte aan dat de vlag alleen een terugweg garandeerde.
+Versie 0.2.2 / revision 6 is ingetrokken: de expliciete tegengestelde lanes leveren geometrisch dubbele edges op. TF3 stopt daarop met de native assertion Duplicate edges found. Revision 7 herstelt exact het stationsscript van revision 5, dat in de speltest wel geplaatst kon worden. Er is geen nieuwe poging om de router te omzeilen toegevoegd.
 
-De speltest moet nog uitwijzen of de lijnplanner deze paden accepteert en of het voertuig aan het perron kan omkeren. Plaats twee nieuwe kopstations om de gewijzigde lane-geometrie te testen.
+Vervang de modbestanden terwijl de game gesloten is en laad de laatste normale save van voor de crash. Gebruik de crashsave voorlopig niet: die kan de ongeldige constructie bevatten. Dit pakket repareert zulke opgeslagen constructies niet. Een nieuwe stationsproef is nu niet nodig; de lijnverbinding en het omkeren blijven onopgelost.
+
+Een extra lokale controle vergelijkt de geometrie van voertuigedges ook tegen hun omgekeerde vorm. De controle moet de revision-6-constructie afwijzen en de herstelde constructie accepteren. Dit is een gerichte regressiecontrole; het bewijst niet dat alle enginevoorwaarden zijn afgedekt.
 
 ## Plaatsingscorrectie in revision 5
 
