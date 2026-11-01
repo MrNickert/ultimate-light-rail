@@ -35,3 +35,7 @@ De alleen-lezen diagnose gebruikt het prefix [UMDIR]. Hij leest de werkelijk doo
 Een terugpad in B toont hoogstens dat deze modecombinatie op dit geïsoleerde segment werkt. Het bewijst nog geen haltewerking, voertuigomkering, veiligheid, netwerkovergang of complete lijn. Bij een uitsluitend werkende railreferentie C moeten we verder uitzoeken welke native railvoorwaarden nodig zijn. Een nieuwe stationsversie volgt pas nadat de meting een bruikbare hypothese ondersteunt.
 
 De test is niet in de game uitgevoerd. De geometrie en het alleen-lezen karakter zijn lokaal gecontroleerd; engineacceptatie van B en de werkelijke resultaten moeten nog blijken. De eerder geplaatste haltes, hun profielen en alle vorige herstelde prototypes blijven byte voor byte ongewijzigd.
+
+## Uitgevoerd resultaat
+
+De gebruiker plaatste het object. Het native log toont voor B forwardOnly=false en needsReservation=true, met een edge in beide richtingen voor alle vier de gemeten modi. A bleef eenrichtingsverkeer voor tram; C liet alleen spoortrammodi in beide richtingen toe. Uitwerking en vervolgtest staan in proef-06-tweerichtingshalte.md.

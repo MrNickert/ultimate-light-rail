@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 11
+
+De vergelijkingsproef toonde tweeweg-TRAM/ELECTRIC_TRAM-paden op het STREET-profiel met extra railtrammodi: de engine genereerde forwardOnly=false, needsReservation=true. De nieuwe afzonderlijke bidirectional_stop koppelt dit exacte profiel aan de eerder geaccepteerde directe terminalbinding. Zie proef-06-tweerichtingshalte.md. Lijnwerking en voertuigomkering zijn nog niet bewezen. De gebruikerskeuze is tram eerst, trein alleen als alternatief bij een aangetoonde functionele grens; een trein/tramovergang is geen verplichte scope.
+
 # Actieve proef vanaf revision 10
 
 Directe binding aan een enkele tram-lane is in de engine geaccepteerd en een route via gewone tramtrack is in een richting gevonden. Zie proef-05-richting.md voor een afzonderlijke vergelijking van de werkende STREET-tram-lane, hetzelfde profiel met extra railtrammodi en standaard native TRACK. Er is nog geen werkend terugpad, voertuigomkering of tram/treinovergang. De bestaande stationresources blijven ongewijzigd.

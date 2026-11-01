@@ -1,16 +1,20 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.4.0 / revision 10.
+Private technische proefmod voor Transport Fever 3, versie 0.4.1 / revision 11.
 
-## Actieve proef: richtinggedrag meten
+## Actieve proef: halte met gemeten tweerichtingsprofiel
 
-Revision 9 bevestigde directe terminalbinding aan een enkele tram-lane, beide haltes in de lijnplanner en een pad van zes edges via gewone elektrische tramtrack in een richting. Het terugpad en daadwerkelijk keren zijn nog niet bewezen.
+De richtingproef in revision 10 toont dat het enkele STREET-tramprofiel met extra TRAM_TRACK/ELECTRIC_TRAM_TRACK-modi door de engine als forwardOnly=false en needsReservation=true wordt opgebouwd. Geisoleerde padvragen voor gewone en elektrische trams werken daarop in beide richtingen. De gewone enkele tram-lane bleef eenrichtingsverkeer.
 
-Revision 10 voegt een los vergelijkingsobject toe: **UM Direction Probe (Test)** / **UM Richtingproef (Test)**. Het bevat drie gescheiden segmenten: A het werkende enkele tramprofiel, B hetzelfde met extra TRAM_TRACK/ELECTRIC_TRAM_TRACK-modi, C native elektrisch treinspoor als referentie. Het is geen halte of tram/treinovergang. Het verschil tussen A en B is beperkt tot de modeverzamelingen; de vergelijking met C is breder.
+Revision 11 voegt een afzonderlijke **UM Bidirectional Stop (Test)** / **UM Tweerichtingshalte (Test)** toe. Die gebruikt de eerder geaccepteerde directe terminalbinding en precies het gemeten profiel. De eerdere haltes en profielen blijven ongewijzigd.
 
-Zie [Proef 05](docs/proef-05-richting.md). Vervang de bestanden, laad de testsave opnieuw, plaats een proefobject op vrije vlakke grond en laat tien seconden lopen. Geen lijn of aansluiting nodig. De nieuwe alleen-lezen diagnose logt met [UMDIR] de daadwerkelijke netwerken en padresultaten per richting en modus.
+Zie [Proef 06](docs/proef-06-tweerichtingshalte.md). Vervang de bestanden, laad de save opnieuw, plaats twee nieuwe haltes, verbind via gewone elektrische tramtrack en maak een lijn met alleen die twee. Laat tien seconden lopen en beoordeel het log voor de heen- en terugroute. Nog geen voertuig inzetten.
 
-De werkende spoorgebonden haltes en hun profiel worden niet gewijzigd. De native speltest van deze nieuwe fixture moet nog plaatsvinden. Lokale controles bewijzen geen voertuigomkering.
+**Een complete lijn en daadwerkelijke voertuigomkering zijn nog niet bewezen.** Het vorige resultaat geldt alleen voor het losse segment. De nieuwe combinatie moet in de engine worden getest.
+
+## Ontwikkelkoers
+
+Eerst tram als basis voor lightrail en eventuele wegintegratie. Alleen bij een aantoonbare beperking die metrogedrag blokkeert onderzoeken we treinspoor als alternatieve basis. Een zelfstandig netwerk is toegestaan; een trein/tramovergang is geen vereiste. Een eigen lightrail-bouwoptie volgt op bewezen werking, niet alleen op een nieuwe naam.
 
 ## Herstel na crash in revision 6
 

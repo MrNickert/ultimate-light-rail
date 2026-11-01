@@ -81,7 +81,7 @@ check(#output==previous,"unchanged topology does not spam logs")
 script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
 script.update({},state,5)
 check(#queries==12,"old saved done=true no longer suppresses the report")
-check(state.value.version==5,"saved diagnostic state upgraded")
+check(state.value.version==6,"saved diagnostic state upgraded")
 -- The new two-track stops expose four terminals instead of two.
 script,state,output,queries,objects=fixture(false)
 for _,entity in ipairs({10,20}) do
@@ -100,6 +100,15 @@ objects[20]=nil
 script.update({},state,5)
 check(table.concat(output,"\n"):find("total prototype constructions=1 sampled terminals=1",1,true),"single direct-bound stop reports without a counterpart")
 check(#queries==4,"single-stop report includes local directional probes")
+-- Separate bidirectional stop resource must be reported and retain base-edge flags.
+script,state,output,queries,objects=fixture(false)
+objects[10].CONSTRUCTION.fileName="mrnickert_ultimate_metro::/bidirectional_stop.con"
+objects[20]=nil
+objects[11].TRANSPORT_NETWORK=objects[301].TRANSPORT_NETWORK
+script.update({},state,5)
+local report=table.concat(output,"\n")
+check(report:find("total prototype constructions=1 sampled terminals=1",1,true),"new bidirectional stop resource is inspected alone")
+check(report:find("segment-network=11 edge=0 forwardOnly=false reservation=true",1,true),"direct station segment flags reported from actual segment network")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")
 end
 local ok,message=pcall(main)

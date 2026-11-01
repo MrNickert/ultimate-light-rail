@@ -14,7 +14,8 @@ end
 local function isPrototype(con)
     return con and (con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con")
         or con.fileName:match("^mrnickert_ultimate_metro::/?crossover_stop%.con")
-        or con.fileName:match("^mrnickert_ultimate_metro::/?edge_stop%.con"))
+        or con.fileName:match("^mrnickert_ultimate_metro::/?edge_stop%.con")
+        or con.fileName:match("^mrnickert_ultimate_metro::/?bidirectional_stop%.con"))
 end
 local function report()
     local ct=api.type.ComponentType
@@ -43,6 +44,18 @@ local function report()
                     message("stub="..edgeEntity.." template="..base.roadTemplate
                         .." baseNodes="..base.node0..":"..base.node1
                         .." degrees="..#(segments[base.node0] or {})..":"..#(segments[base.node1] or {}))
+                    -- Direct-bound stations own their vehicle edges on the base
+                    -- segments; their terminal-node networks contain no edges.
+                    local segmentNet=api.engine.getComponent(edgeEntity,ct.TRANSPORT_NETWORK)
+                    if segmentNet then
+                        for i,edge in ipairs(segmentNet.edges) do
+                            if i<=4 and (edge.transportModes[modes.TRAM] or edge.transportModes[modes.ELECTRIC_TRAM]) then
+                                message("segment-network="..edgeEntity.." edge="..(i-1)
+                                    .." forwardOnly="..tostring(edge.forwardOnly)
+                                    .." reservation="..tostring(edge.needsReservation))
+                            end
+                        end
+                    end
                 end
             end
             for _,stationEntity in ipairs(con.stations) do
@@ -52,8 +65,9 @@ local function report()
                         local node=terminal.vehicleNodeId
                         message("station="..stationEntity.." terminal="..(index-1).." vehicleNode="..nodeLabel(node))
                         terminals[#terminals+1]={station=stationEntity,node=node,
-                            priority=con.fileName:find("edge_stop",1,true) and 0
-                                or (con.fileName:find("crossover_stop",1,true) and 1 or 2)}
+                            priority=con.fileName:find("bidirectional_stop",1,true) and -1
+                                or (con.fileName:find("edge_stop",1,true) and 0
+                                or (con.fileName:find("crossover_stop",1,true) and 1 or 2))}
                         local net=api.engine.getComponent(node.entity,ct.TRANSPORT_NETWORK)
                         if net then
                             message("network="..node.entity.." nodes="..#net.nodes.." edges="..#net.edges)
@@ -119,6 +133,7 @@ local function scanSignature()
         local con=api.engine.getComponent(entity,ct.CONSTRUCTION)
         if isPrototype(con) then
             hasEdgeStop=hasEdgeStop or con.fileName:find("edge_stop",1,true)~=nil
+                or con.fileName:find("bidirectional_stop",1,true)~=nil
             local parts={tostring(entity)}
             if con.fileName:find("edge_stop",1,true) then parts[#parts+1]="direct-edge-binding" end
             for _,station in ipairs(con.stations) do parts[#parts+1]="station="..station end
@@ -146,7 +161,7 @@ function data()
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=5 then saved={version=5,elapsed=0} end
+        if saved.version~=6 then saved={version=6,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0
