@@ -12,4 +12,6 @@ Gebruikerskeuzes tijdens het onderzoek:
 
 De recente resultaten en onbekende punten staan in de genummerde proefdocumenten. Een getekend of geometrisch verbonden netwerk is niet automatisch native routeerbaar.
 
-Aanvullende testuitkomst: de compacte kopstations werken volgens de gebruikersproef met gewone native tramtrack en meerdere voertuigen, inclusief wachten en vrijgeven bij de wisselstraat. Dit is voortaan de aanbevolen basis. De eerder gebouwde eigen doorgaande spoorprofielen blijven uitsluitend als experimentele compatibiliteitsresources; er is op basis van deze proef geen reden voor een eigen sein- of reserveringssysteem.
+Aanvullende testuitkomst: de compacte kopstations werken volgens de gebruikersproef met gewone native tramtrack en meerdere voertuigen, inclusief wachten en vrijgeven bij de wisselstraat. Dit is voortaan de aanbevolen basis. De oude doorgaande proefprofielen zijn in 0.7.0 verwijderd nadat de gebruiker de proefobjecten had verwijderd. Alleen het verborgen interne aansluitprofiel van het werkende station blijft aanwezig. Er is op basis van deze proef geen reden voor een eigen sein- of reserveringssysteem.
+
+Versie 0.8.0 gebruikt dezelfde voertuiggeometrie voor een nieuwe ondergrondse variant. Die voegt de native stationshal en voetgangerstoegang toe. Plaatsing, tunnelaansluiting en passagiersbereikbaarheid blijven nieuwe integratieproeven; het bestaande bovengrondse rij- en wisselgedrag is al getest.
