@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.1.0 / revision 1.
+Private technische proefmod voor Transport Fever 3, versie 0.1.1 / revision 2.
 
 ## Huidige scope
 
@@ -30,3 +30,9 @@ python scripts/package.py
 ```
 
 De controles buiten het spel testen configuratie, topologie en afbakening. Ze bewijzen niet dat TF3 de verbindingen en het keren accepteert.
+
+## Eerste praktijktest
+
+De gebruiker kon de twee proefhaltes plaatsen en als haltes toevoegen, maar de lijn meldt Could not connect stations. Dat is nog geen bewijs dat keren onmogelijk is: de interne of externe aansluiting kan ontbreken.
+
+Revision 2 wijzigt de geometrie niet. Een alleen-lezen gamescript rapporteert na ongeveer drie seconden simulatietijd de constructies, externe knooppuntgraden, haltepunten, interne voertuigedges en TRAM/ELECTRIC_TRAM-paden in beide richtingen. Meldingen beginnen met [UMNET]. Geen stations opnieuw plaatsen; laad de bestaande testsave en laat kort lopen. Het rapport draait één keer per opgeslagen diagnostiekstatus en wordt niet naar externe diensten gestuurd.
