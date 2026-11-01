@@ -51,7 +51,8 @@ check(text:find("forwardOnly=false",1,true),"actual native lane direction report
 check(text:find("geometry=(0.00,0.00,0.00)->(10.00,0.00,0.00)",1,true),"actual edge coordinates reported")
 check(text:find("path 101->201 mode=ELECTRIC_TRAM edges=0",1,true),"missing electric path distinguished")
 check(text:find("path 201->101 mode=TRAM edges=1",1,true),"reverse reachability inspected")
-check(#queries==4,"both modes queried in both directions")
+check(#queries==12,"terminal paths and direct-edge controls queried")
+check(text:find("probe single-edge",1,true),"direct edge control included")
 check(objects[10].CONSTRUCTION.fileName=="mrnickert_ultimate_metro::/surface_stop.con.lua","construction unchanged")
 check(objects[301].TRANSPORT_NETWORK.edges[1].forwardOnly==false,"network unchanged")
 local old=#output;script.update({},state,100);check(#output==old,"report does not spam each update")
@@ -67,20 +68,20 @@ check(#queries==0,"no path queries on an empty map")
 objects[10]=first;script.update({},state,5)
 check(#queries==0,"one stop waits for its counterpart")
 objects[20]=second;script.update({},state,5)
-check(#queries==4,"newly built pair triggers the report automatically")
+check(#queries==12,"newly built pair triggers the report automatically")
 -- An external segment attached later changes the signature and triggers a new report.
 api.engine.system.streetSystem.getNode2SegmentMap=function()
  return {[1]={11,99,1000},[2]={11},[3]={21},[4]={21,98}}
 end
 script.update({},state,5)
-check(#queries==8,"connection edits trigger a fresh report")
+check(#queries==24,"connection edits trigger a fresh report")
 local previous=#output;script.update({},state,5)
 check(#output==previous,"unchanged topology does not spam logs")
 -- A save containing the old empty one-shot report is automatically upgraded.
 script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
 script.update({},state,5)
-check(#queries==4,"old saved done=true no longer suppresses the report")
-check(state.value.version==2,"saved diagnostic state upgraded")
+check(#queries==12,"old saved done=true no longer suppresses the report")
+check(state.value.version==3,"saved diagnostic state upgraded")
 -- The new two-track stops expose four terminals instead of two.
 script,state,output,queries,objects=fixture(false)
 for _,entity in ipairs({10,20}) do
@@ -89,7 +90,7 @@ end
 objects[101].STATION.terminals[2]={vehicleNodeId={entity=301,index=2}}
 objects[201].STATION.terminals[2]={vehicleNodeId={entity=401,index=2}}
 script.update({},state,5)
-check(#queries==24,"four crossover terminals inspected in both tram modes")
+check(#queries==32,"four crossover terminals inspected in both tram modes")
 check(table.concat(output,"\n"):find("sampled terminals=4",1,true),"new construction resources recognized")
 check(table.concat(output,"\n"):find("nodes=301:1",1,true),"terminal nodes distinguish platforms in the same station")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")

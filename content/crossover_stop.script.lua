@@ -1,4 +1,6 @@
 -- Two-track surface terminus, with an explicit scissors crossover in the throat.
+-- Native tram-style lanes do not request the railway reservation system.
+-- Crossing safety and native reversal remain unproven; test with one vehicle.
 -- Based on the vanilla underground stop's tram lane spacing and STREET connection.
 local function transform(x,y,z,reverse)
     local a=reverse and -1 or 1
@@ -22,7 +24,7 @@ local function crossover(x0,x1,y0,y1,modes)
     local t={x1-x0,0,0}
     return {nodes={{{x0,y0,0},t,2},{{x1,y1,0},t,2}},
         transportModes=modes,speedLimit=10,forwardOnly=false,
-        linkable=false,needsReservation=true}
+        linkable=false,needsReservation=false}
 end
 function data()
     return {updateFn=function(_captureParams,params)
@@ -39,7 +41,8 @@ function data()
                 params={type="::/infrastructure/street/tram/tram_new.street_template",tramTrackType="ELECTRIC"},
                 edges={{{entrance,0,0},{20,0,0}},{{throat,0,0},{20,0,0}}},
                 snapNodes={0},freeNodes={0}}},
-            snapPoint={transf=transform(entrance,0,0),snapToBaseEdgeTypes={"STREET"},
+            -- The snap frame's negative Y axis points out along the approach (-X).
+            snapPoint={transf={0,-1,0,0, 1,0,0,0, 0,0,1,0, entrance,0,0,1},snapToBaseEdgeTypes={"STREET"},
                 transportModes=modes,allowSnapToBaseEdgeEnds=true},
             subconstructions={{
                 models={
@@ -47,8 +50,8 @@ function data()
                     {id="::/stations/street/small_stops/small_new.mdl",transf=transform(0,-8,0,true)},
                 },
                 laneLists={
-                    lane({{throat,-2.5,0},{-half,-2.5,0},{0,-2.5,0},{half,-2.5,0}},modes,true), -- 0
-                    lane({{throat,2.5,0},{-half,2.5,0},{0,2.5,0},{half,2.5,0}},modes,true), -- 1
+                    lane({{throat,-2.5,0},{-half,-2.5,0},{0,-2.5,0},{half,-2.5,0}},modes,false), -- 0
+                    lane({{throat,2.5,0},{-half,2.5,0},{0,2.5,0},{half,2.5,0}},modes,false), -- 1
                     crossover(throat,-half,-2.5,2.5,modes), -- 2
                     crossover(throat,-half,2.5,-2.5,modes), -- 3
                     lane({{-half,-6,0},{0,-6,0},{half,-6,0}},people,false), -- 4
@@ -57,9 +60,9 @@ function data()
                     lane({{0,6,0},{0,12,0}},people,false), -- 7
                 },
                 station={tag=1,pool={edges={},capacity=0},terminals={
-                    {vehicleNode={0,2},transportModes=modes,personEdges={{4,0},{4,1}},
+                    {vehicleNode={0,3},transportModes=modes,personEdges={{4,0},{4,1}},
                         personNodes={{4,0},{4,1},{4,2}},passengers=true,cargo=false,capacity=100},
-                    {vehicleNode={1,2},transportModes=modes,personEdges={{5,0},{5,1}},
+                    {vehicleNode={1,3},transportModes=modes,personEdges={{5,0},{5,1}},
                         personNodes={{5,0},{5,1},{5,2}},passengers=true,cargo=false,capacity=100},
                 },catchmentAreas={{position={0,8,0},radius=160}}},
             }},
@@ -72,7 +75,11 @@ function data()
             },
             cost=60000,maintenanceCost=10000,
         }
-        result.subconstructions[1].laneLists[8].linkable=true
+        -- Ground and terrain belong to the subconstruction in TF3, not the root.
+        local sub=result.subconstructions[1]
+        sub.groundFaces=result.groundFaces;result.groundFaces=nil
+        sub.terrainAlignmentLists=result.terrainAlignmentLists;result.terrainAlignmentLists=nil
+        sub.laneLists[8].linkable=true
         return result
     end}
 end

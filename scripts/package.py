@@ -12,7 +12,7 @@ files=["mod.json","strings.json","credits.txt","_metadata/modinfo.json","content
        "content/surface_stop.script.lua","content/crossover_stop.con.lua","content/crossover_stop.script.lua","content/test_track.street_template.lua","content/network_diagnostics.gs.lua","content/network_diagnostics.script.lua"]
 assert "runScript" not in mod and "postRunScript" not in mod
 outdir=root/"dist";outdir.mkdir(exist_ok=True)
-out=outdir/"ultimate-metro-0.2.0-crossover.zip"
+out=outdir/"ultimate-metro-0.2.1-placement.zip"
 with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as archive:
  for name in files:
   data=(root/name).read_bytes();assert not data.startswith(b"\xef\xbb\xbf");text=data.decode("utf-8")

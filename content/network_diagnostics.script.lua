@@ -20,6 +20,16 @@ local function report()
     local modes=api.type["enum"].TransportMode
     local segments=api.engine.system.streetSystem.getNode2SegmentMap()
     local terminals={}
+    local inspected={}
+    local function probe(label,a,b)
+        for _,name in ipairs({"TRAM","ELECTRIC_TRAM"}) do
+            local ok,path=pcall(function()
+                return api.engine.util.pathfinding.findPathNodeToNode({a},{b},{modes[name]})
+            end)
+            message("probe "..label.." nodes="..nodeLabel(a).."->"..nodeLabel(b)
+                .." mode="..name.." edges="..(ok and tostring(path and #path or 0) or "query-failed"))
+        end
+    end
     local constructions=0
     for _,entity in ipairs(api.engine.getEntitiesWithComponent(ct.CONSTRUCTION)) do
         local con=api.engine.getComponent(entity,ct.CONSTRUCTION)
@@ -45,6 +55,18 @@ local function report()
                         local net=api.engine.getComponent(node.entity,ct.TRANSPORT_NETWORK)
                         if net then
                             message("network="..node.entity.." nodes="..#net.nodes.." edges="..#net.edges)
+                            if not inspected[node.entity] then
+                                inspected[node.entity]=true
+                                local first,second=net.edges[1],net.edges[2]
+                                if first then
+                                    probe("single-edge",first.conns[1],first.conns[2])
+                                    probe("single-edge-reverse",first.conns[2],first.conns[1])
+                                end
+                                if first and second then
+                                    probe("two-edge-span",first.conns[1],second.conns[2])
+                                    probe("two-edge-span-reverse",second.conns[2],first.conns[1])
+                                end
+                            end
                             for edgeIndex,edge in ipairs(net.edges) do
                                 if edgeIndex<=12 and (edge.transportModes[modes.TRAM] or edge.transportModes[modes.ELECTRIC_TRAM]) then
                                     message("edge="..(edgeIndex-1).." conns="..nodeLabel(edge.conns[1]).."->"..nodeLabel(edge.conns[2])
@@ -119,7 +141,7 @@ function data()
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=2 then saved={version=2,elapsed=0} end
+        if saved.version~=3 then saved={version=3,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0

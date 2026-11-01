@@ -1,6 +1,6 @@
 # Proef 02: tweesporig kopstation met kruiswissel
 
-Versie 0.2.0, revision 4. Dit is een nieuwe constructie naast de oude UM Surface Stop. Bestaande proefhaltes worden niet verbouwd.
+Versie 0.2.1, revision 5. Dit is een nieuwe constructie naast de oude UM Surface Stop. Bestaande proefhaltes worden niet verbouwd.
 
 ## Plaatsen
 
@@ -14,7 +14,7 @@ Versie 0.2.0, revision 4. Dit is een nieuwe constructie naast de oude UM Surface
 
 ## Ontwerp
 
-Eén standaard tweerichtings-tramaansluiting loopt naar twee parallelle perronsporen met hartlijnen op y=-2,5 en y=+2,5 meter, zoals de native Underground Stop. Voor de perrons ligt een 30 meter lange kruiswissel: twee rechte verbindingen en twee kruislings lopende verbindingen met horizontale eindraaklijnen. Elk perron heeft een eigen terminal. De rijpaden zijn in beide richtingen gedefinieerd en vragen reservering aan. Dat laatste bewijst nog niet dat de engine de kruising veilig afhandelt.
+Eén standaard tweerichtings-tramaansluiting loopt naar twee parallelle perronsporen met hartlijnen op y=-2,5 en y=+2,5 meter, zoals de native Underground Stop. Voor de perrons ligt een 30 meter lange kruiswissel: twee rechte verbindingen en twee kruislings lopende verbindingen met horizontale eindraaklijnen. Elk perron heeft een eigen terminal. De rijpaden zijn in beide richtingen gedefinieerd. Vanaf revision 5 gebruiken ze, net als de native Underground Stop, geen expliciete spoorreservering. Of de engine de kruising en het omkeren accepteert is niet bewezen; gebruik slechts een voertuig.
 
 Het X-kruispunt bevat geen gezamenlijk tussenknooppunt en geen verborgen keerlus. De omkeerbeweging moet door de tramrouter worden geaccepteerd. De reizigers hebben een voetroute achter de spooreinden langs.
 
@@ -25,3 +25,13 @@ De lengtes 60/80/120 meter betreffen het perrondeel; de wisselstraat en aansluit
 De lokale controle verifieert dat beide aanrijsporen beide perronpunten kunnen bereiken, de wisselcurves zonder knik aansluiten en het uitlijnpunt overeenkomt met het externe aansluitpunt, voor alle drie de perronlengtes. De bestaande prototypecontrole en diagnosetest blijven slagen. Dit vervangt de speltest niet.
 
 Het alleen-lezen diagnoserapport ondersteunt beide stationstypen en geeft voorrang aan maximaal vier terminals van de nieuwe kopstations. De oude stations mogen blijven staan als vergelijkingsmateriaal.
+
+## Wat revision 5 corrigeert
+
+Het spelrapport van revision 4 laat zien dat de stationrijpaden daadwerkelijk samenvallen met de externe tramnetwerkknooppunten. De eerdere veronderstelling dat alleen een losliggende aansluiting de oorzaak was, is daarmee niet houdbaar. Toch ontbreken alle gevonden terminalpaden nog.
+
+De uitlijnmatrix is een kwartslag aangepast zodat de ingang langs het bestaande spoor hoort te liggen, in plaats van er haaks op. De grondvlakken en terreinuitlijning staan nu op de subconstructie, zoals de TF3-constructiedefinities voorschrijven. De terminalverwijzingen tellen de ruwe lane-nodes, inclusief de dubbele segmentuiteinden; de stop ligt daardoor nu op x=0 bij de perronmiddens, in plaats van op het begin van de perrons bij de wisselstraat. De lokale test leest de daadwerkelijk aangewezen node uit en controleert zijn positie.
+
+De expliciete reserveringsvlag is uitgeschakeld om dichter bij de native tramhalte te blijven. Dit is een te testen configuratieaanpassing; het is geen vastgestelde oplossing voor de lijnfout. Extra alleen-lezen padproeven testen een enkele interne edge en een traject van twee edges in beide richtingen. De diagnose wordt na deze upgrade opnieuw gestart, ook wanneer de aansluitingen sinds de vorige save gelijk zijn.
+
+**Plaats voor deze proef twee nieuwe kruiswisselkopstations.** Reeds gebouwde constructies bevatten hun eerder opgeslagen geometrie en haltepunten; alleen het pakket vervangen bouwt ze niet opnieuw. Bouw de nieuwe proefopstelling bij voorkeur apart, zodat de bestaande beschikbaar blijft voor vergelijking. Koppel alleen de nieuwe stations aan de nieuwe testlijn.
