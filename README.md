@@ -8,19 +8,19 @@ De combinatie UM Bidirectional Stop (Test) en UM Lightrail (Test) levert in het 
 
 Dit bewijst nog geen verkeer met meerdere voertuigen, dubbelspoorbedrijf, reizigersafhandeling of algemene wegintegratie.
 
-## Actieve proef: compact tramkopstation
+## Werkende basis: kopstation met native tramtrack
 
-De eerdere variant was plaatsbaar, maar te groot en met spoorwegmodellen vormgegeven. Het native log liet elke ingangslane zijn eigen perron heen en terug bereiken, maar geen kruiselingse wisselroutes. Beide punten worden in revision 17 aangepakt.
+De compacte **UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)** uit versie 0.6.2 is plaatsbaar. Het native log bevestigt routes tussen elk ingangsspoor en beide perrons. De gebruiker heeft een complete lijn met een waypoint, Citylink-ritten over beide sporen, stoppen, deurbediening en zelfstandig keren op beide nieuwe stations getest.
 
-**UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)** gebruikt nu de normale tramspoorafstand van 5 meter, een wisselzone van 30 meter, twee zijperrons en kale rails in verharding. Dwarsliggers en spoorwegstootblokken zijn verwijderd. Eindraaklijnen van de kruiswissel liggen nu exact parallel aan de hoofdsporen. De totale lengte daalt van ongeveer 230 naar ongeveer 130 meter.
+Met meerdere voertuigen op het eigen UM-verbindingsprofiel ontstond een blokkade. De gebruiker verving alleen het verbindingsspoor door gewone native tramtrack; daarna werkte het verkeer zoals verwacht. De voertuigen wachten volgens de spelwaarneming voor het kopstation als de kruisende route bezet is, en rijden verder zodra die vrij is.
 
-Zie [Proef 12](docs/proef-12-compact-tramkopstation.md). Vervang de bestanden, laad de testsave en plaats een nieuw station met Met kruiswissel op vrije grond. Laat tien seconden lopen. Eerst beoordelen we de nieuwe uitstraling en daadwerkelijke kruiselingse routes. Bestaande grote stations worden niet automatisch verkleind.
+Gebruik daarom **gewone native elektrische tramtrack tussen de kopstations**. De eigen UM Lightrail-profielen blijven voor oude testsaves beschikbaar, maar worden niet als doorgaand verbindingsspoor aanbevolen. Er is geen nieuw pakket nodig voor deze configuratie. Zie [Proef 13](docs/proef-13-native-verbindingsspoor.md).
 
-De plaatsbaarheid en wisselwerking van deze compacte variant zijn nog niet in het spel bewezen. Het corrigeren van de knik is een gerichte geometriewijziging; een werkend wisselpad moet nog gemeten worden.
+De volgende controle is opslaan/herladen van juist deze configuratie met meerdere voertuigen en native tramtrack, gevolgd door enkele rondritten. Langdurig bedrijf en algemene compatibiliteit zijn nog niet breed getest.
 
-## Uitkomst van de dubbele verbinding
+## Vormgeving
 
-De dubbelspoorverbinding uit revision 14 geeft in het native log een pad van zes edges in beide richtingen. De gebruiker ziet dat het voertuig de getekende lijn over hetzelfde rijpad heen en terug volgt en dat het tweede zichtbare spoor bij de enkelspoorovergang lijkt te eindigen. Daarmee zijn twee bereikbare onafhankelijke rijroutes en een spoor per richting nog niet bewezen. Het nieuwe kopstation moet daarom eerst expliciete toegang tot beide perronsporen aantonen.
+Het station gebruikt 5 meter spoorafstand, een wisselzone van 30 meter, twee zijperrons en kale rails in verharding. De totale lengte is circa 130 meter inclusief 80m perrons en voetgangerstoegang. De weergave en interne bovenleiding/wisseltongen zijn nog voorlopig; er zijn geen dwarsliggersegmenten of spoorwegstootblokken. De interne spoorgeometrie gebruikt gemengde vervoersmodi voor de native keerfunctie, terwijl het externe verbindingsnet gewone tramtrack blijft.
 
 ## Ontwikkelkoers
 

@@ -11,3 +11,5 @@ Gebruikerskeuzes tijdens het onderzoek:
 - Bestaande werkende proefopstellingen blijven referenties. De eerste complete enkelspoorsituatie met zelfstandig keren en opslaan/herladen is door de gebruiker getest.
 
 De recente resultaten en onbekende punten staan in de genummerde proefdocumenten. Een getekend of geometrisch verbonden netwerk is niet automatisch native routeerbaar.
+
+Aanvullende testuitkomst: de compacte kopstations werken volgens de gebruikersproef met gewone native tramtrack en meerdere voertuigen, inclusief wachten en vrijgeven bij de wisselstraat. Dit is voortaan de aanbevolen basis. De eerder gebouwde eigen doorgaande spoorprofielen blijven uitsluitend als experimentele compatibiliteitsresources; er is op basis van deze proef geen reden voor een eigen sein- of reserveringssysteem.

@@ -1,3 +1,7 @@
+# Actuele werkende basis na de gebruikersproef
+
+Compact kopstation uit revision 17 met normale native elektrische tramtrack als verbindingsnet. De gebruiker bevestigde native keren, lijnbedrijf en bij meerdere voertuigen wachten tot conflicterende wisselroutes vrijkomen. Het eigen UM-verbindingsprofiel gaf een blokkade en is geen aanbevolen basis. Geen extra verkeersscript of seinensysteem toevoegen voor deze uitkomst. Zie proef-13-native-verbindingsspoor.md; opslaan/herladen van deze laatste configuratie is de volgende controle.
+
 # Actieve proef vanaf revision 17
 
 De plaatsbare interne kopstationvariant gaf geen kruiselingse perronroutes. Revision 17 corrigeert de hoekige wisselaansluitingen en keert terug naar compacte tramvormgeving: 5m spoorafstand, 30m wisselzone, zijperrons en railstrengen in verharding. Geen spoorwegsegmentmodellen of buffers. Zie proef-12-compact-tramkopstation.md en ontwerpkeuzes.md. De nieuwe native wisselwerking is nog niet bewezen.

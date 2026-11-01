@@ -35,3 +35,7 @@ De interne vervoersmodi en reserveringsvlaggen blijven gelijk aan de eerdere pla
 5. Als de preview niet plaatsbaar is, vergelijk met **Zonder wissel** op dezelfde plek en meld het verschil.
 
 De nieuwe plaatsingsgeometrie moet in de engine worden getest. Een zichtbaar X is geen bewijs van een bruikbaar wisselpad. De eerste functionele maatstaf blijft dat beide ingangslanes beide perronpunten kunnen bereiken en verlaten.
+
+## Uitgevoerd resultaat
+
+De compacte variant is geplaatst. De log toont routes van beide ingangslanes naar beide perrons en terug. De gebruiker bevestigde een werkende lijn met een waypoint, gebruik van de gewenste rijpaden, wisselbewegingen, stoppen, deuren en native keren. Meerdere voertuigen liepen op het eigen verbindingsprofiel vast. Met gewone native tramtrack tussen de stations meldde de gebruiker correct rijden en wachten/vrijgeven bij conflicterende wisselroutes. Zie proef-13-native-verbindingsspoor.md.
