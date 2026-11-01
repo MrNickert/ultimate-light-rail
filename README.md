@@ -1,14 +1,16 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.4.2 / revision 12.
+Private technische proefmod voor Transport Fever 3, versie 0.4.3 / revision 13.
 
-## Actieve proef: terugroute lokaliseren
+## Actieve proef: eigen lightrailverbinding
 
-De nieuwe haltes uit revision 11 zijn geplaatst. Hun native segmenten hebben forwardOnly=false en needsReservation=true. Toch vindt de complete TRAM/ELECTRIC_TRAM-route via gewone tramtrack alleen een heenpad van zes edges en geen terugpad. Een tweerichtingssegment blijkt dus nog geen complete tweerichtingsroute te garanderen.
+Revision 12 toont dat beide nieuwe haltes lokaal in beide richtingen bereikbaar zijn. Alleen de volledige verbinding via gewone dubbele tramtrack blijft eenrichtingsverkeer, ook voor gecombineerde modevragen. De gebruikerswaarneming dat omdraaien van een halte de gekozen tussenliggende rijstrook verandert past bij een richtingsafhankelijke aansluiting; de precieze oorzaak is nog niet bewezen.
 
-Revision 12 breidt uitsluitend de alleen-lezen diagnose uit. Lokale paden over een station worden vergeleken met paden tussen de terminals, voor de trammodi, railtrammodi en gecombineerde modeverzamelingen. De bestaande haltes en profielen blijven ongewijzigd.
+Revision 13 voegt **UM Lightrail (Test)** als bouwbaar profiel toe in dezelfde categorie als de normale tramtrack. De simulatievelden zijn exact gelijk aan het profiel in de tweerichtingshaltes; alleen naam/beschrijving en menu verschillen. De bestaande haltes en profielen worden niet gewijzigd.
 
-Zie [Proef 07](docs/proef-07-route-diagnose.md). Sla de huidige opstelling op, vervang de bestanden, laad dezelfde save en laat tien seconden lopen. Niets opnieuw bouwen. De lijnverbinding en voertuigomkering zijn nog niet opgelost.
+Zie [Proef 08](docs/proef-08-lightrailverbinding.md). Vervang de modbestanden en laad de testsave opnieuw. Laat de haltes staan en vervang alleen de gewone tussenliggende tramtrack door de elektrische UM Lightrail (Test)-verbinding. Laat tien seconden lopen en beoordeel de diagnose. Nog geen voertuig inzetten.
+
+Complete netwerkbereikbaarheid, lijnwerking, voertuigomkering en wegintegratie moeten nog worden getest.
 
 ## Ontwikkelkoers
 

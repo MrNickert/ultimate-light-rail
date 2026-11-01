@@ -10,7 +10,9 @@
         "UM_DIRECTION_PROBE_NAME": "UM Direction Probe (Test)",
         "UM_DIRECTION_PROBE_DESC": "Research fixture with three isolated segments: A tram control, B mixed tram/rail modes, C native railway reference. Place once, run ten seconds and inspect logs. Not a station or a tram/rail transition.",
         "UM_BIDIRECTIONAL_STOP_NAME": "UM Bidirectional Stop (Test)",
-        "UM_BIDIRECTIONAL_STOP_DESC": "Direct-bound tram stop using the profile tested with native paths in both directions. Complete line operation and vehicle reversal still require testing. No hidden loop or reverse commands."
+        "UM_BIDIRECTIONAL_STOP_DESC": "Direct-bound tram stop using the profile tested with native paths in both directions. Complete line operation and vehicle reversal still require testing. No hidden loop or reverse commands.",
+        "UM_LIGHTRAIL_TRACK_NAME": "UM Lightrail (Test)",
+        "UM_LIGHTRAIL_TRACK_DESC": "Experimental lightrail connection matching the Bidirectional Stop profile. Select electric tramtrack. Test a complete same-profile connection before attempting road integration. Native line operation and vehicle reversal are unproven."
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
@@ -23,6 +25,8 @@
         "UM_DIRECTION_PROBE_NAME": "UM Richtingproef (Test)",
         "UM_DIRECTION_PROBE_DESC": "Drie losse meetsporen: A tramreferentie, B gemengde tram/spoormodi, C standaard treinspoor. Plaats eenmaal, laat tien seconden lopen en lees het log. Geen station of tram/treinovergang.",
         "UM_BIDIRECTIONAL_STOP_NAME": "UM Tweerichtingshalte (Test)",
-        "UM_BIDIRECTIONAL_STOP_DESC": "Spoorgebonden tramhalte met het profiel waarop paden in beide richtingen zijn gemeten. Complete lijnwerking en voertuigen keren zijn nog niet bewezen. Geen keerlus of omkeercommando."
+        "UM_BIDIRECTIONAL_STOP_DESC": "Spoorgebonden tramhalte met het profiel waarop paden in beide richtingen zijn gemeten. Complete lijnwerking en voertuigen keren zijn nog niet bewezen. Geen keerlus of omkeercommando.",
+        "UM_LIGHTRAIL_TRACK_NAME": "UM Lightrail (Test)",
+        "UM_LIGHTRAIL_TRACK_DESC": "Experimenteel verbindingsspoor met hetzelfde profiel als de Tweerichtingshalte. Kies elektrische tramtrack. Test eerst de volledige verbinding met dit profiel; lijnwerking en voertuigen keren zijn nog onbewezen."
     }
 }

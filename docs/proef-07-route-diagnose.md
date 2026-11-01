@@ -24,3 +24,7 @@ De diagnose richt de terminalparen op de nieuwe bidirectional_stop-haltes als di
 4. Meld dat het log klaarstaat. Niets opnieuw plaatsen of verbinden. Nog geen voertuig inzetten.
 
 Dit pakket wijzigt geen opgeslagen stations, spoorprofielen, lijnen of voertuigen en verstuurt geen wereldcommando's. Het lost de ontbrekende terugroute niet op; het maakt de oorzaak beter meetbaar. De bestaande stationscripts en alle profielresources blijven byte voor byte ongewijzigd.
+
+## Uitgevoerd resultaat
+
+Beide haltes hebben voor alle zes modeverzamelingen een lokale passage in beide richtingen. De volledige verbinding via gewone dubbele tramtrack heeft alleen heen een pad; terug ontbreekt ook bij gecombineerde modi. Vervolg is een geheel gelijk profiel tussen de haltes, beschreven in proef-08-lightrailverbinding.md.

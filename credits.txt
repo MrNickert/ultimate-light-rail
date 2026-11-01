@@ -13,3 +13,5 @@ Geen meshes, texturen of modellen uit het spel worden meegedistribueerd. De geï
 edge_test.street_template.lua is also derived from Urban Games tram_new.street_template.lua, with a single forward tram lane.
 
 mode_probe.street_template.lua uses the same Urban Games tram template basis with additional transport modes. Native rail reference resources are loaded from the game, not redistributed.
+
+lightrail_test.street_template.lua uses the same derived Urban Games tram template as mode_probe, with a separate description and build menu entry.

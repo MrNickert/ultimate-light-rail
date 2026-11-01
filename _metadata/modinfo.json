@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
-    "summary": "Read-only route diagnostics for the existing bidirectional tram stop prototype.",
-    "description": "Revision 12 changes only diagnostics and documentation. The revision-11 stops place successfully and their segment networks report forwardOnly=false and needsReservation=true, but the complete link via ordinary tramtrack still has a TRAM/ELECTRIC_TRAM path only in one direction. Extended read-only probes compare local station spans with complete terminal routes for TRAM, ELECTRIC_TRAM, both railtram modes and combined tram/railtram mode sets. The saved setup does not need rebuilding. Replace the files, reload the existing test save and run ten seconds. No station, profile, vehicle, line or world commands are changed. This update does not repair the route or prove vehicle reversal.",
+    "summary": "Private test: buildable lightrail connection using the measured bidirectional station profile.",
+    "description": "Revision 13 adds UM Lightrail (Test) to the same build category as native tramtrack. Its simulation fields exactly match the mixed-mode STREET profile used inside the Bidirectional Stops; only menu and description differ. Revision-12 logs confirm complete local passages through both stops in both directions for all tested mode sets, but only a one-way complete route through ordinary double tramtrack. This narrows the issue outside the local station passages and motivates testing a matching connection. Replace only the intervening ordinary tramtrack with the new electric lightrail profile, keeping existing stops. No automatic conversion or save edits. Junction/road integration, complete line operation, native vehicle reversal and reservation safety remain unproven. Use a separate test save and no vehicle until the route is assessed.",
     "authors": [
         {
             "name": "MrNickert",

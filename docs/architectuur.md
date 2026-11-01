@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 13
+
+De stationpassages blijken lokaal voor alle gemeten modi in beide richtingen bereikbaar. Het totale pad via gewone dubbele tramtrack blijft eenrichtingsverkeer. Een bouwbare kopie van precies het stationprofiel, UM Lightrail (Test), maakt een vergelijking met een uniform tussenstuk mogelijk. Zie proef-08-lightrailverbinding.md. Er zijn nog geen bewezen complete lijn, voertuigen die keren of integratie met gewone wegtramtrack.
+
 # Actieve proef vanaf revision 12
 
 De tweerichtingshalte is plaatsbaar, maar de complete verbinding via gewone tramtrack blijft voor TRAM/ELECTRIC_TRAM in een richting onvindbaar. De segmentvlaggen alleen verklaren dit niet. Proef-07-route-diagnose.md vergelijkt lokale stationpaden, terminalpaden en verschillende modeverzamelingen zonder geometrie te wijzigen. Terugroute en voertuigomkering blijven onopgelost.

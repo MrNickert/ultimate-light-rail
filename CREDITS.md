@@ -13,3 +13,5 @@ Geen meshes, texturen of modellen uit het spel worden meegedistribueerd. De geï
 Het interne edge_test.street_template.lua gebruikt dezelfde Urban Games-basis, met een enkele voorwaartse lane voor de directe haltebindingsproef. Er worden geen game-assets gekopieerd.
 
 mode_probe.street_template.lua is afgeleid van het eigen edge_test-profiel en dezelfde Urban Games-basis; uitsluitend de vervoersmodusverzamelingen zijn uitgebreid. De richtingproef verwijst daarnaast naar het native standard_catenary.street_template, zonder dat bestand of de railassets mee te leveren.
+
+lightrail_test.street_template.lua gebruikt dezelfde afgeleide Urban Games-tramtemplate als mode_probe, met uitsluitend eigen beschrijving en bouwmenu-entry.
