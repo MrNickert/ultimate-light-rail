@@ -1,0 +1,12 @@
+{
+    "en": {
+        "UM_SURFACE_STOP_NAME": "UM Surface Stop (Test)",
+        "UM_SURFACE_STOP_DESC": "Experimental surface tram stop with one bidirectional terminal. Native reversal is not yet proven.",
+        "UM_LENGTH": "Platform length"
+    },
+    "nl": {
+        "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
+        "UM_SURFACE_STOP_DESC": "Experimentele tramhalte met een tweerichtingsterminal. Het keren door de spelengine is nog niet bewezen.",
+        "UM_LENGTH": "Perronlengte"
+    }
+}

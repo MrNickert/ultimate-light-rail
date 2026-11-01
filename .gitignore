@@ -1,0 +1,15 @@
+.vscode/settings.json
+tlconfig.lua
+work/
+dist/
+__pycache__/
+*.pyc
+*.zip
+*.log
+.env
+.env.*
+save/
+saves/
+*.sav
+Thumbs.db
+Desktop.ini

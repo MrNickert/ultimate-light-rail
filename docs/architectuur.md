@@ -1,0 +1,15 @@
+# Richting van Ultimate Metro
+
+Keuze van de gebruiker: bestaande tramtrack behouden, met een nieuwe bovengrondse halte als experimenteel eindpunt. De eerdere gedachte aan lightrail op treinspoor is niet de actieve ontwikkelroute; een bruikbare tram/spoor-overgang was niet in het spel bewezen.
+
+De nieuwe constructie heeft een eigen resource-ID en intern straatprofiel. Dat profiel hergebruikt de vanilla tramstijl, maar centreert beide logische richtingen op dezelfde fysieke hartlijn. Binnen het station is één voertuig-laneList met forwardOnly=false en needsReservation=true en één haltepositie. Dit zijn beschikbare configuratievelden, geen bewijs dat de C++-tramrouter daadwerkelijk op deze manier kan omkeren. De normale tramtrack buiten de halte blijft ongewijzigd.
+
+De native Underground Stop toont de bruikbare constructievorm: korte externe STREET-aansluitingen, interne laneLists, één station met terminals en expliciete reizigersroutes. Het prototype gebruikt dat schema op maaiveld. Een standaard wachtruimte uit de bovengrondse halte verzorgt de eerste zichtbare asset; de visuele afwerking blijft voorlopig beperkt.
+
+De constructie verandert geen bestaande modelresources of voertuigen en voert geen commando's op de spelwereld uit. Eén omkeerbare Citylink is het eerste testvoertuig. Er is geen nieuw METRO-carriertype nodig voor deze proef.
+
+Bij succes onderzoeken we de Metro-interface. De spelbestanden bevatten al een Light Rail-filter en een MainModButtonAreaExtension. Eigen bouwcategorieën zijn technisch configureerbaar; vervanging van de hele routeplanner is niet als gedocumenteerde extensie aangetroffen. Een reverse-command alleen is geen oplossing voor ontbrekende routeverbindingen.
+
+Stations zoals modulaire treinstations, meer perronsporen en twee niveaus met haaks gedraaide sporen zijn vervolgwerk. De gebruiker heeft gevraagd eerst de Metro-laag te onderzoeken.
+
+Bronnen: TF3 Steam-build 26129055; base/content/stations/street.zip (small_stops, underground_station); base/content/infrastructure/street.zip (tram_new.street_template.lua); api/tealdef en base/tealdef voor LaneList, stations, voertuigmodi en GUI. Zie credits voor de gebruikte basisresources.

@@ -1,0 +1,15 @@
+{
+    "name": "Ultimate Metro (Prototype)",
+    "summary": "Experimental surface tram terminus. Native reversal is not yet proven; test saves only.",
+    "description": "Private prototype: adds a new surface tram stop with a centered internal track and one experimental bidirectional terminal. Reuses vanilla assets. Connections, routing, reversal, power and passenger access require in-game testing. No existing stations or vehicles are modified. No turning loop and no automatic reverse commands. Visuals are unfinished. Use one vehicle on a separate test save. Do not remove the mod while its constructions remain in the save; restore the original test save to undo. Based on Urban Games vanilla tram street template and station assets.",
+    "authors": [
+        {
+            "name": "MrNickert",
+            "role": "CREATOR"
+        }
+    ],
+    "tags": [
+        "Script Mod"
+    ],
+    "url": ""
+}
