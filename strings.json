@@ -2,11 +2,15 @@
     "en": {
         "UM_SURFACE_STOP_NAME": "UM Surface Stop (Test)",
         "UM_SURFACE_STOP_DESC": "Experimental surface tram stop with one bidirectional terminal. Native reversal is not yet proven.",
-        "UM_LENGTH": "Platform length"
+        "UM_LENGTH": "Platform length",
+        "UM_CROSSOVER_STOP_NAME": "UM Crossover Terminus (Test)",
+        "UM_CROSSOVER_STOP_DESC": "Two platform tracks with a scissors crossover at the entrance. Connect ordinary electric tram track to the single street endpoint. Native reversal and internal rail visuals are unfinished."
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
         "UM_SURFACE_STOP_DESC": "Experimentele tramhalte met een tweerichtingsterminal. Het keren door de spelengine is nog niet bewezen.",
-        "UM_LENGTH": "Perronlengte"
+        "UM_LENGTH": "Perronlengte",
+        "UM_CROSSOVER_STOP_NAME": "UM Kruiswisselkopstation (Test)",
+        "UM_CROSSOVER_STOP_DESC": "Twee perronsporen met een kruiswissel voor de ingang. Sluit gewone elektrische tramtrack aan op het ene straataansluitpunt. Keren en interne spoorweergave zijn nog in onderzoek."
     }
 }

@@ -11,6 +11,10 @@ local function positions(edge)
     end)
     return ok and text or "position-unavailable"
 end
+local function isPrototype(con)
+    return con and (con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con")
+        or con.fileName:match("^mrnickert_ultimate_metro::/?crossover_stop%.con"))
+end
 local function report()
     local ct=api.type.ComponentType
     local modes=api.type["enum"].TransportMode
@@ -19,7 +23,7 @@ local function report()
     local constructions=0
     for _,entity in ipairs(api.engine.getEntitiesWithComponent(ct.CONSTRUCTION)) do
         local con=api.engine.getComponent(entity,ct.CONSTRUCTION)
-        if con and con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con") then
+        if isPrototype(con) then
             constructions=constructions+1
             message("construction="..entity.." resource="..con.fileName.." stubs="..#con.frozenEdges.." stations="..#con.stations)
             for _,edgeEntity in ipairs(con.frozenEdges) do
@@ -36,7 +40,8 @@ local function report()
                     for index,terminal in ipairs(station.terminals) do
                         local node=terminal.vehicleNodeId
                         message("station="..stationEntity.." terminal="..(index-1).." vehicleNode="..nodeLabel(node))
-                        if #terminals<4 then terminals[#terminals+1]={station=stationEntity,node=node} end
+                        terminals[#terminals+1]={station=stationEntity,node=node,
+                            priority=con.fileName:find("crossover_stop",1,true) and 0 or 1}
                         local net=api.engine.getComponent(node.entity,ct.TRANSPORT_NETWORK)
                         if net then
                             message("network="..node.entity.." nodes="..#net.nodes.." edges="..#net.edges)
@@ -54,6 +59,13 @@ local function report()
             end
         end
     end
+    -- Prefer the new crossover pair when the old research stops remain in the save.
+    table.sort(terminals,function(a,b)
+        if a.priority~=b.priority then return a.priority<b.priority end
+        if a.station~=b.station then return a.station<b.station end
+        return a.node.index<b.node.index
+    end)
+    while #terminals>4 do table.remove(terminals) end
     message("total prototype constructions="..constructions.." sampled terminals="..#terminals)
     for from=1,#terminals do
         for to=1,#terminals do
@@ -65,7 +77,8 @@ local function report()
                     end)
                     if ok then
                         message("path "..terminals[from].station.."->"..terminals[to].station
-                            .." mode="..modeName.." edges="..(path and #path or 0))
+                            .." mode="..modeName.." edges="..(path and #path or 0)
+                            .." nodes="..nodeLabel(terminals[from].node).."->"..nodeLabel(terminals[to].node))
                     else message("path query failed: "..tostring(path)) end
                 end
             end
@@ -79,7 +92,7 @@ local function scanSignature()
     local signatures={}
     for _,entity in ipairs(api.engine.getEntitiesWithComponent(ct.CONSTRUCTION)) do
         local con=api.engine.getComponent(entity,ct.CONSTRUCTION)
-        if con and con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con") then
+        if isPrototype(con) then
             local parts={tostring(entity)}
             for _,station in ipairs(con.stations) do parts[#parts+1]="station="..station end
             for _,edgeEntity in ipairs(con.frozenEdges) do

@@ -81,6 +81,17 @@ script,state,output,queries=fixture(false);state.value={version=1,done=true,elap
 script.update({},state,5)
 check(#queries==4,"old saved done=true no longer suppresses the report")
 check(state.value.version==2,"saved diagnostic state upgraded")
+-- The new two-track stops expose four terminals instead of two.
+script,state,output,queries,objects=fixture(false)
+for _,entity in ipairs({10,20}) do
+ objects[entity].CONSTRUCTION.fileName="mrnickert_ultimate_metro::/crossover_stop.con"
+end
+objects[101].STATION.terminals[2]={vehicleNodeId={entity=301,index=2}}
+objects[201].STATION.terminals[2]={vehicleNodeId={entity=401,index=2}}
+script.update({},state,5)
+check(#queries==24,"four crossover terminals inspected in both tram modes")
+check(table.concat(output,"\n"):find("sampled terminals=4",1,true),"new construction resources recognized")
+check(table.concat(output,"\n"):find("nodes=301:1",1,true),"terminal nodes distinguish platforms in the same station")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")
 end
 local ok,message=pcall(main)

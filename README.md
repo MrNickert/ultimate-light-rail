@@ -1,42 +1,29 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.1.2 / revision 3.
+Private technische proefmod voor Transport Fever 3, versie 0.2.0 / revision 4.
 
-## Huidige scope
+## Actieve proef
 
-Een nieuwe bovengrondse tramhalte met één centraal rijpad en één logische terminal, bedoeld om aankomst en vertrek in beide richtingen te onderzoeken. De halte gebruikt een bestaande vanilla wachtruimte, grondtexturen en infrastructuurstijl. Er zijn geen nieuwe 3D-modellen ontworpen.
+Een nieuwe bovengrondse kopstationconstructie met twee perronsporen en een kruiswissel voor de ingang, aangesloten op gewone elektrische tramtrack. De constructie gebruikt bestaande wachthuisjes en grondtexturen. Beide perrons hebben een eigen terminal. Er is geen keerlus en geen automatisch omkeercommando.
 
-**Dit is geen bewezen werkend metrosysteem.** De native tramrouter, het verbinden van de gecentreerde interne rijpaden met normale tramtrack en de reizigerstoegang moeten in het spel worden getest. De middenstrook heeft voorlopig een eenvoudige grondafwerking; de complete rail-/bovenleidingweergave is nog niet uitgewerkt. Dit is een functionele onderzoeksasset.
+**Plaatsbaarheid, routeverbinding en native omkeren moeten nog in het spel worden bewezen.** Interne rails en bovenleiding hebben nog geen complete 3D-weergave. Test eerst met één voertuig op een afzonderlijke testsave; kruisingsveiligheid is niet bewezen.
 
-De mod voegt uitsluitend resources toe onder de eigen mod-ID. Er worden geen bestaande haltes, voertuigen, lijnen of onderhoudsgegevens aangepast. Er is geen verborgen keerlus en geen script dat voertuigen automatisch omkeert.
+Zie [Proef 02: plaatsen en testen](docs/proef-02-kruiswissel.md). Zoek in het menu voor wegstations naar **UM Crossover Terminus (Test)** / **UM Kruiswisselkopstation (Test)**. Plaats twee nieuwe stations, met de ingangen naar elkaar toe, en verbind hun korte standaard tramtrackaansluitingen. De oude UM Surface Stop blijft als vergelijkingsmateriaal beschikbaar en wordt niet verbouwd.
 
-## Testen
+## Diagnose
 
-Zie [de eerste speltest](docs/proef-01.md). Gebruik een nieuwe kaart of een kopie van je save, één omkeerbare Citylink en twee nieuwe testhaltes. Zoek in het bestaande bouwmenu voor wegstations naar **UM Surface Stop (Test)**. De haltes hebben lengtes van 60, 80 of 120 meter.
+Het alleen-lezen gamescript wacht op twee eigen proefconstructies en rapporteert aansluitingen en TRAM/ELECTRIC_TRAM-paden met het prefix [UMNET]. Om de vijf seconden controleert het de aansluitingen; een wijziging levert een nieuw rapport op. Het geeft voorrang aan de terminals van de nieuwe kruiswisselkopstations. Het rapport bewijst op zichzelf geen werkende lijn of omkeerbeweging.
 
-Deze prototypeversie voegt een eigen constructie en intern straatprofiel toe. Verwijder de mod niet uit een save die deze objecten nog bevat; gebruik voor terugdraaien je originele testsave. De verwijderwaarschuwing is daarom conservatief op Critical gezet. Niet publiek publiceren.
+## Afbakening
 
-## Later
+Geen wijzigingen aan bestaande gamehaltes, voertuigen, lijnen of onderhoudsgegevens. Verwijder de mod niet uit een save die zijn constructies bevat; herstel je oorspronkelijke testsave om terug te draaien. Niet publiek publiceren.
 
-Eigen Metro-interface en filters, een ondergrondse variant en daarna uitbreidbare stations. Meer perronsporen, twee haakse niveaus en aanvullende assets zijn vervolgwerk. De eerder besproken overstap naar treinspoor is niet de huidige proefroute.
+De eerdere proef met een centraal rijpad kon geen lijnverbinding maken. Die resources en het eigen interne straatprofiel blijven beschikbaar voor oude testsaves. De nieuwe constructie gebruikt het standaard tramprofiel aan de ingang.
 
 ## Ontwikkeling
 
-Open deze map met het profiel Transport Fever 3 Modding. Lua- en Teal-extensies en de lokale TF3-definities zijn voorbereid. De prototypegeometrie is gewone Lua, zoals de oorspronkelijke stationsscripts.
+Gebruik het VS Code-profiel Transport Fever 3 Modding en de lokale TF3-definities. Controleer tests/test_crossover_stop.lua, tests/test_surface_stop.lua en tests/test_diagnostics.lua met de Teal-runner; bouw het pakket met python scripts/package.py.
 
-```powershell
-& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_surface_stop.lua
-python scripts/package.py
-```
+## Later
 
-De controles buiten het spel testen configuratie, topologie en afbakening. Ze bewijzen niet dat TF3 de verbindingen en het keren accepteert.
-
-## Eerste praktijktest
-
-De gebruiker kon de twee proefhaltes plaatsen en als haltes toevoegen, maar de lijn meldt Could not connect stations. Dat is nog geen bewijs dat keren onmogelijk is: de interne of externe aansluiting kan ontbreken.
-
-Revision 3 wijzigt de geometrie niet. Een alleen-lezen gamescript wacht op twee prototypehaltes en rapporteert hun constructies, externe knooppuntgraden, haltepunten, interne voertuigedges en TRAM/ELECTRIC_TRAM-paden in beide richtingen. Meldingen beginnen met [UMNET].
-
-Om de vijf seconden controleert het script een handtekening van de eigen stubs en hun aangrenzende segmenten. Een gewijzigde aansluiting levert een nieuw rapport op; ongewijzigde aansluitingen worden niet steeds opnieuw gelogd. Een eerder opgeslagen lege diagnose van revision 2 blokkeert dit niet meer. Er worden geen stations, lijnen of aansluitingen gewijzigd en het rapport wordt niet naar externe diensten gestuurd.
-
-Bewaar je huidige opstelling in de testsave, vervang de modbestanden, laad die save en laat vijf tot tien seconden lopen. Opnieuw plaatsen is niet nodig.
+Een Metro-interface, ondergrondse variant, uitbreidbare stations en eventueel meerdere niveaus volgen nadat de basis werkt. De tramtrackroute blijft leidend.

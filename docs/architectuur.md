@@ -1,3 +1,7 @@
+# Actieve architectuur vanaf revision 4
+
+De huidige proef is een afzonderlijk tweesporig kopstation met een kruiswissel en een standaard tramtrackaansluiting. Zie proef-02-kruiswissel.md. De gecentreerde aansluiting hieronder beschrijft uitsluitend de eerste proef, die in het spel geen routeverbinding opleverde. De nieuwe constructie wijzigt deze oude resources niet.
+
 # Richting van Ultimate Metro
 
 Keuze van de gebruiker: bestaande tramtrack behouden, met een nieuwe bovengrondse halte als experimenteel eindpunt. De eerdere gedachte aan lightrail op treinspoor is niet de actieve ontwikkelroute; een bruikbare tram/spoor-overgang was niet in het spel bewezen.
