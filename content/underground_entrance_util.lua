@@ -75,22 +75,6 @@ local function makeCircleEdges(depth, radius, split_deg)
 	return segments
 end
 
-local function makePassengerLane(origin, direction, length, stairDistance)
-	local dynamicLength = length - stairDistance
-	local fixedLength = stairDistance * 2.0
-
-	local start = { origin[1] + direction[1] * length, origin[2] + direction[2] * length, origin[3] }
-	local stair1 = { start[1] - direction[1] * dynamicLength, start[2] - direction[2] * dynamicLength, origin[3] }
-	local stair2 = { start[1] - direction[1] * (dynamicLength + fixedLength), start[2] - direction[2] * (dynamicLength + fixedLength), origin[3] }
-	local farSide = { start[1] - direction[1] * length * 2.0, start[2] - direction[2] * length * 2.0, origin[3] }
-
-	return { 
-		{ start, stair1, },
-		{ stair1, stair2, },
-		{ stair2, farSide, },
-	}
-end
-
 --Begin Generated
 local generatedData = {
 	["static"] = {
@@ -305,27 +289,31 @@ local generatedData = {
 --End Generated
 
 -- Adapted from Urban Games' underground_station.script.lua.
--- Fixed 80m platforms; shift the native centre to the proven terminus midpoint.
+-- Fixed 80m platforms. The native concourse moves towards the closed head;
+-- its surface entrance is rotated along the track axis. Vehicle paths stay fixed.
 return function(params)
- local shift=transf.transl(vec3.new(40,0,0))
+ local shift=transf.transl(vec3.new(60,0,0))
+ local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
  local result={models={},laneLists={}}
- local function person(curves,linkable)
-  result.laneLists[#result.laneLists+1]=laneutil.createLane(transform(curves,shift),{"PERSON"},2,2,linkable)
+ local function person(curves,linkable,matrix)
+  result.laneLists[#result.laneLists+1]=laneutil.createLane(transform(curves,matrix or shift),{"PERSON"},2,2,linkable)
  end
- person(generatedData.base.curves.passenger_entrance_link,true)
- person(generatedData.base.curves.passenger_entrance,false)
+ person(generatedData.base.curves.passenger_entrance_link,true,entranceShift)
+ person(generatedData.base.curves.passenger_entrance,false,entranceShift)
  person(makeCircleEdges(-12,8.5,-90),false)
  person(generatedData.rotated.curves.passenger_passageway,false)
- person(makePassengerLane({0,-5,-17.65},{-1,0,0},40,14.66),false)
- person(makePassengerLane({0,5,-17.65},{1,0,0},40,14.66),false)
- constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,shift)
- constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
- -- Native 40m central hall + extensions cover the complete station throat.
- for _,x in ipairs({20,30}) do
-  constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
-   transf.mul(shift,transf.transl(vec3.new(x,0,0))))
+ -- Keep platforms at world x=0..80; break exactly at the relocated stairs.
+ for _,y in ipairs({-5,5}) do
+  person({
+   {{-60,y,-17.65},{-14.66,y,-17.65}},
+   {{-14.66,y,-17.65},{14.66,y,-17.65}},
+   {{14.66,y,-17.65},{20,y,-17.65}},
+  },false)
  end
- for x=20,60,10 do
+ constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
+ constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
+ -- The 40m concourse covers x=40..80; native extensions fill x=-30..40.
+ for x=20,80,10 do
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
    transf.mul(shift,transf.mul(transf.rotZ(math.pi),transf.transl(vec3.new(x,0,0)))))
  end
@@ -333,6 +321,10 @@ return function(params)
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}
  end
- modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,shift)
+ modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
+ -- Close the native tunnel opening visually at the dead-end only.
+ -- Existing brick wall mesh: 4m wide, z=-3.2..2, fitted to the 14m head wall.
+ result.models[#result.models+1]={id="::/assets/buildings/res/misc/wall_2m_m.mdl",
+  transf={1,0,0,0,0,3.5,0,0,0,0,5.65/5.2,0,80.7,0,-12.5-2*5.65/5.2,1}}
  return result
 end

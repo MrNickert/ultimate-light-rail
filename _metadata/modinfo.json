@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro",
     "summary": "Compact two-platform metro terminus for reversible lightrail on ordinary electric tramtrack.",
-    "description": "Ultimate Metro 0.8.0 adds an underground version of the compact two-platform Metro Terminus, using native underground station assets and pedestrian stairs. Both variants use the same tested tram-based reversal and crossover topology, with 80m platforms, a 80 km/h station limit and 40 km/h crossover limit. Connect ordinary electric tramtrack; underground tracks connect in tunnels at 18m depth. The underground placement, tunnel connection and pedestrian access require in-game validation. Existing surface station resource IDs and geometry are preserved. Menu illustrations are generated previews, not screenshots. Do not remove the mod while its stations remain.",
+    "description": "Ultimate Metro 0.8.1 adds transparent menu illustrations and moves the underground pedestrian entrance above the closed terminus head. The opposite end has the scissors crossover and ordinary tramtrack tunnel connection. Both variants use two 80m platforms, 80 km/h straight station tracks and a 40 km/h crossover. Underground running and reversal, the higher crossover speed and the original entrance were confirmed by the user. The relocated entrance and end wall require a new placement and pedestrian check in the game. Existing station resource IDs, vehicle paths and speeds are preserved; saved stations are not rebuilt automatically. Menu artwork is illustrative, not screenshots. Do not remove the mod while its stations remain.",
     "authors": [
         {
             "name": "MrNickert",

@@ -29,6 +29,10 @@ for texture in (root / 'content/ui').glob('*.tga'):
     width, height, depth = struct.unpack_from('<HHB', data, 12)
     assert (width, height) == ((720, 405) if '_preview' in texture.name else (120, 75))
     assert depth == 32 and len(data) == 18 + width * height * 4
+    alpha = data[21::4]
+    assert min(alpha) == 0 and max(alpha) == 255, (texture.name, 'requires real transparent background and opaque station')
+    for x, y in ((0, 0), (width-1, 0), (0, height-1), (width-1, height-1)):
+        assert alpha[y * width + x] == 0, (texture.name, 'opaque corner')
 print('PASS: all native resource references exist; four UI textures have native dimensions and valid pixel payloads.', flush=True)
 with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
     with zipfile.ZipFile(args.game / 'base/content/scripts.zip') as archive:

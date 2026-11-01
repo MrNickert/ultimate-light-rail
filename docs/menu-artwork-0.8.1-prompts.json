@@ -1,0 +1,15 @@
+{
+  "tool": "Built-in image_gen",
+  "version": "0.8.1",
+  "surface": {
+    "prompt": "Edit this isometric surface light-rail terminus menu illustration. Remove the entire dark slate background and all background shadows/fades to real transparent alpha. Keep the two straight parallel tracks, compact scissors crossover at the near lower-left entrance and dead-end pedestrian path at the far upper-right head, two side platforms and small shelters. Do not add architecture. Preserve crisp details and solid object materials. Full isolated object with modest safe margins, wide landscape catalog icon, no text, no border, no checkerboard.",
+    "source": "Generated images are saved to C:\\Users\\nickm\\.codex\\generated_images\\01a196df-b832-7c72-9825-7427f6326042 as C:\\Users\\nickm\\.codex\\generated_images\\01a196df-b832-7c72-9825-7427f6326042\\exec-e3c0c67b-232b-4283-815f-e1979bd1a1ea.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "metro_terminus-transparent.png"
+  },
+  "underground": {
+    "prompt": "Edit the underground tram terminus build-menu illustration. Remove all the dark background to genuine transparent alpha, no checkerboard or background shadows. Preserve the isolated cutaway base and two parallel embedded tram tracks with a compact scissors crossover at the near lower-left connecting end. Make the TERMINUS direction unmistakable: the far upper-right end is CLOSED, both tracks end straight before a solid end wall, no tunnel or continuing tracks at that far end. Position a modest native-style surface stairwell opening above this CLOSED HEAD end, oriented along the long axis of the tracks, with stairs descending towards the platforms, no monumental station building. The connecting track/tunnel opening stays exclusively at the opposite lower-left end next to the crossover. Preserve restrained concrete metro side platforms and warm lighting, clean game-catalog isometric render. No text, labels, vehicles, logos or borders, modest safe margins.",
+    "source": "Generated images are saved to C:\\Users\\nickm\\.codex\\generated_images\\01a196df-b832-7c72-9825-7427f6326042 as C:\\Users\\nickm\\.codex\\generated_images\\01a196df-b832-7c72-9825-7427f6326042\\exec-910b30e4-5a80-4b64-bfef-eae946ebcdea.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+    "output": "metro_underground_terminus-transparent.png"
+  },
+  "encoding": "Preserved generated alpha while resizing proportionally to 120x75 and 720x405 32-bit TGA on transparent padding. Alpha and transparent corners verified."
+}

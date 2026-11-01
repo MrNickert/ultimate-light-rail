@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.8.0, revision 19. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.8.1, revision 20. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -13,7 +13,7 @@ De mod gebruikt dezelfde beproefde voertuiggeometrie voor beide varianten. De on
 
 ## Teststatus
 
-Het bestaande bovengrondse station is door de gebruiker getest met keren, instappen, drukke kruisende lijnen, wachten/vrijgeven van wisselroutes en opslaan/herladen. De ondergrondse variant is nieuw en moet nog in de game worden geplaatst en aangesloten. Lokale tests controleren de gelijke voertuiggeometrie, beide wisselopties, toegankelijke perrons vanaf straatniveau, modellen, terreinbewerking, snelheden en pakketafhankelijkheden.
+Het bestaande bovengrondse station is door de gebruiker getest met keren, instappen, drukke kruisende lijnen, wachten/vrijgeven van wisselroutes en opslaan/herladen. De ondergrondse variant en hogere wisselsnelheid zijn door de gebruiker getest. De in 0.8.1 verplaatste voetgangerstoegang aan de kop moet nog in de game worden beoordeeld. Lokale tests controleren de gelijke voertuiggeometrie, beide wisselopties, toegankelijke perrons vanaf straatniveau, modellen, terreinbewerking, snelheden en pakketafhankelijkheden.
 
 De menuafbeeldingen zijn gegenereerde illustraties, geen screenshots. De game gebruikt bestaande Urban Games-modellen; zie [credits](credits.txt).
 

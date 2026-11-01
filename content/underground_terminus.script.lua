@@ -25,7 +25,7 @@ function data()
    end
   end
   sub.station=surface.station
-  sub.station.catchmentAreas={{position={40,9,0},radius=200}}
+  sub.station.catchmentAreas={{position={69,0,0},radius=200}}
   for i,terminal in ipairs(sub.station.terminals) do
    local pedestrianIndex=vehicles+3+i
    terminal.personEdges={{pedestrianIndex,0},{pedestrianIndex,1},{pedestrianIndex,2}}
@@ -39,7 +39,7 @@ function data()
    edge.params.edgeTypeName=edge.edgeTypeName
   end
   -- Placement follows the native underground stop: entrance at street level.
-  result.snapPoint={transf={1,0,0,0,0,1,0,0,0,0,1,0,40,8,0,1},
+  result.snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,68,0,0,1},
    snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
   result.subconstructions={sub}
   result.cost=900000

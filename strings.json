@@ -8,7 +8,7 @@
         "METRO_APPROACH_NAME": "Metro station approach",
         "METRO_APPROACH_DESC": "Internal approach profile for the Metro Terminus. Use ordinary electric tramtrack for connections between stations.",
         "METRO_UNDERGROUND_TERMINUS_NAME": "Underground Metro Terminus",
-        "METRO_UNDERGROUND_TERMINUS_DESC": "Two 80m platforms at 18m depth, scissors crossover and surface pedestrian entrance. Connect ordinary electric tramtrack in a tunnel. Straight station tracks: 80 km/h; crossover: 40 km/h."
+        "METRO_UNDERGROUND_TERMINUS_DESC": "Two 80m platforms at 18m depth, scissors crossover and surface pedestrian entrance. Connect ordinary electric tramtrack in a tunnel. Straight station tracks: 80 km/h; crossover: 40 km/h. Pedestrian entrance above the closed head; track connection at the opposite crossover end."
     },
     "nl": {
         "METRO_TERMINUS_NAME": "Metro Kopstation",
@@ -19,6 +19,6 @@
         "METRO_APPROACH_NAME": "Metro-stationsaansluiting",
         "METRO_APPROACH_DESC": "Intern aansluitprofiel van het Metro Kopstation. Gebruik gewone elektrische tramtrack voor verbindingen tussen stations.",
         "METRO_UNDERGROUND_TERMINUS_NAME": "Ondergronds Metro Kopstation",
-        "METRO_UNDERGROUND_TERMINUS_DESC": "Twee perrons van 80 meter op 18 meter diepte, kruiswissel en voetgangerstoegang vanaf straatniveau. Sluit gewone elektrische tramtrack in een tunnel aan. Rechte stationssporen: 80 km/u; wissel: 40 km/u."
+        "METRO_UNDERGROUND_TERMINUS_DESC": "Twee perrons van 80 meter op 18 meter diepte, kruiswissel en voetgangerstoegang vanaf straatniveau. Sluit gewone elektrische tramtrack in een tunnel aan. Rechte stationssporen: 80 km/u; wissel: 40 km/u. Voetgangerstoegang boven de gesloten kop; spooraansluiting aan de tegenoverliggende wisselzijde."
     }
 }

@@ -69,6 +69,8 @@ for _,option in ipairs({1,2})do
  end
  local start=sub.laneLists[vehicles+1].nodes[1][1]
  assert(start[3]==0 and sub.laneLists[vehicles+1].linkable,'street-level public entrance')
+ assert(math.abs(start[1]-69)<1e-6 and math.abs(start[2]+3)<1e-6,'entrance rotated towards closed head')
+ assert(r.snapPoint.transf[13]==68 and r.snapPoint.transf[14]==0,'surface-road snap follows head entrance')
  local visited,queue={},{key(start)}
  while #queue>0 do
   local p=table.remove(queue)
@@ -83,13 +85,16 @@ for _,option in ipairs({1,2})do
  assert(#sub.models>20 and #sub.colliders>0,'native station shell and collision data')
  for _,alignment in ipairs(sub.terrainAlignmentLists)do
   for _,triangle in ipairs(alignment.triangles)do for _,p in ipairs(triangle)do
-   assert(p[1]>=32 and p[1]<=48 and p[2]>=9 and p[2]<=24 and p[3]==0,'only entrance alters surface terrain')
+   assert(p[1]>=69-1e-6 and p[1]<=84+1e-6 and p[2]>=-8-1e-6 and p[2]<=8+1e-6 and p[3]==0,'only head entrance alters surface terrain')
   end end
  end
  for _,m in ipairs(sub.models)do
   assert(m.id:sub(1,3)=='::/','all native assets use absolute resource IDs')
   for _,v in ipairs(m.transf)do assert(v==v and math.abs(v)<1e6)end
  end
+ local wall
+ for _,model in ipairs(sub.models)do if model.id=='::/assets/buildings/res/misc/wall_2m_m.mdl' then wall=model end end
+ assert(wall and wall.transf[13]>80,'visible closed head beyond track endpoints')
 end
 print('PASS: both switch settings, identical vehicle geometry at -18m, native pedestrian paths reach both platforms, native models/colliders/entrance terrain, 80/40 km/h limits. Engine placement still needs in-game validation.')
 end
