@@ -81,7 +81,7 @@ check(#output==previous,"unchanged topology does not spam logs")
 script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
 script.update({},state,5)
 check(#queries==12,"old saved done=true no longer suppresses the report")
-check(state.value.version==7,"saved diagnostic state upgraded")
+check(state.value.version==8,"saved diagnostic state upgraded")
 -- The new two-track stops expose four terminals instead of two.
 script,state,output,queries,objects=fixture(false)
 for _,entity in ipairs({10,20}) do
@@ -123,6 +123,22 @@ check(full:find("mode=ELECTRIC_TRAM+ELECTRIC_TRAM_TRACK",1,true),"combined tram/
 local combined=false
 for _,query in ipairs(queries) do if query.modeCount==2 then combined=true end end
 check(combined,"native query receives both actual modes, not just a combined label")
+-- Measure both approach lanes to both terminus platforms without world edits.
+script,state,output,queries,objects=fixture(false)
+objects[10].CONSTRUCTION.fileName="mrnickert_ultimate_metro::/twin_terminus.con"
+objects[20]=nil
+objects[11].BASE_EDGE.roadTemplate="mrnickert_ultimate_metro::/lightrail_double.street_template"
+objects[11].TRANSPORT_NETWORK={edges={
+ {conns={{entity=1,index=0},{entity=2,index=0}},transportModes={TRAM=true,ELECTRIC_TRAM=true},forwardOnly=false,needsReservation=true},
+ {conns={{entity=2,index=1},{entity=1,index=1}},transportModes={TRAM=true,ELECTRIC_TRAM=true},forwardOnly=false,needsReservation=true},
+}}
+objects[101].STATION.terminals[2]={vehicleNodeId={entity=301,index=2}}
+script.update({},state,5)
+local terminusLog=table.concat(output,"\n")
+check(terminusLog:find("total prototype constructions=1 sampled terminals=2",1,true),"single twin terminus is measured immediately")
+check(terminusLog:find("terminus=10 terminal=0 measured approach lanes=2",1,true),"both generated approach lanes recognized even with reversed edge order")
+check(terminusLog:find("terminus=10 terminal=1 measured approach lanes=2",1,true),"second platform receives the same approach coverage")
+check(terminusLog:find("probe terminal-approach construction=10 terminal=1",1,true) and terminusLog:find("probe terminal-departure construction=10 terminal=1",1,true),"arrival and departure are measured separately")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")
 end
 local ok,message=pcall(main)

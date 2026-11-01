@@ -31,3 +31,7 @@ Bij een ongeldige aansluiting of lijn blijft de enkelspoorsave de werkende refer
 ## Lokale controle
 
 De test controleert twee afzonderlijke offsets, native tegengestelde lane-orientatie, alle vier de vervoersmodi op beide lanes en gelijkheid met de enkelspoorbasis buiten laneConfigs, beschrijving en bouwmenu. De oudere template- en stationsbestanden worden niet aangepast. Dit bewijst geen complete native route of veilige verkeersafhandeling.
+
+## Uitgevoerd resultaat
+
+Het native log vindt zes edges tussen de bestaande haltepunten in beide richtingen voor alle zes modeverzamelingen. De gebruiker meldt dat het voertuig hetzelfde getekende rijpad blijft volgen; op de detailfoto lijkt het tweede spoor niet door te lopen naar de enkelsporige halte. Dit bewijst nog geen onafhankelijke toegang tot beide sporen. De volgende proef bouwt twee expliciete perronsporen en wisselverbindingen: proef-10-kopstation.md.

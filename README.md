@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.5.0 / revision 14.
+Private technische proefmod voor Transport Fever 3, versie 0.6.0 / revision 15.
 
 ## Bewezen enkelspoorbasis
 
@@ -8,13 +8,17 @@ De combinatie UM Bidirectional Stop (Test) en UM Lightrail (Test) levert in het 
 
 Dit bewijst nog geen verkeer met meerdere voertuigen, dubbelspoorbedrijf, reizigersafhandeling of algemene wegintegratie.
 
-## Actieve proef: dubbel verbindingsspoor
+## Actieve proef: tweesporig kopstation
 
-Nieuw: **UM Lightrail Double (Test)** / **UM Lightrail Dubbel (Test)**, in dezelfde bouwcategorie als het enkele profiel. Het combineert de native dubbele tram-lane-indeling met de vier vervoersmodi van de werkende enkelspoorbasis.
+Nieuw: **UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)**. De constructie bevat een dubbele vooraansluiting, twee aparte perronsporen met elk een direct haltepunt, een eilandperron en een expliciete kruiswissel. De spooreinden achter het perron hebben geen externe voertuigaansluiting. Alle rijpaden bestaan uit echte STREET-segmenten op de werkende lightrailprofielen.
 
-Zie [Proef 09](docs/proef-09-dubbelspoor.md). Bewaar de werkende enkelspoorsave, maak een testkopie en zet het voertuig eerst in de remise. Vervang de modbestanden, laad de testkopie opnieuw en vervang alleen het tussenliggende spoor door de elektrische dubbele variant. De bestaande haltes blijven voor deze proef enkelsporig en hoeven niet opnieuw geplaatst te worden. Laat tien seconden lopen en beoordeel lijn en log voordat een voertuig wordt ingezet.
+Zie [Proef 10](docs/proef-10-kopstation.md). Vervang de bestanden, laad een testkopie van de save en plaats slechts een nieuw kopstation op ruime vrije vlakke grond. Laat tien seconden lopen. De diagnose meet de daadwerkelijke routes tussen elk ingangsspoor en beide terminals, in beide richtingen. Nog geen lijn of voertuig toevoegen: eerst controleren we de nieuwe native wisselknooppunten.
 
-Het nieuwe spoor moet in de game nog getest worden. Of elke richting een ander spoor gebruikt, staat niet automatisch vast; beide lanes kunnen door de engine technisch tweerichtingsverkeer krijgen. Stations met twee aparte perronsporen en wissels volgen nadat de dubbelspoorverbinding werkt.
+De oude haltes en profielen blijven behouden. Deze nieuwe stationsgeometrie, beide perronroutes en reserveringsveiligheid zijn nog niet in de game getest. Bij succes volgt een tweede station, een dubbele verbinding en een proef met een voertuig.
+
+## Uitkomst van de dubbele verbinding
+
+De dubbelspoorverbinding uit revision 14 geeft in het native log een pad van zes edges in beide richtingen. De gebruiker ziet dat het voertuig de getekende lijn over hetzelfde rijpad heen en terug volgt en dat het tweede zichtbare spoor bij de enkelspoorovergang lijkt te eindigen. Daarmee zijn twee bereikbare onafhankelijke rijroutes en een spoor per richting nog niet bewezen. Het nieuwe kopstation moet daarom eerst expliciete toegang tot beide perronsporen aantonen.
 
 ## Ontwikkelkoers
 

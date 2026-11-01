@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 15
+
+Een afzonderlijk tweesporig kopstation gebruikt echte root-STREET-segmenten, twee eigen direct gebonden perronpunten en twee kruiswisselroutes met een gedeelde kruiscoordinaat. Het is een nieuwe combinatie van werkende profielen; native vertakkingen/kruisingen en beide terminalroutes zijn nog niet bewezen. Eerst een station plaatsen en per ingangslane toegang tot beide terminals meten. Zie proef-10-kopstation.md.
+
 # Actieve proef vanaf revision 14
 
 De enkelspoorbasis is door de gebruiker getest met een complete lijn, remise-aansluiting, rijdend voertuig, deurbediening, zelfstandig keren en opslaan/herladen. Nieuw is een afzonderlijk dubbel STREET-tramprofiel met twee native gescheiden lane-offsets en de gemeten extra spoortrammodi. De haltes blijven in deze proef enkelsporig; tweesporige stations, wissels en spoorgebruik per richting volgen afzonderlijk. Zie proef-09-dubbelspoor.md.

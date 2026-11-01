@@ -15,7 +15,8 @@ local function isPrototype(con)
     return con and (con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con")
         or con.fileName:match("^mrnickert_ultimate_metro::/?crossover_stop%.con")
         or con.fileName:match("^mrnickert_ultimate_metro::/?edge_stop%.con")
-        or con.fileName:match("^mrnickert_ultimate_metro::/?bidirectional_stop%.con"))
+        or con.fileName:match("^mrnickert_ultimate_metro::/?bidirectional_stop%.con")
+        or con.fileName:match("^mrnickert_ultimate_metro::/?twin_terminus%.con"))
 end
 local function report()
     local ct=api.type.ComponentType
@@ -54,6 +55,7 @@ local function report()
             constructions=constructions+1
             message("construction="..entity.." resource="..con.fileName.." stubs="..#con.frozenEdges.." stations="..#con.stations)
             local segmentEnds={}
+            local approachNodes={}
             for _,edgeEntity in ipairs(con.frozenEdges) do
                 local base=api.engine.getComponent(edgeEntity,ct.BASE_EDGE)
                 if base then
@@ -69,6 +71,12 @@ local function report()
                                 message("segment-network="..edgeEntity.." edge="..(i-1)
                                     .." forwardOnly="..tostring(edge.forwardOnly)
                                     .." reservation="..tostring(edge.needsReservation))
+                                if con.fileName:find("twin_terminus",1,true)
+                                    and base.roadTemplate:find("lightrail_double.street_template",1,true) then
+                                    for _,node in ipairs(edge.conns) do
+                                        if node.entity==base.node0 then approachNodes[nodeLabel(node)]=node end
+                                    end
+                                end
                                 for _,node in ipairs(edge.conns) do
                                     local key=nodeLabel(node)
                                     if not segmentEnds[key] then segmentEnds[key]={node=node,count=0} end
@@ -98,10 +106,20 @@ local function report()
                     for index,terminal in ipairs(station.terminals) do
                         local node=terminal.vehicleNodeId
                         message("station="..stationEntity.." terminal="..(index-1).." vehicleNode="..nodeLabel(node))
+                        if con.fileName:find("twin_terminus",1,true) then
+                            local approachCount=0
+                            for _,entrance in pairs(approachNodes) do
+                                approachCount=approachCount+1
+                                probe("terminal-approach construction="..entity.." terminal="..(index-1),entrance,node)
+                                probe("terminal-departure construction="..entity.." terminal="..(index-1),node,entrance)
+                            end
+                            message("terminus="..entity.." terminal="..(index-1).." measured approach lanes="..approachCount)
+                        end
                         terminals[#terminals+1]={station=stationEntity,node=node,
-                            priority=con.fileName:find("bidirectional_stop",1,true) and -1
+                            priority=con.fileName:find("twin_terminus",1,true) and -2
+                                or (con.fileName:find("bidirectional_stop",1,true) and -1
                                 or (con.fileName:find("edge_stop",1,true) and 0
-                                or (con.fileName:find("crossover_stop",1,true) and 1 or 2))}
+                                or (con.fileName:find("crossover_stop",1,true) and 1 or 2)))}
                         local net=api.engine.getComponent(node.entity,ct.TRANSPORT_NETWORK)
                         if net then
                             message("network="..node.entity.." nodes="..#net.nodes.." edges="..#net.edges)
@@ -138,8 +156,9 @@ local function report()
         return a.node.index<b.node.index
     end)
     -- Focus on the new pair when older one-way comparison stops remain nearby.
-    if terminals[1] and terminals[1].priority==-1 then
-        while terminals[#terminals].priority~=-1 do table.remove(terminals) end
+    if terminals[1] and terminals[1].priority<0 then
+        local priority=terminals[1].priority
+        while terminals[#terminals].priority~=priority do table.remove(terminals) end
     end
     while #terminals>4 do table.remove(terminals) end
     message("total prototype constructions="..constructions.." sampled terminals="..#terminals)
@@ -172,6 +191,7 @@ local function scanSignature()
         if isPrototype(con) then
             hasEdgeStop=hasEdgeStop or con.fileName:find("edge_stop",1,true)~=nil
                 or con.fileName:find("bidirectional_stop",1,true)~=nil
+                or con.fileName:find("twin_terminus",1,true)~=nil
             local parts={tostring(entity)}
             if con.fileName:find("edge_stop",1,true) then parts[#parts+1]="direct-edge-binding" end
             for _,station in ipairs(con.stations) do parts[#parts+1]="station="..station end
@@ -199,7 +219,7 @@ function data()
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=7 then saved={version=7,elapsed=0} end
+        if saved.version~=8 then saved={version=8,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0
