@@ -12,7 +12,7 @@ files=["mod.json","strings.json","credits.txt","_metadata/modinfo.json","content
        "content/surface_stop.script.lua","content/crossover_stop.con.lua","content/crossover_stop.script.lua","content/edge_stop.con.lua","content/edge_stop.script.lua","content/edge_test.street_template.lua","content/mode_probe.street_template.lua","content/lightrail_test.street_template.lua","content/lightrail_double.street_template.lua","content/direction_probe.con.lua","content/direction_probe.script.lua","content/bidirectional_stop.con.lua","content/bidirectional_stop.script.lua","content/twin_terminus.con.lua","content/twin_terminus.script.lua","content/direction_probe_diagnostics.gs.lua","content/direction_probe_diagnostics.script.lua","content/test_track.street_template.lua","content/network_diagnostics.gs.lua","content/network_diagnostics.script.lua"]
 assert "runScript" not in mod and "postRunScript" not in mod
 outdir=root/"dist";outdir.mkdir(exist_ok=True)
-out=outdir/"ultimate-metro-0.6.0-twin-terminus.zip"
+out=outdir/"ultimate-metro-0.6.1-internal-switches.zip"
 with zipfile.ZipFile(out,"w",zipfile.ZIP_DEFLATED) as archive:
  for name in files:
   data=(root/name).read_bytes();assert not data.startswith(b"\xef\xbb\xbf");text=data.decode("utf-8")

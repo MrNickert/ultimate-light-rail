@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 16
+
+De root-STREET-wisselstraat uit revision 15 was niet plaatsbaar; er is geen specifieke afwijzingsreden gelogd. De nieuwe variant heeft een enkele rechte externe dubbele straataansluiting en interne voertuiglanes met vier modi volgens de native halteconstructievorm. Decoratieve railmodellen zijn gescheiden van de transportgeometrie. Plaatsbaarheid en interne heen-/terugroutes moeten nog worden gemeten. Zie proef-11-interne-wissels.md.
+
 # Actieve proef vanaf revision 15
 
 Een afzonderlijk tweesporig kopstation gebruikt echte root-STREET-segmenten, twee eigen direct gebonden perronpunten en twee kruiswisselroutes met een gedeelde kruiscoordinaat. Het is een nieuwe combinatie van werkende profielen; native vertakkingen/kruisingen en beide terminalroutes zijn nog niet bewezen. Eerst een station plaatsen en per ingangslane toegang tot beide terminals meten. Zie proef-10-kopstation.md.

@@ -5,73 +5,75 @@ local function main()
  end
  local con=resource("content/twin_terminus.con.lua")
  assert(con.updateScript.fileName=="mrnickert_ultimate_metro::/twin_terminus.script@updateFn")
- local r=resource("content/twin_terminus.script.lua").updateFn({}, {})
- local sub=r.subconstructions[1]
- assert(#r.edgeLists==5 and #sub.station.terminals==2,"approach, two main tracks and two crossover routes")
- local single=resource("content/mode_probe.street_template.lua")
- local double=resource("content/lightrail_double.street_template.lua")
- local profiles={
-  ["mrnickert_ultimate_metro::/mode_probe.street_template"]=single,
-  ["mrnickert_ultimate_metro::/lightrail_double.street_template"]=double,
- }
+ assert(con.params[1].key=="crossover" and con.params[1].defaultIndex==2,"crossover enabled by default")
+ local script=resource("content/twin_terminus.script.lua")
  local function vector(v,sign)return string.format("%.6f,%.6f,%.6f",v[1]*sign+0,v[2]*sign+0,v[3]*sign+0)end
- local function nodeKey(n)return vector(n[1],1)end
- local seen,graph,root={},{},{}
- local function connect(a,b)
-  a,b=nodeKey(a),nodeKey(b)
-  graph[a]=graph[a] or {};graph[b]=graph[b] or {}
-  graph[a][b]=true;graph[b][a]=true
- end
- for listIndex,list in ipairs(r.edgeLists) do
-  assert(list.type=="STREET" and list.params.tramTrackType=="ELECTRIC","real electric tram street segments")
-  local profile=assert(profiles[list.params.type])
-  if listIndex==1 then
-   assert(#list.snapNodes==1 and list.snapNodes[1]==0 and #profile.laneConfigs==2,"only the double front end connects externally")
-  else assert(#list.snapNodes==0 and #list.freeNodes==0 and #profile.laneConfigs==1,"platforms and switches use fixed single-lane edges") end
-  for _,node in ipairs(list.edges) do root[#root+1]={node=node,profile=profile} end
-  for i=1,#list.edges,2 do
-   local a,b=list.edges[i],list.edges[i+1]
-   local f=nodeKey(a).."|"..vector(a[2],1).."|"..nodeKey(b).."|"..vector(b[2],1)
-   local rev=nodeKey(b).."|"..vector(b[2],-1).."|"..nodeKey(a).."|"..vector(a[2],-1)
-   assert(not seen[f] and not seen[rev],"no duplicate or coincident reverse curve")
-   seen[f]=true
-   assert(b[1][1]>a[1][1] and a[2][1]>0 and b[2][1]>0,"no constructed vehicle turnaround curve")
-   local c1={a[1][1]+a[2][1]/3,a[1][2]+a[2][2]/3}
-   local c2={b[1][1]-b[2][1]/3,b[1][2]-b[2][2]/3}
-   assert(a[1][1]<=c1[1] and c1[1]<=c2[1] and c2[1]<=b[1][1],"Bezier curve cannot turn backwards between endpoints")
-   assert(math.abs(c1[2])<=6 and math.abs(c2[2])<=6,"switch curves remain within track envelope")
-   connect(a,b)
+ local function key(n)return vector(n[1],1)end
+ for _,setting in ipairs({1,2}) do
+  local r=script.updateFn({}, {crossover=setting})
+  local sub=r.subconstructions[1]
+  assert(#r.edgeLists==1 and #r.edgeLists[1].edges==2,"only one straight root STREET segment, no rejected street junctions")
+  assert(r.edgeLists[1].params.type=="mrnickert_ultimate_metro::/lightrail_double.street_template")
+  assert(r.edgeLists[1].snapNodes[1]==0 and #r.edgeLists[1].snapNodes==1,"only front endpoint is free")
+  assert(#sub.station.terminals==2,"two platform terminals")
+  local graph,seen={},{}
+  local vehicles=setting==2 and 4 or 2
+  assert(#sub.laneLists==vehicles+4,"vehicle and passenger lane counts follow crossover option")
+  local function connect(a,b)
+   a,b=key(a),key(b);graph[a]=graph[a] or {};graph[b]=graph[b] or {}
+   graph[a][b]=true;graph[b][a]=true
+  end
+  for i=1,vehicles do
+   local lane=sub.laneLists[i]
+   assert(lane.forwardOnly==false and lane.needsReservation==true,"explicit internal rail-style direction and reservation flags")
+   local modes={};for _,mode in ipairs(lane.transportModes) do modes[mode]=true end
+   assert(modes.TRAM and modes.ELECTRIC_TRAM and modes.TRAM_TRACK and modes.ELECTRIC_TRAM_TRACK,"all measured modes on every internal vehicle lane")
+   for j=1,#lane.nodes,2 do
+    local a,b=lane.nodes[j],lane.nodes[j+1]
+    local forward=key(a).."|"..vector(a[2],1).."|"..key(b).."|"..vector(b[2],1)
+    local reverse=key(b).."|"..vector(b[2],-1).."|"..key(a).."|"..vector(a[2],-1)
+    assert(not seen[forward] and not seen[reverse],"no duplicate opposite vehicle curves")
+    seen[forward]=true
+    assert(a[1][1]<b[1][1] and a[2][1]>0 and b[2][1]>0,"no vehicle turnaround curve")
+    connect(a,b)
+   end
+  end
+  for i,y in ipairs({-2.5,2.5}) do
+   assert(sub.laneLists[i].nodes[1][1][1]==-100 and sub.laneLists[i].nodes[1][1][2]==y,"internal endpoints match native double tram offsets")
+  end
+  local function reachable(a,b)
+   local visited,queue={},{a}
+   while #queue>0 do
+    local node=table.remove(queue)
+    if node==b then return true end
+    if not visited[node] then visited[node]=true;for other in pairs(graph[node] or {}) do queue[#queue+1]=other end end
+   end
+   return false
+  end
+  for track,terminal in ipairs(sub.station.terminals) do
+   local laneIndex,nodeIndex=terminal.vehicleNode[1],terminal.vehicleNode[2]
+   local point=assert(sub.laneLists[laneIndex+1].nodes[nodeIndex+1])[1]
+   assert(laneIndex==track-1 and point[1]==40 and point[2]==(track==1 and -6 or 6),"internal terminal actually targets its own platform midpoint")
+   for _,reference in ipairs(terminal.personNodes) do
+    local lane=assert(sub.laneLists[reference[1]+1])
+    assert(lane.transportModes[1]=="PERSON" and lane.nodes[reference[2]+1],"passenger references adjust with crossover option")
+   end
+   for approach,y in ipairs({-2.5,2.5}) do
+    local from=vector({-100,y,0},1);local to=vector(point,1)
+    assert(reachable(from,to)==(setting==2 or approach==track),"both approaches reach both platforms only when crossover is present")
+   end
+  end
+  if setting==2 then
+   local degree=0;for _ in pairs(graph["-40.000000,0.000000,0.000000"] or {}) do degree=degree+1 end
+   assert(degree==4,"explicit four-arm shared crossover coordinate")
+  end
+  assert(sub.laneLists[#sub.laneLists].linkable,"public pedestrian access")
+  assert(#sub.models>4,"existing rail model visuals generated")
+  for _,model in ipairs(sub.models) do
+   for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
  end
- for i,terminal in ipairs(sub.station.terminals) do
-  assert(terminal.vehicleNode[1]==-1,"direct root binding")
-  local selected=assert(root[terminal.vehicleNode[2]+1])
-  assert(#selected.profile.laneConfigs==1,"terminal never points into ambiguous double approach")
-  assert(selected.node[1][1]==40 and selected.node[1][2]==(i==1 and -6 or 6),"both terminals actually resolve to distinct platform midpoints")
-  for _,reference in ipairs(terminal.personNodes) do
-   assert(sub.laneLists[reference[1]+1].nodes[reference[2]+1],"pedestrian references exist")
-  end
- end
- local function reachable(a,b)
-  local seen,queue={}, {a}
-  while #queue>0 do
-   local n=table.remove(queue)
-   if n==b then return true end
-   if not seen[n] then seen[n]=true;for nextNode in pairs(graph[n] or {}) do queue[#queue+1]=nextNode end end
-  end
-  return false
- end
- for _,y in ipairs({-6,6}) do
-  local target=vector({40,y,0},1)
-  assert(reachable("-130.000000,0.000000,0.000000",target) and reachable(target,"-130.000000,0.000000,0.000000"),"physical root graph connects each platform to approach and back")
- end
- local crossing=graph["-40.000000,0.000000,0.000000"]
- local degree=0;for _ in pairs(crossing or {}) do degree=degree+1 end
- assert(degree==4,"crossovers share an explicit four-arm coordinate")
- for _,lane in ipairs(sub.laneLists) do for _,mode in ipairs(lane.transportModes) do assert(mode=="PERSON","no internal vehicle lane workaround") end end
- assert(sub.laneLists[4].linkable,"public passenger entrance")
- assert(r.snapPoint.transf[13]==-130 and r.snapPoint.transf[2]==-1,"front approach snap frame")
- print("PASS: distinct terminal bindings, connected root graph, explicit crossover coordinate and no duplicate curves. Native junctions, placement and platform routes still require game testing.")
+ print("PASS: straight external approach, four-mode internal switch topology, both terminals, crossover-on/off reachability and finite decorative geometry. Native acceptance still requires a game test.")
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),"\n");os.exit(1) end

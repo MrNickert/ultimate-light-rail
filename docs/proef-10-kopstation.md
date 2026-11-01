@@ -1,3 +1,7 @@
+# Uitkomst: revision 15 geweigerd bij plaatsen
+
+De beschreven root-STREET-opbouw gaf Construction Not Possible. Het log bevatte geen specifieke foutcode voor deze weigering. Deze opbouw is vervangen door de interne stationsvariant in proef-11-interne-wissels.md, versie 0.6.1 / revision 16. De tekst hieronder is historisch.
+
 # Proef 10: tweesporig kopstation met kruiswissel
 
 Versie 0.6.0 / revision 15. Nieuwe constructie: UM Twin Terminus (Test), Nederlands UM Dubbel Kopstation (Test).

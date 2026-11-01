@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.6.0 / revision 15.
+Private technische proefmod voor Transport Fever 3, versie 0.6.1 / revision 16.
 
 ## Bewezen enkelspoorbasis
 
@@ -8,13 +8,15 @@ De combinatie UM Bidirectional Stop (Test) en UM Lightrail (Test) levert in het 
 
 Dit bewijst nog geen verkeer met meerdere voertuigen, dubbelspoorbedrijf, reizigersafhandeling of algemene wegintegratie.
 
-## Actieve proef: tweesporig kopstation
+## Actieve proef: kopstation met interne wissels
 
-Nieuw: **UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)**. De constructie bevat een dubbele vooraansluiting, twee aparte perronsporen met elk een direct haltepunt, een eilandperron en een expliciete kruiswissel. De spooreinden achter het perron hebben geen externe voertuigaansluiting. Alle rijpaden bestaan uit echte STREET-segmenten op de werkende lightrailprofielen.
+Revision 15 werd in het spel als Construction Not Possible geweigerd, zonder specifieke foutcode in stdout. Revision 16 vervangt de root-STREET-wisselkruisingen door interne voertuiglanes volgens het native stationsschema. De externe aansluiting is nu een enkele rechte dubbele straat-edge. De interne rijpaden gebruiken de vier onderzochte tram/spoormodi, expliciete reservering en tweerichtingsverkeer; deze combinatie moet in deze constructie nog worden getest.
 
-Zie [Proef 10](docs/proef-10-kopstation.md). Vervang de bestanden, laad een testkopie van de save en plaats slechts een nieuw kopstation op ruime vrije vlakke grond. Laat tien seconden lopen. De diagnose meet de daadwerkelijke routes tussen elk ingangsspoor en beide terminals, in beide richtingen. Nog geen lijn of voertuig toevoegen: eerst controleren we de nieuwe native wisselknooppunten.
+Dezelfde **UM Twin Terminus (Test)** / **UM Dubbel Kopstation (Test)** heeft twee interne perronsporen, elk een eigen haltepunt, een eilandperron en een kruiswissel. Bestaande railmodellen en stootblokken verzorgen een voorlopige decoratieve weergave. De wissel kan in het bouwmenu uitgeschakeld worden als vergelijkingsvariant; standaard staat hij aan.
 
-De oude haltes en profielen blijven behouden. Deze nieuwe stationsgeometrie, beide perronroutes en reserveringsveiligheid zijn nog niet in de game getest. Bij succes volgt een tweede station, een dubbele verbinding en een proef met een voertuig.
+Zie [Proef 11](docs/proef-11-interne-wissels.md). Vervang de bestanden, laad een testsave en probeer een nieuw station op vrije vlakke grond. Als het met kruiswissel plaatsbaar is: plaats een exemplaar en laat tien seconden lopen. Is de preview rood, vergelijk dan op dezelfde plaats met Zonder wissel. Nog geen lijn of voertuig toevoegen; eerst beoordelen we de native bouw- en routegegevens.
+
+De werkende oude haltes en spoorprofielen blijven behouden. De nieuwe interne routewerking en kruisingsveiligheid zijn niet door de lokale controles bewezen.
 
 ## Uitkomst van de dubbele verbinding
 

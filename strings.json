@@ -16,7 +16,10 @@
         "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Double (Test)",
         "UM_LIGHTRAIL_DOUBLE_DESC": "Two separate tram lanes with the mixed lightrail modes used by the working single-track prototype. First test with existing Bidirectional Stops. Complete routing, per-direction track use and multiple-vehicle safety require testing.",
         "UM_TWIN_TERMINUS_NAME": "UM Twin Terminus (Test)",
-        "UM_TWIN_TERMINUS_DESC": "Experimental two-track terminus with an island platform and explicit crossover. Connect UM Lightrail Double to the single front approach. New switch junctions, both platform routes and crossing safety require native testing."
+        "UM_TWIN_TERMINUS_DESC": "Experimental two-track terminus using internal mixed-mode vehicle paths, one double front approach and decorative game rail models. Crossover enabled by default. Native placement, platform routes and crossing safety still require testing.",
+        "UM_CROSSOVER": "Crossover",
+        "UM_SWITCH_OFF": "No crossover",
+        "UM_SWITCH_ON": "Scissors crossover"
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
@@ -35,6 +38,9 @@
         "UM_LIGHTRAIL_DOUBLE_NAME": "UM Lightrail Dubbel (Test)",
         "UM_LIGHTRAIL_DOUBLE_DESC": "Twee gescheiden tramrijpaden met de vervoersmodi van het werkende enkelspoor. Test eerst met de bestaande Tweerichtingshaltes. Routekeuze, spoorgebruik per richting en meerdere voertuigen moeten nog worden getest.",
         "UM_TWIN_TERMINUS_NAME": "UM Dubbel Kopstation (Test)",
-        "UM_TWIN_TERMINUS_DESC": "Experimenteel kopstation met twee sporen, eilandperron en kruiswissel. Sluit UM Lightrail Dubbel aan op de ene dubbele ingang. Wissels, beide perronroutes en veilige kruising moeten nog worden getest."
+        "UM_TWIN_TERMINUS_DESC": "Experimenteel kopstation met interne lightrailrijpaden, een dubbele vooraansluiting en bestaande railmodellen. Kruiswissel staat standaard aan. Plaatsing, perronroutes en veilige kruising moeten nog worden getest.",
+        "UM_CROSSOVER": "Kruiswissel",
+        "UM_SWITCH_OFF": "Zonder wissel",
+        "UM_SWITCH_ON": "Met kruiswissel"
     }
 }

@@ -17,3 +17,5 @@ mode_probe.street_template.lua uses the same Urban Games tram template basis wit
 lightrail_test.street_template.lua uses the same derived Urban Games tram template as mode_probe, with a separate description and build menu entry.
 
 lightrail_double.street_template.lua uses the same Urban Games basis and native double tram lane offsets, with the researched transport modes and a separate build menu entry.
+
+The internal terminus references Urban Games standard 2m track and bumper models as decorative installed-game resources; no models are redistributed.
