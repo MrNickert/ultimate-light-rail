@@ -1,14 +1,14 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.2.3 / revision 7.
+Private technische proefmod voor Transport Fever 3, versie 0.3.0 / revision 8.
 
-## Actieve proef
+## Actieve proef: spoorgebonden tramhalte
 
-Een nieuwe bovengrondse kopstationconstructie met twee perronsporen en een kruiswissel voor de ingang, aangesloten op gewone elektrische tramtrack. De constructie gebruikt bestaande wachthuisjes en grondtexturen. Beide perrons hebben een eigen terminal. Er is geen keerlus en geen automatisch omkeercommando.
+Een nieuwe, afzonderlijke doorgaande halte met echte gewone elektrische tramspoorsegmenten over de volledige lengte. Het haltepunt wordt volgens de native treinstationconventie rechtstreeks aan een segmentendpoint gekoppeld: vehicleNode={-1,1}. Er zijn geen interne voertuig-laneLists of overlappende tegenrichtingcurves.
 
-**Plaatsbaarheid, routeverbinding en native omkeren moeten nog in het spel worden bewezen.** Interne rails en bovenleiding hebben nog geen complete 3D-weergave. Test eerst met één voertuig op een afzonderlijke testsave; kruisingsveiligheid is niet bewezen.
+Deze binding is in native trein-TRACK-stations aangetroffen, maar nog niet bewezen voor STREET-tramtemplates. Lees [Proef 03](docs/proef-03-spoorbinding.md). Plaats eerst slechts een **UM Track-bound Stop (Test)** / **UM Spoorgebonden Halte (Test)** op een afzonderlijke testkaart en laat vijf tot tien seconden lopen. Bouw nog geen lijn: eerst controleren we de daadwerkelijk toegewezen terminal en rijrichting in het log.
 
-Zie [Proef 02: plaatsen en testen](docs/proef-02-kruiswissel.md). Zoek in het menu voor wegstations naar **UM Crossover Terminus (Test)** / **UM Kruiswisselkopstation (Test)**. Plaats twee nieuwe stations, met de ingangen naar elkaar toe, en verbind hun korte standaard tramtrackaansluitingen. De oude UM Surface Stop blijft als vergelijkingsmateriaal beschikbaar en wordt niet verbouwd.
+Het is geen bewezen oplossing voor een kopstation of een keermogelijkheid. De eerdere prototypes blijven onveranderd als vergelijkingsmateriaal. Het herstelpakket 0.2.3 blijft de terugval voor de eerdere crash.
 
 ## Herstel na crash in revision 6
 

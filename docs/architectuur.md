@@ -1,3 +1,9 @@
+# Actieve proef vanaf revision 8
+
+Zie proef-03-spoorbinding.md. Een aparte doorgaande tramhalte gebruikt echte STREET-tramsegmenten en de railstationconventie voor een directe terminalverwijzing naar de root edgeLists. De engineondersteuning van die combinatie is nog niet bewezen. Eerste proef: slechts een halte plaatsen en het werkelijke terminalknooppunt beoordelen. Dit hergebruikt de bindingsvorm van treinstations, maar neemt geen treinrouter of railvervoer over.
+
+De kruiswisselproef hieronder is historisch. Revision 6 met expliciet tegengestelde overlappende lanes is ingetrokken wegens een bevestigde Duplicate edges found-crash. Vanaf revision 7 staat voor dat station weer het plaatsbare script van revision 5. Er is nog geen werkende kopstationroute.
+
 # Actieve architectuur vanaf revision 4
 
 De huidige proef is een afzonderlijk tweesporig kopstation met een kruiswissel en een standaard tramtrackaansluiting. Zie proef-02-kruiswissel.md. De gecentreerde aansluiting hieronder beschrijft uitsluitend de eerste proef, die in het spel geen routeverbinding opleverde. De nieuwe constructie wijzigt deze oude resources niet.

@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
-    "summary": "Experimental surface tram terminus. Native reversal is not yet proven; test saves only.",
-    "description": "Private recovery build revision 7. Withdraws revision 6 (0.2.2), which crashes TF3 with Duplicate edges found. Restores the exact crossover construction script from revision 5 (0.2.1), which was placed successfully in-game. Placement fixes remain; the line connection and native reversal are still unresolved. Replace all mod files before restarting, then load a normal save from before the crash. Avoid the crash save, which may include the invalid construction. No automatic save repair or world commands. Internal rails and catenary visuals remain unfinished. Do not publish.",
+    "summary": "Private research: rail-style station binding on ordinary tramtrack. Engine support is unproven.",
+    "description": "Revision 8 adds UM Track-bound Stop (Test), a separate 80m through stop built entirely from ordinary electric tram STREET edges. Uses the rail station convention vehicleNode={-1,1} to target a root edge endpoint directly. This convention is confirmed in native rail station scripts but NOT confirmed for STREET tram templates. First test: place one stop on a separate save and inspect logs before building a line. No internal vehicle lane geometry, opposite duplicate edges, custom track templates, hidden loop or commands. Existing prototype station scripts remain unchanged from the recovery build. This is not a working metro or proof of native reversal. Keep the pre-crash save; do not use revision 6 (0.2.2).",
     "authors": [
         {
             "name": "MrNickert",

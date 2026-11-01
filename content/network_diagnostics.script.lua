@@ -13,7 +13,8 @@ local function positions(edge)
 end
 local function isPrototype(con)
     return con and (con.fileName:match("^mrnickert_ultimate_metro::/?surface_stop%.con")
-        or con.fileName:match("^mrnickert_ultimate_metro::/?crossover_stop%.con"))
+        or con.fileName:match("^mrnickert_ultimate_metro::/?crossover_stop%.con")
+        or con.fileName:match("^mrnickert_ultimate_metro::/?edge_stop%.con"))
 end
 local function report()
     local ct=api.type.ComponentType
@@ -51,7 +52,8 @@ local function report()
                         local node=terminal.vehicleNodeId
                         message("station="..stationEntity.." terminal="..(index-1).." vehicleNode="..nodeLabel(node))
                         terminals[#terminals+1]={station=stationEntity,node=node,
-                            priority=con.fileName:find("crossover_stop",1,true) and 0 or 1}
+                            priority=con.fileName:find("edge_stop",1,true) and 0
+                                or (con.fileName:find("crossover_stop",1,true) and 1 or 2)}
                         local net=api.engine.getComponent(node.entity,ct.TRANSPORT_NETWORK)
                         if net then
                             message("network="..node.entity.." nodes="..#net.nodes.." edges="..#net.edges)
@@ -112,10 +114,13 @@ local function scanSignature()
     local ct=api.type.ComponentType
     local segments=api.engine.system.streetSystem.getNode2SegmentMap()
     local signatures={}
+    local hasEdgeStop=false
     for _,entity in ipairs(api.engine.getEntitiesWithComponent(ct.CONSTRUCTION)) do
         local con=api.engine.getComponent(entity,ct.CONSTRUCTION)
         if isPrototype(con) then
+            hasEdgeStop=hasEdgeStop or con.fileName:find("edge_stop",1,true)~=nil
             local parts={tostring(entity)}
+            if con.fileName:find("edge_stop",1,true) then parts[#parts+1]="direct-edge-binding" end
             for _,station in ipairs(con.stations) do parts[#parts+1]="station="..station end
             for _,edgeEntity in ipairs(con.frozenEdges) do
                 local base=api.engine.getComponent(edgeEntity,ct.BASE_EDGE)
@@ -134,25 +139,25 @@ local function scanSignature()
         end
     end
     table.sort(signatures)
-    return #signatures,table.concat(signatures,";")
+    return #signatures,table.concat(signatures,";"),hasEdgeStop
 end
 function data()
     return {update=function(_params,state,dt)
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=4 then saved={version=4,elapsed=0} end
+        if saved.version~=5 then saved={version=5,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0
-        local ok,count,signature=pcall(scanSignature)
+        local ok,count,signature,hasEdgeStop=pcall(scanSignature)
         if not ok then
             if saved.error~=tostring(count) then log.warning("[UMNET] scan failed: "..tostring(count)) end
             saved.error=tostring(count)
             state:set(saved)
             return
         end
-        if count<2 then
+        if count<2 and not hasEdgeStop then
             if saved.waitingCount~=count then message("waiting for two prototype stops; currently "..count) end
             saved.waitingCount=count
             saved.signature=nil
