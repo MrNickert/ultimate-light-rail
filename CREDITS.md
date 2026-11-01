@@ -11,3 +11,5 @@ Het interne test_track.street_template.lua is afgeleid van street/tram/tram_new.
 Geen meshes, texturen of modellen uit het spel worden meegedistribueerd. De geïnstalleerde game levert die resources. De eigen testhalte, documentatie en controles zijn gemaakt voor dit prototype van MrNickert.
 
 Het interne edge_test.street_template.lua gebruikt dezelfde Urban Games-basis, met een enkele voorwaartse lane voor de directe haltebindingsproef. Er worden geen game-assets gekopieerd.
+
+mode_probe.street_template.lua is afgeleid van het eigen edge_test-profiel en dezelfde Urban Games-basis; uitsluitend de vervoersmodusverzamelingen zijn uitgebreid. De richtingproef verwijst daarnaast naar het native standard_catenary.street_template, zonder dat bestand of de railassets mee te leveren.

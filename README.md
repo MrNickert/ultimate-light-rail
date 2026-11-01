@@ -1,14 +1,16 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.3.1 / revision 9.
+Private technische proefmod voor Transport Fever 3, versie 0.4.0 / revision 10.
 
-## Actieve proef: directe haltebinding met een tramrijstrook
+## Actieve proef: richtinggedrag meten
 
-De gewone tramtemplate uit revision 8 werd door TF3 afgewezen: de directe verwijzing uit een treinstation is niet eenduidig bij twee passende tramlanes. Revision 9 geeft de aparte doorgaande testhalte daarom een eigen interne STREET-tramtemplate met een enkele voorwaartse lane. De echte tramsegmenten lopen door de hele halte. Er zijn geen interne voertuig-laneLists of overlappende tegenrichtingcurves.
+Revision 9 bevestigde directe terminalbinding aan een enkele tram-lane, beide haltes in de lijnplanner en een pad van zes edges via gewone elektrische tramtrack in een richting. Het terugpad en daadwerkelijk keren zijn nog niet bewezen.
 
-Lees [Proef 04](docs/proef-04-een-rijstrook.md). Vervang de bestanden en laad de lege testsave opnieuw. Selecteer **UM Track-bound Stop (Test)** / **UM Spoorgebonden Halte (Test)** en controleer of de preview verschijnt. Plaats daarna slechts een halte en laat vijf tot tien seconden lopen. Nog geen lijn bouwen: eerst beoordelen we de werkelijke terminalbinding in het log.
+Revision 10 voegt een los vergelijkingsobject toe: **UM Direction Probe (Test)** / **UM Richtingproef (Test)**. Het bevat drie gescheiden segmenten: A het werkende enkele tramprofiel, B hetzelfde met extra TRAM_TRACK/ELECTRIC_TRAM_TRACK-modi, C native elektrisch treinspoor als referentie. Het is geen halte of tram/treinovergang. Het verschil tussen A en B is beperkt tot de modeverzamelingen; de vergelijking met C is breder.
 
-Dit is een eenrichtingsproef, geen bewezen oplossing voor een metro, kopstation of keermogelijkheid. Engineacceptatie van het aangepaste profiel is nog niet getest. De eerdere constructies blijven onveranderd als vergelijkingsmateriaal.
+Zie [Proef 05](docs/proef-05-richting.md). Vervang de bestanden, laad de testsave opnieuw, plaats een proefobject op vrije vlakke grond en laat tien seconden lopen. Geen lijn of aansluiting nodig. De nieuwe alleen-lezen diagnose logt met [UMDIR] de daadwerkelijke netwerken en padresultaten per richting en modus.
+
+De werkende spoorgebonden haltes en hun profiel worden niet gewijzigd. De native speltest van deze nieuwe fixture moet nog plaatsvinden. Lokale controles bewijzen geen voertuigomkering.
 
 ## Herstel na crash in revision 6
 

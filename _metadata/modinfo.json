@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
-    "summary": "Private research: direct station binding on one tram lane. Native placement is unproven.",
-    "description": "Revision 9 changes the direct-binding test stop to an internal single-lane tram STREET profile. Revision 8 was rejected by TF3 validation because the vanilla tram template has multiple matching transport lanes. This version supplies exactly one forward lane; it does not implement reversing or a terminus. First test remains one placement and read-only diagnostics before building a line. No overlapping reverse curves, automatic commands, train track conversion or existing station changes. Native acceptance, passenger access and network connections remain unproven. Reload the test save after replacing the files. Do not use revision 6 (0.2.2), which caused a duplicate-edge crash.",
+    "summary": "Private direction research: compare tram modes and native track behavior. Not a working metro.",
+    "description": "Revision 10 adds a separate UM Direction Probe (Test) with three disconnected segments: A the proven single-lane STREET tram profile, B the same profile plus TRAM_TRACK/ELECTRIC_TRAM_TRACK modes, C native electrified TRACK as reference. Read-only probes inspect generated native edges and pathfinding in each direction and mode. This tests whether adding rail modes is sufficient for reverse paths; it does not isolate every difference between native STREET and TRACK implementations. No station, vehicle command or tram/rail transition is added by this fixture. Existing station scripts and profiles are unchanged. Single-lane stop binding and a forward six-edge path via ordinary tramtrack were confirmed in revision 9; native reversal remains unproven. Place only one fixture on free flat land, run ten seconds, inspect logs. Do not use the withdrawn duplicate-edge revision 6.",
     "authors": [
         {
             "name": "MrNickert",

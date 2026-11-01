@@ -6,7 +6,9 @@
         "UM_CROSSOVER_STOP_NAME": "UM Crossover Terminus (Test)",
         "UM_CROSSOVER_STOP_DESC": "Two platform tracks with a scissors crossover at the entrance. Connect ordinary electric tram track to the single street endpoint. Native reversal and internal rail visuals are unfinished.",
         "UM_EDGE_STOP_NAME": "UM Track-bound Stop (Test)",
-        "UM_EDGE_STOP_DESC": "Research prototype: direct station binding on a single forward tram lane. One-way proof only; reversal is not implemented. First test: place one stop and inspect the diagnostic."
+        "UM_EDGE_STOP_DESC": "Research prototype: direct station binding on a single forward tram lane. One-way proof only; reversal is not implemented. First test: place one stop and inspect the diagnostic.",
+        "UM_DIRECTION_PROBE_NAME": "UM Direction Probe (Test)",
+        "UM_DIRECTION_PROBE_DESC": "Research fixture with three isolated segments: A tram control, B mixed tram/rail modes, C native railway reference. Place once, run ten seconds and inspect logs. Not a station or a tram/rail transition."
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
@@ -15,6 +17,8 @@
         "UM_CROSSOVER_STOP_NAME": "UM Kruiswisselkopstation (Test)",
         "UM_CROSSOVER_STOP_DESC": "Twee perronsporen met een kruiswissel voor de ingang. Sluit gewone elektrische tramtrack aan op het ene straataansluitpunt. Keren en interne spoorweergave zijn nog in onderzoek.",
         "UM_EDGE_STOP_NAME": "UM Spoorgebonden Halte (Test)",
-        "UM_EDGE_STOP_DESC": "Onderzoeksproef: directe haltebinding op een tramrijstrook in een richting. Geen keerfunctie. Eerste proef: plaats een halte en controleer de diagnose."
+        "UM_EDGE_STOP_DESC": "Onderzoeksproef: directe haltebinding op een tramrijstrook in een richting. Geen keerfunctie. Eerste proef: plaats een halte en controleer de diagnose.",
+        "UM_DIRECTION_PROBE_NAME": "UM Richtingproef (Test)",
+        "UM_DIRECTION_PROBE_DESC": "Drie losse meetsporen: A tramreferentie, B gemengde tram/spoormodi, C standaard treinspoor. Plaats eenmaal, laat tien seconden lopen en lees het log. Geen station of tram/treinovergang."
     }
 }

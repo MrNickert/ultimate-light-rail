@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 10
+
+Directe binding aan een enkele tram-lane is in de engine geaccepteerd en een route via gewone tramtrack is in een richting gevonden. Zie proef-05-richting.md voor een afzonderlijke vergelijking van de werkende STREET-tram-lane, hetzelfde profiel met extra railtrammodi en standaard native TRACK. Er is nog geen werkend terugpad, voertuigomkering of tram/treinovergang. De bestaande stationresources blijven ongewijzigd.
+
 # Actieve proef vanaf revision 9
 
 De engine wijst de directe railstationverwijzing op een standaard dubbele tramtemplate af omdat meerdere lanes dezelfde terminalmodi ondersteunen. De nieuwe minimale proef gebruikt daarom een eigen STREET-template met een enkele voorwaartse tram-lane, zonder voertuig-laneLists of dubbele tegenrichtingcurves. Zie proef-04-een-rijstrook.md. Het is nog geen bewijs van engineacceptatie, native keren of aansluiting op een bestaand netwerk.
