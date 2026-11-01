@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.2.1 / revision 5.
+Private technische proefmod voor Transport Fever 3, versie 0.2.2 / revision 6.
 
 ## Actieve proef
 
@@ -9,6 +9,12 @@ Een nieuwe bovengrondse kopstationconstructie met twee perronsporen en een kruis
 **Plaatsbaarheid, routeverbinding en native omkeren moeten nog in het spel worden bewezen.** Interne rails en bovenleiding hebben nog geen complete 3D-weergave. Test eerst met één voertuig op een afzonderlijke testsave; kruisingsveiligheid is niet bewezen.
 
 Zie [Proef 02: plaatsen en testen](docs/proef-02-kruiswissel.md). Zoek in het menu voor wegstations naar **UM Crossover Terminus (Test)** / **UM Kruiswisselkopstation (Test)**. Plaats twee nieuwe stations, met de ingangen naar elkaar toe, en verbind hun korte standaard tramtrackaansluitingen. De oude UM Surface Stop blijft als vergelijkingsmateriaal beschikbaar en wordt niet verbouwd.
+
+## Expliciete terugweg in revision 6
+
+De spelproeven van revision 5 vinden een pad van ingang naar perron, maar geen pad terug over dezelfde enkele edge, ondanks forwardOnly=false. Revision 6 voegt expliciete tegenrichtinglanes toe voor beide perronsporen en beide kruiswisselcurves, met exact dezelfde fysieke geometrie en tegengestelde raaklijnen. Dit is geen keerlus. De lokale bereikbaarheidstest behandelt tramlanes nu als gerichte verbindingen; de oude test nam ten onrechte aan dat de vlag alleen een terugweg garandeerde.
+
+De speltest moet nog uitwijzen of de lijnplanner deze paden accepteert en of het voertuig aan het perron kan omkeren. Plaats twee nieuwe kopstations om de gewijzigde lane-geometrie te testen.
 
 ## Plaatsingscorrectie in revision 5
 

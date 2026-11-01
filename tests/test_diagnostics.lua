@@ -81,7 +81,7 @@ check(#output==previous,"unchanged topology does not spam logs")
 script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
 script.update({},state,5)
 check(#queries==12,"old saved done=true no longer suppresses the report")
-check(state.value.version==3,"saved diagnostic state upgraded")
+check(state.value.version==4,"saved diagnostic state upgraded")
 -- The new two-track stops expose four terminals instead of two.
 script,state,output,queries,objects=fixture(false)
 for _,entity in ipairs({10,20}) do

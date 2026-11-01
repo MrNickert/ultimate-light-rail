@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
     "summary": "Experimental surface tram terminus. Native reversal is not yet proven; test saves only.",
-    "description": "Private prototype revision 5: two-track surface tram terminus with scissors crossover. Corrects inline snapping, subconstruction ground/terrain and platform midpoint references. Uses native tram reservation defaults; crossing safety is unproven. Connectivity and reversal still require in-game testing. Place two NEW crossover stations on a test save. Existing placed prototypes are not automatically rebuilt. No vehicle or world commands. Additional read-only probes inspect individual internal edges. Internal rails and catenary visuals remain unfinished. One vehicle only. Do not remove while constructions remain.",
+    "description": "Private prototype revision 6: two-track surface tram terminus with scissors crossover and explicit reverse-direction lanes over the same physical tracks. Native probes in revision 5 accepted inbound paths but rejected reverse traversal of the same edges, despite forwardOnly=false. This version supplies actual opposite geometry. Native routing, terminal reversal, crossing safety and passenger access remain unproven. Place two NEW crossover stations on a test save. One vehicle only. No hidden loop or vehicle commands. Internal rails and catenary visuals remain unfinished. Read-only diagnostics inspect both directions. Do not remove while constructions remain.",
     "authors": [
         {
             "name": "MrNickert",

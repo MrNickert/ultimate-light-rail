@@ -1,6 +1,6 @@
 # Proef 02: tweesporig kopstation met kruiswissel
 
-Versie 0.2.1, revision 5. Dit is een nieuwe constructie naast de oude UM Surface Stop. Bestaande proefhaltes worden niet verbouwd.
+Versie 0.2.2, revision 6. Dit is een nieuwe constructie naast de oude UM Surface Stop. Bestaande proefhaltes worden niet verbouwd.
 
 ## Plaatsen
 
@@ -35,3 +35,11 @@ De uitlijnmatrix is een kwartslag aangepast zodat de ingang langs het bestaande 
 De expliciete reserveringsvlag is uitgeschakeld om dichter bij de native tramhalte te blijven. Dit is een te testen configuratieaanpassing; het is geen vastgestelde oplossing voor de lijnfout. Extra alleen-lezen padproeven testen een enkele interne edge en een traject van twee edges in beide richtingen. De diagnose wordt na deze upgrade opnieuw gestart, ook wanneer de aansluitingen sinds de vorige save gelijk zijn.
 
 **Plaats voor deze proef twee nieuwe kruiswisselkopstations.** Reeds gebouwde constructies bevatten hun eerder opgeslagen geometrie en haltepunten; alleen het pakket vervangen bouwt ze niet opnieuw. Bouw de nieuwe proefopstelling bij voorkeur apart, zodat de bestaande beschikbaar blijft voor vergelijking. Koppel alleen de nieuwe stations aan de nieuwe testlijn.
+
+## Terugweg in revision 6
+
+Het log van revision 5 toont voor beide kopstations: single-edge vooruit = 1, achteruit = 0; traject van twee edges vooruit = 2, achteruit = 0, voor TRAM en ELECTRIC_TRAM. Dit bewijst de blokkade op de geteste terugrichting binnen de stations. Het bewijst geen algemene onmogelijkheid om trams te laten keren.
+
+Revision 6 voegt voor elk van de vier voertuiglanes een expliciete tegenrichting toe. Alle posities blijven gelijk; segmentvolgorde en raaklijnen worden omgekeerd. Daardoor bestaat een gerichte geometrische route van beide aanrijsporen naar beide perrons en terug. De spelengine moet dit nog bevestigen. De plaatsingscorrecties blijven behouden.
+
+Plaats opnieuw twee nieuwe kruiswisselkopstations, maak een lijn tussen alleen die twee en laat tien seconden lopen. De extra proeven moeten nu laten zien of de terugweg binnen het station gevonden wordt. Gebruik pas na beoordeling van de lijnverbinding een voertuig. Een vindbaar pad is nog geen bewijs van veilig wisselgedrag of daadwerkelijk omkeren.

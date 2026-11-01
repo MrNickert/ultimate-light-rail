@@ -68,7 +68,7 @@ local function report()
                                 end
                             end
                             for edgeIndex,edge in ipairs(net.edges) do
-                                if edgeIndex<=12 and (edge.transportModes[modes.TRAM] or edge.transportModes[modes.ELECTRIC_TRAM]) then
+                                if edgeIndex<=24 and (edge.transportModes[modes.TRAM] or edge.transportModes[modes.ELECTRIC_TRAM]) then
                                     message("edge="..(edgeIndex-1).." conns="..nodeLabel(edge.conns[1]).."->"..nodeLabel(edge.conns[2])
                                         .." forwardOnly="..tostring(edge.forwardOnly).." reservation="..tostring(edge.needsReservation)
                                         .." tram="..tostring(edge.transportModes[modes.TRAM]).." electric="..tostring(edge.transportModes[modes.ELECTRIC_TRAM])
@@ -141,7 +141,7 @@ function data()
         if dt<=0 then return end
         local saved=state:get() or {}
         -- Discard revision 2's saved done=true status, including empty reports.
-        if saved.version~=3 then saved={version=3,elapsed=0} end
+        if saved.version~=4 then saved={version=4,elapsed=0} end
         saved.elapsed=saved.elapsed+dt
         if saved.elapsed<5 then state:set(saved);return end
         saved.elapsed=0

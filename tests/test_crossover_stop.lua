@@ -28,15 +28,27 @@ for selected,length in ipairs({60,80,120}) do
  local function connect(a,b)
   a,b=key(a),key(b)
   graph[a]=graph[a] or {};graph[b]=graph[b] or {}
-  graph[a][b]=true;graph[b][a]=true
+  graph[a][b]=true
  end
- for i=1,4 do
+ assert(#sub.laneLists==12,"four opposite-direction vehicle lanes added")
+ for _,i in ipairs({1,2,3,4,9,10,11,12}) do
   local l=sub.laneLists[i]
-  assert(l.forwardOnly==false and l.needsReservation==false,"bidirectional lanes use native tram reservation defaults")
+  assert(l.forwardOnly==true and l.needsReservation==false,"explicit directed tram lane")
   for n=1,#l.nodes,2 do
    local a,b=l.nodes[n],l.nodes[n+1]
-   assert(b[1][1]>a[1][1],"no vehicle turnaround curve")
+   assert((i<=4 and b[1][1]>a[1][1]) or (i>=9 and b[1][1]<a[1][1]),"each lane remains monotone without turnaround geometry")
    connect(a[1],b[1])
+  end
+ end
+ for i=1,4 do
+  local a,b=sub.laneLists[i],sub.laneLists[i+8]
+  assert(#a.nodes==#b.nodes,"reverse has matching segmentation")
+  for j=1,#a.nodes do
+   local source,target=a.nodes[j],b.nodes[#b.nodes-j+1]
+   for k=1,3 do
+    assert(source[1][k]==target[1][k],"reverse follows identical physical geometry")
+    assert(source[2][k]==-target[2][k],"reverse negates curve tangents")
+   end
   end
  end
  local function reachable(a,b)
@@ -68,7 +80,7 @@ for selected,length in ipairs({60,80,120}) do
   assert(l.nodes[1][1][2]==-l.nodes[2][1][2],"crosses between distinct tracks")
  end
 end
-print("PASS: crossover topology, both platforms, approach alignment and all platform lengths. Native routing, crossing safety and reversal need game testing.")
+print("PASS: directed crossover reachability in both directions, mirrored curve geometry, platform references and placement at all lengths. Native routing, crossing safety and reversal need game testing.")
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),"\n");os.exit(1) end
