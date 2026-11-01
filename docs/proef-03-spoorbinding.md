@@ -1,3 +1,7 @@
+# Uitkomst revision 8
+
+De standaard tramtemplate met twee passende lanes wordt door de engine geweigerd bij het maken van de bouwpreview. Deze proefinstructie is historisch. Vervolg: proef-04-een-rijstrook.md, versie 0.3.1 / revision 9.
+
 # Proef 03: directe haltebinding op gewone tramtrack
 
 Versie 0.3.0 / revision 8. Een afzonderlijke onderzoeksconstructie: UM Track-bound Stop (Test), Nederlands UM Spoorgebonden Halte (Test).

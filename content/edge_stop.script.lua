@@ -1,5 +1,5 @@
 -- Proof of concept: apply the rail station's direct edge-node terminal binding
--- to an ordinary STREET tram template. This combination is NOT engine-proven.
+-- to a single-lane STREET tram template. This combination is NOT engine-proven.
 -- No internal vehicle lanes, reverse duplicates, railway templates or commands.
 local function transform(x,y,z)
     return {1,0,0,0, 0,1,0,0, 0,0,1,0, x,y,z,1}
@@ -23,7 +23,7 @@ function data()
         local tangent={half,0,0}
         return {
             edgeLists={{type="STREET",
-                params={type="::/infrastructure/street/tram/tram_new.street_template",tramTrackType="ELECTRIC"},
+                params={type="mrnickert_ultimate_metro::/edge_test.street_template",tramTrackType="ELECTRIC"},
                 edges={{{-half,0,0},tangent},{{0,0,0},tangent},
                        {{0,0,0},tangent},{{half,0,0},tangent}},
                 snapNodes={0,3},freeNodes={0,3}}},
@@ -40,9 +40,10 @@ function data()
                     terminals={{
                         -- Rail station convention: -1 selects the root edgeLists,
                         -- and 1 is the raw zero-based endpoint at x=0.
-                        -- Does the converter support this for STREET as well as
-                        -- TRACK, and which generated directional tram lane wins?
-                        -- Both questions require the first placement diagnostic.
+                        -- Native validation rejected the vanilla profile because
+                        -- both of its lanes match these transport modes. The own
+                        -- profile supplies exactly one matching, forward lane.
+                        -- Engine acceptance still requires placement verification.
                         vehicleNode={-1,1},
                         transportModes={"TRAM","ELECTRIC_TRAM"},
                         personEdges={{0,0},{0,1}},personNodes={{0,0},{0,1},{0,3}},

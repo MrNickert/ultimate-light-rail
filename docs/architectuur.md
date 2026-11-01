@@ -1,3 +1,7 @@
+# Actieve proef vanaf revision 9
+
+De engine wijst de directe railstationverwijzing op een standaard dubbele tramtemplate af omdat meerdere lanes dezelfde terminalmodi ondersteunen. De nieuwe minimale proef gebruikt daarom een eigen STREET-template met een enkele voorwaartse tram-lane, zonder voertuig-laneLists of dubbele tegenrichtingcurves. Zie proef-04-een-rijstrook.md. Het is nog geen bewijs van engineacceptatie, native keren of aansluiting op een bestaand netwerk.
+
 # Actieve proef vanaf revision 8
 
 Zie proef-03-spoorbinding.md. Een aparte doorgaande tramhalte gebruikt echte STREET-tramsegmenten en de railstationconventie voor een directe terminalverwijzing naar de root edgeLists. De engineondersteuning van die combinatie is nog niet bewezen. Eerste proef: slechts een halte plaatsen en het werkelijke terminalknooppunt beoordelen. Dit hergebruikt de bindingsvorm van treinstations, maar neemt geen treinrouter of railvervoer over.

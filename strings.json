@@ -6,7 +6,7 @@
         "UM_CROSSOVER_STOP_NAME": "UM Crossover Terminus (Test)",
         "UM_CROSSOVER_STOP_DESC": "Two platform tracks with a scissors crossover at the entrance. Connect ordinary electric tram track to the single street endpoint. Native reversal and internal rail visuals are unfinished.",
         "UM_EDGE_STOP_NAME": "UM Track-bound Stop (Test)",
-        "UM_EDGE_STOP_DESC": "Research prototype: ordinary tramtrack runs through this stop. A rail-style direct track-node terminal binding is unproven for tram streets. First test: place one stop, inspect the diagnostic, then stop."
+        "UM_EDGE_STOP_DESC": "Research prototype: direct station binding on a single forward tram lane. One-way proof only; reversal is not implemented. First test: place one stop and inspect the diagnostic."
     },
     "nl": {
         "UM_SURFACE_STOP_NAME": "UM Bovengrondse Halte (Test)",
@@ -15,6 +15,6 @@
         "UM_CROSSOVER_STOP_NAME": "UM Kruiswisselkopstation (Test)",
         "UM_CROSSOVER_STOP_DESC": "Twee perronsporen met een kruiswissel voor de ingang. Sluit gewone elektrische tramtrack aan op het ene straataansluitpunt. Keren en interne spoorweergave zijn nog in onderzoek.",
         "UM_EDGE_STOP_NAME": "UM Spoorgebonden Halte (Test)",
-        "UM_EDGE_STOP_DESC": "Onderzoeksproef met gewone tramtrack door de halte. De directe spoorverwijzing uit treinstations is nog niet bewezen voor tramstraten. Eerste proef: plaats een halte en controleer de diagnose."
+        "UM_EDGE_STOP_DESC": "Onderzoeksproef: directe haltebinding op een tramrijstrook in een richting. Geen keerfunctie. Eerste proef: plaats een halte en controleer de diagnose."
     }
 }

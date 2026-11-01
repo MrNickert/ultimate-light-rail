@@ -1,14 +1,14 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.3.0 / revision 8.
+Private technische proefmod voor Transport Fever 3, versie 0.3.1 / revision 9.
 
-## Actieve proef: spoorgebonden tramhalte
+## Actieve proef: directe haltebinding met een tramrijstrook
 
-Een nieuwe, afzonderlijke doorgaande halte met echte gewone elektrische tramspoorsegmenten over de volledige lengte. Het haltepunt wordt volgens de native treinstationconventie rechtstreeks aan een segmentendpoint gekoppeld: vehicleNode={-1,1}. Er zijn geen interne voertuig-laneLists of overlappende tegenrichtingcurves.
+De gewone tramtemplate uit revision 8 werd door TF3 afgewezen: de directe verwijzing uit een treinstation is niet eenduidig bij twee passende tramlanes. Revision 9 geeft de aparte doorgaande testhalte daarom een eigen interne STREET-tramtemplate met een enkele voorwaartse lane. De echte tramsegmenten lopen door de hele halte. Er zijn geen interne voertuig-laneLists of overlappende tegenrichtingcurves.
 
-Deze binding is in native trein-TRACK-stations aangetroffen, maar nog niet bewezen voor STREET-tramtemplates. Lees [Proef 03](docs/proef-03-spoorbinding.md). Plaats eerst slechts een **UM Track-bound Stop (Test)** / **UM Spoorgebonden Halte (Test)** op een afzonderlijke testkaart en laat vijf tot tien seconden lopen. Bouw nog geen lijn: eerst controleren we de daadwerkelijk toegewezen terminal en rijrichting in het log.
+Lees [Proef 04](docs/proef-04-een-rijstrook.md). Vervang de bestanden en laad de lege testsave opnieuw. Selecteer **UM Track-bound Stop (Test)** / **UM Spoorgebonden Halte (Test)** en controleer of de preview verschijnt. Plaats daarna slechts een halte en laat vijf tot tien seconden lopen. Nog geen lijn bouwen: eerst beoordelen we de werkelijke terminalbinding in het log.
 
-Het is geen bewezen oplossing voor een kopstation of een keermogelijkheid. De eerdere prototypes blijven onveranderd als vergelijkingsmateriaal. Het herstelpakket 0.2.3 blijft de terugval voor de eerdere crash.
+Dit is een eenrichtingsproef, geen bewezen oplossing voor een metro, kopstation of keermogelijkheid. Engineacceptatie van het aangepaste profiel is nog niet getest. De eerdere constructies blijven onveranderd als vergelijkingsmateriaal.
 
 ## Herstel na crash in revision 6
 

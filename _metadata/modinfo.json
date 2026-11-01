@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro (Prototype)",
-    "summary": "Private research: rail-style station binding on ordinary tramtrack. Engine support is unproven.",
-    "description": "Revision 8 adds UM Track-bound Stop (Test), a separate 80m through stop built entirely from ordinary electric tram STREET edges. Uses the rail station convention vehicleNode={-1,1} to target a root edge endpoint directly. This convention is confirmed in native rail station scripts but NOT confirmed for STREET tram templates. First test: place one stop on a separate save and inspect logs before building a line. No internal vehicle lane geometry, opposite duplicate edges, custom track templates, hidden loop or commands. Existing prototype station scripts remain unchanged from the recovery build. This is not a working metro or proof of native reversal. Keep the pre-crash save; do not use revision 6 (0.2.2).",
+    "summary": "Private research: direct station binding on one tram lane. Native placement is unproven.",
+    "description": "Revision 9 changes the direct-binding test stop to an internal single-lane tram STREET profile. Revision 8 was rejected by TF3 validation because the vanilla tram template has multiple matching transport lanes. This version supplies exactly one forward lane; it does not implement reversing or a terminus. First test remains one placement and read-only diagnostics before building a line. No overlapping reverse curves, automatic commands, train track conversion or existing station changes. Native acceptance, passenger access and network connections remain unproven. Reload the test save after replacing the files. Do not use revision 6 (0.2.2), which caused a duplicate-edge crash.",
     "authors": [
         {
             "name": "MrNickert",
