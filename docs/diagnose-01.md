@@ -11,3 +11,11 @@ Het rapport in stdout.txt begint met [UMNET]. Per prototypeconstructie worden ei
 Een basisknooppunt met alleen het eigen stubsegment kan een niet aangesloten uiteinde aangeven; binnenste stubknooppunten kunnen juist bewust zo zijn omdat daar het interne transportnetwerk begint. Een positieve padlengte bewijst alleen netwerkbereikbaarheid, niet dat een normale dienstregeling of eindpuntomkering werkt. Het resultaat bepaalt de volgende gerichte wijziging.
 
 De diagnose gebruikt alleen de gedeclareerde componenten en pathfinding-leesfuncties uit de meegeleverde TF3-API. Beschikbaarheid van iedere leesfunctie in de runtime wordt via foutafhandeling in het log gemeld.
+
+## Herstel in revision 3
+
+Het eerste report van revision 2 draaide voordat de twee haltes waren gebouwd. Het meldde 0 constructies en sloeg done=true op. Opnieuw opslaan/herladen reset die opgeslagen status niet. De eerdere instructie om alleen opnieuw te laden was daarom onvoldoende.
+
+Revision 3 gebruikt diagnostiekversie 2, negeert de oude done-status en wacht op twee prototypeconstructies. Om de vijf seconden wordt een compacte handtekening van de eigen stubs en de eraan gekoppelde basisspoorknooppunten gecontroleerd. Bij veranderingen wordt het netwerk opnieuw gerapporteerd. De diagnose verandert geen stations of routes en blijft geen identieke rapporten herhalen.
+
+Bewaar de zojuist gebouwde opstelling in de testsave. Vervang de modbestanden door revision 3, laad precies die save en laat de simulatie vijf tot tien seconden lopen. Opnieuw bouwen is niet nodig.

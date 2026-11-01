@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Private technische proefmod voor Transport Fever 3, versie 0.1.1 / revision 2.
+Private technische proefmod voor Transport Fever 3, versie 0.1.2 / revision 3.
 
 ## Huidige scope
 
@@ -35,4 +35,8 @@ De controles buiten het spel testen configuratie, topologie en afbakening. Ze be
 
 De gebruiker kon de twee proefhaltes plaatsen en als haltes toevoegen, maar de lijn meldt Could not connect stations. Dat is nog geen bewijs dat keren onmogelijk is: de interne of externe aansluiting kan ontbreken.
 
-Revision 2 wijzigt de geometrie niet. Een alleen-lezen gamescript rapporteert na ongeveer drie seconden simulatietijd de constructies, externe knooppuntgraden, haltepunten, interne voertuigedges en TRAM/ELECTRIC_TRAM-paden in beide richtingen. Meldingen beginnen met [UMNET]. Geen stations opnieuw plaatsen; laad de bestaande testsave en laat kort lopen. Het rapport draait één keer per opgeslagen diagnostiekstatus en wordt niet naar externe diensten gestuurd.
+Revision 3 wijzigt de geometrie niet. Een alleen-lezen gamescript wacht op twee prototypehaltes en rapporteert hun constructies, externe knooppuntgraden, haltepunten, interne voertuigedges en TRAM/ELECTRIC_TRAM-paden in beide richtingen. Meldingen beginnen met [UMNET].
+
+Om de vijf seconden controleert het script een handtekening van de eigen stubs en hun aangrenzende segmenten. Een gewijzigde aansluiting levert een nieuw rapport op; ongewijzigde aansluitingen worden niet steeds opnieuw gelogd. Een eerder opgeslagen lege diagnose van revision 2 blokkeert dit niet meer. Er worden geen stations, lijnen of aansluitingen gewijzigd en het rapport wordt niet naar externe diensten gestuurd.
+
+Bewaar je huidige opstelling in de testsave, vervang de modbestanden, laad die save en laat vijf tot tien seconden lopen. Opnieuw plaatsen is niet nodig.

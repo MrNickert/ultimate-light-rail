@@ -42,7 +42,7 @@ end
 local script,state,output,queries,objects=fixture(false)
 script.update({},state,0);check(#output==0,"paused simulation emits no report")
 script.update({},state,1);check(#output==0,"wait for loaded-world settling")
-script.update({},state,2)
+script.update({},state,4)
 local text=table.concat(output,"\n")
 check(text:find("total prototype constructions=2",1,true),"only own prototype constructions selected")
 check(not text:find("construction=30",1,true),"vanilla construction excluded")
@@ -55,9 +55,32 @@ check(#queries==4,"both modes queried in both directions")
 check(objects[10].CONSTRUCTION.fileName=="mrnickert_ultimate_metro::/surface_stop.con.lua","construction unchanged")
 check(objects[301].TRANSPORT_NETWORK.edges[1].forwardOnly==false,"network unchanged")
 local old=#output;script.update({},state,100);check(#output==old,"report does not spam each update")
-script,state,output=fixture(true);script.update({},state,3)
+script,state,output=fixture(true);script.update({},state,5)
 check(table.concat(output,"\n"):find("path query failed",1,true),"native read failures logged safely")
 check(table.concat(output,"\n"):find("report complete",1,true),"report continues after failed path query")
+-- Reproduce the real sequence: diagnostic starts before the user builds stops.
+script,state,output,queries,objects=fixture(false)
+local first,second=objects[10],objects[20];objects[10]=nil;objects[20]=nil
+script.update({},state,5)
+check(table.concat(output,"\n"):find("waiting for two prototype stops; currently 0",1,true),"empty map waits instead of finishing")
+check(#queries==0,"no path queries on an empty map")
+objects[10]=first;script.update({},state,5)
+check(#queries==0,"one stop waits for its counterpart")
+objects[20]=second;script.update({},state,5)
+check(#queries==4,"newly built pair triggers the report automatically")
+-- An external segment attached later changes the signature and triggers a new report.
+api.engine.system.streetSystem.getNode2SegmentMap=function()
+ return {[1]={11,99,1000},[2]={11},[3]={21},[4]={21,98}}
+end
+script.update({},state,5)
+check(#queries==8,"connection edits trigger a fresh report")
+local previous=#output;script.update({},state,5)
+check(#output==previous,"unchanged topology does not spam logs")
+-- A save containing the old empty one-shot report is automatically upgraded.
+script,state,output,queries=fixture(false);state.value={version=1,done=true,elapsed=50}
+script.update({},state,5)
+check(#queries==4,"old saved done=true no longer suppresses the report")
+check(state.value.version==2,"saved diagnostic state upgraded")
 print("PASS: "..count.." read-only diagnostic checks; native runtime still requires confirmation")
 end
 local ok,message=pcall(main)
