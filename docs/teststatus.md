@@ -1,26 +1,22 @@
-# Teststatus
+# Teststatus 0.8.0
 
-## Door de gebruiker getest met 0.6.2
+## Door de gebruiker bevestigd op het bovengrondse station
 
-- Compacte kopstations met twee perrons en kruiswissel zijn plaatsbaar.
-- Native padmetingen vinden aankomst en vertrek van beide ingangslanes naar beide perrons.
-- Een lijn met native elektrische tramtrack en een waypoint volgt het gewenste spoorverloop.
-- Citylink/lightrail rijdt, stopt, opent en sluit deuren, keert en vertrekt zelfstandig.
-- Reizigers bereiken de halte en stappen in de voertuigen.
-- Twee drukke kruisende lijnen met veel voertuigen blijven functioneren. Voertuigen wachten bij conflicterende wisselroutes en rijden verder na vrijgave.
-- De drukke opstelling is opgeslagen en herladen; volgens de gebruiker loopt het verkeer correct verder.
+- Omkeren aan het perron, deuren en verlichting.
+- Gewone native tramtrack en tramremise aansluiten.
+- Meerdere voertuigen op twee drukke kruisende lijnen: wachten en verderrijden bij vrijgegeven wisselroutes.
+- Voetgangers bereiken de halte en stappen in.
+- Opslaan/herladen en opschoning van oude proefobjecten.
 
-Dit zijn resultaten in de geteste opstelling. Langdurige algemene compatibiliteit, andere voertuigtypen en passagiersaantallen zijn niet breed onderzocht. De eerdere problemen op eigen doorgaande UM-spoorprofielen zijn opgelost door buiten de stations native tramtrack te gebruiken.
+## Lokaal gecontroleerd in 0.8.0
 
-## Opschoning 0.7.0
+- Bestaande station-ID, parameters, wisselopties en geometrie blijven behouden.
+- Ondergronds zijn alle voertuigposities exact 18m lager, met dezelfde tangenten en reserveringsvlaggen.
+- Native voetgangerslanen verbinden de publieke ingang op z=0 met beide perrons op z=-17,65.
+- Native model-, botsings- en terreingeometrie wordt opgebouwd met de geïnstalleerde Lua-hulpfuncties. Alleen het ingangsvlak wordt bovengronds uitgelijnd.
+- Snelheidsgrenzen: 80 km/u recht, 40 km/u wissel; omrekening naar m/s.
+- Beide wisselopties, lokale afhankelijkheden, vertalingen, afbeeldingsformaten en zip-inhoud.
 
-- Ongewijzigde stationsscriptbron en exact gelijke gegenereerde uitvoer voor crossover=1, crossover=2 en de standaardinstelling.
-- Constructiedefinitie gelijk buiten vertaalde presentatievelden.
-- Interne vooraansluiting gelijk buiten beschrijving en verborgen bouwmenu.
-- Resource-ID's en opgeslagen parameterindices behouden.
-- Alleen de drie benodigde contentbestanden en vier metadatabestanden verpakt.
-- Lokale resourceverwijzingen en alle Nederlandse/Engelse vertaalkeys gecontroleerd.
-- Geen automatische diagnosehooks of worldcommando's in de runtime.
-- Nog nodig: dezelfde bestaande testsave openen met de schone modmap en de werking kort nalopen. Dit kan niet door de lokale tests worden bewezen.
+## Nog in de game te testen
 
-De historische onderzoeksproeven staan in archive/. Ze worden niet met de mod meegeleverd.
+Plaatsbaarheid van de ondergrondse versie, uitlijning en beeld van hal/wissel, tunnel aansluiten en doorrijden, openbare weg naar de ingang, instappen op beide perrons en opslaan/herladen met het nieuwe station. De lokale voetgangerscontrole bevestigt een verbonden pad, maar vervangt geen proef met passagiers in de game. Snelheidslimieten zijn maxima: voertuigen remmen ook voor de halte, bochten en reserveringen.

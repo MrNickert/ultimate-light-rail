@@ -1,3 +1,9 @@
+local nativeRequire=require
+function require(name)
+ local path=name:match("^mrnickert_ultimate_metro::/(.+)$")
+ if path then return assert(loadfile("content/"..path))() end
+ return nativeRequire(name)
+end
 local function main()
  local function resource(path)
   local env=setmetatable({_ = function(k)return k end},{__index=_G})

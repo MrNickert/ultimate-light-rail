@@ -5,8 +5,8 @@ function data()
         description = {
             name = _("METRO_TERMINUS_NAME"),
             description = _("METRO_TERMINUS_DESC"),
-            icon = "::/stations/street/small_stops/small_new.tga",
-            previewIcon = "::/stations/street/small_stops/small_new_preview.tga",
+            icon = "mrnickert_ultimate_metro::/ui/metro_terminus.tga",
+            previewIcon = "mrnickert_ultimate_metro::/ui/metro_terminus_preview.tga",
             attributes = { cost = {120000, -1}, maintenanceCost = {20000, -1} },
             cargoTypeSet = { cargoClassesIncluded = {"PASSENGERS"}, cargoClassesExcluded = {},
                 cargoTypesIncluded = {}, cargoTypesExcluded = {} },

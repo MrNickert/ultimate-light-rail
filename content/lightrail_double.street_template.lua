@@ -25,9 +25,9 @@ return {
         -- Internal station approach. Keep this resource ID for saved base edges.
         -- Hidden from the build menu: use ordinary native tramtrack outside stations.
         laneConfigs = {
-            {forward=false,height=0,offset=-0.25,speed=15,
+            {forward=false,height=0,offset=-0.25,speed=80/3.6,
                 transportModes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"},width=5.5},
-            {forward=true,height=0,offset=0.25,speed=15,
+            {forward=true,height=0,offset=0.25,speed=80/3.6,
                 transportModes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"},width=5.5},
         },
 		maintenanceCost = 20,

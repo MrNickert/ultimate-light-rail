@@ -1,20 +1,24 @@
 {
     "en": {
         "METRO_TERMINUS_NAME": "Metro Terminus",
-        "METRO_TERMINUS_DESC": "Compact tram-based terminus with two 80m platforms and an optional scissors crossover. Connect ordinary electric tramtrack at the double front entrance. Reversible lightrail vehicles can change direction at the platforms.",
+        "METRO_TERMINUS_DESC": "Compact tram-based terminus with two 80m platforms and an optional scissors crossover. Connect ordinary electric tramtrack at the double front entrance. Reversible lightrail vehicles can change direction at the platforms. Straight station tracks: 80 km/h; crossover: 40 km/h.",
         "METRO_CROSSOVER": "Crossover",
         "METRO_NO_CROSSOVER": "No crossover",
         "METRO_WITH_CROSSOVER": "Scissors crossover",
         "METRO_APPROACH_NAME": "Metro station approach",
-        "METRO_APPROACH_DESC": "Internal approach profile for the Metro Terminus. Use ordinary electric tramtrack for connections between stations."
+        "METRO_APPROACH_DESC": "Internal approach profile for the Metro Terminus. Use ordinary electric tramtrack for connections between stations.",
+        "METRO_UNDERGROUND_TERMINUS_NAME": "Underground Metro Terminus",
+        "METRO_UNDERGROUND_TERMINUS_DESC": "Two 80m platforms at 18m depth, scissors crossover and surface pedestrian entrance. Connect ordinary electric tramtrack in a tunnel. Straight station tracks: 80 km/h; crossover: 40 km/h."
     },
     "nl": {
         "METRO_TERMINUS_NAME": "Metro Kopstation",
-        "METRO_TERMINUS_DESC": "Compact kopstation op trambasis met twee perrons van 80 meter en een optionele kruiswissel. Sluit gewone elektrische tramtrack aan op de dubbele vooringang. Omkeerbare lightrailvoertuigen kunnen aan het perron van rijrichting veranderen.",
+        "METRO_TERMINUS_DESC": "Compact kopstation op trambasis met twee perrons van 80 meter en een optionele kruiswissel. Sluit gewone elektrische tramtrack aan op de dubbele vooringang. Omkeerbare lightrailvoertuigen kunnen aan het perron van rijrichting veranderen. Rechte stationssporen: 80 km/u; wissel: 40 km/u.",
         "METRO_CROSSOVER": "Kruiswissel",
         "METRO_NO_CROSSOVER": "Zonder wissel",
         "METRO_WITH_CROSSOVER": "Met kruiswissel",
         "METRO_APPROACH_NAME": "Metro-stationsaansluiting",
-        "METRO_APPROACH_DESC": "Intern aansluitprofiel van het Metro Kopstation. Gebruik gewone elektrische tramtrack voor verbindingen tussen stations."
+        "METRO_APPROACH_DESC": "Intern aansluitprofiel van het Metro Kopstation. Gebruik gewone elektrische tramtrack voor verbindingen tussen stations.",
+        "METRO_UNDERGROUND_TERMINUS_NAME": "Ondergronds Metro Kopstation",
+        "METRO_UNDERGROUND_TERMINUS_DESC": "Twee perrons van 80 meter op 18 meter diepte, kruiswissel en voetgangerstoegang vanaf straatniveau. Sluit gewone elektrische tramtrack in een tunnel aan. Rechte stationssporen: 80 km/u; wissel: 40 km/u."
     }
 }

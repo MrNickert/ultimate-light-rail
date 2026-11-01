@@ -6,11 +6,19 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.7.0"
+VERSION = "0.8.0"
 CONTENT = {
     "content/twin_terminus.con.lua",
     "content/twin_terminus.script.lua",
     "content/lightrail_double.street_template.lua",
+    "content/terminus_util.lua",
+    "content/underground_entrance_util.lua",
+    "content/underground_terminus.con.lua",
+    "content/underground_terminus.script.lua",
+    "content/ui/metro_terminus.tga",
+    "content/ui/metro_terminus_preview.tga",
+    "content/ui/metro_underground_terminus.tga",
+    "content/ui/metro_underground_terminus_preview.tga",
 }
 FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json"})
 
@@ -29,14 +37,14 @@ keys = set()
 for name in FILES:
     data = (ROOT / name).read_bytes()
     assert not data.startswith(b"\xef\xbb\xbf"), f"UTF-8 BOM: {name}"
-    text = data.decode("utf-8")
+    text = "" if name.endswith(".tga") else data.decode("utf-8")
     assert name == name.lower() and " " not in name
     if name.endswith(".lua"):
         assert "api.cmd" not in text and "addModifier" not in text
         assert not name.endswith(".gs.lua"), "No automatic diagnostic scripts in the clean build"
         keys.update(re.findall(r'_\("([^"]+)"\)', text))
         for resource in re.findall(re.escape(mod["modId"]) + r"::/([a-z0-9_./]+)", text):
-            assert f"content/{resource}.lua" in CONTENT, f"Missing local dependency: {resource}"
+            assert (f"content/{resource}" if resource.endswith((".lua", ".tga")) else f"content/{resource}.lua") in CONTENT, f"Missing local dependency: {resource}"
     payload[name] = data
 for language in ("en", "nl"):
     assert set(strings[language]) == keys, f"Missing or unused strings for {language}"

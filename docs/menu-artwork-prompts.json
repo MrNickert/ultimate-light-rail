@@ -1,0 +1,16 @@
+{
+  "tool": "Built-in image_gen",
+  "type": "Illustrative menu artwork, not in-game screenshots",
+  "surface": {
+    "prompt": "Use case: stylized-concept. Asset: landscape game build-menu thumbnail and preview. Render an attractive compact surface light-rail terminus as a clean isometric 3D transport simulation asset, centered with safe margins on muted dark slate background. Two parallel embedded tram tracks spaced 5 metres apart, two slim 80m side platforms with one small glass shelter each, short compact X crossover ahead of platforms, dead ends behind platforms. Bare rails embedded in asphalt, slender catenary poles. No heavy railway ballast, sleepers, large buildings, buffer blocks, trains, text, logos, borders or watermarks. Clear readable silhouette at tiny size. Wide 16:9 composition.",
+    "refinement": "Edit this game-menu illustration: preserve its isometric camera, dark slate background, light, two side platforms and shelters. Correct ONLY the rail geometry: exactly TWO parallel tram tracks along the entire platforms, each track consisting of TWO steel rails at standard gauge. At the far dead-end behind the platforms, end the tracks straight and cleanly with a simple pedestrian path across the end. Remove all curved rails, turnouts, loops and protruding branches from that far end. At the near entrance retain just one compact X scissors crossover connecting the TWO tracks, merging into exactly TWO incoming tracks. No extra track branches. No text or logos.",
+    "source": "exec-315293f0-a02c-4a38-a602-74aa027c4082.png",
+    "asset": "content/ui/metro_terminus.tga"
+  },
+  "underground": {
+    "prompt": "Use case: stylized-concept. Asset: landscape build-menu thumbnail for underground light-rail terminus, matching clean isometric 3D transport-simulation catalog style on muted dark slate background. Show a clear cutaway of an underground station beneath a thin grass ground slab, two parallel embedded tram tracks, two side platforms, concrete walls with warm platform lighting, compact X track crossover at entrance end, small surface stair entrance connected by visible stairs and pedestrian mezzanine to both platforms. Accurate modest metro infrastructure, no giant railway terminal. Centered with safe margins, wide 16:9 composition, clear silhouette at tiny menu size. No text, labels, logos, watermarks, vehicles, sleepers or railway ballast.",
+    "source": "exec-907326a2-62ca-4762-af14-8c57b373f4ea.png",
+    "asset": "content/ui/metro_underground_terminus.tga"
+  },
+  "encoding": "Generated PNGs resized proportionally with padding to uncompressed 32-bit TGA: menu 120x75, preview 720x405. No semantic image edits outside image_gen."
+}
