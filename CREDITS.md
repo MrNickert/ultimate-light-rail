@@ -16,3 +16,5 @@ Het verborgen lightrail_double.street_template.lua is afgeleid van Urban Games s
 Geen native modellen, meshes, materialen of texturen worden gekopieerd in het pakket. De geïnstalleerde game levert deze resources. De ondergrondse layoutdata en voetgangerscurves zijn aangepast uit Urban Games' underground_station.script.lua.
 
 De twee eigen menuillustraties zijn gegenereerd met OpenAI image_gen en als TGA in het pakket opgenomen. Het zijn illustratieve previews, geen screenshots of nieuwe 3D-assets. De gebruikte prompts staan in docs/menu-artwork-prompts.json. De constructiescriptcode, vertalingen, documentatie en controles worden onderhouden in dit project van MrNickert.
+
+Bovengrondse afwerking 0.8.2: de visuele perronwrapper verwijst naar native rail/era_c/perron_5 LOD-meshes en materialen, met lege transportmetadata. De vloer is naar een lage tramperronhoogte geschaald. Straatwerk, meubels, plantenbakken, lampen en masten gebruiken bestaande Urban Games-assets. De dunne decoratieve contactdraad gebruikt een geschaalde bare-rail mesh. Er worden geen native modelbinaries of texturen meegeleverd.

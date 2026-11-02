@@ -5,3 +5,5 @@ The station references the native small_new shelter, tram street style, shared g
 
 Underground entrance layout data adapted from Urban Games underground_station.script.lua. Underground meshes, textures, construction helpers and pedestrian circulation are referenced from the installed game, not redistributed.
 Menu illustrations generated with OpenAI image generation; illustrative previews, not game screenshots.
+
+Surface platform visual wrapper references Urban Games rail/era_c/perron_5.mdl LOD meshes and materials with transport metadata removed. Low platforms, plaza, paving, benches, bins, planters, lights and tram poles reference installed game assets. Decorative contact wires reuse the installed bare rail mesh at a thin scale. No mesh/material/texture binaries from the game are redistributed.

@@ -1,4 +1,4 @@
-# Teststatus 0.8.1
+# Teststatus 0.8.2
 
 ## Door de gebruiker bevestigd op het bovengrondse station
 
@@ -24,3 +24,7 @@ Plaatsbaarheid van de ondergrondse versie, uitlijning en beeld van hal/wissel, t
 ## Gebruikersproef en wijziging 0.8.1
 
 De gebruiker bevestigde dat het ondergrondse station functioneert zoals verwacht en de hogere wisselsnelheid beter werkt. Versie 0.8.1 behoudt alle voertuigpaden en snelheden. Alleen de native stationshal en voetgangersingang zijn naar de kop verplaatst en gedraaid, met een zichtbare afsluitmuur. De nieuwe ingang en plaatsing moeten nog in de game worden getest. Menu-iconen en previews hebben nu echte alpha-transparantie.
+
+## 0.8.2 bovengrondse aankleding
+
+De gedeelde voertuigbouwer en de volledige ondergrondse variant blijven gelijk aan 0.8.1. De bovengrondse adapter voegt visuele perronvlakken en inrichting toe en zet alleen de bestaande voetgangerspunten op 0,25m hoogte. De visuele perrondefinitie bevat geen native transportmetadata. Bovenleidingsdraden zijn decoratieve modellen; de bestaande elektrische vervoersmodi blijven de werking bepalen. Nieuw te testen: visuele uitlijning, perronhoogte, vrije doorgang langs meubels, aansluiting van de verhoogde voetgangersingang op de straat en instappen.

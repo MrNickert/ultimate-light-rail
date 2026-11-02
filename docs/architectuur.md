@@ -7,3 +7,7 @@ De bestaande resources `twin_terminus.con.lua` en `twin_terminus.script.lua` bli
 Het interne, verborgen `lightrail_double.street_template.lua` behoudt zijn ID voor bestaande saves. De vier tramvervoersmodi zijn alleen binnen het station en de korte aansluiting nodig om omkeren mogelijk te maken. Gebruik tussen stations de gewone native tramtrack. Er is geen voertuigpatch, trein-tramovergang, routeplannerpatch, automatische verbouwing of diagnosehook.
 
 Voertuiglanen en aansluiting: 80/3,6 m/s; kruiswissels: 40/3,6 m/s. Bestaande opgeslagen constructiegeometrie wordt niet automatisch herbouwd.
+
+## Bovengrondse afwerking 0.8.2
+
+De publieke surface-adapter roept na de gedeelde bouwer `surface_station_util.lua` aan. Alleen deze adapter kent de nieuwe aankleding. Het module verandert geen voertuiglanen, externe sporen, terminals, kosten of snelheden. Bestaande voetgangerspunten en shelters komen op z=0,25. `surface_platform.mdl` bevat uitsluitend de native moderne perron-LOD-meshes en materiaalverwijzingen, zonder de native transportmetadata. Vier 40m modules vormen twee perrons, drie platte modules vormen zichtbaar straatwerk onder de rails en een brede module vormt het kopplein. De ondergrondse updater gebruikt rechtstreeks de gedeelde bouwer en krijgt deze modellen niet.

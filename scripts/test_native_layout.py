@@ -20,7 +20,9 @@ for package in content.rglob('*.zip'):
     with zipfile.ZipFile(package) as archive:
         for name in archive.namelist():
             resources.add((prefix + '/' + name).removeprefix('./'))
-for file in (root / 'content').rglob('*.lua'):
+for file in (root / 'content').rglob('*'):
+    if file.suffix not in ('.lua', '.mdl'):
+        continue
     for resource in re.findall(r'"::/([^"@]+)', file.read_text(encoding='utf-8')):
         candidates = (resource, resource + '.lua', resource + '.tl', resource.removesuffix('.tga') + '@2x.tga')
         assert any(candidate in resources for candidate in candidates), (file.name, resource)

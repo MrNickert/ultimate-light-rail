@@ -20,6 +20,14 @@ local function main()
   assert(modes.TRAM and modes.ELECTRIC_TRAM and modes.TRAM_TRACK and modes.ELECTRIC_TRAM_TRACK,"required internal approach modes retained")
  end
  local script=resource("content/twin_terminus.script.lua")
+ local shared=require "mrnickert_ultimate_metro::/terminus_util.lua"
+ local function equal(a,b)
+  if type(a)~=type(b) then return false end
+  if type(a)~="table" then return a==b end
+  for k,v in pairs(a)do if not equal(v,b[k])then return false end end
+  for k in pairs(b)do if a[k]==nil then return false end end
+  return true
+ end
  local function vector(v,sign)return string.format("%.6f,%.6f,%.6f",v[1]*sign+0,v[2]*sign+0,v[3]*sign+0)end
  local function key(n)return vector(n[1],1)end
  for _,setting in ipairs({1,2}) do
@@ -31,6 +39,10 @@ local function main()
   assert(#sub.station.terminals==2,"two platform terminals")
   local graph,seen={},{}
   local vehicles=setting==2 and 4 or 2
+  local undecorated=shared({}, {crossover=setting})
+  assert(equal(r.edgeLists,undecorated.edgeLists) and equal(r.snapPoint,undecorated.snapPoint),"surface decoration preserves track approach and snapping")
+  assert(equal(sub.station,undecorated.subconstructions[1].station),"surface decoration preserves terminal and passenger references")
+  for i=1,vehicles do assert(equal(sub.laneLists[i],undecorated.subconstructions[1].laneLists[i]),"vehicle lanes, speed and reservation flags unchanged")end
   assert(#sub.laneLists==vehicles+4,"vehicle and passenger lane counts follow crossover option")
   local function connect(a,b)
    a,b=key(a),key(b);graph[a]=graph[a] or {};graph[b]=graph[b] or {}
@@ -89,6 +101,21 @@ local function main()
    end
   end
   assert(sub.laneLists[#sub.laneLists].linkable,"public pedestrian access")
+  for i=vehicles+1,#sub.laneLists do
+   for _,node in ipairs(sub.laneLists[i].nodes)do assert(node[1][3]==0.25,"pedestrians stand on the low platform floor")end
+  end
+  local slabs=0;local platforms=0;local poles=0
+  for _,model in ipairs(sub.models)do
+   if model.id=="mrnickert_ultimate_metro::/surface_platform.mdl" then
+    slabs=slabs+1
+    if math.abs(model.transf[14])==6.5 then
+     platforms=platforms+1
+     assert(model.transf[13]==0 or model.transf[13]==40,"two consecutive native 40m slabs per platform")
+     assert(math.abs(model.transf[11]*0.8-0.25)<1e-9,"walking floor matches native mesh height")
+    end
+   elseif model.id=="::/assets/streets/tram_pole_crossbar.mdl" then poles=poles+1 end
+  end
+  assert(slabs==8 and platforms==4 and poles==10,"both continuous platforms, three paved trackbed sections, head plaza and tram masts")
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
   for i=1,2 do
@@ -98,11 +125,15 @@ local function main()
   end
   for _,model in ipairs(sub.models) do
    assert(not model.id:find("_standard.mdl",1,true),"no sleeper-track models or railway buffers")
-   if model.id:find("single_rail.mdl",1,true) then assert(model.transf[15]==-0.52,"rail-only geometry embedded in pavement") end
+   if model.id:find("single_rail.mdl",1,true) then
+    assert(model.transf[15]==-0.52 or model.transf[15]>5,"rails stay embedded, decorative wires stay overhead")
+   end
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
  end
- print("PASS: compact tram spacing, smooth crossover endpoint tangents, both terminals, no sleeper/buffer models and static crossover reachability. Runtime cleanup still needs a save/reload smoke test.")
+ local platform=resource("content/surface_platform.mdl")
+ assert(not platform.metadata.transportNetworkProvider,"visual platform never adds native passenger or vehicle lanes")
+ print("PASS: unchanged vehicle paths, both terminals and crossover options; low visible platforms, passenger floor height, visual-only model metadata, paving and masts. Appearance and boarding need an in-game check.")
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),"\n");os.exit(1) end

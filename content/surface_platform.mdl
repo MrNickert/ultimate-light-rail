@@ -1,0 +1,77 @@
+-- Visual-only wrapper around Urban Games' modern 40m platform meshes.
+-- No copied mesh/material/texture files and no inherited transport metadata.
+-- Native walking surface is z=0.8; the station scales it to 0.25m.
+function data()
+ return {
+  boundingInfo={bbMin={0,-2.5,0},bbMax={40,2.5,1.1}},
+  collider={type="BOX",params={halfExtents={20,2.5,0.55}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,20,0,0.55,1}},
+  lods={
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_lod0.msh",
+							name = "perron_5",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 0,
+				visibleTo = 104.308,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_lod1.msh",
+							name = "perron_5",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 104.308,
+				visibleTo = 312.924,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_lod2.msh",
+							name = "perron_5",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 312.924,
+				visibleTo = 938.772,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_lod3.msh",
+							name = "perron_5",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 938.772,
+				visibleTo = 2816.31,
+			},
+		},
+  metadata={},version=2,
+ }
+end
