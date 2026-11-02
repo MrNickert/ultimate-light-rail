@@ -1,3 +1,11 @@
+## 0.10.4: tweede uiteinde doorgaand station — engineproef open
+
+Gebruiker bevestigt voor 0.10.3: terminus goed, aanklikkant doorgaand station goed, andere uiteinde nu een gat in beide hekzijden. De twee niet-aaneengesloten straatsegmenten zaten samen in één edgeList. Hypothese: decoratie van die lijst wordt niet voor beide losse segmenten gelijk verwerkt.
+
+Wijziging uitsluitend in het doorgaande station: twee afzonderlijke edgeLists, elk één native STREET-segment met hetzelfde lightrailprofiel. Alle posities, tangenten, buitenste snap/free-eindpunten, interne rijpaden, snelheden, hekken en voetgangerstoegang blijven gelijk. Terminus en afbeeldingen ongewijzigd. Lokale controles toetsen expliciet de oorspronkelijke vier posities en tangenten plus correcte lokale snap-indexen. Dit bewijst de enginehypothese niet.
+
+Nog in-game: nieuw doorgaand station direct aansluiten, hek aan beide uiteinden controleren, voertuigen in beide richtingen, opslaan/herladen. De eerder goedgekeurde terminus hoeft niet opnieuw geplaatst.
+
 ## 0.10.3: hek bij automatische aansluitingen — nog in-game testen
 
 Gebruiker bevestigt dat 0.10.2 op NIEUWE stations aan de automatisch aanklikkende kant een hekgat toont (beide spoorzijden), en een Collision bij direct plaatsen aan een bestaand netwerk. Zowel doorgaand als terminus. Rechteruiteinde sloot wel goed aan. Vaste hekmodellen stonden op aanklikbare straatranden; vermoedelijke oorzaak is overlap met gegenereerde junctiongeometrie.

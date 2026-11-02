@@ -45,9 +45,14 @@ return function(_capture,_params)
  }
  for _,hole in ipairs(crossing.holes)do faces[#faces+1]=hole end
  local result={
-  edgeLists={{type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
-   edges={{{-20,0,0},{10,0,0}},{{-10,0,0},{10,0,0}},{{90,0,0},{10,0,0}},{{100,0,0},{10,0,0}}},
-   snapNodes={0,3},freeNodes={0,3}}},
+  -- Each disconnected approach gets its own native decoration list.
+  -- Geometry, tangents and externally snappable endpoints stay unchanged.
+  edgeLists={
+   {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
+    edges={{{-20,0,0},{10,0,0}},{{-10,0,0},{10,0,0}}},snapNodes={0},freeNodes={0}},
+   {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
+    edges={{{90,0,0},{10,0,0}},{{100,0,0},{10,0,0}}},snapNodes={1},freeNodes={1}},
+  },
   snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,-20,0,0,1},snapToBaseEdgeTypes={"STREET"},
    transportModes=modes,allowSnapToBaseEdgeEnds=true},
   subconstructions={{models=models,laneLists=lanes,

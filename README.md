@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie 0.10.3, revision 33. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
+Versie 0.10.4, revision 34. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
 
 ## Lightrailspoor
 
@@ -20,7 +20,7 @@ Alle drie staan in het wegstationsmenu. De doorgaande variant gebruikt vooralsno
 
 ## Installeren en bestaande saves
 
-Pak `ultimate-light-rail-0.10.3.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
+Pak `ultimate-light-rail-0.10.4.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
 
 **De interne map en mod-ID blijven `mrnickert_ultimate_metro`.** Dit voorkomt dat huidige stations en saves hun resources kwijtraken. Deze versie voegt alleen een apart spoorprofiel met hek toe; bestaande stationsbestanden blijven gelijk. Stations opnieuw plaatsen is niet nodig. Verwijder de mod niet zolang een save zijn stations bevat.
 

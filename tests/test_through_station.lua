@@ -13,10 +13,20 @@ local function main()
  assert(#con.params==0,'only the tested 80m/two-platform prototype is exposed')
  local result=resource('through_station.script.lua').updateFn({}, {})
  local sub=result.subconstructions[1]
- local root=result.edgeLists[1]
- assert(root.params.type=='mrnickert_ultimate_metro::/lightrail_fenced.street_template','native-equivalent fenced tram approach, no mixed modes outside terminus')
- assert(#root.edges==4 and root.snapNodes[1]==0 and root.snapNodes[2]==3,'both outside endpoints connect')
- assert(root.edges[1][1][1]==-20 and root.edges[4][1][1]==100,'front and back approach geometry')
+ -- Both disconnected base edges must have independent native decoration
+ -- lists, while preserving their original global geometry and outer snaps.
+ assert(#result.edgeLists==2,'independent decoration list for each disconnected approach')
+ local expected={{-20,-10,0},{90,100,1}}
+ for i,root in ipairs(result.edgeLists) do
+  assert(root.type=='STREET' and root.params.tramTrackType=='ELECTRIC')
+  assert(root.params.type=='mrnickert_ultimate_metro::/lightrail_fenced.street_template','native-equivalent fenced tram approach')
+  assert(#root.edges==2 and #root.snapNodes==1 and #root.freeNodes==1)
+  assert(root.snapNodes[1]==expected[i][3] and root.freeNodes[1]==expected[i][3],'only outside endpoint connects')
+  for j,node in ipairs(root.edges) do
+   assert(node[1][1]==expected[i][j] and node[1][2]==0 and node[1][3]==0,'unchanged approach positions')
+   assert(node[2][1]==10 and node[2][2]==0 and node[2][3]==0,'unchanged native approach tangents')
+  end
+ end
  assert(#sub.laneLists==11 and #sub.station.terminals==2,'two tracks plus underpass/platform/six-access lanes')
  for i=1,2 do
   local lane=sub.laneLists[i]
