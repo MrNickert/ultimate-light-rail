@@ -2,8 +2,11 @@
 local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
-local H,FLOOR=8,8.25
-local SLAB="::/infrastructure/bridge/concrete/c_6_rep_rep.mdl"
+local H,FLOOR=12,12.25
+local RUN,STEPS=18,61
+local BEAM_TOP,PIER_TOP=H-0.8,H-1.6
+local SLAB="mrnickert_ultimate_metro::/elevated_concrete.mdl"
+local VISUAL="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl"
 local FENCE="mrnickert_ultimate_metro::/lightrail_fence.mdl"
 local function matrix(x,y,z,sx,sy,sz)
  return {sx or 1,0,0,0,0,sy or 1,0,0,0,0,sz or 1,0,x,y,z,1}
@@ -28,7 +31,7 @@ return function(capture,params,isThrough,L,fence)
  local vehicles=isThrough and 2 or 4
  local centre=L/2
  local first,last=isThrough and -10 or -30,isThrough and L+10 or L+4
- local stairStart,stairEnd=centre-6,centre+6
+ local stairStart,stairEnd=centre-RUN/2,centre+RUN/2
  -- A single public entrance branches below the tracks to both stairs.
  local paths={}
  for i=1,vehicles do paths[#paths+1]=sub.laneLists[i] end
@@ -79,16 +82,16 @@ return function(capture,params,isThrough,L,fence)
  local function add(id,x,y,z,sx,sy,sz)
   models[#models+1]={id=id,transf=matrix(x,y,z,sx,sy,sz)}
  end
- -- Native slab is 6 x 4m and extends 2.4m below its top face.
- local function slab(x0,x1,y0,y1,z,thickness)
+ -- Original rigid unit is 6 x 4m and extends 2.4m below its top face.
+ local function slab(x0,x1,y0,y1,z,thickness,visual)
   -- Repeat normal 6m pieces instead of stretching one texture over a viaduct.
   while x0<x1-1e-8 do
    local span=math.min(6,x1-x0)
-   add(SLAB,x0,y0,z,span/6,(y1-y0)/4,thickness/2.4)
+   add(visual and VISUAL or SLAB,x0,y0,z,span/6,(y1-y0)/4,thickness/2.4)
    x0=x0+span
   end
  end
- -- 0.8m load-bearing deck; two actual 12 x 2.4m stair openings.
+ -- 0.8m load-bearing deck; two actual 18 x 2.4m stair openings.
  slab(first,stairStart,-9,9,H,0.8);slab(stairEnd,last,-9,9,H,0.8)
  slab(stairStart,stairEnd,-4,4,H,0.8)
  for _,side in ipairs({-1,1}) do
@@ -105,22 +108,21 @@ return function(capture,params,isThrough,L,fence)
   end
   deck(0,stairStart,6.5,5);deck(stairEnd,L,6.5,5)
   deck(stairStart,stairEnd,4.65,1.3);deck(stairStart,stairEnd,8.35,1.3)
-  -- Forty-one visible treads: 29.3cm deep, 20.1cm high.
-  for i=1,41 do
-   slab(stairStart+(i-1)*12/41,stairStart+i*12/41,
-    side*6.5-1.2,side*6.5+1.2,i*FLOOR/41,FLOOR/41)
+  -- Sixty-one visible treads: about 29.5cm deep and 20.1cm high.
+  for i=1,STEPS do
+   slab(stairStart+(i-1)*RUN/STEPS,stairStart+i*RUN/STEPS,
+    side*6.5-1.2,side*6.5+1.2,i*FLOOR/STEPS,FLOOR/STEPS)
   end
   -- A sloping concrete waist supports the treads all the way to the ground.
-  local waist=matrix(stairStart,side*6.5-1.2,0,12/6,2.4/4,0.25/2.4)
+  local waist=matrix(stairStart,side*6.5-1.2,0,RUN/6,2.4/4,0.25/2.4)
   waist[3]=FLOOR/6
   models[#models+1]={id=SLAB,transf=waist}
  end
- -- Native fascias provide mandatory outer platform safety railings.
+ -- Closed concrete trough edges sit below the boarding/platform floor.
  for _,side in ipairs({-1,1}) do
-  local id=side==-1 and "::/infrastructure/bridge/concrete/c_6_rep_l.mdl"
-   or "::/infrastructure/bridge/concrete/c_6_rep_r.mdl"
-  local x=0
-  while x<L do local span=math.min(6,L-x);add(id,x,side*9,FLOOR,span/6,1,1);x=x+span end
+  slab(first,last,side*3.9-0.1,side*3.9+0.1,H+0.18,0.28)
+  -- Rigid outer fascia, with a separate visible safety railing added below.
+  slab(0,L,side==1 and 9 or -9.25,side==1 and 9.25 or -9,FLOOR,1.45)
  end
  local function fenceLine(x0,x1,y,z,rise)
   local count=math.ceil((x1-x0)/1.6)
@@ -140,6 +142,7 @@ return function(capture,params,isThrough,L,fence)
   end
  end
  for _,side in ipairs({-1,1}) do
+  fenceLine(0,L,side*9.25,FLOOR)
   for _,y in ipairs({5.25,7.75}) do
    fenceLine(stairStart,stairEnd,side*y,FLOOR)
    fenceLine(stairStart,stairEnd,side*y,0,FLOOR)
@@ -152,24 +155,24 @@ return function(capture,params,isThrough,L,fence)
  end
  if not isThrough then slab(L,L+4,-9,9,FLOOR,0.25);crossGuard(L+4,-9,9,FLOOR) end
  -- Piers/crossbeams avoid the stairs and lower pedestrian cross-passage.
- local pads={rectangle(centre-8,centre+8,-14,9)}
+ local pads={rectangle(centre-10.5,centre+10.5,-14,9)}
  local rows={}
  local function row(x)
-  if x<first+2 or x>last-2 or math.abs(x-centre)<8 then return end
+  if x<first+2 or x>last-2 or math.abs(x-centre)<RUN/2+2.4 then return end
   for _,other in ipairs(rows) do if math.abs(other-x)<3 then return end end
   rows[#rows+1]=x
-  slab(x-1.2,x+1.2,-9,9,7.2,0.8)
+  slab(x-1.2,x+1.2,-9,9,BEAM_TOP,0.8)
   for _,y in ipairs({-2.8,2.8}) do
-   add("::/infrastructure/bridge/concrete/c_pillar_small_bot_m.mdl",x,y-0.75,0,0.5,0.5,6.4/3.4)
+   add(SLAB,x-0.75,y-0.75,PIER_TOP,1.5/6,1.5/4,PIER_TOP/2.4)
    pads[#pads+1]=rectangle(x-0.9,x+0.9,y-0.9,y+0.9)
   end
  end
- row(centre-10);row(centre+10);row(first+4);row(last-4)
+ row(centre-RUN/2-4);row(centre+RUN/2+4);row(first+4);row(last-4)
  for x=first+4,last-4,20 do row(x) end
  -- Exactly one ground entrance porch, centred along the station.
- slab(centre-8,centre+8,-14,9,0,0.15)
- add("::/stations/street/small_stops/small_new.mdl",centre,-11.5,0)
- sub.groundFaces={{face=rectangle(centre-8,centre+8,-14,9),
+ slab(centre-10.5,centre+10.5,-14,9,0,0.15,true)
+ add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre,-11.5,0)
+ sub.groundFaces={{face=rectangle(centre-10.5,centre+10.5,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0,slopeHigh=0}}
  sub.station.catchmentAreas={{position={centre,-14,0},radius=200}}

@@ -1,3 +1,17 @@
+## 0.13.1: starre betonbak, entreecollision en +12m — nieuwe engineproef
+
+Gebruiker: verhoogd station snapt aan straat maar weigert plaatsing (Collision). Los plaatsen lukt; grote gaten/ontbrekende ondergrond, spooraansluiting werkt wel. Vraag of +8m voldoende is voor de weg.
+
+Oorzaken/onderbouwing: native c_6_rep_rep gebruikt skin/skinMaterials en SKINNING_PHYS_NRML_MAP, bedoeld voor de native brugrenderer; bounding boxes alleen bewijzen geen correct standalone renderen. De nieuwe originele gesloten mesh heeft 24 vertices / 12 driehoeken, harde normalen, atlas-UVs in het egale betongebied en het native c_concrete_unskinned-materiaal. Geen skin of bone-afhankelijkheid. Ook piers/fascia's zijn starre betonunits; spoorbed heeft een volledige bodem en lage opstaande betonranden. Brugranden zelf blijven native BRIDGE; aansluiting niet verplaatst in x/y.
+
+Hoogte: 0.13.0 spoor +8m gaf onder de balken slechts 6.4m. Native street_light_eu_c is 7.17608m, tram_pole_crossbar 8.5m. Daarom spoor nu +12m, perron +12.25m en balkonderkant +10.4m. Twee trapvluchten zijn 18m lang met 61 treden per vlucht (circa 29.5cm diep/20.1cm hoog), ondersteuningsplaten en verplaatste pijlers buiten het grotere trapgat. Eén centrale ingang en bestaande spoorlogica behouden.
+
+Collisioncorrectie bij ingang: de grondvloer gebruikt een aparte zero-collider visual en het native shelter-uiterlijk krijgt een zero-collider wrapper zonder transportmetadata. Structurele betononderdelen blijven solid. Dit voorkomt dat decoratieve entreeonderdelen de straataansluiting blokkeren; de echte plaatsing moet nog in-game worden bevestigd. Grondpad is verbreed zodat beide trapvoeten erop staan.
+
+Controles: alle 60 combinaties slagen; extra controles op daadwerkelijk gesloten mesh (manifold edges, winding/normals, volume en UVs), uitsluitend ongeskinde betonmaterialen/meshes, doorlopend spoorbed onder beide rails, nul entreecolliders en native wegmeubilair met minimaal 1m marge onder de balken. Geen wijziging aan bestaande boven-/ondergrondse stations. Pakket: 44 bestanden.
+
+Nog in-game: NIEUW station direct aan bestaande maaiveldweg, ook met lampen/bovenleiding, doorlopende zichtbare betonbak, trap/pijler-aansluitingen, spoor op +12m, route/boarding en opslaan/herladen. Niet als bewezen opgelost rapporteren vóór deze proef.
+
 ## 0.13.0: Elevated — engineproef open
 
 Eerder: gebruiker bevestigt alle lengtes van 0.12.0 werkend, boven- en ondergronds. Te lange toestellen lopen vast op korte kopstations; bekende gebruiksbeperking (passende lengte kiezen), geen wijziging aan reserveringslogica.

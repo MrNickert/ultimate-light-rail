@@ -1,0 +1,12 @@
+-- Original rigid box, no bridge-rig/bone dependency; native concrete material.
+function data()
+ return {version=2,metadata={},boundingInfo={bbMin={0,0,-2.4},bbMax={6,4,0}},
+  collider={type="BOX",params={halfExtents={0,0,0}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,3,2,-1.2,1}},
+  lods={{visibleFrom=0,visibleTo=2000,node={name="rigid_concrete",
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1},children={
+    {mesh="mrnickert_ultimate_metro::/elevated_concrete.msh",
+     materials={"::/infrastructure/bridge/concrete/mat/c_concrete_unskinned.mtl"},
+     transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+   }}}}}
+end

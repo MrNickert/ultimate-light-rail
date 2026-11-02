@@ -45,6 +45,33 @@ for offset in (192, 216, 240, 264):
 a, b, c = positions[:3]
 assert (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]) > 0
 assert 1.88 < positions[2][1]-positions[1][1] < 1.89
+# Rigid closed concrete: actual vertices/triangles, winding, normals, UVs.
+concrete = (root / 'content/elevated_concrete.msh.blob').read_bytes()
+assert len(concrete) == 1728
+points = [struct.unpack_from('<3f', concrete, i*12) for i in range(24)]
+normals = [struct.unpack_from('<3f', concrete, 480+i*12) for i in range(24)]
+indices = struct.unpack_from('<36I', concrete, 1152)
+for offset in (1152,1296,1440,1584):
+    assert struct.unpack_from('<36I',concrete,offset) == indices
+assert max(indices)<24
+edges = {}
+volume = 0
+for i in range(0,36,3):
+    ia,ib,ic = indices[i:i+3]
+    a,b,c = points[ia],points[ib],points[ic]
+    u = [b[k]-a[k] for k in range(3)]
+    v = [c[k]-a[k] for k in range(3)]
+    cross = (u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0])
+    assert sum(cross[k]*normals[ia][k] for k in range(3))>0
+    volume += sum(a[k]*(b[(k+1)%3]*c[(k+2)%3]-b[(k+2)%3]*c[(k+1)%3]) for k in range(3))/6
+    for p,q in ((a,b),(b,c),(c,a)):
+        edge=tuple(sorted((p,q)));edges[edge]=edges.get(edge,0)+1
+assert all(n==2 for n in edges.values()), 'concrete must be a closed mesh'
+assert abs(volume-6*4*2.4)<1e-4
+for i in range(24):
+    u,v=struct.unpack_from('<2f',concrete,288+i*8)
+    assert .05<u<.41 and .04<v<.86
+print('PASS: rigid closed concrete mesh, all six faces/normals, signed volume and native atlas UV region.', flush=True)
 print('PASS: native resource references, transparent UI textures and original tram-ribbon vertex/index buffers.', flush=True)
 with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
     with zipfile.ZipFile(content / 'infrastructure/street.zip') as archive:
@@ -54,7 +81,7 @@ with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
     with zipfile.ZipFile(args.game / 'base/content/scripts.zip') as archive:
         for name in ('laneutil', 'modulesutil', 'constructionutil'):
             Path(temp, name + '.lua').write_bytes(archive.read('scripts/construction/' + name + '.lua'))
-    with zipfile.ZipFile(content / 'infrastructure/bridge.zip') as archive:
-        for name in ('c_6_rep_rep', 'c_pillar_small_bot_m'):
-            Path(temp, name + '.mdl').write_bytes(archive.read('bridge/concrete/' + name + '.mdl'))
+    with zipfile.ZipFile(content / 'assets/streets.zip') as archive:
+        for name in ('street_light_eu_c', 'tram_pole_crossbar'):
+            Path(temp, name + '.mdl').write_bytes(archive.read('streets/' + name + '.mdl'))
     subprocess.run([args.teal, 'run', 'tests/test_underground.lua', temp], cwd=root, check=True)
