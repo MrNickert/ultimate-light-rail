@@ -233,7 +233,10 @@ return function(capture,params,isThrough,L,fence)
    add("mrnickert_ultimate_metro::/elevated_paving.mdl",x,y,GROUND+0.001,1,depth/3,1)
   end
  end
- add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre,-11.5,GROUND)
+ -- A park bench faces the street, beside the central walking route.
+ add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre+2.8,-11.5,GROUND)
+ local bench=models[#models].transf
+ bench[1]=0;bench[2]=-1;bench[5]=1;bench[6]=0
  -- Keep the central public route and the frontage clear for a separately
  -- placed native bus stop. All greenery is behind the street-facing strip.
  for _,y in ipairs({-8.8,3.8}) do

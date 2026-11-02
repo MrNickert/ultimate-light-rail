@@ -1,128 +1,62 @@
--- Native shelter appearance only: no collision box or inherited transport metadata.
+-- Native park bench visual; retained resource ID for saved stations.
 function data()
 return { 
 		boundingInfo = { 
-			bbMax = { 3.67032, 1.30928, 2.8806, },
-			bbMin = { -3.60838, -1.08571, -0.181345, },
+			bbMax = { 0.374585, 1.06738, 1.18056, },
+			bbMin = { -0.4694, -1.06738, -1.73899e-07, },
 		},
-		collider = {type="BOX",params={halfExtents={0,0,0}},transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+		collider={type="BOX",params={halfExtents={0,0,0}},transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
 		lods = {
 			{ 
 				node = { 
 					children = {
 						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "::/stations/street/small_stops/msh/shelter_era_c_left_1_post_glass_lod0.msh",
-							name = "shelter_era_c_left_1_post_glass",
-							transf = { 1, 0, 0, 0, 0, -1.62921e-07, -1, 0, 0, 1, -1.62921e-07, 0, 2.09323, 0.397267, 1.36608, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "::/stations/street/small_stops/msh/shelter_era_c_right_1_post_glass_lod0.msh",
-							name = "shelter_era_c_right_1_post_glass",
-							transf = { 1, 0, 0, 0, 0, -1.62921e-07, -1, 0, 0, 1, -1.62921e-07, 0, -1.94804, 0.397267, 1.36608, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "::/stations/street/small_stops/msh/shelter_era_c_top_1_ceiling_glass_3_lod0.msh",
-							name = "shelter_era_c_top_1_ceiling_glass_3",
-							transf = { 1, 0, 0, 0, 0, -1.62921e-07, -1, 0, 0, 1, -1.62921e-07, 0, 0.0690022, 0.0581086, 2.67694, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "::/stations/street/small_stops/msh/shelter_era_c_back_1_wall_glass_lod0.msh",
-							name = "shelter_era_c_back_1_wall_glass",
-							transf = { 1, 0, 0, 0, 0, -1.62921e-07, -1, 0, 0, 1, -1.62921e-07, 0, 0.0589821, 0.993027, 1.27665, 1, },
-						},
-						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1_transparent.mtl", "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/bus_stop_sign_era_c_1_lod0.msh",
-							name = "bus_stop_sign_era_c_1",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -3.34, 0.9, 0, 1, },
-						},
-						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/tickets_era_c_1_lod0.msh",
-							name = "tickets_era_c_1",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3.38, 0.66, 0, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c.mtl", "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "::/stations/street/small_stops/msh/assets/stations/street/shelter_era_c_lod0.msh",
-							name = "shelter_era_c",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 1, },
+							materials = { "::/assets/buildings/res/mat/assets_res_com_additional_1_v03.mtl", },
+							mesh = "::/assets/buildings/res/grd_frn/msh/era_c_park_bench_01_lod0.msh",
+							name = "era_c_park_bench_01",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
 					},
 					name = "RootNode",
 					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 				},
 				visibleFrom = 0,
-				visibleTo = 50,
+				visibleTo = 35.3285,
 			},
 			{ 
 				node = { 
 					children = {
 						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_glass_tr.mtl", },
-							mesh = "::/stations/street/small_stops/msh/shelter_era_c_glass_all_lod1.msh",
-							name = "shelter_era_c_glass_all",
-							transf = { 1, 0, 0, 0, 0, -1.62921e-07, -1, 0, 0, 1, -1.62921e-07, 0, 2.09423, 0.397267, 1.36608, 1, },
-						},
-						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1_transparent.mtl", "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/bus_stop_sign_era_c_1_2_lod1.msh",
-							name = "bus_stop_sign_era_c_1_2",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -3.34, 0.9, 0, 1, },
-						},
-						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/tickets_era_c_1_2_lod1.msh",
-							name = "tickets_era_c_1_2",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3.38, 0.66, 0, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c.mtl", "::/stations/street/small_stops/mat/bus_era_c_glass.mtl", },
-							mesh = "/assets/stations/street/shelter_era_c_2_lod1.msh",
-							name = "shelter_era_c_2",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 1, },
+							materials = { "::/assets/buildings/res/mat/assets_res_com_additional_1_v03.mtl", },
+							mesh = "::/assets/buildings/res/grd_frn/msh/era_c_park_bench_01_lod1.msh",
+							name = "era_c_park_bench_01",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
 					},
 					name = "RootNode",
 					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 				},
-				visibleFrom = 50,
-				visibleTo = 250,
+				visibleFrom = 35.3285,
+				visibleTo = 105.985,
 			},
 			{ 
 				node = { 
 					children = {
 						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/bus_stop_sign_era_c_1_3_lod2.msh",
-							name = "bus_stop_sign_era_c_1_3",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, -3.34, 0.9, 0, 1, },
-						},
-						{ 
-							materials = { "/assets/stations/street/mat/streetstation_1.mtl", },
-							mesh = "/assets/stations/street/msh/tickets_era_c_1_3_lod2.msh",
-							name = "tickets_era_c_1_3",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 3.38, 0.66, 0, 1, },
-						},
-						{ 
-							materials = { "::/stations/street/small_stops/mat/bus_era_c_lod2.mtl", },
-							mesh = "/assets/stations/street/shelter_era_c_3_lod2.msh",
-							name = "shelter_era_c_3",
-							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0.1, 1, },
+							materials = { "::/assets/buildings/res/mat/assets_res_com_additional_1_v03.mtl", },
+							mesh = "::/assets/buildings/res/grd_frn/msh/era_c_park_bench_01_lod2.msh",
+							name = "era_c_park_bench_01",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
 					},
 					name = "RootNode",
 					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 				},
-				visibleFrom = 250,
-				visibleTo = 850,
+				visibleFrom = 105.985,
+				visibleTo = 317.956,
 			},
 		},
-		metadata = {},
+		metadata = { },
 		version = 2,
 	}
 end

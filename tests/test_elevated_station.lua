@@ -23,6 +23,13 @@ return function(resource)
   assert(loadfile(arg[1].."/"..file..".mdl","t",env))()
   assert(env.data().boundingInfo.bbMax[3]+1<10.4,"beam clearance must exceed street furniture by at least 1m")
  end
+ local entrance=resource("elevated_entrance.mdl")
+ for _,lod in ipairs(entrance.lods) do
+  for _,child in ipairs(lod.node.children) do
+   assert(child.mesh:find("::/assets/buildings/res/grd_frn/msh/era_c_park_bench_01_",1,true)==1)
+   for _,material in ipairs(child.materials) do assert(material:sub(1,3)=="::/","native material must use base namespace") end
+  end
+ end
  local script=resource("light_rail_station.script.lua")
  local con=resource("light_rail_station.con.lua")
  assert(#con.params[1].values==3 and con.params[1].values[3]=="LR_STATION_ELEVATED")
@@ -203,7 +210,7 @@ return function(resource)
     if m.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" then
      paving=paving+1;assert(m.transf[15]==0.151 and m.transf[1]==1 and m.transf[6]<=1)
     end
-    if m.id=="mrnickert_ultimate_metro::/elevated_entrance.mdl" then entryVisuals=entryVisuals+1;assert(m.transf[15]==0.15) end
+    if m.id=="mrnickert_ultimate_metro::/elevated_entrance.mdl" then entryVisuals=entryVisuals+1;assert(m.transf[15]==0.15 and m.transf[13]==L/2+2.8 and m.transf[2]==-1) end
    end
    assert(entryVisuals==1 and paving==56,"complete tiled entrance sidewalk")
    assert(#sub.groundFaces==1 and sub.groundFaces[1].face[1][1]==L/2-10.5)
