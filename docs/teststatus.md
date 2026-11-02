@@ -1,3 +1,9 @@
+## 0.10.2: stationsaansluitingen tot aan perron
+
+Gebruiker bevestigt in 0.10.1 de hekoriëntatie en vrije kruisingen; screenshot toont ook een voertuig op het spoor. Op verzoek alleen hek langs de bovengrondse stationsaansluitingen, niet langs de perrons: kopstation x=-40..0; doorgaand x=-20..0 en x=80..100, beide buitenzijden y=±5.65. Perrons, alle zes publieke toegangen, kopplein en ondergrondse constructie blijven vrij/ongewijzigd. Alleen visuele modellen toegevoegd; geen lanen, reserveringen, aansluitprofielen of kosten gewijzigd. Menuafbeelding gespiegeld met kortere sectie.
+
+Nog in-game: nieuw kopstation en doorgaand station plaatsen, hekcontinuïteit met aansluitende rails en hekstop vóór de perrons controleren. Bestaande stations worden niet automatisch verbouwd.
+
 ## 0.10.1: draaiing hek en eigen menuafbeelding
 
 Gebruiker bevestigt op screenshots van 0.10.0: hek langs beide buitenzijden en vrije kruisingen. Panelen staan echter dwars op de railrichting. De oorspronkelijke model-Y-as moet naar de X-as van de edge-herhaling worden gedraaid. De wrapper roteert nu 90 graden, inclusief bounding box/collider; lengte, offset en edge-instellingen blijven gelijk. Nieuwe regressiecontrole transformeert de native paneeluiteinden en controleert richting, herhaallengte en alle bounding-boxhoeken. Eigen transparante menuafbeelding en preview toegevoegd.

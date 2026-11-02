@@ -171,6 +171,18 @@ local function main()
   for _,alignment in ipairs(sub.terrainAlignmentLists)do
    for _,face in ipairs(alignment.faces)do for _,point in ipairs(face)do assert(point[1]<=87,"terrain footprint shortened by 5m")end end
   end
+ local fenceCount=0
+ for _,model in ipairs(sub.models) do
+  if model.id=="mrnickert_ultimate_metro::/lightrail_fence.mdl" then
+   fenceCount=fenceCount+1
+   local t=model.transf
+   assert(math.abs(math.abs(t[14])-5.65)<1e-6 and t[15]==0,"fence matches exterior native track edge")
+   local left,right=t[13]-0.805*t[1],t[13]+0.814*t[1]
+   assert(right<=0 or left>=80,"fence must not extend alongside platforms or entrances")
+   assert(left>=-40 and right<=0,"fence remains within station approach")
+  end
+ end
+ assert(fenceCount==50,"fences on both sides of every surface approach")
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
   for i=1,2 do

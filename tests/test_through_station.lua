@@ -105,6 +105,18 @@ local function main()
   end
  end
  assert(underpasses==2 and slabs==4 and holes==2,'native stair decks replace the middle of both platforms')
+ local fenceCount=0
+ for _,model in ipairs(sub.models) do
+  if model.id=="mrnickert_ultimate_metro::/lightrail_fence.mdl" then
+   fenceCount=fenceCount+1
+   local t=model.transf
+   assert(math.abs(math.abs(t[14])-5.65)<1e-6 and t[15]==0,"fence matches exterior native track edge")
+   local left,right=t[13]-0.805*t[1],t[13]+0.814*t[1]
+   assert(right<=0 or left>=80,"fence must not extend alongside platforms or entrances")
+   assert(left>=-20 and right<=100,"fence remains within station approach")
+  end
+ end
+ assert(fenceCount==52,"fences on both sides of every surface approach")
  local model=resource('surface_underpass.mdl')
  assert(not model.metadata.transportNetworkProvider,'model cannot add hidden rail or pedestrian lanes')
  print('PASS: two directional through tracks and native connections; all six street entrances reach both platforms underground; finite paths, native stair proportions and safe terrain holes. Native placement/routing/boarding still need in-game validation.')

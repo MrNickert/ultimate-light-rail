@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.1"
+VERSION = "0.10.2"
 CONTENT = {
     "content/ui/lightrail_fenced.tga",
     "content/ui/lightrail_fenced_preview.tga",

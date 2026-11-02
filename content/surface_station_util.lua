@@ -77,6 +77,26 @@ return function(result,options)
  local function add(id,x,y,z,angle,sx,sy,sz)
   models[#models+1]={id=id,transf=matrix(x,y,z,angle,sx,sy,sz)}
  end
+ -- Fence only the track approaches/throat. Platforms and their existing
+ -- public accesses stay completely open, including future station options.
+ -- The same visual-only model is used by the native fenced tram profile.
+ local function fenceApproach(x0,x1)
+  local start,finish=x0+0.02,x1-0.02
+  local count=math.ceil((finish-start)/1.6)
+  local spacing=(finish-start)/count
+  for _,side in ipairs({-1,1}) do
+   for i=1,count do
+    add("mrnickert_ultimate_metro::/lightrail_fence.mdl",
+     start+(i-0.5)*spacing,side*5.65,0,0,spacing/1.6,1,1)
+   end
+  end
+ end
+ if options.through then
+  fenceApproach(-20,0)
+  fenceApproach(80,100)
+ else
+  fenceApproach(-40,0)
+ end
  local vehicles=0
  local moved={}
  local compactX={[85]=81.5,[90]=85}
