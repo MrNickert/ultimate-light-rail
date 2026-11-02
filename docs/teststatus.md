@@ -1,3 +1,17 @@
+## 0.14.0: doorlopende elevated-perrons, kappen en entreegroen — visuele proef open
+
+Gebruiker bevestigt snappen en plaatsen 0.13.2 werkt. Nieuwe wens: perrons langs hele constructie, bij terminus ook naast kruiswissels; native stationsdak; bloembakken/bomen beneden. Bushaltekeuze: entree inrichten voor een losse zelf te plaatsen native bushalte. Geen geïntegreerde busstop bouwen.
+
+Elevated-visuals: deck/fascia/buitenleuningen van first..last (-10..L+10 doorgaand, -30..L+4 kop). Head-plaza alleen in de centrale spoorband zodat de nieuwe perronvloeren niet overlappen. Bruikbare wachtlengte 0..L en alle bestaande voertuig-/voetgangerslanen, stoprefs en straatsnap behouden.
+
+Native perron_5_roof LOD-meshes/materials/verlichting in eigen wrapper, zonder de vaste native feets (die elke 10m ook in de trapgaten zouden vallen). Correcte dunne canopy-collider boven de loopvloer; aparte native perronpalen/liggers buiten de 18m trapopening. Laatste dakstuk alleen in X verkort. Oude kleine bovenshelters vervallen. Bovenleidingpalen op ±9.8m buiten de kap, met betonnen voetconsoles en aangepaste armen naar y=±2.5; palen buiten het constructiedek worden niet zwevend geplaatst.
+
+Maaiveld: twee kleine appelbomen, vier raised beds met azalea's buiten centrale looproutes en achter de vrije straatstrook. Het bestaande entreewachthokje blijft; geen BUS-lanes, streetTerminal of extra publieke ingang. Een functionele native bushalte plaatst de gebruiker apart op de straat.
+
+Controles: alle bestaande 60 combinaties; extra sampled vloerdekking langs beide wandelstroken over first..last; nominale volledige dakdekking, dakbreedte/hoogte, dak onder contactdraden, geen vaste supports in trapgaten, catenaryarmen blijven boven bestaande sporen, 2 bomen/4 plantenbakken buiten centrale entree en voorstrook. Native assetrefs/pakket 45 bestanden, geen nieuwe beelden/native binaries.
+
+Nog in-game: nieuw elevated kop/doorgaand station plaatsen, 40/120m en beide hekkeuzes bekijken. Voorrang aan kap-/bovenleiding-/steuninterferentie, visuele vloer/kapaansluitingen en bomen onder constructie; straatsnap moet blijven werken. Losse native bushalte op straat plaatsen en gebruik daarvan apart testen. Stationboarding/herladen regressiecheck; dit is niet door lokale tests bewezen.
+
 ## 0.13.2: straatsnap-frame bij maaiveldingang — engineproef open
 
 Gebruiker bevestigt 0.13.1-stationsuiterlijk goed, maar automatische snap aan een weg blijft onplaatsbaar. Een andere straatopstelling kan wel geplaatst worden, maar lijkt geen voetgangersrouting te geven. Gebruiker vermoedt clash met betonpalen.

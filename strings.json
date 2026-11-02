@@ -28,7 +28,7 @@
         "LR_STATION_NO": "No",
         "LR_STATION_YES": "Yes",
         "LR_STATION_LENGTH": "Platform length",
-        "LR_STATION_LENGTH_TOOLTIP": "Platform length; the approach and crossover add to the total footprint.",
+        "LR_STATION_LENGTH_TOOLTIP": "Usable stopping length; elevated platform decks and canopies extend to the structural ends.",
         "LR_STATION_ELEVATED": "Elevated"
     },
     "nl": {
@@ -60,7 +60,7 @@
         "LR_STATION_NO": "Nee",
         "LR_STATION_YES": "Ja",
         "LR_STATION_LENGTH": "Perronlengte",
-        "LR_STATION_LENGTH_TOOLTIP": "Perronlengte; de aansluiting en kruiswissel komen daar nog bij.",
+        "LR_STATION_LENGTH_TOOLTIP": "Bruikbare stoplengte; verhoogde perronvloeren en kappen lopen door tot de constructie-einden.",
         "LR_STATION_ELEVATED": "Verhoogd"
     }
 }

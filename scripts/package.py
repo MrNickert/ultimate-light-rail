@@ -6,8 +6,9 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.13.2"
+VERSION = "0.14.0"
 CONTENT = {
+    "content/elevated_platform_roof.mdl",
     "content/elevated_concrete.mdl",
     "content/elevated_concrete_visual.mdl",
     "content/elevated_concrete.msh",

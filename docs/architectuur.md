@@ -71,3 +71,7 @@ Losse brugmodellen met skin/skinMaterials zijn vervangen door een originele gesl
 ## Straatsnap-frame 0.13.2
 
 Elevated-apronvoorrand is lokaal evenwijdig aan X op y=-14. Het native straatsnap-frame moet daarom identity zijn (X tangent, +Y naar binnen), op y=-15; publieke voetgangersknoop y=-14. Het oude -90° rail-eindframe bood de straat in de verkeerde richting aan. Geometrische tests koppelen frame-assen aan de werkelijke apronvoorrand en publieke knoop; geen model-/spoorverplaatsing of uitschakelen van constructieve collision.
+
+## Elevated-aankleding 0.14.0
+
+De visuele perron-/kapgrenzen volgen first/last van het volledige vaste constructiedek; operationele wacht- en voertuignetwerken blijven 0..L. De root-BRIDGE-stukken blijven vrij van extra vaste modellen. elevated_platform_roof.mdl behoudt native roof-meshes en verlichting, verwijdert geïntegreerde feets en krijgt een nauwkeurige collider boven de loopvloer. De builder plaatst losse native kolommen buiten de traprange. Catenarymasten zijn buitenwaarts geplaatst, armen herberekend en consoles toegevoegd; geen aanpassing van de voertuigbanen. Groen alleen op maaiveld naast vrijgehouden publieke route/straatfront; geen busnetwerkmutatie. Huidige menuafbeelding behouden.

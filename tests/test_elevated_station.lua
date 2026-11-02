@@ -5,6 +5,14 @@ return function(resource)
  assert(node.materials[1]=="::/infrastructure/bridge/concrete/mat/c_concrete_unskinned.mtl")
  assert(concrete.boundingInfo.bbMax[1]==6 and concrete.boundingInfo.bbMax[2]==4 and concrete.boundingInfo.bbMin[3]==-2.4)
  assert(not concrete.metadata.transportNetworkProvider)
+ local roof=resource("elevated_platform_roof.mdl")
+ assert(not roof.metadata.transportNetworkProvider and roof.metadata.lightSourceList)
+ local function checkRoofNode(node)
+  assert(not node.skin,"native canopy must be rigid")
+  if node.mesh then assert(not node.mesh:find("feets",1,true),"fixed roof supports must not land in stair holes") end
+  for _,child in ipairs(node.children or {}) do checkRoofNode(child) end
+ end
+ for _,lod in ipairs(roof.lods) do checkRoofNode(lod.node) end
  for _,file in ipairs({"elevated_concrete_visual.mdl","elevated_entrance.mdl"}) do
   for _,extent in ipairs(resource(file).collider.params.halfExtents) do
    assert(extent==0,"entry visuals cannot obstruct a snapped street")
@@ -126,6 +134,51 @@ return function(resource)
 
    end
    assert(steps==122 and waists==2 and piers>=4 and fascias>=2,"complete supported structure, both visible stairs and mandatory guards")
+   local first,last=kind==1 and -10 or -30,kind==1 and L+10 or L+4
+   local roofs={[-1]={},[1]={}}
+   local posts,trees,planters=0,0,0
+   for _,m in ipairs(sub.models) do
+    local t=m.transf
+    if m.id=="mrnickert_ultimate_metro::/elevated_platform_roof.mdl" then
+     local side=t[14]<0 and -1 or 1
+     roofs[side][#roofs[side]+1]={t[13],t[13]+40*t[1]}
+     assert(t[6]==1 and t[11]==1 and t[15]==12.25-1.1,"canopy retains native width and height")
+     assert(t[15]+roof.boundingInfo.bbMax[3]<17.5,"roof must clear longitudinal contact wire")
+    elseif m.id=="::/assets/stations/rail/era_c_perron_pillar.mdl" then
+     posts=posts+1
+     assert(t[13]<=L/2-10 or t[13]>=L/2+10,"roof supports clear stair openings")
+    elseif m.id=="::/assets/streets/tram_pole_crossbar.mdl" then
+     assert(math.abs(t[14])==9.8 and t[13]>=first+0.5 and t[13]<=last-0.5)
+     local wireY=t[14]+3.13368*t[6]
+     assert(math.abs(math.abs(wireY)-2.5)<1e-6,"outboard mast still supports the same contact wire")
+     assert(t[15]==12.25)
+    elseif m.id=="::/assets/vegetation/trees/apple_01/apple_01.mdl" then
+     trees=trees+1;assert(t[15]==0 and t[14]>-11,"tree behind free bus-stop frontage")
+    elseif m.id=="::/assets/buildings/res/flower_pots/raised_bed_c.mdl" then
+     planters=planters+1
+     assert(math.abs(t[13]-L/2)>3 and t[14]>-11,"planter clear of central entrance and street frontage")
+    end
+   end
+   assert(posts>=8 and trees==2 and planters==4)
+   for _,segments in pairs(roofs) do
+    table.sort(segments,function(a,b)return a[1]<b[1]end)
+    local endpoint=first
+    for _,segment in ipairs(segments) do assert(math.abs(segment[1]-endpoint)<1e-6);endpoint=segment[2] end
+    assert(math.abs(endpoint-last)<1e-6,"canopy covers whole structural platform length")
+   end
+   -- Both inner and outer walking strips remain floored over the full asset,
+   -- including the terminus crossover sides; the stair channel stays open.
+   for _,side in ipairs({-1,1}) do for _,y in ipairs({4.65,8.35}) do
+    for x=first+0.1,last-0.1,0.5 do
+     local covered=false
+     for _,m in ipairs(sub.models) do
+      local t=m.transf
+      if m.id=="mrnickert_ultimate_metro::/surface_platform.mdl" and x>=t[13]-1e-6 and x<=t[13]+40*t[1]+1e-6
+       and side*y>=t[14]-2.5*t[6]-1e-6 and side*y<=t[14]+2.5*t[6]+1e-6 then covered=true end
+     end
+     assert(covered,"platform deck continues to both structural ends")
+    end
+   end end
    assert(math.abs(firstTop-12.25/61)<1e-8 and lastTop==12.25,"stairs run from ground to platform floor")
    for _,y in ipairs({-2.5,2.5}) do
     for x=(kind==1 and -10 or -30)+0.1,(kind==1 and L+10 or L+4)-0.1,0.5 do

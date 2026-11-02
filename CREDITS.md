@@ -32,3 +32,5 @@ Afwerking 0.8.5 verwijst ook naar het native materiaal new_medium_tram_paving vo
 0.13.0: elevated viaduct, foundations and 82 stair treads reuse native concrete bridge models (c_6_rep_rep, c_6_rep_l/r, c_pillar_small_bot_m) with project-defined assembly/transforms and pedestrian paths. No native mesh or texture binaries are redistributed.
 
 0.13.1 supersedes the loose skinned bridge models: original closed concrete geometry references Urban Games c_concrete_unskinned material/textures. Native shelter LOD references are wrapped as a collision-free entrance visual. No native mesh/texture binaries are redistributed.
+
+0.14.0: modern canopy references Urban Games perron_5_roof LOD meshes/materials/lights; fixed supports are replaced by separately placed era_c_perron_pillar/holder assets. Native apple trees, tree beds, raised planters and azaleas furnish the entrance. Cities Skylines screenshot was inspiration only; no assets from it are included.

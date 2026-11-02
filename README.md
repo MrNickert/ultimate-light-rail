@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie 0.13.2, revision 40. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie 0.14.0, revision 41. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
 ## Eén configureerbaar station
 
@@ -21,7 +21,7 @@ Ondergronds liggen de rails op 18m diepte met een ingang aan straatniveau en nat
 
 Het native onderdoorgang-icoon en de preview van het eerdere doorgaande station worden hergebruikt; geen nieuwe beeldgeneratie. De afbeelding wisselt niet mee met elke parameterkeuze.
 
-## Verhoogd station — eerste engineproef
+## Verhoogd station
 
 Kies **Verhoogd / Elevated** bij Ligging. Het spoor ligt op +12m en de perronvloer op +12,25m. Een echt betonnen viaductdek rust op draagbalken en pijlers. Twee zichtbare trapvluchten hebben samen 122 treden en betonnen ondersteuningsplaten; de trapopeningen blijven vrij in het dek. Eén ingang op maaiveld staat halverwege de stationslengte, aan één zijkant, en vertakt beneden naar beide perrons. Er zijn geen andere publieke ingangen op perronhoogte.
 
@@ -32,6 +32,16 @@ De laagste draagbalk laat circa **10,4m vrije hoogte** over. Native straatlampen
 De straatsnap ligt langs de voorrand van het centrale entreeplein; de publieke voetgangersknoop ligt 1m naar binnen, volgens de native straatingangconventie. In 0.13.1 was dit frame nog gedraaid als een spooraansluiting, waardoor de voorgestelde weg dwars onder het station/pijlers kon belanden. De nieuwe oriëntatie en stoepkoppeling zijn nog in-game te controleren.
 
 Begin op vlak terrein. Sluit een straat aan bij de centrale ingang en elektrische tramtrack op bruggen op +12m. Native brugaansluitingen en de nieuwe constructie moeten nog in-game op plaatsing, botsingen, visuele continuïteit, looproutes, stoppen en instappen worden beoordeeld. Basisprijzen en capaciteit blijven voor dit prototype gelijk aan bovengronds.
+
+## Aankleding elevated 0.14.0
+
+De verhoogde perronvloeren, buitenleuningen en native moderne treinstationkappen lopen over de hele constructie: bij doorgaand x=-10..L+10, bij kopstation x=-30..L+4. Ook naast de kruiswissel ligt dus perronvloer. De lengtekeuze blijft de bruikbare stop-/wachtlengte x=0..L; rijpaden en stopposities veranderen niet.
+
+De native dakdelen behouden hun breedte/hoogte en verlichting. Hun vaste kolommen zijn uit de wrapper gehaald; aparte native perronkolommen/liggers staan buiten de trapgaten. Bovenleidingpalen staan op concrete consoles buiten de dakrand, met armen naar dezelfde contactdraad. Twee kleine appelbomen, vier plantenbakken en azalea's kleden het maaiveldplein aan. De centrale looproute en straatstrook blijven vrij.
+
+Er is op verzoek ruimte/wachtruimte voor een **losse native bushalte** bij de entree. Die plaats je zelf met het gewone bushaltegereedschap op de aansluitende straat. Het wachthokje op het entreeplein is geen functionele busstop en voegt geen busstation of extra publiek toegangspunt toe.
+
+De gebruiker bevestigde automatisch snappen en plaatsen van 0.13.2. Voor de nieuwe aankleding opnieuw een elevated station plaatsen; de kap-/paal-/groenbotsingen en uitstraling moeten nog in-game worden bekeken. De centrale ingang, straat-snap, effectieve halteposities en bestaande boven-/ondergrondse varianten zijn behouden.
 
 ## Lengte van de perrons
 
@@ -58,6 +68,6 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-De native test draait ook de configuratiematrix: 60 combinaties (vijf lengtes × drie liggingen × type × hek), automatische kruiswissel, ongewijzigde oude lay-outs, hekken zonder rijpadwijzigingen, beide bereikbare ondergrondse perrons en twee open tunnelaansluitingen. Het pakket bevat 44 runtimebestanden; alle lokale afhankelijkheden, vertalingen en native assetverwijzingen worden gecontroleerd. Deze controles bewijzen geen engineplaatsing, menuweergave of passagiersinstap van de nieuwe ondergrondse variant.
+De native test draait ook de configuratiematrix: 60 combinaties (vijf lengtes × drie liggingen × type × hek), automatische kruiswissel, ongewijzigde oude lay-outs, hekken zonder rijpadwijzigingen, beide bereikbare ondergrondse perrons en twee open tunnelaansluitingen. Het pakket bevat 45 runtimebestanden; alle lokale afhankelijkheden, vertalingen en native assetverwijzingen worden gecontroleerd. Deze controles bewijzen geen engineplaatsing, menuweergave of passagiersinstap van de nieuwe ondergrondse variant.
 
 Stationslanen gebruiken 80 en kruiswissels 40 volgens de native constructieconventie; straatprofielsnelheden blijven m/s. Gebruiker bevestigde eerder beter rijgedrag; exacte maxima zijn niet gemeten. De losse historische Speed Probe zit niet in het hoofdpakket. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).

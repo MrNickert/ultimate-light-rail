@@ -1,0 +1,104 @@
+-- Native modern rail canopy and lighting, without fixed support locations.
+-- Independent native columns in the elevated builder keep stair shafts clear.
+function data()
+return { 
+		boundingInfo = {bbMin={-0.188,-2.645,4.2499},bbMax={40.188,2.645,5.485}},
+		collider = {type="BOX",params={halfExtents={20.188,2.645,0.618}},transf={1,0,0,0,0,1,0,0,0,0,1,0,20,0,4.867,1}},
+		lods = {
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_atlas.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod0.msh",
+							name = "perron_5_roof",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+						
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 0,
+				visibleTo = 100,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod1.msh",
+							name = "perron_5_roof",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+						
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 100,
+				visibleTo = 300,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod2.msh",
+							name = "perron_5_roof",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+						
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 300,
+				visibleTo = 900,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod3.msh",
+							name = "perron_5_roof",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 900,
+				visibleTo = 3600,
+			},
+		},
+		metadata = { 
+			lightSourceList = { 
+				lights = {
+					{ 
+						angleMax = 50,
+						color = { 0.866667, 0.945139, 1, },
+						fromTime = 20,
+						height = 2,
+						invertMask = true,
+						length = 21,
+						lightId = "",
+						mask = 0,
+						meshId = "",
+						mode = "LIGHT",
+						radius = 12,
+						strength = 1,
+						toTime = 6,
+						transf = { 1, 0, 0, 0, 0, 0, -1, 0, 0, 1, 0, 0, 20, 0, 5, 1, },
+						type = "CHEAP_CYLINDRICAL",
+						visibleFrom = -1,
+						visibleTo = -1,
+						width = 20,
+					},
+				},
+			},
+		},
+		version = 2,
+	}
+end

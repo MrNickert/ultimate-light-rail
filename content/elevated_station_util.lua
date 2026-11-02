@@ -64,8 +64,17 @@ return function(capture,params,isThrough,L,fence)
  decorate(r,{through=true,length=L,poles=poles})
  local models={}
  for _,m in ipairs(sub.models) do
-  if m.id~="mrnickert_ultimate_metro::/surface_platform.mdl" and m.id~=FENCE then
-   m.transf[15]=m.transf[15]+H;models[#models+1]=m
+  if m.id~="mrnickert_ultimate_metro::/surface_platform.mdl" and m.id~=FENCE
+   and m.id~="::/stations/street/small_stops/small_new.mdl"
+   and not (m.id=="::/assets/streets/tram_pole_crossbar.mdl" and (m.transf[13]<first+0.5 or m.transf[13]>last-0.5)) then
+   m.transf[15]=m.transf[15]+H
+   if m.id=="::/assets/streets/tram_pole_crossbar.mdl" then
+    -- Outside the canopy/fascia; extend the inward bracket to the same wire.
+    m.transf[14]=m.transf[14]<0 and -9.8 or 9.8
+    m.transf[5]=m.transf[5]*7.3/4;m.transf[6]=m.transf[6]*7.3/4
+    m.transf[15]=FLOOR
+   end
+   models[#models+1]=m
   end
  end
  sub.models=models
@@ -91,6 +100,14 @@ return function(capture,params,isThrough,L,fence)
    x0=x0+span
   end
  end
+ -- Outboard pole footings support the relocated catenary masts beyond the canopy.
+ local mounts={}
+ for _,m in ipairs(models) do
+  if m.id=="::/assets/streets/tram_pole_crossbar.mdl" then mounts[#mounts+1]={m.transf[13],m.transf[14]} end
+ end
+ for _,p in ipairs(mounts) do
+  slab(p[1]-0.5,p[1]+0.5,p[2]<0 and -10.2 or 9,p[2]<0 and -9 or 10.2,FLOOR,0.35)
+ end
  -- 0.8m load-bearing deck; two actual 18 x 2.4m stair openings.
  slab(first,stairStart,-9,9,H,0.8);slab(stairEnd,last,-9,9,H,0.8)
  slab(stairStart,stairEnd,-4,4,H,0.8)
@@ -106,7 +123,7 @@ return function(capture,params,isThrough,L,fence)
     x0=x0+length
    end
   end
-  deck(0,stairStart,6.5,5);deck(stairEnd,L,6.5,5)
+  deck(first,stairStart,6.5,5);deck(stairEnd,last,6.5,5)
   deck(stairStart,stairEnd,4.65,1.3);deck(stairStart,stairEnd,8.35,1.3)
   -- Sixty-one visible treads: about 29.5cm deep and 20.1cm high.
   for i=1,STEPS do
@@ -122,7 +139,7 @@ return function(capture,params,isThrough,L,fence)
  for _,side in ipairs({-1,1}) do
   slab(first,last,side*3.9-0.1,side*3.9+0.1,H+0.18,0.28)
   -- Rigid outer fascia, with a separate visible safety railing added below.
-  slab(0,L,side==1 and 9 or -9.25,side==1 and 9.25 or -9,FLOOR,1.45)
+  slab(first,last,side==1 and 9 or -9.25,side==1 and 9.25 or -9,FLOOR,1.45)
  end
  local function fenceLine(x0,x1,y,z,rise)
   local count=math.ceil((x1-x0)/1.6)
@@ -142,7 +159,7 @@ return function(capture,params,isThrough,L,fence)
   end
  end
  for _,side in ipairs({-1,1}) do
-  fenceLine(0,L,side*9.25,FLOOR)
+  fenceLine(first,last,side*9.25,FLOOR)
   for _,y in ipairs({5.25,7.75}) do
    fenceLine(stairStart,stairEnd,side*y,FLOOR)
    fenceLine(stairStart,stairEnd,side*y,0,FLOOR)
@@ -153,7 +170,29 @@ return function(capture,params,isThrough,L,fence)
    if isThrough then fenceLine(L,L+10,side*5.65,H) end
   end
  end
- if not isThrough then slab(L,L+4,-9,9,FLOOR,0.25);crossGuard(L+4,-9,9,FLOOR) end
+ if not isThrough then slab(L,L+4,-4,4,FLOOR,0.25);crossGuard(L+4,-9,9,FLOOR) end
+ -- Native passenger-platform canopies cover the entire structural deck,
+ -- including the terminus crossover sides. Only a final module is shortened.
+ local roofRows={}
+ local function roofPost(x)
+  if x<first+0.5 or x>last-0.5 or (x>stairStart-0.5 and x<stairEnd+0.5) then return end
+  for _,other in ipairs(roofRows) do if math.abs(x-other)<3 then return end end
+  roofRows[#roofRows+1]=x
+ end
+ roofPost(first+2);roofPost(last-2);roofPost(stairStart-1);roofPost(stairEnd+1)
+ for x=first+2,last-2,10 do roofPost(x) end
+ for _,side in ipairs({-1,1}) do
+  local x=first
+  while x<last-1e-8 do
+   local span=math.min(40,last-x)
+   add("mrnickert_ultimate_metro::/elevated_platform_roof.mdl",x,side*6.5,FLOOR-1.1,span/40,1,1)
+   x=x+span
+  end
+  for _,x in ipairs(roofRows) do
+   add("::/assets/stations/rail/era_c_perron_pillar.mdl",x,side*6.5,FLOOR,1,1,3.82385/3.7637)
+   add("::/assets/stations/rail/era_c_perron_holder.mdl",x,side*6.5,FLOOR+3.82385)
+  end
+ end
  -- Piers/crossbeams avoid the stairs and lower pedestrian cross-passage.
  local pads={rectangle(centre-10.5,centre+10.5,-14,9)}
  local rows={}
@@ -172,6 +211,19 @@ return function(capture,params,isThrough,L,fence)
  -- Exactly one ground entrance porch, centred along the station.
  slab(centre-10.5,centre+10.5,-14,9,0,0.15,true)
  add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre,-11.5,0)
+ -- Keep the central public route and the frontage clear for a separately
+ -- placed native bus stop. All greenery is behind the street-facing strip.
+ for _,y in ipairs({-8.8,3.8}) do
+  add("::/assets/streets/tree_bed_new.mdl",centre+7.8,y,0)
+  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",centre+7.8,y,0,0.45,0.45,0.45)
+ end
+ for _,position in ipairs({{-5.5,-10.2},{5.5,-10.2},{4.5,1.8},{8.5,1.8}}) do
+  local x,y=centre+position[1],position[2]
+  add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,y,0)
+  for _,offset in ipairs({-0.5,0.5}) do
+   add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,y,0.72,0.35,0.35,0.35)
+  end
+ end
  sub.groundFaces={{face=rectangle(centre-10.5,centre+10.5,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0,slopeHigh=0}}
