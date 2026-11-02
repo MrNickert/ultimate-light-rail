@@ -1,3 +1,15 @@
+## 0.13.0: Elevated — engineproef open
+
+Eerder: gebruiker bevestigt alle lengtes van 0.12.0 werkend, boven- en ondergronds. Te lange toestellen lopen vast op korte kopstations; bekende gebruiksbeperking (passende lengte kiezen), geen wijziging aan reserveringslogica.
+
+Nieuw: placement=3 (bestaande indices 1/2 blijven gelijk), alle vijf lengtes en kop/doorgaand. Spoor +8m, perron +8.25m. Native betonnen brugdelen bouwen een aparte dekconstructie, dwarsbalken en pijlers. Trapgaten zijn echte openingen in het horizontale dek. Twee trapvluchten met samen 82 zichtbare treden (circa 29.3cm diep / 20.1cm hoog) en twee schuine betonnen ondersteuningsplaten lopen van maaiveld tot perron. Eén linkable publieke grondingang op (L/2,-14,0) bereikt via een concourse beide trappen/perrons. Geen voetgangersaansluitingen op hoogte, geen grondwal. Kleine terrainpads alleen bij ingang en pijlerfunderingen. Native BRIDGE-approaches verwijzen naar de concrete bridge resource. Verplichte veiligheidsleuningen staan los van optionele aansluithekken. Basisprijzen/capaciteit gelijk aan bovengronds voor dit prototype.
+
+Onderzoek: native perron_5_underpass-mesh loopt zichtbaar slechts tot z=-2.9; de native loopcurves gaan tot -7. Daarom is die verborgen onderdoorgang niet als elevated-trap gebruikt. De nieuwe eigen trapopbouw gebruikt uitsluitend native concrete meshes/materials via modelverwijzingen; geen nieuwe afbeelding of native binaries gedistribueerd.
+
+Lokale checks: alle 20 elevated-combinaties; dezelfde voertuigposities/tangenten/rijrichtingen/reserveringen als bovengronds, verschoven naar +8m; één publieke grondingang naar beide wachtperrons; 82 zichtbare treden, twee dragende trapplaten, geen horizontaal dek in trapgaten, pijlers buiten centrale trappen/concourse, native brugranden en leuningen. De native modelafmetingen waarop de schaalberekeningen steunen worden tegen de geïnstalleerde game gecontroleerd. Alle bestaande 40 combinaties plus legacy-tests blijven groen. Pakket: 39 bestanden, complete native/lokale resourceverwijzingen en lokalisatie.
+
+Nog in-game: nieuwe elevated-plaatsing op vlak terrein, native BRIDGE-randen/brugkeuze en aansluitingen op +8m, botsingen bij grondstraat en pijlers, uitstraling/hoogte van dek en trapdelen, daadwerkelijke boarding op beide perrons via de centrale ingang, meerdere voertuigen, kopstation en alle lengtes, opslaan/herladen. Lokale tests bewijzen deze punten niet.
+
 ## 0.12.0: vijf perronlengtes — engineproef open
 
 Nieuwe vierde menuparameter platformLength: 1=40, 2=60, 3=80 (default), 4=100, 5=120 meter. Sleutel ontbreekt in bestaande saves: 80m. Onbekende index valt terug op 80m. Alleen de configuratieadapter zet de index om naar een lengte; bestaande losse adapters blijven standaard 80m.

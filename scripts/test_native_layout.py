@@ -54,4 +54,7 @@ with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
     with zipfile.ZipFile(args.game / 'base/content/scripts.zip') as archive:
         for name in ('laneutil', 'modulesutil', 'constructionutil'):
             Path(temp, name + '.lua').write_bytes(archive.read('scripts/construction/' + name + '.lua'))
+    with zipfile.ZipFile(content / 'infrastructure/bridge.zip') as archive:
+        for name in ('c_6_rep_rep', 'c_pillar_small_bot_m'):
+            Path(temp, name + '.mdl').write_bytes(archive.read('bridge/concrete/' + name + '.mdl'))
     subprocess.run([args.teal, 'run', 'tests/test_underground.lua', temp], cwd=root, check=True)

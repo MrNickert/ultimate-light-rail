@@ -16,7 +16,7 @@
         "LR_FENCE_NAME": "Light rail metal fence",
         "LR_FENCE_DESC": "Low native metal fence along the outside of the tracks.",
         "LR_STATION_NAME": "Light Rail Station",
-        "LR_STATION_DESC": "Two platforms, with a choice of 40, 60, 80, 100 or 120m. Choose surface or underground, through station or terminus, and optional approach fences above ground. A terminus always includes a scissors crossover; a through station never does. Underground tracks are 18m below the entrance; use the underground view toolbar when connecting tunnels.",
+        "LR_STATION_DESC": "Two platforms, with a choice of 40, 60, 80, 100 or 120m. Choose surface, underground or elevated, through station or terminus, and optional approach fences above ground. A terminus always includes a scissors crossover; a through station never does. Elevated tracks are 8m above ground with one central ground-level entrance and stairs to both platforms. Underground tracks are 18m below the entrance; use the underground view toolbar when connecting tunnels.",
         "LR_STATION_PLACEMENT": "Location",
         "LR_STATION_SURFACE": "Surface",
         "LR_STATION_UNDERGROUND": "Underground",
@@ -24,11 +24,12 @@
         "LR_STATION_THROUGH": "Through",
         "LR_STATION_TERMINUS": "Terminus",
         "LR_STATION_FENCE": "Approach fences",
-        "LR_STATION_FENCE_TOOLTIP": "Fences stop at the platforms. Available above ground only.",
+        "LR_STATION_FENCE_TOOLTIP": "Optional fences along the approaches. Elevated platforms always have safety railings. Unavailable underground.",
         "LR_STATION_NO": "No",
         "LR_STATION_YES": "Yes",
         "LR_STATION_LENGTH": "Platform length",
-        "LR_STATION_LENGTH_TOOLTIP": "Platform length; the approach and crossover add to the total footprint."
+        "LR_STATION_LENGTH_TOOLTIP": "Platform length; the approach and crossover add to the total footprint.",
+        "LR_STATION_ELEVATED": "Elevated"
     },
     "nl": {
         "METRO_TERMINUS_NAME": "Metro Kopstation",
@@ -47,7 +48,7 @@
         "LR_FENCE_NAME": "Lightrailhek",
         "LR_FENCE_DESC": "Laag native metalen hek langs de buitenkant van de sporen.",
         "LR_STATION_NAME": "Lightrailstation",
-        "LR_STATION_DESC": "Twee perrons, naar keuze 40, 60, 80, 100 of 120m lang. Kies boven- of ondergronds, doorgaand of kopstation en optionele hekken langs de bovengrondse aansluiting. Een kopstation heeft altijd een kruiswissel; een doorgaand station nooit. Ondergrondse sporen liggen 18m onder de ingang; gebruik de ondergrondse weergave in de werkbalk bij het aansluiten van tunnels.",
+        "LR_STATION_DESC": "Twee perrons, naar keuze 40, 60, 80, 100 of 120m lang. Kies bovengronds, ondergronds of verhoogd, doorgaand of kopstation en optionele hekken langs de bovengrondse aansluiting. Een kopstation heeft altijd een kruiswissel; een doorgaand station nooit. Verhoogde sporen liggen op 8m, met één centrale ingang op maaiveld en trappen naar beide perrons. Ondergrondse sporen liggen 18m onder de ingang; gebruik de ondergrondse weergave in de werkbalk bij het aansluiten van tunnels.",
         "LR_STATION_PLACEMENT": "Ligging",
         "LR_STATION_SURFACE": "Bovengronds",
         "LR_STATION_UNDERGROUND": "Ondergronds",
@@ -55,10 +56,11 @@
         "LR_STATION_THROUGH": "Doorgaand",
         "LR_STATION_TERMINUS": "Kopstation",
         "LR_STATION_FENCE": "Hek langs aansluiting",
-        "LR_STATION_FENCE_TOOLTIP": "Hekken stoppen bij de perrons. Alleen beschikbaar bovengronds.",
+        "LR_STATION_FENCE_TOOLTIP": "Optionele hekken langs de aansluiting. Verhoogde perrons hebben altijd veiligheidsleuningen. Niet beschikbaar ondergronds.",
         "LR_STATION_NO": "Nee",
         "LR_STATION_YES": "Ja",
         "LR_STATION_LENGTH": "Perronlengte",
-        "LR_STATION_LENGTH_TOOLTIP": "Perronlengte; de aansluiting en kruiswissel komen daar nog bij."
+        "LR_STATION_LENGTH_TOOLTIP": "Perronlengte; de aansluiting en kruiswissel komen daar nog bij.",
+        "LR_STATION_ELEVATED": "Verhoogd"
     }
 }

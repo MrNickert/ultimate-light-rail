@@ -2,6 +2,7 @@ local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
 local underground=require "mrnickert_ultimate_metro::/underground_station_util.lua"
+local elevated=require "mrnickert_ultimate_metro::/elevated_station_util.lua"
 return function(capture,params)
  params=params or {}
  -- Copy: the UI/save parameter table must not be changed by a builder.
@@ -15,6 +16,7 @@ return function(capture,params)
  -- No public crossover parameter. Even stale/injected values cannot override type.
  config.crossover=isThrough and 1 or 2
  if isUnderground then return underground(capture,config,isThrough,length) end
+ if tonumber(params.placement)==3 then return elevated(capture,config,isThrough,length,fence) end
  local result
  if isThrough then
   result=through(capture,config,layout)

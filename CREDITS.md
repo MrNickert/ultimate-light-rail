@@ -28,3 +28,5 @@ Afwerking 0.8.5 verwijst ook naar het native materiaal new_medium_tram_paving vo
 0.10.0: the public fenced track preserves Urban Games tram_new traffic/layout data. Native industrial fence_metal_4m meshes/materials (uniform scale 0.4) are referenced by a visual-only edge wrapper, not redistributed.
 
 0.10.1: fenced-track menu illustration generated with OpenAI image generation; illustrative preview, not an in-game screenshot.
+
+0.13.0: elevated viaduct, foundations and 82 stair treads reuse native concrete bridge models (c_6_rep_rep, c_6_rep_l/r, c_pillar_small_bot_m) with project-defined assembly/transforms and pedestrian paths. No native mesh or texture binaries are redistributed.

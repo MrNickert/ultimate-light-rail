@@ -1,18 +1,14 @@
-# Installatie 0.12.0
+# Installatie 0.13.0
 
-1. Bewaar je werkende testsave als terugvalpunt.
-2. Pak `ultimate-light-rail-0.12.0.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De interne map blijft `mrnickert_ultimate_metro`; er worden geen oude runtimebestanden verwijderd.
+1. Bewaar de werkende testsave als terugvalpunt.
+2. Pak `ultimate-light-rail-0.13.0.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De map blijft `mrnickert_ultimate_metro`.
 3. Herlaad je save met Ultimate Light Rail actief. De game hoeft niet afgesloten.
-4. Zoek **Lightrailstation / Light Rail Station** bij de wegstations. De drie oude losse stations horen niet meer in het bouwmenu te staan; geplaatste exemplaren blijven behouden.
-5. Controleer het instellingenpaneel: Ligging, Stationstype, Perronlengte, Hek langs aansluiting. Geen kruiswisselknop. Bij ondergronds moet Hek grijs zijn.
-6. Plaats eerst bovengronds een kopstation en een doorgaand station; kies ook eenmaal Zonder hek. Sluit gewone tramtrack of Lightrail aan. Controleer hekken, stoppen/keren en perrontoegang.
-7. Kies Ondergronds en Doorgaand. Plaats de ingang op straatniveau naast een bereikbare weg. Schakel voor de spooraansluiting de aparte ondergrondse weergave in de werkbalk in. Sluit elektrische tramtracktunnels aan op beide uiteinden op **18m diepte**.
-8. Test een lijn met omkeerbaar voertuig, beide rijrichtingen, instappen/uitstappen op beide ondergrondse perrons en meerdere voertuigen. Een doorgaand station heeft geen kopwand of kruiswissel.
-9. Sla op en laad opnieuw. Controleer nieuwe stations/instellingen en bestaande stations uit de vorige versie.
-
-## Gameproef van de lengtekeuze
-
-Begin met 40m en 120m, zowel kopstation als doorgaand, boven- en ondergronds. Controleer perronlengte, aankleding, vrije trapopeningen, hekstop bij het perron en de tweede spooraansluiting. Sluit een lijn aan en controleer stoppen en instappen op beide perrons. Controleer daarna 60/100m en sla op/herlaad een save met verschillende lengtes en een bestaand 80m-station. De oude 80m-variant is lokaal exact vergeleken met 0.11.1; de nieuwe maten zijn nog niet in-game bevestigd.
+4. Open **Lightrailstation / Light Rail Station**. Kies Ligging **Verhoogd / Elevated**. De bestaande keuzes 1=Bovengronds en 2=Ondergronds behouden hun betekenis; Elevated is keuze 3.
+5. Begin met een nieuw doorgaand station van 80m op vlak terrein. Het spoor ligt op +8m; de centrale ingang bevindt zich halverwege de lengte op maaiveld, aan één zijkant.
+6. Sluit een gewone straat aan bij de centrale ingang. Sluit de twee spooruiteinden aan met elektrische tramtrack op bruggen op +8m. Controleer dat de preview bouwbaar is, de aansluitingen aansluiten en geen grondwal ontstaat.
+7. Controleer dek, pijlers, 2 zichtbare trapvluchten, trapopeningen en leuningen. Laat een voertuig rijden en controleer instappen op beide perrons vanuit de centrale ingang. Het perron heeft geen andere publieke aansluitingen op hoogte.
+8. Test vervolgens elevated kopstation (met vaste kruiswissel), 40m/120m en Hek uit/aan. Veiligheidsleuningen bij perrons/trappen blijven in beide standen aanwezig; de hekoptie is voor de spooraansluitingen.
+9. Sla op en laad opnieuw. Controleer bestaande bovengrondse/ondergrondse stations en een nieuw elevated station.
 
 Staging-map:
 
@@ -20,4 +16,6 @@ Staging-map:
 C:\Program Files (x86)\Steam\userdata\87691647\3493540\local\staging_area
 ```
 
-De gebruiker heeft 0.11.0 met het gecombineerde menu en alle stationvarianten foutloos getest. 0.12.0 voegt vijf perronlengtes toe. Plaats nieuwe stations om een andere lengte te gebruiken; bestaande stations blijven 80m zonder automatische verbouwing. Bovenstaande stappen blijven beschikbaar als installatie-/regressiecontrole. De liggingkeuze zet de constructie ondergronds, maar verandert de afzonderlijke weergaveknop niet automatisch. Bestaande stations worden niet omgebouwd naar het nieuwe configuratiebestand.
+Elevated is nog niet in de game gevalideerd. De lokale controles toetsen modelverwijzingen, native onderdeelafmetingen, 20 elevated-combinaties, spoorgeometrie/hoogte, 82 treden met ondersteuningsplaten, vrije trapgaten en de voetgangersgraph van één grondingang naar beide perrons. Ze bewijzen geen engineplaatsing of boarding. Bestaande stations worden niet automatisch verbouwd.
+
+Alle lengtes uit 0.12.0 zijn door de gebruiker als werkend bevestigd. Voertuigen die te lang zijn voor een kopstation kunnen de wisselstraat blokkeren; gebruik een passende perronlengte.

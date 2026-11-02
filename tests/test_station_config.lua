@@ -11,7 +11,7 @@ return function(resource)
  assert(#con.menuCategory.categories==1 and #con.params==4)
  local expected={"placement","stationType","platformLength","fence"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and (#param.values==(i==3 and 5 or 2)) and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==(i==3 and 5 or (i==1 and 3 or 2))) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
