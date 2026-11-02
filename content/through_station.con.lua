@@ -11,8 +11,7 @@ function data()
             cargoTypeSet = { cargoClassesIncluded = {"PASSENGERS"}, cargoClassesExcluded = {},
                 cargoTypesIncluded = {}, cargoTypesExcluded = {} },
         },
-        menuCategory = { categories = {{ category = "road_buildings",
-            filterCategories = {"passenger", "station"}, order = 1017 }} },
+        menuCategory = { categories = {} },
         params = {},
         updateScript = { fileName = "mrnickert_ultimate_metro::/through_station.script@updateFn" },
         configureHudIconsScript = {

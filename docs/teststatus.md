@@ -1,3 +1,13 @@
+## 0.11.0: één stationmenu en ondergronds doorgaand — engineproef open
+
+Nieuw `light_rail_station.con.lua` met precies drie native knopgroepen: placement, stationType, fence. Het hek wordt via de native checkEnabledScript-callback uitgeschakeld ondergronds; de builder negeert die keuze daar ook. Geen publieke crossoverparameter: terminus forceert 2 (kruiswissel), doorgaand 1 (geen). Parameters worden gekopieerd, niet gemuteerd.
+
+De oude drie .con-ID's blijven bestaan met dezelfde parameters/updateScript; uitsluitend hun menucategorieën zijn leeg gemaakt. Bestaande .script-bestanden zijn ongewijzigd. De bestaande entrance-util krijgt een optionele through-layout, met ongewijzigd gedrag zonder opties. De aparte weergaveknop voor ondergronds schakelt niet automatisch mee met de nieuwe liggingparameter.
+
+Lokale configuratietest gebruikt de echte uitgepakte native lane/model/terrain-helpers. Alle acht combinaties slagen. Bovengronds met hek en ondergronds terminus worden volledig vergeleken met de bestaande builders. Rijpaden en terminalreferenties zijn bij hek aan/uit gelijk. Nieuwe ondergrondse doorgang: twee native tramlanen op -18m, twee tunnelranden, native shell tot beide interne aansluitingen (-10/90), geen gesloten kopwand, voetgangersgraph van publieke ingang naar beide wachtperrons op -17.65m. Packagecontrole telt 38 bestanden en complete lokale/native verwijzingen en lokalisatie.
+
+Nog door gebruiker in-game te bevestigen: één menu-entry/knoppen, grijze hekoptie ondergronds, alle vier ligging/type-combinaties, hekken aan/uit zonder openingen op verkeerde plekken, ondergronds doorgaand met twee tunnels, lijn/instappen op beide perrons, opslaan/herladen en behoud oude stations. Hoofd-risico nieuw ondergronds doorgaand: visuele shell-/tunnelovergangen en enginevalidatie van plaatsing/voetgangertoegang. Bestaande 0.10.4 door gebruiker goedgekeurd.
+
 ## 0.10.4: tweede uiteinde doorgaand station — engineproef open
 
 Gebruiker bevestigt voor 0.10.3: terminus goed, aanklikkant doorgaand station goed, andere uiteinde nu een gat in beide hekzijden. De twee niet-aaneengesloten straatsegmenten zaten samen in één edgeList. Hypothese: decoratie van die lijst wordt niet voor beide losse segmenten gelijk verwerkt.

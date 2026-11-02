@@ -291,7 +291,8 @@ local generatedData = {
 -- Adapted from Urban Games' underground_station.script.lua.
 -- Fixed 80m platforms. The native concourse moves towards the closed head;
 -- its surface entrance is rotated along the track axis. Vehicle paths stay fixed.
-return function(params)
+return function(params,options)
+ options=options or {}
  local shift=transf.transl(vec3.new(60,0,0))
  local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
  local result={models={},laneLists={}}
@@ -313,18 +314,26 @@ return function(params)
  constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
  constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
  -- The 40m concourse covers x=40..80; native extensions fill x=-30..40.
- for x=20,80,10 do
+ for x=20,(options.through and 60 or 80),10 do
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
    transf.mul(shift,transf.mul(transf.rotZ(math.pi),transf.transl(vec3.new(x,0,0)))))
  end
- for _,endpoint in ipairs({{80,false},{-30,true}}) do
+ if options.through then
+  -- Fill the second open throat x=80..90 with the native extension.
+  constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
+   transf.transl(vec3.new(80,0,0)))
+ end
+ local ends=options.through and {{90,false},{-10,true}} or {{80,false},{-30,true}}
+ for _,endpoint in ipairs(ends) do
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}
  end
  modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
  -- Close the native tunnel opening visually at the dead-end only.
  -- Existing brick wall mesh: 4m wide, z=-3.2..2, fitted to the 14m head wall.
+ if not options.through then
  result.models[#result.models+1]={id="::/assets/buildings/res/misc/wall_2m_m.mdl",
   transf={1,0,0,0,0,3.5,0,0,0,0,5.65/5.2,0,80.7,0,-12.5-2*5.65/5.2,1}}
+ end
  return result
 end

@@ -11,8 +11,7 @@ function data()
             cargoTypeSet = { cargoClassesIncluded = {"PASSENGERS"}, cargoClassesExcluded = {},
                 cargoTypesIncluded = {}, cargoTypesExcluded = {} },
         },
-        menuCategory = { categories = {{ category = "road_buildings",
-            filterCategories = {"passenger", "station"}, order = 1015 }} },
+        menuCategory = { categories = {} },
         params = {{key="crossover",name=_("METRO_CROSSOVER"),values={_("METRO_NO_CROSSOVER"),_("METRO_WITH_CROSSOVER")},defaultIndex=2}},
         updateScript = { fileName = "mrnickert_ultimate_metro::/twin_terminus.script@updateFn" },
         configureHudIconsScript = {

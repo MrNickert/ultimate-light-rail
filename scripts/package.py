@@ -6,8 +6,13 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.10.4"
+VERSION = "0.11.0"
 CONTENT = {
+    "content/station_menu.script.lua",
+    "content/light_rail_station.con.lua",
+    "content/light_rail_station.script.lua",
+    "content/station_config_util.lua",
+    "content/underground_station_util.lua",
     "content/lightrail_station_approach.street_template.lua",
     "content/ui/lightrail_fenced.tga",
     "content/ui/lightrail_fenced_preview.tga",

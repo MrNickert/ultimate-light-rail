@@ -49,3 +49,9 @@ De zichtbare modnaam is Ultimate Light Rail. De mod-ID mrnickert_ultimate_metro 
 ## Afzonderlijk lightrailspoor 0.10.0
 
 `lightrail_fenced.street_template.lua` behoudt native tram_new volledig qua verkeer; alleen beschrijving, menuvolgorde en defaultEdgeDecorations veranderen. `lightrail_fence.edge.lua` laat de engine de herhaling en aansluitingen verzorgen. De visuele wrapper gebruikt native metalen hekpanelen zonder transportmetadata. Het oude verborgen gemengde stationsprofiel wordt niet voor publieke rails gebruikt. Geen wereldmigratie of wijziging aan native resources.
+
+## Configureerbaar station 0.11.0
+
+Een nieuwe stabiele .con-ID bewaart drie 1-gebaseerde selecties: placement (1 boven, 2 onder), stationType (1 doorgaand, 2 kop), fence (1 nee, 2 ja). Defaults boven/kop/ja. `station_config_util` kopieert parameters en forceert het wisseltype op basis van stationType; een meegegeven oude crossoverwaarde kan dit niet overrulen. Boven gebruikt het de bestaande builders; zonder hek verwijdert het uitsluitend de visuele hekken en kiest het gelijkwaardige ongedecoreerde aansluitprofielen. De ondergrondse adapter deelt native ingang/circulatie voor beide typen, heeft geen hekken en forceert tunnels.
+
+`underground_entrance_util(params, options)` houdt zijn oude standaardlay-out. `options.through` verkort de westelijke shell, verlengt de oostelijke shell en laat de kopwand weg. Persoonlijke lanes/terminalrefs blijven op de vaste 80m perrons. Legacy scripts blijven intact en legacy .con's zijn alleen uit het menu verborgen. Geen conversie/migratie van geplaatste objecten; geen postConstructionModifiable voor de nieuwe opties. Native checkEnabledScript verwerkt captureParams gevolgd door actuele menukeuzes. Het paneel gebruikt drie Button/Horizontal ScriptParams. De bestaande ondergrondse werkbalkweergave is onafhankelijk en wordt niet door een wereldhook gestuurd.

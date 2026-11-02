@@ -1,38 +1,34 @@
 # Ultimate Light Rail
 
-Versie 0.10.4, revision 34. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
+Versie 0.11.0, revision 35. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+
+## Eén configureerbaar station
+
+Zoek **Lightrailstation / Light Rail Station** in het wegstationsmenu. Het native instellingenpaneel heeft precies drie keuzes:
+
+| Instelling | Keuzes |
+| --- | --- |
+| Ligging | Bovengronds / Ondergronds |
+| Stationstype | Doorgaand / Kopstation |
+| Hek langs aansluiting | Nee / Ja; uitgeschakeld ondergronds |
+
+Kopstations hebben altijd een kruiswissel, doorgaande stations nooit. Er is geen aparte wisselkeuze in het nieuwe menu. Standaard: bovengronds kopstation met hek. Perrons blijven 80m lang, twee perronsporen. De opties gelden bij nieuwe plaatsing; bestaande stations worden niet automatisch verbouwd.
+
+Bovengronds gebruikt de doorgaande variant de geteste voetgangersonderdoorgang met drie straataansluitingen per perron. Het kopstation houdt het ingerichte kopplein. Hekken stoppen bij de perrons; de native randdecoratie verzorgt aansluitingen aan het netwerk.
+
+Ondergronds liggen de rails op 18m diepte met een ingang aan straatniveau en native stationsmodellen/voetgangersroutes. De doorgaande ondergrondse variant is nieuw: twee tunnelverbindingen en geen gesloten kopwand. Gebruik de ondergrondse weergave in de werkbalk bij het aansluiten van tunnels. De liggingknop verandert de constructie, maar schakelt deze aparte weergaveknop niet automatisch om.
+
+De huidige stationillustratie wordt hergebruikt; geen nieuwe beeldgeneratie. De afbeelding wisselt niet mee met elke parameterkeuze.
+
+## Bestaande saves
+
+De drie afzonderlijke stations verdwijnen uit het bouwmenu, maar hun resource-ID's, oude parameters en scripts blijven aanwezig voor geplaatste stations. De oude kopstations behouden dus ook hun opgeslagen wisselkeuze. Eén nieuw constructiebestand bewaart voortaan de drie nieuwe instellingen. Er zijn geen automatische wereldwijzigingen of migratiehooks.
+
+Gebruik [installatie-instructies](docs/installatie.md) en [teststatus](docs/teststatus.md). De eerdere station-/hekproeven tot en met 0.10.4 zijn door de gebruiker goedgekeurd. Dat vervangt geen gameproef van het nieuwe menu en ondergronds doorgaande station.
 
 ## Lightrailspoor
 
-**Lightrail / Light Rail** staat naast de gewone tramtrack bij de kleine wegen/tram-infrastructuur (vanaf 1925). Het gebruikt exact dezelfde native rijstroken, richtingen, snelheid, trammodi, kosten en materialen. De verschillen zijn een eigen menuafbeelding en een laag metalen hek langs beide buitenzijden: het native industriële fence_metal_4m, proportioneel verkleind tot 40% (circa 1,36m hoog). De hekken gebruiken de native randdecoratie, met nul extra onderhoud en zonder geluid-/snelheidsbonus. Tunnels krijgen geen hek. De bestaande native tramoptie blijft beschikbaar.
-
-De gebruiker heeft bevestigd dat kruisingen in 0.10.0 vrij blijven. De hekpanelen stonden toen dwars; 0.10.1 draait ze 90 graden. Controleer de gecorrigeerde hekpositie, bochten, hellingen en aansluitingen op stations nog in-game. Ook met meerdere trams testen; de eerdere succesvolle native tramproef is geen bewijs voor deze nieuwe decoratie. Er worden geen bestaande sporen of stations automatisch vervangen.
-
-De bovengrondse stations hebben hetzelfde hek langs de spooraansluitingen: bij het kopstation tot aan het begin van de perrons en bij het doorgaande station aan beide uiteinden. Langs de perrons, toegangen en het kopplein staat geen hek. De ondergrondse variant is ongewijzigd. Voor deze aankleding een nieuw station plaatsen; bestaande stations worden niet automatisch verbouwd. Op de aanklikbare buitenste 10m verzorgt de game de hek-randdecoratie; vaste hekmodellen staan alleen op de interne aansluitingen/wisselstraat en hebben geen botsingsvolume. De menuafbeelding toont een korte sectie met palen buiten de hekken, dwarskabels en twee bovenleidingen. De botsings- en aansluitcorrectie moet nog in-game worden getest.
-
-## Stations
-
-- **Metro Kopstation / Metro Terminus**: twee perrons van 80m, compacte kruiswissel, bestraat kopplein, bomen en bloembakken.
-- **Ondergronds Metro Kopstation / Underground Metro Terminus**: perrons op 18m diepte met voetgangerstoegang vanaf straatniveau.
-- **Metro Doorgaand Station / Metro Through Station**: twee perrons van 80m, spooraansluitingen aan beide uiteinden en een voetgangersonderdoorgang. Elk perron heeft drie mogelijke straataansluitingen: begin, midden en einde.
-
-Alle drie staan in het wegstationsmenu. De doorgaande variant gebruikt vooralsnog het native onderdoorgang-icoon. Perronlengte en aantal perronsporen staan vast. Het vervolgdoel is één configureerbare stationfamilie met type, lengte en perronindeling, met behoud van bestaande saveverwijzingen.
-
-## Installeren en bestaande saves
-
-Pak `ultimate-light-rail-0.10.4.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
-
-**De interne map en mod-ID blijven `mrnickert_ultimate_metro`.** Dit voorkomt dat huidige stations en saves hun resources kwijtraken. Deze versie voegt alleen een apart spoorprofiel met hek toe; bestaande stationsbestanden blijven gelijk. Stations opnieuw plaatsen is niet nodig. Verwijder de mod niet zolang een save zijn stations bevat.
-
-De huidige projectmap/repository kan de oude naam behouden. De spelnaam wordt bepaald door de modmetadata.
-
-## Bevestigde werking
-
-De gebruiker heeft het kopstation getest met stoppen/keren, instappen, meerdere kruisende lijnen, wachten en vrijgeven van wisselroutes, en opslaan/herladen. De doorgaande variant is als functioneel geslaagd geaccepteerd na in-/uitstappen op beide perrons. Zie [teststatus](docs/teststatus.md) voor de precieze bevestigingen en resterende meetpunten.
-
-De gebruiker meldt betere snelheid na de correctie in 0.9.1. Stationslanen krijgen rechtstreeks 80 en wissels 40; het aparte straatprofielveld `speed` behoudt zijn omrekening naar m/s. Exacte maxima zijn niet gemeten. Voertuigen kunnen ook afremmen voor haltes, bochten en reserveringen.
-
-De losse, optionele **Ultimate Metro Speed Probe** behoudt zijn historische naam. Hij zit niet in het hoofdpakket en verandert geen stations of voertuigen.
+De losse **Lightrail / Light Rail**-optie blijft naast gewone tramtrack staan (vanaf 1925). Native rijstroken, richtingen, snelheid, trammodi, kosten en materialen blijven gelijk. Lage metalen buitenhekken gebruiken het native fence_metal_4m, proportioneel verkleind tot circa 1,36m. Geen extra onderhoud of snelheidsbonus; tunnels krijgen geen hek.
 
 ## Ontwikkelen
 
@@ -43,4 +39,6 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-Het pakket bevat 33 runtimebestanden. Alle lokale afhankelijkheden, vertalingen, native assetverwijzingen en pakketinhoud worden gecontroleerd. Er zijn geen automatische wereldwijzigingen of diagnosehooks in de hoofdmod. Modellen, materialen en texturen worden uit de geïnstalleerde game hergebruikt; enkele visuele wrappers en vlakke tramstroken zijn van dit project. De twee eigen menuillustraties zijn gegenereerde previews, geen screenshots. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).
+De native test draait ook de configuratiematrix: acht keuzes, automatische kruiswissel, ongewijzigde oude lay-outs, hekken zonder rijpadwijzigingen, beide bereikbare ondergrondse perrons en twee open tunnelaansluitingen. Het pakket bevat 38 runtimebestanden; alle lokale afhankelijkheden, vertalingen en native assetverwijzingen worden gecontroleerd. Deze controles bewijzen geen engineplaatsing, menuweergave of passagiersinstap van de nieuwe ondergrondse variant.
+
+Stationslanen gebruiken 80 en kruiswissels 40 volgens de native constructieconventie; straatprofielsnelheden blijven m/s. Gebruiker bevestigde eerder beter rijgedrag; exacte maxima zijn niet gemeten. De losse historische Speed Probe zit niet in het hoofdpakket. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).
