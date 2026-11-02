@@ -11,3 +11,5 @@ Surface platform visual wrapper references Urban Games rail/era_c/perron_5.mdl L
 0.8.4: Native perron_10_head_con meshes/materials are referenced for the head plaza. Native apple and azalea models provide plaza greenery. The tram ribbon mesh is original generated geometry; only its material/texture is referenced from Urban Games new_medium_tram_track. No native mesh/texture binary is redistributed.
 
 0.8.5: Native new_medium_tram_paving material is referenced beneath the tram rail texture, using the same original strip geometry. No additional native binaries are redistributed.
+
+0.9.0: native perron_5_underpass LOD-meshes, materials and lighting are referenced by a visual-only wrapper. Passenger curves are adapted from Urban Games addon_platform_passenger_stairs_era_c.module.lua. Terrain openings reference the native hole.gtex. No native binary assets are redistributed.

@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.8.6, revision 25. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.9.0, revision 26. Drie tramgebaseerde metrostations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -29,7 +29,7 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 22 bestanden en geen meegeleverde native 3D-assets.
+De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 27 bestanden en geen meegeleverde native 3D-assets.
 
 ## Bovengrondse afwerking in 0.8.2
 
@@ -52,3 +52,13 @@ Het kopplein is 5m diep in plaats van 10m, met twee bomen en vier bloembakken in
 De grindondergrond onder de wissel is 11m breed, gelijk aan de twee native aansluitlanen van 5,5m. De perronruimte blijft 8m breed. Instappen met de compacte kop is door de gebruiker bevestigd. Gemeld rijgedrag: circa 13 km/u bij binnenkomst en 23 km/u bij vertrek; versnellen als ongeveer 80% van de tram de wissel gepasseerd is. De oorzaak is nog niet vastgesteld.
 
 De afzonderlijke, tijdelijke **Ultimate Metro Speed Probe** leest de daadwerkelijke speedLimit en curveSpeedLimit van bestaande metroconstructies uit en schrijft één [UMSPEED]-rapport naar stdout.txt. Activeer hem naast de hoofdmod, herlaad en laat circa 10 seconden doorlopen. Hij bevat geen voertuig-, resource- of wereldwijzigingen en geen opgeslagen meetstaat. Schakel hem na de meting weer uit. De gewone mod blijft vrij van diagnosehooks. Zie diagnostics/speed_probe/README.md.
+
+## Doorgaand station met onderdoorgang — 0.9.0
+
+Nieuw in het wegstationsmenu: **Metro Through Station / Metro Doorgaand Station**. Twee zijperrons van 80m, gewone elektrische tramtrack aan beide uiteinden en toegang vanaf beide zijkanten. Voetgangers gebruiken de native trappen en een pad onder de twee sporen door; er is intern geen gelijkvloerse oversteek. Voor deze proef gebruikt de bouwoptie het native onderdoorgang-icoon.
+
+De nieuwe doorrijlanen volgen gewone, gerichte tramverkeersregels. De bestaande kopstations behouden hun volledige bouwresultaat. Lokale controles bevestigen dat beide ingangen beide perrons ondergronds bereiken, maar plaatsing, native routeerbaarheid en instappen moeten nog in de game worden getest.
+
+Deze stap deelt aankleding met de kopstations en scheidt de rij-/perronindeling van de voetgangersverbinding. Het uiteindelijke doel blijft één configureerbare stationfamilie met type, lengte en aantal perronsporen. Die keuzemogelijkheden zijn nog niet gebouwd; de nieuwe proef is bewust vast op 80m en twee perrons. Bestaande resource-ID's blijven als adapters nodig voor saves.
+
+Extra controle: `& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_through_station.lua`.

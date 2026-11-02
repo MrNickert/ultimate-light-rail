@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro",
-    "summary": "Compact two-platform metro terminus for reversible lightrail on ordinary electric tramtrack.",
-    "description": "Ultimate Metro 0.8.6 widens the surface crossover ground from 8m to 11m to match the native approach profile. Platform dimensions, compact 5m head plaza, trees, flowers, native tram material layers, vehicle paths and underground station remain unchanged. The user confirmed passenger boarding with the compact plaza. Observed switch speed remains under investigation; configured speed values have not been changed speculatively. An optional separate read-only Speed Probe helper reports effective engine speed and curvature limits. The standard mod contains no automatic diagnostic hooks. Place a new surface station to inspect the wider switch underlay. Do not remove the mod while its stations remain.",
+    "summary": "Tram-based metro termini and a through station with a pedestrian underpass.",
+    "description": "Ultimate Metro 0.9.0 adds a prototype Metro Through Station: two 80m side platforms, ordinary electric tramtrack connections at both ends, two street-side pedestrian entrances and native rail-station stair assets for a pedestrian underpass. Through lanes use ordinary directional tram modes without reservation flags. The underpass paths and terrain holes are adapted from native modern railway platforms; no extra train infrastructure is required. Existing terminus resource IDs and layouts are retained. Shared surface decoration prepares the station family for future configuration; selectable lengths, types and platform counts are not implemented yet. New station placement, routing, pedestrian stairs, boarding and persistence require in-game validation. Speed investigation remains separate. Do not remove the mod while its stations remain.",
     "authors": [
         {
             "name": "MrNickert",

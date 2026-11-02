@@ -6,9 +6,14 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.8.6"
+VERSION = "0.9.0"
 CONTENT = {
     "content/twin_terminus.con.lua",
+    "content/through_station.con.lua",
+    "content/through_station.script.lua",
+    "content/through_station_util.lua",
+    "content/passenger_underpass_util.lua",
+    "content/surface_underpass.mdl",
     "content/twin_terminus.script.lua",
     "content/lightrail_double.street_template.lua",
     "content/terminus_util.lua",

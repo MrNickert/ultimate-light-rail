@@ -1,4 +1,8 @@
-# Teststatus 0.8.6
+# Teststatus 0.9.0
+
+## Actuele proef 0.9.0
+
+De kopstationbasis blijft geaccepteerd. De doorgaande variant met native onderdoorgang is nu toegevoegd en lokaal gecontroleerd, maar nog niet in de game getest. De eerste spelproef staat in docs/installatie.md. Instelbare lengte, type en aantal perronsporen blijven vervolgwerk.
 
 ## Afgeronde basis — 2 november 2026
 
@@ -6,7 +10,7 @@ De gebruiker accepteert de vormgeving van het bovengrondse kopstation in 0.8.6, 
 
 Open, apart vervolgonderzoek: circa 13 km/u bij binnenkomst en 23 km/u bij vertrek. In het gecontroleerde stdout.txt stond geen [UMSPEED]-rapport. De oorzaak is niet vastgesteld en de snelheid is niet als opgelost gemarkeerd. De meetmod blijft optioneel; er wordt in deze afronding geen geometrie, voertuig of limiet veranderd.
 
-Een doorgaande metrovariant is besproken als mogelijke volgende stap. De gebruiker vraagt eerst naar het functionele verschil met de standaard tramhalte; er is nog geen nieuwe stationsvariant geïmplementeerd. Het directe onderscheid zou vooral de consistente 80m perrons, vormgeving en toegang zijn.
+Een doorgaande metrovariant is besproken als mogelijke volgende stap. De gebruiker vraagt eerst naar het functionele verschil met de standaard tramhalte; er was op dat moment nog geen nieuwe stationsvariant geïmplementeerd. Het directe onderscheid zou vooral de consistente 80m perrons, vormgeving en toegang zijn.
 
 Onderstaande secties beschrijven eerdere versies en controles; open punten daarin zijn historisch tenzij hierboven genoemd.
 
@@ -54,3 +58,11 @@ Eén rij koptegels is verwijderd. De bomen en bloembakken staan dichter bij elka
 ## Gebruikersbevestiging 0.8.5 en vervolg 0.8.6
 
 Instappen via het compacte kopplein is bevestigd. De gebruiker ziet bij de wissel circa 13 km/u bij binnenkomst en 23 km/u bij vertrek; de tram versnelt zodra ongeveer 80% voorbij de wissel is. Dit bewijst nog niet welke engine-limiet de oorzaak is. De gewone 0.8.6 verandert de snelheid en rijgeometrie niet. Alleen de wisselondergrond wordt 11m breed. Een afzonderlijke read-only probe leest effectieve ingestelde en bochtlimieten uit; het engine-rapport is nog nodig voordat een snelheidsoplossing gekozen wordt.
+
+## Doorgaand station 0.9.0
+
+Nieuwe prototypevariant, nog geen bevestigde spelproef. De lokale test controleert twee native spoorverbindingen, tegenovergestelde gerichte tramlanen zonder railmodi/reserveringsvlag, twee terminalpunten op de perronmiddens, bereikbaarheid van alle wachtpunten vanaf beide zijingangen, uitsluitend ondergrondse passage tussen de perrons, eindige traptangenten en twee terreinopeningen buiten het spoorbed. Het zichtmodel bevat geen eigen transportmetadata en vult de perronopening niet met extra vlakke modellen.
+
+De bestaande bovengrondse kopstationuitvoer is volledig vergeleken met de vorige commit voor beide wisselinstellingen: modellen, voetgangerspunten, rijpaden en alle overige resultaatvelden zijn identiek. De bestaande ondergrondse helper en voertuigbouwer zijn niet aangepast. De reguliere controles en verpakking zijn groen.
+
+Nog in de game te testen: plaatsen, beide aansluitingen, heen/terug-lijnroute, passagiers en trap-/terreinuitlijning, instappen en opslaan/herladen. De native trapgeometrie is ongeschaald; de vloer is door verticale verplaatsing op de lage metroperrons afgestemd.
