@@ -1,7 +1,7 @@
-# Installatie 0.11.0
+# Installatie 0.11.1
 
 1. Bewaar je werkende testsave als terugvalpunt.
-2. Pak `ultimate-light-rail-0.11.0.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De interne map blijft `mrnickert_ultimate_metro`; er worden geen oude runtimebestanden verwijderd.
+2. Pak `ultimate-light-rail-0.11.1.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De interne map blijft `mrnickert_ultimate_metro`; er worden geen oude runtimebestanden verwijderd.
 3. Herlaad je save met Ultimate Light Rail actief. De game hoeft niet afgesloten.
 4. Zoek **Lightrailstation / Light Rail Station** bij de wegstations. De drie oude losse stations horen niet meer in het bouwmenu te staan; geplaatste exemplaren blijven behouden.
 5. Controleer het instellingenpaneel: Ligging, Stationstype, Hek langs aansluiting. Geen kruiswisselknop. Bij ondergronds moet Hek grijs zijn.
@@ -16,4 +16,4 @@ Staging-map:
 C:\Program Files (x86)\Steam\userdata\87691647\3493540\local\staging_area
 ```
 
-Ondergronds doorgaand en het gecombineerde menu zijn nieuwe engineproeven. Het lokale pakket is getest met de native constructiehelpers; gameplaatsing, tunnelovergangen en passagierswerking blijven handmatig te bevestigen. De liggingkeuze zet de constructie ondergronds, maar verandert de afzonderlijke weergaveknop niet automatisch. Bestaande stations worden niet omgebouwd naar het nieuwe configuratiebestand.
+De gebruiker heeft 0.11.0 met het gecombineerde menu en alle stationvarianten foutloos getest. 0.11.1 verandert alleen menuafbeelding/preview; opnieuw plaatsen is hiervoor niet nodig. Bovenstaande stappen blijven beschikbaar als installatie-/regressiecontrole. De liggingkeuze zet de constructie ondergronds, maar verandert de afzonderlijke weergaveknop niet automatisch. Bestaande stations worden niet omgebouwd naar het nieuwe configuratiebestand.

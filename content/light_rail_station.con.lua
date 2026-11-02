@@ -3,8 +3,8 @@ function data()
  return {
   availability={yearFrom=0,yearTo=0},
   description={name=_("LR_STATION_NAME"),description=_("LR_STATION_DESC"),
-   icon="mrnickert_ultimate_metro::/ui/metro_terminus.tga",
-   previewIcon="mrnickert_ultimate_metro::/ui/metro_terminus_preview.tga",
+   icon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c.tga",
+   previewIcon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c_preview.tga",
    attributes={cost={120000,900000},maintenanceCost={20000,180000}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
   menuCategory={categories={{category="road_buildings",filterCategories={"passenger","station"},order=1015}}},

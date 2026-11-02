@@ -1,3 +1,9 @@
+## 0.11.1: native stationsicoon; gameproef 0.11.0 geslaagd
+
+Gebruiker bevestigt: alles van 0.11.0 getest en foutloos. Hiermee is het gecombineerde menu met de stationvarianten als geslaagd geaccepteerd. Dit is een gebruikersbevestiging, geen afzonderlijke telemetrie/meting per functie.
+
+Op verzoek gebruikt het nieuwe stationmenu nu hetzelfde native onderdoorgang-icoon en preview als het eerdere doorgaande station: addon_platform_passenger_stairs_era_c. Geen beeldgeneratie. Geen wijzigingen aan rijpaden, geometrie, instellingen of kosten. Oude open gameproeven hieronder beschrijven de status vóór deze bevestiging.
+
 ## 0.11.0: één stationmenu en ondergronds doorgaand — engineproef open
 
 Nieuw `light_rail_station.con.lua` met precies drie native knopgroepen: placement, stationType, fence. Het hek wordt via de native checkEnabledScript-callback uitgeschakeld ondergronds; de builder negeert die keuze daar ook. Geen publieke crossoverparameter: terminus forceert 2 (kruiswissel), doorgaand 1 (geen). Parameters worden gekopieerd, niet gemuteerd.

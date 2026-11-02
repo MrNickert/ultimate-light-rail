@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie 0.11.0, revision 35. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie 0.11.1, revision 36. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
 ## Eén configureerbaar station
 
@@ -18,13 +18,13 @@ Bovengronds gebruikt de doorgaande variant de geteste voetgangersonderdoorgang m
 
 Ondergronds liggen de rails op 18m diepte met een ingang aan straatniveau en native stationsmodellen/voetgangersroutes. De doorgaande ondergrondse variant is nieuw: twee tunnelverbindingen en geen gesloten kopwand. Gebruik de ondergrondse weergave in de werkbalk bij het aansluiten van tunnels. De liggingknop verandert de constructie, maar schakelt deze aparte weergaveknop niet automatisch om.
 
-De huidige stationillustratie wordt hergebruikt; geen nieuwe beeldgeneratie. De afbeelding wisselt niet mee met elke parameterkeuze.
+Het native onderdoorgang-icoon en de preview van het eerdere doorgaande station worden hergebruikt; geen nieuwe beeldgeneratie. De afbeelding wisselt niet mee met elke parameterkeuze.
 
 ## Bestaande saves
 
 De drie afzonderlijke stations verdwijnen uit het bouwmenu, maar hun resource-ID's, oude parameters en scripts blijven aanwezig voor geplaatste stations. De oude kopstations behouden dus ook hun opgeslagen wisselkeuze. Eén nieuw constructiebestand bewaart voortaan de drie nieuwe instellingen. Er zijn geen automatische wereldwijzigingen of migratiehooks.
 
-Gebruik [installatie-instructies](docs/installatie.md) en [teststatus](docs/teststatus.md). De eerdere station-/hekproeven tot en met 0.10.4 zijn door de gebruiker goedgekeurd. Dat vervangt geen gameproef van het nieuwe menu en ondergronds doorgaande station.
+Gebruik [installatie-instructies](docs/installatie.md) en [teststatus](docs/teststatus.md). De gebruiker heeft 0.11.0 met het gecombineerde menu en alle stationvarianten getest en als foutloos bevestigd. 0.11.1 vervangt uitsluitend de menuafbeelding/preview en werkt de documentatie bij.
 
 ## Lightrailspoor
 
