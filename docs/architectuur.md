@@ -41,3 +41,7 @@ Belangrijk onderscheid: de native ondergrondse stationsbouwer roept laneutil.cre
 ## Zes openbare toegangen 0.9.2
 
 De platformverlenging aan de achterzijde is gesplitst bij x=76. Linkbare voetgangerslanen worden per zijde aangemaakt op x=4/40/76. Begin- en eindtoegangen lopen van y=+/-11 via de perronrand +/-9 naar het loopspoor +/-5,5. De middentoegang eindigt op de bestaande native randknoop (40,+/-9): het native pad naar (40,+/-7,5) wordt hergebruikt. Daardoor ontstaat geen dubbele reverse edge en loopt de nieuwe toegang niet door het trapgat. De straatconnector kiest de daadwerkelijke korte verbinding naar nabijgelegen wegknopen. Het catchment-middelpunt is (40,0,0), met ongewijzigde straal160. De terminalreferenties worden zoals voorheen uit de gegenereerde bovenliggende wachtpaden afgeleid.
+
+## Merknaam 0.9.3
+
+De zichtbare modnaam is Ultimate Light Rail. De mod-ID mrnickert_ultimate_metro en alle contentresource-ID's blijven intact. Het installatiearchief heet nu ultimate-light-rail-0.9.3.zip, met dezelfde interne map. Dit is een metadata-/documentatiewijziging zonder migratie van wereldobjecten. Stationsnamen en de afzonderlijke historische Speed Probe zijn niet hernoemd.

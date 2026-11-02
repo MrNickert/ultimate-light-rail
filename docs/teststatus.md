@@ -1,6 +1,18 @@
-# Teststatus 0.9.2
+# Teststatus 0.9.3 — Ultimate Light Rail
 
-## Actuele proef 0.9.0
+## Actuele bevestiging — 2 november 2026
+
+De gebruiker meldt dat in-/uitstappen ook op het andere perron werkt en beschouwt de uitgebreide doorgaande-stationproef als geslaagd. Daarmee is het functioneren van de verbinding en beide perrons door de gebruiker geaccepteerd. De lokale controles bevestigen bovendien dat alle zes toegangen beide perrons via de onderdoorgang kunnen bereiken; niet elk individueel toegangspunt of traptraject is afzonderlijk als spelproef vastgelegd.
+
+De gebruiker meldt ook dat de snelheid na 0.9.1 beter voelt. Exacte maximumsnelheden zijn niet gemeten. Opslaan/herladen van de laatste doorgaande variant is niet afzonderlijk bevestigd. Deze punten worden niet als uitgevoerde proeven gerapporteerd.
+
+Versie 0.9.3 hernoemt de mod naar Ultimate Light Rail. Alle stationsbestanden, snelheden, vervoersnetwerken, interne mod-ID en resourceverwijzingen blijven gelijk aan 0.9.2. Voor de hernoeming is geen nieuwe plaatsingsproef nodig.
+
+## Historische testnotities
+
+De onderstaande notities bevatten eerdere open punten en tussenresultaten; de actuele stand staat hierboven.
+
+## Historische proef 0.9.0
 
 De kopstationbasis blijft geaccepteerd. De doorgaande variant met native onderdoorgang is nu toegevoegd en lokaal gecontroleerd, maar nog niet in de game getest. De eerste spelproef staat in docs/installatie.md. Instelbare lengte, type en aantal perronsporen blijven vervolgwerk.
 

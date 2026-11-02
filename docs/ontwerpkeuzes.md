@@ -1,4 +1,4 @@
-# Ontwerpkoers Ultimate Metro
+# Ontwerpkoers Ultimate Light Rail
 
 Gebruikerskeuzes tijdens het onderzoek:
 

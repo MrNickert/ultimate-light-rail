@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.9.2"
+VERSION = "0.9.3"
 CONTENT = {
     "content/twin_terminus.con.lua",
     "content/through_station.con.lua",
@@ -61,7 +61,7 @@ for name in FILES:
 for language in ("en", "nl"):
     assert set(strings[language]) == keys, f"Missing or unused strings for {language}"
 
-out = ROOT / "dist" / f"ultimate-metro-{VERSION}-clean.zip"
+out = ROOT / "dist" / f"ultimate-light-rail-{VERSION}.zip"
 out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as archive:
     for name, data in payload.items():

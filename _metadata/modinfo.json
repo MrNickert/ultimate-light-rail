@@ -1,7 +1,7 @@
 {
-    "name": "Ultimate Metro",
-    "summary": "Tram-based metro termini and a through station with a pedestrian underpass.",
-    "description": "Ultimate Metro 0.9.2 gives the through station six pedestrian street access points: front, middle and back of both platforms. Central entries reuse the native outer walkway around the stair opening; passengers can reach both platforms via the underpass from every entrance. The catchment centre moves to the station midpoint with the same 160m radius. Nearby roads are connected by the native short-footpath system. Track layout, native tram behavior, speed correction, terminus stations and underpass geometry are retained. New entrance connections require in-game validation on a newly built station; existing saved construction geometry is not rebuilt automatically. Configurable station family remains future work. Do not remove the mod while its stations remain.",
+    "name": "Ultimate Light Rail",
+    "summary": "Light rail termini and a through station with a pedestrian underpass.",
+    "description": "Ultimate Light Rail 0.9.3 (formerly Ultimate Metro) adds tram-based light rail stations: a surface terminus, an underground terminus and a through station with a pedestrian underpass. Stations use two 80m platforms and ordinary electric tramtrack connections. The through station offers street access at the front, middle and rear of both platforms. The surface terminus includes a compact scissors crossover and a landscaped head plaza. The underground terminus uses native underground station assets and street-level pedestrian access. Station type, length and platform count are not configurable yet. This rename preserves the internal mod ID and all station resources for existing saves; no station rebuilding is required. Do not remove the mod while its stations remain.",
     "authors": [
         {
             "name": "MrNickert",

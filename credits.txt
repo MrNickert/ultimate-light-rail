@@ -1,4 +1,4 @@
-Ultimate Metro by MrNickert.
+Ultimate Light Rail by MrNickert.
 Transport Fever 3 and the referenced native game assets are by Urban Games.
 The hidden lightrail_double.street_template.lua is derived from Urban Games tram_new.street_template.lua with additional transport modes.
 The station references the native small_new shelter, tram street style, shared ground textures and bare single_rail visual model. All models/materials/textures are loaded from the installed game and are not redistributed.
