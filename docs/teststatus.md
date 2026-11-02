@@ -196,3 +196,10 @@ De gebruiker meldt dat de doorgaande variant direct werkt en toont voertuigen op
 ## Toegangen 0.9.2 en gebruikerswaarneming snelheid
 
 De gebruiker meldt dat de snelheid na 0.9.1 beter voelt; er is nog geen exacte meting van de maxima. De doorgaande variant krijgt zes afzonderlijke linkbare voetgangerslanen, drie per perron. De lokale graaftest controleert dat elk toegangspunt alle wachtpunten op beide perrons bereikt, dat de middentoegang geen bestaande native randcurve dupliceert en dat passage tussen de perrons uitsluitend ondergronds verloopt. De nieuwe automatische straatverbindingen moeten nog in de game worden bevestigd.
+
+
+## 0.14.1 — elevated entree en spoorbed
+
+Automatisch: alle 20 verhoogde lengte/type/hek-combinaties slagen. Pijlers staan vanaf de pleinranden elke 20m en houden twee 16m brede wegcorridors vrij; beide perrons blijven bereikbaar vanaf de verhoogde entreestoep. De 122 treden lopen van 0,15m tot 12,25m. Het oorspronkelijke tegelmesh, native materiaalverwijzingen en ZIP-inhoud zijn gecontroleerd. Voertuigpaden, stopposities en snelheden zijn gelijk gebleven.
+
+Nog in-game: weg aan weerszijden naast het entreeplein plaatsen; stoepuitstraling en voetgangersaansluiting controleren; de gemelde afwijking in de tramrails bij de trap opnieuw beoordelen. Het spoorbed is continu gemaakt en 4cm verlaagd om interferentie met raildecals te voorkomen; dit is nog geen bevestigde visuele oplossing.

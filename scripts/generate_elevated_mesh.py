@@ -31,3 +31,13 @@ function data()
    normal={count=288,numComp=3,offset=480},tangent={count=384,numComp=4,offset=768}}}
 end
 ''')
+
+# Original sidewalk tile, reusing the same four-vertex mesh buffer layout.
+points=[(0,0,0),(3,0,0),(3,3,0),(0,3,0)]
+uvs=[(0,0),(1,0),(1,1),(0,1)]
+paving=b''.join(struct.pack('<3f',*p) for p in points)
+paving+=b''.join(struct.pack('<2f',*p) for p in uvs)
+paving+=struct.pack('<3f',0,0,1)*4+struct.pack('<4f',1,0,0,1)*4
+paving+=struct.pack('<6I',0,1,2,0,2,3)*4
+(r/'content/elevated_paving.msh.blob').write_bytes(paving)
+w('content/elevated_paving.msh',(r/'content/tram_ribbon.msh').read_text().replace('0.5m long','3 x 3m'))

@@ -4,6 +4,8 @@ local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
 local H,FLOOR=12,12.25
 local RUN,STEPS=18,61
+local GROUND,PLAZA_HALF,PIER_SPACING=0.15,10.5,20
+local RISE=FLOOR-GROUND
 local BEAM_TOP,PIER_TOP=H-0.8,H-1.6
 local SLAB="mrnickert_ultimate_metro::/elevated_concrete.mdl"
 local VISUAL="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl"
@@ -32,6 +34,7 @@ return function(capture,params,isThrough,L,fence)
  local centre=L/2
  local first,last=isThrough and -10 or -30,isThrough and L+10 or L+4
  local stairStart,stairEnd=centre-RUN/2,centre+RUN/2
+ local groundCross=stairStart+1
  -- A single public entrance branches below the tracks to both stairs.
  local paths={}
  for i=1,vehicles do paths[#paths+1]=sub.laneLists[i] end
@@ -40,11 +43,12 @@ return function(capture,params,isThrough,L,fence)
    {stairEnd,side*4.65,FLOOR},{L,side*4.65,FLOOR}})
  end
  for _,side in ipairs({-1,1}) do
-  paths[#paths+1]=lane({{stairStart,side*6.5,0},{stairEnd,side*6.5,FLOOR},
+  paths[#paths+1]=lane({{groundCross,side*6.5,GROUND},{stairStart,side*6.5,GROUND},
+   {stairEnd,side*6.5,FLOOR},
    {stairEnd,side*4.65,FLOOR}})
  end
- paths[#paths+1]=lane({{stairStart,-6.5,0},{stairStart,6.5,0}})
- paths[#paths+1]=lane({{centre,-14,0},{centre,-6.5,0},{stairStart,-6.5,0}},true)
+ paths[#paths+1]=lane({{groundCross,-6.5,GROUND},{groundCross,6.5,GROUND}})
+ paths[#paths+1]=lane({{centre,-14,GROUND},{centre,-6.5,GROUND},{groundCross,-6.5,GROUND}},true)
  sub.laneLists=paths
  for i,terminal in ipairs(sub.station.terminals) do
   local index=vehicles+i-1
@@ -109,8 +113,14 @@ return function(capture,params,isThrough,L,fence)
   slab(p[1]-0.5,p[1]+0.5,p[2]<0 and -10.2 or 9,p[2]<0 and -9 or 10.2,FLOOR,0.35)
  end
  -- 0.8m load-bearing deck; two actual 18 x 2.4m stair openings.
- slab(first,stairStart,-9,9,H,0.8);slab(stairEnd,last,-9,9,H,0.8)
- slab(stairStart,stairEnd,-4,4,H,0.8)
+ -- Continuous track bed, independent of the stair/platform module seams.
+ -- Leave physical separation below transparent tram decals to prevent the
+ -- underlying concrete triangles from showing through the rail layers.
+ slab(first,last,-4,4,H-0.04,0.76)
+ for _,interval in ipairs({{first,stairStart},{stairEnd,last}}) do
+  slab(interval[1],interval[2],-9,-4,H,0.8)
+  slab(interval[1],interval[2],4,9,H,0.8)
+ end
  for _,side in ipairs({-1,1}) do
   for _,band in ipairs({{4,5.3},{7.7,9}}) do
    slab(stairStart,stairEnd,side==1 and band[1] or -band[2],
@@ -128,11 +138,11 @@ return function(capture,params,isThrough,L,fence)
   -- Sixty-one visible treads: about 29.5cm deep and 20.1cm high.
   for i=1,STEPS do
    slab(stairStart+(i-1)*RUN/STEPS,stairStart+i*RUN/STEPS,
-    side*6.5-1.2,side*6.5+1.2,i*FLOOR/STEPS,FLOOR/STEPS)
+    side*6.5-1.2,side*6.5+1.2,GROUND+i*RISE/STEPS,RISE/STEPS)
   end
   -- A sloping concrete waist supports the treads all the way to the ground.
-  local waist=matrix(stairStart,side*6.5-1.2,0,RUN/6,2.4/4,0.25/2.4)
-  waist[3]=FLOOR/6
+  local waist=matrix(stairStart,side*6.5-1.2,GROUND,RUN/6,2.4/4,0.25/2.4)
+  waist[3]=RISE/6
   models[#models+1]={id=SLAB,transf=waist}
  end
  -- Closed concrete trough edges sit below the boarding/platform floor.
@@ -162,7 +172,7 @@ return function(capture,params,isThrough,L,fence)
   fenceLine(first,last,side*9.25,FLOOR)
   for _,y in ipairs({5.25,7.75}) do
    fenceLine(stairStart,stairEnd,side*y,FLOOR)
-   fenceLine(stairStart,stairEnd,side*y,0,FLOOR)
+   fenceLine(stairStart,stairEnd,side*y,GROUND,RISE)
   end
   crossGuard(stairStart,side*6.5-1.2,side*6.5+1.2,FLOOR)
   if fence then
@@ -194,10 +204,10 @@ return function(capture,params,isThrough,L,fence)
   end
  end
  -- Piers/crossbeams avoid the stairs and lower pedestrian cross-passage.
- local pads={rectangle(centre-10.5,centre+10.5,-14,9)}
+ local pads={rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9)}
  local rows={}
  local function row(x)
-  if x<first+2 or x>last-2 or math.abs(x-centre)<RUN/2+2.4 then return end
+  if x<first+2 or x>last-2 or math.abs(x-centre)<PLAZA_HALF-0.01 then return end
   for _,other in ipairs(rows) do if math.abs(other-x)<3 then return end end
   rows[#rows+1]=x
   slab(x-1.2,x+1.2,-9,9,BEAM_TOP,0.8)
@@ -206,25 +216,38 @@ return function(capture,params,isThrough,L,fence)
    pads[#pads+1]=rectangle(x-0.9,x+0.9,y-0.9,y+0.9)
   end
  end
- row(centre-RUN/2-4);row(centre+RUN/2+4);row(first+4);row(last-4)
- for x=first+4,last-4,20 do row(x) end
+ -- Anchor both pier lines at the plaza sides. No extra end piers may
+ -- consume the 18.2m clear road corridor between successive foundations.
+ for _,side in ipairs({-1,1}) do
+  local distance=PLAZA_HALF
+  while centre+side*distance>=first+2 and centre+side*distance<=last-2 do
+   row(centre+side*distance);distance=distance+PIER_SPACING
+  end
+ end
  -- Exactly one ground entrance porch, centred along the station.
- slab(centre-10.5,centre+10.5,-14,9,0,0.15,true)
- add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre,-11.5,0)
+ slab(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9,GROUND,GROUND,true)
+ -- 3m tiles retain the native sidewalk pattern at a constant world scale.
+ for x=centre-PLAZA_HALF,centre+PLAZA_HALF-0.001,3 do
+  for y=-14,9-0.001,3 do
+   local depth=math.min(3,9-y)
+   add("mrnickert_ultimate_metro::/elevated_paving.mdl",x,y,GROUND+0.001,1,depth/3,1)
+  end
+ end
+ add("mrnickert_ultimate_metro::/elevated_entrance.mdl",centre,-11.5,GROUND)
  -- Keep the central public route and the frontage clear for a separately
  -- placed native bus stop. All greenery is behind the street-facing strip.
  for _,y in ipairs({-8.8,3.8}) do
-  add("::/assets/streets/tree_bed_new.mdl",centre+7.8,y,0)
-  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",centre+7.8,y,0,0.45,0.45,0.45)
+  add("::/assets/streets/tree_bed_new.mdl",centre+7.8,y,GROUND)
+  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",centre+7.8,y,GROUND,0.45,0.45,0.45)
  end
  for _,position in ipairs({{-5.5,-10.2},{5.5,-10.2},{4.5,1.8},{8.5,1.8}}) do
   local x,y=centre+position[1],position[2]
-  add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,y,0)
+  add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,y,GROUND)
   for _,offset in ipairs({-0.5,0.5}) do
-   add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,y,0.72,0.35,0.35,0.35)
+   add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,y,GROUND+0.72,0.35,0.35,0.35)
   end
  end
- sub.groundFaces={{face=rectangle(centre-10.5,centre+10.5,-14,9),
+ sub.groundFaces={{face=rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0,slopeHigh=0}}
  sub.station.catchmentAreas={{position={centre,-14,0},radius=200}}

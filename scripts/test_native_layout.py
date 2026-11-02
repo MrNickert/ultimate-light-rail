@@ -45,6 +45,12 @@ for offset in (192, 216, 240, 264):
 a, b, c = positions[:3]
 assert (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]) > 0
 assert 1.88 < positions[2][1]-positions[1][1] < 1.89
+paving = (root / 'content/elevated_paving.msh.blob').read_bytes()
+assert len(paving)==288
+assert [struct.unpack_from('<3f',paving,i*12) for i in range(4)] == [(0,0,0),(3,0,0),(3,3,0),(0,3,0)]
+assert [struct.unpack_from('<2f',paving,48+i*8) for i in range(4)] == [(0,0),(1,0),(1,1),(0,1)]
+for offset in (192,216,240,264):
+    assert struct.unpack_from('<6I',paving,offset)==(0,1,2,0,2,3)
 # Rigid closed concrete: actual vertices/triangles, winding, normals, UVs.
 concrete = (root / 'content/elevated_concrete.msh.blob').read_bytes()
 assert len(concrete) == 1728

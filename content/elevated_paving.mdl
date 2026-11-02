@@ -1,0 +1,13 @@
+-- Native sidewalk material on an original 3m square.
+-- No transport provider: this changes appearance only.
+function data()
+ return {boundingInfo={bbMin={0,0,0},bbMax={3,3,0}},
+  collider={type="BOX",params={halfExtents={0,0,0}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+  lods={{node={children={{
+   materials={"::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl"},
+   mesh="mrnickert_ultimate_metro::/elevated_paving.msh",name="elevated_paving",
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}}},
+   name="RootNode",transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+   visibleFrom=0,visibleTo=2000}},metadata={},version=2}
+end

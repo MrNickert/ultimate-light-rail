@@ -66,7 +66,7 @@ return function(resource)
    end
    assert(#public==1,"exactly one public entrance, no elevated street links")
    local entry=public[1].nodes[1][1]
-   assert(entry[1]==L/2 and entry[2]==-14 and entry[3]==0)
+   assert(entry[1]==L/2 and entry[2]==-14 and entry[3]==0.15)
    local frame=r.snapPoint.transf
    local apron=sub.groundFaces[1].face
    -- A road snapped along this tangent must follow the frontage, not cross
@@ -112,11 +112,17 @@ return function(resource)
       steps=steps+1;firstTop=math.min(firstTop,t[15]);lastTop=math.max(lastTop,t[15])
      elseif t[3]>0 then
       waists=waists+1
-      assert(t[13]==L/2-9 and t[15]==0 and t[3]*6==12.25 and t[1]*6==18)
+      assert(t[13]==L/2-9 and t[15]==0.15 and math.abs(t[3]*6-12.1)<1e-8 and t[1]*6==18)
      elseif t[15]==10.4 then
       piers=piers+1
-      assert(math.abs(t[13]+0.75-L/2)>=11.4,"piers clear central stairs/concourse")
+      assert(math.abs(t[13]+0.75-L/2)>=10.5-1e-8,"piers clear central stairs/concourse")
       assert(math.abs(t[11]*2.4-10.4)<1e-6,"piers reach crossbeams")
+      local distance=math.abs(t[13]+0.75-L/2)
+      assert(math.abs((distance-10.5)/20-math.floor((distance-10.5)/20+0.5))<1e-8,"pier rows anchored at plaza sides every 20m")
+      for _,side in ipairs({-1,1}) do
+       local roadCentre=L/2+side*20.5
+       assert(t[13]+1.5<=roadCentre-8 or t[13]>=roadCentre+8,"standard 16m road clears pier solids")
+      end
      elseif t[15]==12.25 and math.abs(t[6]-0.25/4)<1e-8 then
       fascias=fascias+1
      elseif t[15]==12 then
@@ -153,7 +159,7 @@ return function(resource)
      assert(math.abs(math.abs(wireY)-2.5)<1e-6,"outboard mast still supports the same contact wire")
      assert(t[15]==12.25)
     elseif m.id=="::/assets/vegetation/trees/apple_01/apple_01.mdl" then
-     trees=trees+1;assert(t[15]==0 and t[14]>-11,"tree behind free bus-stop frontage")
+     trees=trees+1;assert(t[15]==0.15 and t[14]>-11,"tree behind free bus-stop frontage")
     elseif m.id=="::/assets/buildings/res/flower_pots/raised_bed_c.mdl" then
      planters=planters+1
      assert(math.abs(t[13]-L/2)>3 and t[14]>-11,"planter clear of central entrance and street frontage")
@@ -179,24 +185,27 @@ return function(resource)
      assert(covered,"platform deck continues to both structural ends")
     end
    end end
-   assert(math.abs(firstTop-12.25/61)<1e-8 and lastTop==12.25,"stairs run from ground to platform floor")
+   assert(math.abs(firstTop-(0.15+12.1/61))<1e-8 and lastTop==12.25,"stairs run from ground to platform floor")
    for _,y in ipairs({-2.5,2.5}) do
     for x=(kind==1 and -10 or -30)+0.1,(kind==1 and L+10 or L+4)-0.1,0.5 do
      local covered=false
      for _,m in ipairs(sub.models) do
       local t=m.transf
-      if m.id=="mrnickert_ultimate_metro::/elevated_concrete.mdl" and t[15]==12 and t[3]==0 then
+      if m.id=="mrnickert_ultimate_metro::/elevated_concrete.mdl" and math.abs(t[15]-11.96)<1e-8 and t[3]==0 then
        if x>=t[13]-1e-6 and x<=t[13]+6*t[1]+1e-6 and y>=t[14] and y<=t[14]+4*t[6] then covered=true end
       end
      end
      assert(covered,"no gap in rigid track trough")
     end
    end
-   local entryVisuals=0
+   local entryVisuals,paving=0,0
    for _,m in ipairs(sub.models) do
-    if m.id=="mrnickert_ultimate_metro::/elevated_entrance.mdl" then entryVisuals=entryVisuals+1;assert(m.transf[15]==0) end
+    if m.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" then
+     paving=paving+1;assert(m.transf[15]==0.151 and m.transf[1]==1 and m.transf[6]<=1)
+    end
+    if m.id=="mrnickert_ultimate_metro::/elevated_entrance.mdl" then entryVisuals=entryVisuals+1;assert(m.transf[15]==0.15) end
    end
-   assert(entryVisuals==1)
+   assert(entryVisuals==1 and paving==56,"complete tiled entrance sidewalk")
    assert(#sub.groundFaces==1 and sub.groundFaces[1].face[1][1]==L/2-10.5)
    for _,alignment in ipairs(sub.terrainAlignmentLists) do
     for _,face in ipairs(alignment.faces) do for _,point in ipairs(face) do assert(point[3]==0,"never raise terrain to deck height") end end
