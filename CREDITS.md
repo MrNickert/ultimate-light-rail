@@ -24,3 +24,5 @@ Afwerking 0.8.4: het plein verwijst naar de native perron_10_head_con LOD-meshes
 Afwerking 0.8.5 verwijst ook naar het native materiaal new_medium_tram_paving voor de invulling onder de rails. Dit gebruikt dezelfde oorspronkelijke vlakke strookmesh als de railtextuur; native materiaal- en textuurbinaries worden niet meegeleverd.
 
 0.9.0: native perron_5_underpass LOD-meshes, materials and lighting are referenced by a visual-only wrapper. Passenger curves are adapted from Urban Games addon_platform_passenger_stairs_era_c.module.lua. Terrain openings reference the native hole.gtex. No native binary assets are redistributed.
+
+0.10.0: the public fenced track preserves Urban Games tram_new traffic/layout data. Native industrial fence_metal_4m meshes/materials (uniform scale 0.4) are referenced by a visual-only edge wrapper, not redistributed.

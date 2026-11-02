@@ -45,3 +45,7 @@ De platformverlenging aan de achterzijde is gesplitst bij x=76. Linkbare voetgan
 ## Merknaam 0.9.3
 
 De zichtbare modnaam is Ultimate Light Rail. De mod-ID mrnickert_ultimate_metro en alle contentresource-ID's blijven intact. Het installatiearchief heet nu ultimate-light-rail-0.9.3.zip, met dezelfde interne map. Dit is een metadata-/documentatiewijziging zonder migratie van wereldobjecten. Stationsnamen en de afzonderlijke historische Speed Probe zijn niet hernoemd.
+
+## Afzonderlijk lightrailspoor 0.10.0
+
+`lightrail_fenced.street_template.lua` behoudt native tram_new volledig qua verkeer; alleen beschrijving, menuvolgorde en defaultEdgeDecorations veranderen. `lightrail_fence.edge.lua` laat de engine de herhaling en aansluitingen verzorgen. De visuele wrapper gebruikt native metalen hekpanelen zonder transportmetadata. Het oude verborgen gemengde stationsprofiel wordt niet voor publieke rails gebruikt. Geen wereldmigratie of wijziging aan native resources.

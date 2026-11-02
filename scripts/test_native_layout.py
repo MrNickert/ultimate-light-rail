@@ -47,6 +47,10 @@ assert (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]) > 0
 assert 1.88 < positions[2][1]-positions[1][1] < 1.89
 print('PASS: native resource references, transparent UI textures and original tram-ribbon vertex/index buffers.', flush=True)
 with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
+    with zipfile.ZipFile(content / 'infrastructure/street.zip') as archive:
+        native_tram = Path(temp, 'native_tram.lua')
+        native_tram.write_bytes(archive.read('street/tram/tram_new.street_template.lua'))
+    subprocess.run([args.teal, 'run', 'tests/test_fenced_track.lua', str(native_tram)], cwd=root, check=True)
     with zipfile.ZipFile(args.game / 'base/content/scripts.zip') as archive:
         for name in ('laneutil', 'modulesutil', 'constructionutil'):
             Path(temp, name + '.lua').write_bytes(archive.read('scripts/construction/' + name + '.lua'))

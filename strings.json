@@ -10,7 +10,11 @@
         "METRO_UNDERGROUND_TERMINUS_NAME": "Underground Metro Terminus",
         "METRO_UNDERGROUND_TERMINUS_DESC": "Two 80m platforms at 18m depth, scissors crossover and surface pedestrian entrance. Connect ordinary electric tramtrack in a tunnel. Straight station tracks: 80 km/h; crossover: 40 km/h. Pedestrian entrance above the closed head; track connection at the opposite crossover end.",
         "METRO_THROUGH_NAME": "Metro Through Station",
-        "METRO_THROUGH_DESC": "Two 80m side platforms with a pedestrian underpass. Connect ordinary electric tramtrack at both ends. Each platform offers street access near the front, middle and back; nearby streets connect automatically."
+        "METRO_THROUGH_DESC": "Two 80m side platforms with a pedestrian underpass. Connect ordinary electric tramtrack at both ends. Each platform offers street access near the front, middle and back; nearby streets connect automatically.",
+        "LR_TRACK_NAME": "Light Rail",
+        "LR_TRACK_DESC": "Ordinary double tramtrack with a low metal fence along both outer sides. Native tram connections, traffic and crossings.",
+        "LR_FENCE_NAME": "Light rail metal fence",
+        "LR_FENCE_DESC": "Low native metal fence along the outside of the tracks."
     },
     "nl": {
         "METRO_TERMINUS_NAME": "Metro Kopstation",
@@ -23,6 +27,10 @@
         "METRO_UNDERGROUND_TERMINUS_NAME": "Ondergronds Metro Kopstation",
         "METRO_UNDERGROUND_TERMINUS_DESC": "Twee perrons van 80 meter op 18 meter diepte, kruiswissel en voetgangerstoegang vanaf straatniveau. Sluit gewone elektrische tramtrack in een tunnel aan. Rechte stationssporen: 80 km/u; wissel: 40 km/u. Voetgangerstoegang boven de gesloten kop; spooraansluiting aan de tegenoverliggende wisselzijde.",
         "METRO_THROUGH_NAME": "Metro Doorgaand Station",
-        "METRO_THROUGH_DESC": "Twee zijperrons van 80 meter met een voetgangersonderdoorgang. Sluit gewone elektrische tramtrack aan op beide uiteinden. Elk perron heeft straataansluitingen bij begin, midden en einde; nabijgelegen wegen sluiten automatisch aan."
+        "METRO_THROUGH_DESC": "Twee zijperrons van 80 meter met een voetgangersonderdoorgang. Sluit gewone elektrische tramtrack aan op beide uiteinden. Elk perron heeft straataansluitingen bij begin, midden en einde; nabijgelegen wegen sluiten automatisch aan.",
+        "LR_TRACK_NAME": "Lightrail",
+        "LR_TRACK_DESC": "Gewone dubbele tramtrack met een laag metalen hek langs beide buitenzijden. Native tramverbindingen, rijgedrag en kruisingen.",
+        "LR_FENCE_NAME": "Lightrailhek",
+        "LR_FENCE_DESC": "Laag native metalen hek langs de buitenkant van de sporen."
     }
 }

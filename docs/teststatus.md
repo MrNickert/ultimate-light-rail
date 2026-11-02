@@ -1,3 +1,9 @@
+## 0.10.0: lightrail met hek — engineproef nog open
+
+De nieuwe publieke lightrailoptie is afgeleid van native tram_new; alleen naam, menuvolgorde en twee buitenste randdecoraties verschillen. Het verborgen gemengde stationsaansluitprofiel wordt hiervoor niet gebruikt. Bestaande stations en rails zijn ongewijzigd.
+
+Nog in-game: plaatsing vanaf het menu, hek aan beide buitenzijden, curves/hellingen, vrije kruisingen/wegovergangen, stationsaansluitingen, tunnel/brug en meerdere trams zonder blokkades; vervolgens opslaan/herladen. De native metalen hekpanelen moeten nog op uitstraling worden beoordeeld.
+
 # Teststatus 0.9.3 — Ultimate Light Rail
 
 ## Actuele bevestiging — 2 november 2026
