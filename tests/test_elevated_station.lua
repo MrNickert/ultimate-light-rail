@@ -59,7 +59,27 @@ return function(resource)
    assert(#public==1,"exactly one public entrance, no elevated street links")
    local entry=public[1].nodes[1][1]
    assert(entry[1]==L/2 and entry[2]==-14 and entry[3]==0)
-   assert(r.snapPoint.transf[13]==L/2 and r.snapPoint.transf[14]==-14 and r.snapPoint.transf[15]==0)
+   local frame=r.snapPoint.transf
+   local apron=sub.groundFaces[1].face
+   -- A road snapped along this tangent must follow the frontage, not cross
+   -- the station's pier rows. Its inward normal must point to the public node.
+   local frontage={apron[2][1]-apron[1][1],apron[2][2]-apron[1][2]}
+   assert(math.abs(frame[1]*frontage[2]-frame[2]*frontage[1])<1e-6,"road tangent parallel to entrance frontage")
+   local delta={entry[1]-frame[13],entry[2]-frame[14],entry[3]-frame[15]}
+   assert(math.abs(delta[1]*frame[1]+delta[2]*frame[2])<1e-6,"entry centred on snap frame")
+   assert(math.abs(delta[1]*frame[5]+delta[2]*frame[6]-1)<1e-6,"public node 1m inward from snap line")
+   assert(frame[13]==L/2 and frame[14]==-15 and frame[15]==0)
+   -- A street running along the frontage must stay clear of all solid
+   -- near-ground structural boxes (including the piers).
+   for _,m in ipairs(sub.models) do
+    local t=m.transf
+    if m.id=="mrnickert_ultimate_metro::/elevated_concrete.mdl" then
+     local minZ=t[15]-2.4*t[11]+math.min(0,6*t[3])
+     if minZ<9.5 then
+      assert(t[14]>frame[14]+1,"low structure cannot cross the snapped street frontage")
+     end
+    end
+   end
    local seen,queue={},{key(entry)}
    while #queue>0 do
     local point=table.remove(queue)

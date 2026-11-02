@@ -176,7 +176,11 @@ return function(capture,params,isThrough,L,fence)
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0,slopeHigh=0}}
  sub.station.catchmentAreas={{position={centre,-14,0},radius=200}}
- r.snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,centre,-14,0,1},
+ -- Street tangent follows the front edge of the entrance apron (local X).
+ -- The previous rail-end frame rotated the road across the pier rows.
+ -- Match the native street-entrance convention: public walking node 1m
+ -- inside the snap line, with the station extending along positive local Y.
+ r.snapPoint={transf={1,0,0,0,0,1,0,0,0,0,1,0,centre,-15,0,1},
   snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
  return r
 end

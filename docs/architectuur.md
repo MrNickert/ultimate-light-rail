@@ -67,3 +67,7 @@ placement=3 dispatcht uitsluitend naar elevated_station_util; geen mutatie van b
 ## Rigid elevated-constructie 0.13.1
 
 Losse brugmodellen met skin/skinMaterials zijn vervangen door een originele gesloten boxmesh met de niet-skinned native betonshader. Een solid en een visual-only .mdl delen dezelfde mesh; alleen entreevloer gebruikt visual-only. De entreeoverkapping is een native visuele wrapper met nul collider/metadata. Pijlers, draagbalken, trapwaists en de betonbak gebruiken solid units. Sparse native bridge references blijven alleen in edgeTypeName voor echte brugranden. Spoorhoogte12, platform12.25, traprun18, 61 treden per vlucht; beamtop H-.8 en piertop H-1.6. Terrain blijft maaiveld. Code reproduceert alleen originele geometrie; geen gekopieerde native mesh/texture-binaries.
+
+## Straatsnap-frame 0.13.2
+
+Elevated-apronvoorrand is lokaal evenwijdig aan X op y=-14. Het native straatsnap-frame moet daarom identity zijn (X tangent, +Y naar binnen), op y=-15; publieke voetgangersknoop y=-14. Het oude -90° rail-eindframe bood de straat in de verkeerde richting aan. Geometrische tests koppelen frame-assen aan de werkelijke apronvoorrand en publieke knoop; geen model-/spoorverplaatsing of uitschakelen van constructieve collision.

@@ -1,3 +1,13 @@
+## 0.13.2: straatsnap-frame bij maaiveldingang — engineproef open
+
+Gebruiker bevestigt 0.13.1-stationsuiterlijk goed, maar automatische snap aan een weg blijft onplaatsbaar. Een andere straatopstelling kan wel geplaatst worden, maar lijkt geen voetgangersrouting te geven. Gebruiker vermoedt clash met betonpalen.
+
+Broncontrole: native underground_station gebruikt een identity straatsnap-frame aan de voorrand van zijn ingang, met voetgangersknoop 1m naar binnen. Onze elevated-ingang ligt aan negatieve Y en de voorrand loopt langs X, maar zijn snap-frame was nog -90 graden gedraaid als een rail-eindaansluiting. Dat biedt de weg dwars over de stations-/pijlerindeling aan. Correctie: identity frame op (L/2,-15,0), publieke ingang blijft (L/2,-14,0). Geen wijziging aan spoor, betonbak, palen, hoogte, trappen of interne routes.
+
+Nieuwe geometrische regressiechecks toetsen dat de straattangent evenwijdig aan de entreevoorrand loopt, de voetgangersknoop gecentreerd en 1m naar binnen ligt, en lage solid onderdelen buiten de aangeboden straatvoorrand blijven. Alle 20 elevated-keuzes en bestaande tests worden behouden. Dit bewijst geen native engine-snap of stoepkoppeling.
+
+Nog in-game: NIEUW elevated-station direct aan een rechte maaiveldweg laten snappen; weg moet langs centrale entree lopen. Plaatsing zonder Collision, zichtbare/native voetgangerslink en instappen via beide trappen bevestigen. De handmatig bruikbare straatopstelling uit 0.13.1 is geen bewijs voor de automatische snap.
+
 ## 0.13.1: starre betonbak, entreecollision en +12m — nieuwe engineproef
 
 Gebruiker: verhoogd station snapt aan straat maar weigert plaatsing (Collision). Los plaatsen lukt; grote gaten/ontbrekende ondergrond, spooraansluiting werkt wel. Vraag of +8m voldoende is voor de weg.

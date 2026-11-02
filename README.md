@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie 0.13.1, revision 39. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie 0.13.2, revision 40. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
 ## Eén configureerbaar station
 
@@ -28,6 +28,8 @@ Kies **Verhoogd / Elevated** bij Ligging. Het spoor ligt op +12m en de perronvlo
 Eigen gesloten, starre betonunits vormen dek, balken, pijlers, trapdelen en lage betonnen randen langs het spoorbed. Ze gebruiken het native betonmateriaal zonder brug-skinning; de losse vervormbare brugmodellen uit 0.13.0 zijn vervangen. De entreevloer en overkapping zijn visueel zonder botsingsvolume, terwijl de draagconstructie wel solid colliders houdt. Dit is een aparte constructie, met terreinbewerking alleen bij entree/pijlerfunderingen; geen opgehoogde grond onder het hele station. De veiligheidsleuningen op perrons en trappen zijn altijd aanwezig. De instelling Hek blijft uitsluitend voor de spooraansluitingen. Kop/doorgaand en alle vijf lengtes zijn beschikbaar. Het bestaande native menu-icoon blijft behouden; geen nieuwe beeldgeneratie.
 
 De laagste draagbalk laat circa **10,4m vrije hoogte** over. Native straatlampen zijn circa 7,18m hoog en een tram-bovenleidingpaal 8,5m; de vorige +8m spoorhoogte liet slechts 6,4m onder de balk vrij.
+
+De straatsnap ligt langs de voorrand van het centrale entreeplein; de publieke voetgangersknoop ligt 1m naar binnen, volgens de native straatingangconventie. In 0.13.1 was dit frame nog gedraaid als een spooraansluiting, waardoor de voorgestelde weg dwars onder het station/pijlers kon belanden. De nieuwe oriëntatie en stoepkoppeling zijn nog in-game te controleren.
 
 Begin op vlak terrein. Sluit een straat aan bij de centrale ingang en elektrische tramtrack op bruggen op +12m. Native brugaansluitingen en de nieuwe constructie moeten nog in-game op plaatsing, botsingen, visuele continuïteit, looproutes, stoppen en instappen worden beoordeeld. Basisprijzen en capaciteit blijven voor dit prototype gelijk aan bovengronds.
 
