@@ -16,9 +16,9 @@ return {
 		country = true,
 		description = { 
 			description = _("LR_TRACK_DESC"),
-			icon = "::/infrastructure/street/tram/tram_new.tga",
+			icon = "mrnickert_ultimate_metro::/ui/lightrail_fenced.tga",
 			name = _("LR_TRACK_NAME"),
-			previewIcon = "::/infrastructure/street/tram/tram_new_preview.tga",
+			previewIcon = "mrnickert_ultimate_metro::/ui/lightrail_fenced_preview.tga",
 		},
 		emissions = { 
 			noise = 0,

@@ -1,3 +1,9 @@
+## 0.10.1: draaiing hek en eigen menuafbeelding
+
+Gebruiker bevestigt op screenshots van 0.10.0: hek langs beide buitenzijden en vrije kruisingen. Panelen staan echter dwars op de railrichting. De oorspronkelijke model-Y-as moet naar de X-as van de edge-herhaling worden gedraaid. De wrapper roteert nu 90 graden, inclusief bounding box/collider; lengte, offset en edge-instellingen blijven gelijk. Nieuwe regressiecontrole transformeert de native paneeluiteinden en controleert richting, herhaallengte en alle bounding-boxhoeken. Eigen transparante menuafbeelding en preview toegevoegd.
+
+Nog in-game: een nieuw stuk spoor tekenen, doorlopend hek in lengterichting beoordelen, kruising opnieuw controleren, bocht/helling, aansluitingen en meerdere voertuigen. Bestaande plaatsingen kunnen gecachte geometrie behouden; voor een duidelijke vergelijking een nieuw stuk tekenen.
+
 ## 0.10.0: lightrail met hek — engineproef nog open
 
 De nieuwe publieke lightrailoptie is afgeleid van native tram_new; alleen naam, menuvolgorde en twee buitenste randdecoraties verschillen. Het verborgen gemengde stationsaansluitprofiel wordt hiervoor niet gebruikt. Bestaande stations en rails zijn ongewijzigd.

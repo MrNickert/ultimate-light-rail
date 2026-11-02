@@ -1,12 +1,12 @@
 # Ultimate Light Rail
 
-Versie 0.10.0, revision 30. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
+Versie 0.10.1, revision 31. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
 
 ## Lightrailspoor
 
-**Lightrail / Light Rail** staat naast de gewone tramtrack bij de kleine wegen/tram-infrastructuur (vanaf 1925). Het gebruikt exact dezelfde native rijstroken, richtingen, snelheid, trammodi, kosten en materialen. Het enige verschil is een laag metalen hek langs beide buitenzijden: het native industriële fence_metal_4m, proportioneel verkleind tot 40% (circa 1,36m hoog). De hekken gebruiken de native randdecoratie, met nul extra onderhoud en zonder geluid-/snelheidsbonus. Tunnels krijgen geen hek. De bestaande native tramoptie blijft beschikbaar.
+**Lightrail / Light Rail** staat naast de gewone tramtrack bij de kleine wegen/tram-infrastructuur (vanaf 1925). Het gebruikt exact dezelfde native rijstroken, richtingen, snelheid, trammodi, kosten en materialen. De verschillen zijn een eigen menuafbeelding en een laag metalen hek langs beide buitenzijden: het native industriële fence_metal_4m, proportioneel verkleind tot 40% (circa 1,36m hoog). De hekken gebruiken de native randdecoratie, met nul extra onderhoud en zonder geluid-/snelheidsbonus. Tunnels krijgen geen hek. De bestaande native tramoptie blijft beschikbaar.
 
-Nieuw getekende lightrail is nog in-game te controleren op hekpositie, bochten, hellingen, openingen bij kruisingen en aansluitingen op stations. Ook met meerdere trams testen; de eerdere succesvolle native tramproef is geen bewijs voor deze nieuwe decoratie. Er worden geen bestaande sporen of stations automatisch vervangen.
+De gebruiker heeft bevestigd dat kruisingen in 0.10.0 vrij blijven. De hekpanelen stonden toen dwars; 0.10.1 draait ze 90 graden. Controleer de gecorrigeerde hekpositie, bochten, hellingen en aansluitingen op stations nog in-game. Ook met meerdere trams testen; de eerdere succesvolle native tramproef is geen bewijs voor deze nieuwe decoratie. Er worden geen bestaande sporen of stations automatisch vervangen.
 
 ## Stations
 
@@ -18,7 +18,7 @@ Alle drie staan in het wegstationsmenu. De doorgaande variant gebruikt vooralsno
 
 ## Installeren en bestaande saves
 
-Pak `ultimate-light-rail-0.10.0.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
+Pak `ultimate-light-rail-0.10.1.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
 
 **De interne map en mod-ID blijven `mrnickert_ultimate_metro`.** Dit voorkomt dat huidige stations en saves hun resources kwijtraken. Deze versie voegt alleen een apart spoorprofiel met hek toe; bestaande stationsbestanden blijven gelijk. Stations opnieuw plaatsen is niet nodig. Verwijder de mod niet zolang een save zijn stations bevat.
 
@@ -41,4 +41,4 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-Het pakket bevat 30 runtimebestanden. Alle lokale afhankelijkheden, vertalingen, native assetverwijzingen en pakketinhoud worden gecontroleerd. Er zijn geen automatische wereldwijzigingen of diagnosehooks in de hoofdmod. Modellen, materialen en texturen worden uit de geïnstalleerde game hergebruikt; enkele visuele wrappers en vlakke tramstroken zijn van dit project. De twee eigen menuillustraties zijn gegenereerde previews, geen screenshots. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).
+Het pakket bevat 32 runtimebestanden. Alle lokale afhankelijkheden, vertalingen, native assetverwijzingen en pakketinhoud worden gecontroleerd. Er zijn geen automatische wereldwijzigingen of diagnosehooks in de hoofdmod. Modellen, materialen en texturen worden uit de geïnstalleerde game hergebruikt; enkele visuele wrappers en vlakke tramstroken zijn van dit project. De twee eigen menuillustraties zijn gegenereerde previews, geen screenshots. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).
