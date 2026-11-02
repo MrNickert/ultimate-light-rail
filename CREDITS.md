@@ -20,3 +20,5 @@ De twee eigen menuillustraties zijn gegenereerd met OpenAI image_gen en als TGA 
 Bovengrondse afwerking 0.8.2: de visuele perronwrapper verwijst naar native rail/era_c/perron_5 LOD-meshes en materialen, met lege transportmetadata. De vloer is naar een lage tramperronhoogte geschaald. Straatwerk, meubels, plantenbakken, lampen en masten gebruiken bestaande Urban Games-assets. De dunne decoratieve contactdraad gebruikt een geschaalde bare-rail mesh. Er worden geen native modelbinaries of texturen meegeleverd.
 
 Afwerking 0.8.4: het plein verwijst naar de native perron_10_head_con LOD-meshes en materialen. Appelboompjes, boombakken en azalea zijn native modellen. De nieuwe tramstrook is een oorspronkelijke vierpuntsmesh met het native materiaal new_medium_tram_track; de native binaire meshes en texturen worden niet gekopieerd.
+
+Afwerking 0.8.5 verwijst ook naar het native materiaal new_medium_tram_paving voor de invulling onder de rails. Dit gebruikt dezelfde oorspronkelijke vlakke strookmesh als de railtextuur; native materiaal- en textuurbinaries worden niet meegeleverd.

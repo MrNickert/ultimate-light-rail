@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.8.4"
+VERSION = "0.8.5"
 CONTENT = {
     "content/twin_terminus.con.lua",
     "content/twin_terminus.script.lua",
@@ -16,6 +16,7 @@ CONTENT = {
     "content/surface_platform.mdl",
     "content/surface_head_tile.mdl",
     "content/tram_ribbon.mdl",
+    "content/tram_paving.mdl",
     "content/tram_ribbon.msh",
     "content/tram_ribbon.msh.blob",
     "content/underground_entrance_util.lua",

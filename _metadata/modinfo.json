@@ -1,7 +1,7 @@
 {
     "name": "Ultimate Metro",
     "summary": "Compact two-platform metro terminus for reversible lightrail on ordinary electric tramtrack.",
-    "description": "Ultimate Metro 0.8.4 improves the surface station: four native connecting-platform tiles replace the stretched head-plaza model. The trackbed uses the native embedded-tram material on small original flat strips along the existing paths. The plaza has two small native apple trees in tree beds and four planters with flowering shrubs; side-platform greenery is removed to keep clear of catenary. Vehicle paths, speeds, terminals and underground station are unchanged. New visual assets have no transport metadata. Existing saved geometry is not rebuilt automatically; place a new station to check appearance and boarding. Uses installed game textures, models and materials; no native binary assets are redistributed. Do not remove the mod while its stations remain.",
+    "description": "Ultimate Metro 0.8.5 shortens the surface head plaza from 10m to 5m, retaining two trees and four flowering planters in a compact layout. Pedestrian access and the terrain footprint follow the shorter head. Native tram paving is now rendered underneath the native rail texture along the tracks and crossover, matching the two material layers of standard tramtrack. The original ground fill was gravel, not the missing tram paving layer. Vehicle paths, 80m platforms, speeds, external track connection and underground station are unchanged. Place a new surface station to check visual continuity and boarding. Existing saved geometry is not rebuilt automatically. Do not remove the mod while its stations remain.",
     "authors": [
         {
             "name": "MrNickert",

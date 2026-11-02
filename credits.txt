@@ -9,3 +9,5 @@ Menu illustrations generated with OpenAI image generation; illustrative previews
 Surface platform visual wrapper references Urban Games rail/era_c/perron_5.mdl LOD meshes and materials with transport metadata removed. Low platforms, plaza, paving, benches, bins, planters, lights and tram poles reference installed game assets. Decorative contact wires reuse the installed bare rail mesh at a thin scale. No mesh/material/texture binaries from the game are redistributed.
 
 0.8.4: Native perron_10_head_con meshes/materials are referenced for the head plaza. Native apple and azalea models provide plaza greenery. The tram ribbon mesh is original generated geometry; only its material/texture is referenced from Urban Games new_medium_tram_track. No native mesh/texture binary is redistributed.
+
+0.8.5: Native new_medium_tram_paving material is referenced beneath the tram rail texture, using the same original strip geometry. No additional native binaries are redistributed.

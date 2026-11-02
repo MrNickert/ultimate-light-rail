@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.8.4, revision 23. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.8.5, revision 24. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -29,7 +29,7 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 21 bestanden en geen meegeleverde native 3D-assets.
+De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 22 bestanden en geen meegeleverde native 3D-assets.
 
 ## Bovengrondse afwerking in 0.8.2
 
@@ -42,3 +42,7 @@ De drie platte perronmodellen onder de rails zijn verwijderd: hun vloer lag geli
 ## Afwerking 0.8.4
 
 Het kopplein gebruikt vier native verbindingsstukken op vrijwel oorspronkelijke schaal voor een gelijkmatig tegelpatroon. Het spoorbed gebruikt dezelfde native tramtextuur als de gewone tramtrack, aangebracht op kleine oorspronkelijke vlakke stroken langs de beproefde rijpaden. Op het plein staan twee kleine bomen, boombakken en vier bloembakken met azalea. Zijperrons blijven vrij van groen vanwege de bovenleiding. Nieuwe geometrie is alleen visueel; netwerk en ondergrondse variant veranderen niet.
+
+## Compacte kop en doorlopende trambestrating 0.8.5
+
+Het kopplein is 5m diep in plaats van 10m, met twee bomen en vier bloembakken in een compactere opstelling. De voetgangersverbinding en terreinbewerking zijn mee ingekort. Het spoorbed krijgt nu naast de native railtextuur ook de bijbehorende native trambestrating. De oorspronkelijke grondtextuur street_fill is grind, niet asfalt; die alleen leverde niet dezelfde kleurinvulling als de native aansluiting. Beide materiaalstroken volgen dezelfde rijpaden. De stationsperrons blijven 80m lang.

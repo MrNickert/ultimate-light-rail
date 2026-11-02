@@ -41,7 +41,7 @@ local function main()
   local vehicles=setting==2 and 4 or 2
   local undecorated=shared({}, {crossover=setting})
   assert(equal(r.edgeLists,undecorated.edgeLists) and equal(r.snapPoint,undecorated.snapPoint),"surface decoration preserves track approach and snapping")
-  assert(equal(sub.station,undecorated.subconstructions[1].station),"surface decoration preserves terminal and passenger references")
+  assert(equal(sub.station.terminals,undecorated.subconstructions[1].station.terminals),"surface decoration preserves terminal and passenger references")
   for i=1,vehicles do assert(equal(sub.laneLists[i],undecorated.subconstructions[1].laneLists[i]),"vehicle lanes, speed and reservation flags unchanged")end
   assert(#sub.laneLists==vehicles+4,"vehicle and passenger lane counts follow crossover option")
   local function connect(a,b)
@@ -104,7 +104,7 @@ local function main()
   for i=vehicles+1,#sub.laneLists do
    for _,node in ipairs(sub.laneLists[i].nodes)do assert(node[1][3]==0.25,"pedestrians stand on the low platform floor")end
   end
-  local slabs=0;local platforms=0;local poles=0;local heads=0;local trees=0;local flowers=0;local ribbons=0
+  local slabs=0;local platforms=0;local poles=0;local heads=0;local trees=0;local flowers=0;local ribbons=0;local paving=0
   for _,model in ipairs(sub.models)do
    if model.id=="mrnickert_ultimate_metro::/surface_platform.mdl" then
     slabs=slabs+1
@@ -117,22 +117,54 @@ local function main()
    elseif model.id=="mrnickert_ultimate_metro::/surface_head_tile.mdl" then
     heads=heads+1
     assert(model.transf[1]==1 and model.transf[6]==0.9,"head tiles retain their native paving scale")
-    assert(model.transf[13]==85 or model.transf[13]==90,"head tiles fill the two 5m rows")
+    assert(model.transf[13]==85,"head tiles fill a single 5m row")
+   elseif model.id=="mrnickert_ultimate_metro::/tram_paving.mdl" then
+    paving=paving+1
+    assert(model.transf[15]>=0.008 and model.transf[15]<0.009,"native paving above gravel, below rail texture")
    elseif model.id=="mrnickert_ultimate_metro::/tram_ribbon.mdl" then
     ribbons=ribbons+1
     assert(model.transf[15]>=0.015 and model.transf[15]<=0.018001,"tram decals clear the ground and have separate switch layers")
    elseif model.id=="::/assets/vegetation/trees/apple_01/apple_01.mdl" then
     trees=trees+1
-    assert(model.transf[13]==88.5 and math.abs(model.transf[14])==5.5,"trees only at the head, clear of the wiring and central entrance")
-    assert(model.transf[13]-2.83192*model.transf[1]>86,"tree crowns stay beyond the cross-platform walking corridor")
+    assert(model.transf[13]==83.8 and math.abs(model.transf[14])==5.5,"trees only at the compact head, clear of central entrance")
+    assert(model.transf[13]-2.83192*model.transf[1]>81,"tree crowns stay beyond the end of the overhead wires")
+    assert(model.transf[13]-1.02263>82.5,"tree bed footprint clears the cross-platform walking corridor")
    elseif model.id=="::/assets/buildings/res/flower_pots/raised_bed_c.mdl" then
     flowers=flowers+1
-    assert(model.transf[13]>=82 and math.abs(model.transf[14])==8.2,"all planters on the head plaza, no side greenery")
+    assert(model.transf[13]>=81.2 and model.transf[13]<=83.8 and math.abs(model.transf[14])==8.2,"all planters on the compact head plaza, no side greenery")
    elseif model.id=="::/assets/streets/tram_pole_crossbar.mdl" then poles=poles+1 end
   end
-  assert(slabs==4 and platforms==4 and heads==4 and poles==10,"continuous side platforms and four near-native head tiles")
-  assert(trees==2 and flowers==4 and ribbons>400,"native tram visuals and head-plaza greenery")
-  assert(sub.groundFaces[1].modes[1].key=="::/infrastructure/street/shared/street_fill.gtex","native asphalt retained below the rails")
+  assert(slabs==4 and platforms==4 and heads==2 and poles==10,"80m platforms and one 5m head row")
+  assert(trees==2 and flowers==4 and ribbons>400 and paving==ribbons,"each rail strip has its native paving layer; greenery retained")
+  assert(sub.groundFaces[1].modes[1].key=="::/infrastructure/street/shared/street_fill.gtex","native gravel underlay retained below the paving")
+  local entry=sub.laneLists[#sub.laneLists]
+  assert(entry.nodes[1][1][1]==81.5 and entry.nodes[#entry.nodes][1][1]==85,"public access follows shortened head")
+  local pedestrianGraph={}
+  for i=vehicles+1,#sub.laneLists do
+   local lane=sub.laneLists[i]
+   for j=1,#lane.nodes,2 do
+    local a,b=lane.nodes[j],lane.nodes[j+1]
+    local from,to=key(a),key(b)
+    pedestrianGraph[from]=pedestrianGraph[from] or {};pedestrianGraph[to]=pedestrianGraph[to] or {}
+    pedestrianGraph[from][to]=true;pedestrianGraph[to][from]=true
+    for k=1,3 do
+     assert(math.abs(a[2][k]-(b[1][k]-a[1][k]))<1e-9 and a[2][k]==b[2][k],"pedestrian tangents match remapped segment lengths")
+    end
+   end
+  end
+  local pending={key(entry.nodes[#entry.nodes])};local reached={}
+  while #pending>0 do
+   local point=table.remove(pending)
+   if not reached[point]then reached[point]=true;for other in pairs(pedestrianGraph[point]or{})do pending[#pending+1]=other end end
+  end
+  for _,terminal in ipairs(sub.station.terminals)do
+   for _,ref in ipairs(terminal.personNodes)do
+    assert(reached[key(sub.laneLists[ref[1]+1].nodes[ref[2]+1])],"shortened public path reaches both platform terminals")
+   end
+  end
+  for _,alignment in ipairs(sub.terrainAlignmentLists)do
+   for _,face in ipairs(alignment.faces)do for _,point in ipairs(face)do assert(point[1]<=87,"terrain footprint shortened by 5m")end end
+  end
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
   for i=1,2 do
@@ -150,7 +182,12 @@ local function main()
  end
  local platform=resource("content/surface_platform.mdl")
  assert(not platform.metadata.transportNetworkProvider,"visual platform never adds native passenger or vehicle lanes")
- for _,path in ipairs({"content/surface_head_tile.mdl","content/tram_ribbon.mdl"})do
+ local pavingModel=resource("content/tram_paving.mdl").lods[1].node.children[1]
+ local railModel=resource("content/tram_ribbon.mdl").lods[1].node.children[1]
+ assert(pavingModel.mesh==railModel.mesh,"native paving and rail textures use the same strip mapping")
+ assert(pavingModel.materials[1]=="::/infrastructure/street/tram/mat/new_medium_tram_paving.mtl","standard native tram fill material")
+ assert(railModel.materials[1]=="::/infrastructure/street/tram/mat/new_medium_tram_track.mtl","standard native tram rail material")
+ for _,path in ipairs({"content/surface_head_tile.mdl","content/tram_ribbon.mdl","content/tram_paving.mdl"})do
   local model=resource(path)
   assert(not model.metadata.transportNetworkProvider,"new visual assets add no network lanes")
  end

@@ -25,8 +25,14 @@ local function tramSurface(models,lane,layer)
    local current=curve(a,b,step/steps)
    local x,y=current[1]-previous[1],current[2]-previous[2]
    local length=math.sqrt(x*x+y*y)
-   models[#models+1]={id="mrnickert_ultimate_metro::/tram_ribbon.mdl",
-    transf={x/0.5,y/0.5,0,0,-y/length,x/length,0,0,0,0,1,0,previous[1],previous[2],0.015+(layer-1)*0.001,1}}
+   -- Native streets render both paving and rail texture. The missing paving
+   -- left the station's gravel ground exposed despite the matching rail image.
+   local paving={x/0.5,y/0.5,0,0,-y/length,x/length,0,0,0,0,1,0,
+    previous[1],previous[2],0.008+(layer-1)*0.0002,1}
+   models[#models+1]={id="mrnickert_ultimate_metro::/tram_paving.mdl",transf=paving}
+   local rails={};for k,value in ipairs(paving) do rails[k]=value end
+   rails[15]=0.015+(layer-1)*0.001
+   models[#models+1]={id="mrnickert_ultimate_metro::/tram_ribbon.mdl",transf=rails}
    previous=current
   end
  end
@@ -61,10 +67,25 @@ return function(result)
   models[#models+1]={id=id,transf=matrix(x,y,z,angle,sx,sy,sz)}
  end
  local vehicles=0
+ local moved={}
+ local compactX={[85]=81.5,[90]=85}
  for _,lane in ipairs(sub.laneLists) do
   if lane.transportModes[1]=="PERSON" then
-   -- Lift each shared point once, preserving passenger graph and references.
-   for _,node in ipairs(lane.nodes) do node[1][3]=PLATFORM_HEIGHT end
+   -- Shorten the head walkway without changing node/reference indices.
+   -- Adjacent segments share point tables, so remap each point exactly once.
+   for _,node in ipairs(lane.nodes) do
+    local point=node[1]
+    if not moved[point] then
+     point[1]=compactX[point[1]] or point[1]
+     point[3]=PLATFORM_HEIGHT
+     moved[point]=true
+    end
+   end
+   for i=1,#lane.nodes,2 do
+    local a,b=lane.nodes[i],lane.nodes[i+1]
+    local dx,dy,dz=b[1][1]-a[1][1],b[1][2]-a[1][2],b[1][3]-a[1][3]
+    a[2]={dx,dy,dz};b[2]={dx,dy,dz}
+   end
   else vehicles=vehicles+1 end
  end
  -- Existing shelters stay in their original positions, standing on the slabs.
@@ -73,7 +94,7 @@ return function(result)
    model.transf[15]=PLATFORM_HEIGHT
   end
  end
- -- Keep the native asphalt ground face below the rails. A flattened platform
+ -- Keep the native gravel ground face below the two tram material layers. A flattened platform
  -- mesh had its floor at z=0 too, causing depth fighting with the terrain.
  -- Raised passenger platforms and the head plaza remain separate models.
  -- Continuous low tram platforms: world x=0..80, y=4..9 / -9..-4.
@@ -93,24 +114,34 @@ return function(result)
     side==1 and math.pi or 0,1,4/3.13368,0.75)
   end
  end
- -- Four native 5x10m connecting tiles: no squashed 40m platform at the head.
- for _,x in ipairs({85,90}) do
+ -- One 5m row of native head tiles, rather than two rows (10m).
+ for _,x in ipairs({85}) do
   for _,y in ipairs({-4.5,4.5}) do
    add("mrnickert_ultimate_metro::/surface_head_tile.mdl",x,y,0,0,1,0.9,PLATFORM_SCALE)
   end
  end
  -- Greenery belongs only on the head plaza, clear of the overhead wiring.
- -- The public walkway at x=85 and the central entrance at y=0 remain open.
+ -- The public walkway at x=81.5 and the central entrance at y=0 remain open.
  for _,side in ipairs({-1,1}) do
-  add("::/assets/streets/tree_bed_new.mdl",88.5,side*5.5,PLATFORM_HEIGHT)
-  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",88.5,side*5.5,PLATFORM_HEIGHT,0,0.65,0.65,0.65)
-  for _,x in ipairs({82,88}) do
+  add("::/assets/streets/tree_bed_new.mdl",83.8,side*5.5,PLATFORM_HEIGHT)
+  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",83.8,side*5.5,PLATFORM_HEIGHT,0,0.65,0.65,0.65)
+  for _,x in ipairs({81.2,83.8}) do
    add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,side*8.2,PLATFORM_HEIGHT)
    for _,offset in ipairs({-0.5,0.5}) do
     add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,side*8.2,PLATFORM_HEIGHT+0.72,0,0.35,0.35,0.35)
    end
   end
  end
+ -- Shorten painted apron and terrain footprint by the same 5m as the plaza.
+ for _,point in ipairs(sub.groundFaces[#sub.groundFaces].face) do
+  if point[1]>80 then point[1]=point[1]-5 end
+ end
+ for _,alignment in ipairs(sub.terrainAlignmentLists) do
+  for _,face in ipairs(alignment.faces or {}) do
+   for _,point in ipairs(face) do if point[1]>80 then point[1]=point[1]-5 end end
+  end
+ end
+ sub.station.catchmentAreas[1].position[1]=81.5
  for i=1,vehicles do
   tramSurface(models,sub.laneLists[i],i)
   wires(models,sub.laneLists[i],i>2)

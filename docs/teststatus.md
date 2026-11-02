@@ -1,4 +1,4 @@
-# Teststatus 0.8.4
+# Teststatus 0.8.5
 
 ## Door de gebruiker bevestigd op het bovengrondse station
 
@@ -36,3 +36,7 @@ Gebruikersbeeld: zwarte en witte strepen op het spoorbed. De afgeplatte native p
 ## 0.8.4 tegelpatroon, tramstroken en groen
 
 De vervormde pleinmodule wordt vervangen door vier native 5x10m verbindingsstukken (100% lengte, 90% breedte). Een oorspronkelijke vierpuntsstrook gebruikt het bestaande native tramspoor-materiaal, zonder spoorwegmodellen op maaiveld. Bomen, boombakken, plantenbakken en bloemstruiken staan alleen op het kopplein. Controleer in de game de decalweergave, wisselovergangen en wandelruimte; lokale controles vervangen de beeldproef niet.
+
+## 0.8.5 compact plein en native kleurinvulling
+
+Eén rij koptegels is verwijderd. De bomen en bloembakken staan dichter bij elkaar; de wandelverbinding loopt op x=81,5 naar een publieke toegang op x=85. Gedeelde voetgangerspunten worden één keer verplaatst, met opnieuw berekende tangenten. De native .street gebruikt zowel new_medium_tram_track als new_medium_tram_paving; de laatste ontbrak in de interne weergave. Beide lagen worden nu langs elk bestaand rijpad opgebouwd, op verschillende hoogten boven de grindgrond. Geen aanpassing aan voertuigroutes of de ondergrondse variant.
