@@ -1,4 +1,4 @@
-# Teststatus 0.8.2
+# Teststatus 0.8.3
 
 ## Door de gebruiker bevestigd op het bovengrondse station
 
@@ -28,3 +28,7 @@ De gebruiker bevestigde dat het ondergrondse station functioneert zoals verwacht
 ## 0.8.2 bovengrondse aankleding
 
 De gedeelde voertuigbouwer en de volledige ondergrondse variant blijven gelijk aan 0.8.1. De bovengrondse adapter voegt visuele perronvlakken en inrichting toe en zet alleen de bestaande voetgangerspunten op 0,25m hoogte. De visuele perrondefinitie bevat geen native transportmetadata. Bovenleidingsdraden zijn decoratieve modellen; de bestaande elektrische vervoersmodi blijven de werking bepalen. Nieuw te testen: visuele uitlijning, perronhoogte, vrije doorgang langs meubels, aansluiting van de verhoogde voetgangersingang op de straat en instappen.
+
+## 0.8.3 spoorbedweergave
+
+Gebruikersbeeld: zwarte en witte strepen op het spoorbed. De afgeplatte native perronvloer was op exact z=0 geplaatst, gelijk aan het terreinoppervlak. De drie extra spoorbedmodellen zijn verwijderd; de native asfaltgrondtextuur blijft actief. De controle bewaakt dat alleen de vier verhoogde perronmodules en het kopplein als perronmesh voorkomen. De visuele bevestiging van de hotfix volgt nog in de game.

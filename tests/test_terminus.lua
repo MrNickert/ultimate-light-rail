@@ -108,6 +108,7 @@ local function main()
   for _,model in ipairs(sub.models)do
    if model.id=="mrnickert_ultimate_metro::/surface_platform.mdl" then
     slabs=slabs+1
+    assert(model.transf[11]>0.3,"no flattened platform mesh overlapping the asphalt ground")
     if math.abs(model.transf[14])==6.5 then
      platforms=platforms+1
      assert(model.transf[13]==0 or model.transf[13]==40,"two consecutive native 40m slabs per platform")
@@ -115,7 +116,8 @@ local function main()
     end
    elseif model.id=="::/assets/streets/tram_pole_crossbar.mdl" then poles=poles+1 end
   end
-  assert(slabs==8 and platforms==4 and poles==10,"both continuous platforms, three paved trackbed sections, head plaza and tram masts")
+  assert(slabs==5 and platforms==4 and poles==10,"both continuous platforms, head plaza and tram masts")
+  assert(sub.groundFaces[1].modes[1].key=="::/infrastructure/street/shared/street_fill.gtex","native asphalt retained below the rails")
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
   for i=1,2 do

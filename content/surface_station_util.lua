@@ -51,10 +51,9 @@ return function(result)
    model.transf[15]=PLATFORM_HEIGHT
   end
  end
- -- Real visible paving below the rails, rather than a terrain tint alone.
- for _,segment in ipairs({{-30,30},{0,40},{40,40}}) do
-  add(PLATFORM,segment[1],0,-0.008,0,segment[2]/40,8/5,0.01)
- end
+ -- Keep the native asphalt ground face below the rails. A flattened platform
+ -- mesh had its floor at z=0 too, causing depth fighting with the terrain.
+ -- Raised passenger platforms and the head plaza remain separate models.
  -- Continuous low tram platforms: world x=0..80, y=4..9 / -9..-4.
  for _,side in ipairs({-1,1}) do
   for _,x in ipairs({0,40}) do add(PLATFORM,x,side*6.5,0,0,1,1,PLATFORM_SCALE) end
