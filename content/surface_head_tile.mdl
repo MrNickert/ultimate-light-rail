@@ -1,0 +1,72 @@
+-- Native 5x10m connecting platform mesh, visual-only and nearly unscaled.
+function data()
+ return {boundingInfo={bbMin={-5,-5,0},bbMax={0,5,1.1}},
+  collider={type="BOX",params={halfExtents={2.5,5,0.55}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,-2.5,0,0.55,1}},
+  lods={
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_10_head_con_lod0.msh",
+							name = "perron_10_head_con",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 0,
+				visibleTo = 50.4339,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_10_head_con_lod1.msh",
+							name = "perron_10_head_con",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 50.4339,
+				visibleTo = 151.302,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_10_head_con_lod2.msh",
+							name = "perron_10_head_con",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 151.302,
+				visibleTo = 453.905,
+			},
+			{ 
+				node = { 
+					children = {
+						{ 
+							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
+							mesh = "::/stations/rail/era_c/msh/perron_10_head_con_lod3.msh",
+							name = "perron_10_head_con",
+							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+						},
+					},
+					name = "RootNode",
+					transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
+				},
+				visibleFrom = 453.905,
+				visibleTo = 1361.72,
+			},
+		},metadata={},version=2}
+end

@@ -1,0 +1,13 @@
+-- Native embedded-tram material on an original small flat strip.
+-- No transport provider: this changes appearance only.
+function data()
+ return {boundingInfo={bbMin={0,-0.940379,0},bbMax={0.5,0.940379,0}},
+  collider={type="BOX",params={halfExtents={0,0,0}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+  lods={{node={children={{
+   materials={"::/infrastructure/street/tram/mat/new_medium_tram_track.mtl"},
+   mesh="mrnickert_ultimate_metro::/tram_ribbon.msh",name="tram_ribbon",
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}}},
+   name="RootNode",transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+   visibleFrom=0,visibleTo=2000}},metadata={},version=2}
+end

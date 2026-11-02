@@ -104,7 +104,7 @@ local function main()
   for i=vehicles+1,#sub.laneLists do
    for _,node in ipairs(sub.laneLists[i].nodes)do assert(node[1][3]==0.25,"pedestrians stand on the low platform floor")end
   end
-  local slabs=0;local platforms=0;local poles=0
+  local slabs=0;local platforms=0;local poles=0;local heads=0;local trees=0;local flowers=0;local ribbons=0
   for _,model in ipairs(sub.models)do
    if model.id=="mrnickert_ultimate_metro::/surface_platform.mdl" then
     slabs=slabs+1
@@ -114,9 +114,24 @@ local function main()
      assert(model.transf[13]==0 or model.transf[13]==40,"two consecutive native 40m slabs per platform")
      assert(math.abs(model.transf[11]*0.8-0.25)<1e-9,"walking floor matches native mesh height")
     end
+   elseif model.id=="mrnickert_ultimate_metro::/surface_head_tile.mdl" then
+    heads=heads+1
+    assert(model.transf[1]==1 and model.transf[6]==0.9,"head tiles retain their native paving scale")
+    assert(model.transf[13]==85 or model.transf[13]==90,"head tiles fill the two 5m rows")
+   elseif model.id=="mrnickert_ultimate_metro::/tram_ribbon.mdl" then
+    ribbons=ribbons+1
+    assert(model.transf[15]>=0.015 and model.transf[15]<=0.018001,"tram decals clear the ground and have separate switch layers")
+   elseif model.id=="::/assets/vegetation/trees/apple_01/apple_01.mdl" then
+    trees=trees+1
+    assert(model.transf[13]==88.5 and math.abs(model.transf[14])==5.5,"trees only at the head, clear of the wiring and central entrance")
+    assert(model.transf[13]-2.83192*model.transf[1]>86,"tree crowns stay beyond the cross-platform walking corridor")
+   elseif model.id=="::/assets/buildings/res/flower_pots/raised_bed_c.mdl" then
+    flowers=flowers+1
+    assert(model.transf[13]>=82 and math.abs(model.transf[14])==8.2,"all planters on the head plaza, no side greenery")
    elseif model.id=="::/assets/streets/tram_pole_crossbar.mdl" then poles=poles+1 end
   end
-  assert(slabs==5 and platforms==4 and poles==10,"both continuous platforms, head plaza and tram masts")
+  assert(slabs==4 and platforms==4 and heads==4 and poles==10,"continuous side platforms and four near-native head tiles")
+  assert(trees==2 and flowers==4 and ribbons>400,"native tram visuals and head-plaza greenery")
   assert(sub.groundFaces[1].modes[1].key=="::/infrastructure/street/shared/street_fill.gtex","native asphalt retained below the rails")
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
@@ -128,13 +143,17 @@ local function main()
   for _,model in ipairs(sub.models) do
    assert(not model.id:find("_standard.mdl",1,true),"no sleeper-track models or railway buffers")
    if model.id:find("single_rail.mdl",1,true) then
-    assert(model.transf[15]==-0.52 or model.transf[15]>5,"rails stay embedded, decorative wires stay overhead")
+    assert(model.transf[15]>5,"rail mesh is used only for overhead wires; ground uses native tram texture")
    end
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
  end
  local platform=resource("content/surface_platform.mdl")
  assert(not platform.metadata.transportNetworkProvider,"visual platform never adds native passenger or vehicle lanes")
+ for _,path in ipairs({"content/surface_head_tile.mdl","content/tram_ribbon.mdl"})do
+  local model=resource(path)
+  assert(not model.metadata.transportNetworkProvider,"new visual assets add no network lanes")
+ end
  print("PASS: unchanged vehicle paths, both terminals and crossover options; low visible platforms, passenger floor height, visual-only model metadata, paving and masts. Appearance and boarding need an in-game check.")
 end
 local ok,err=pcall(main)

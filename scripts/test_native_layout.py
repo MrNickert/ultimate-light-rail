@@ -21,7 +21,7 @@ for package in content.rglob('*.zip'):
         for name in archive.namelist():
             resources.add((prefix + '/' + name).removeprefix('./'))
 for file in (root / 'content').rglob('*'):
-    if file.suffix not in ('.lua', '.mdl'):
+    if file.suffix not in ('.lua', '.mdl', '.msh'):
         continue
     for resource in re.findall(r'"::/([^"@]+)', file.read_text(encoding='utf-8')):
         candidates = (resource, resource + '.lua', resource + '.tl', resource.removesuffix('.tga') + '@2x.tga')
@@ -35,7 +35,17 @@ for texture in (root / 'content/ui').glob('*.tga'):
     assert min(alpha) == 0 and max(alpha) == 255, (texture.name, 'requires real transparent background and opaque station')
     for x, y in ((0, 0), (width-1, 0), (0, height-1), (width-1, height-1)):
         assert alpha[y * width + x] == 0, (texture.name, 'opaque corner')
-print('PASS: all native resource references exist; four UI textures have native dimensions and valid pixel payloads.', flush=True)
+# Original decal mesh: validate float/index buffers, upward winding and safe UVs.
+blob = (root / 'content/tram_ribbon.msh.blob').read_bytes()
+assert len(blob) == 288
+positions = [struct.unpack_from('<3f', blob, i * 12) for i in range(4)]
+assert all(point[2] == 0 for point in positions)
+for offset in (192, 216, 240, 264):
+    assert all(index < 4 for index in struct.unpack_from('<6I', blob, offset))
+a, b, c = positions[:3]
+assert (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]) > 0
+assert 1.88 < positions[2][1]-positions[1][1] < 1.89
+print('PASS: native resource references, transparent UI textures and original tram-ribbon vertex/index buffers.', flush=True)
 with tempfile.TemporaryDirectory(prefix='metro-native-test-') as temp:
     with zipfile.ZipFile(args.game / 'base/content/scripts.zip') as archive:
         for name in ('laneutil', 'modulesutil', 'constructionutil'):

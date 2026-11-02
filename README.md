@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.8.3, revision 22. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.8.4, revision 23. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -29,12 +29,16 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 17 bestanden en geen meegeleverde native 3D-assets.
+De tweede controle leest de native Lua-hulpfuncties uit de geïnstalleerde game. Alleen hun Teal-wiskunde en engine-serialisatie worden in de test vervangen; plaatsing, reserveringen en voertuigsnelheid moeten in de game worden beoordeeld. Het pakket bevat 21 bestanden en geen meegeleverde native 3D-assets.
 
 ## Bovengrondse afwerking in 0.8.2
 
 Doorlopende lage perrons, zichtbaar straatwerk onder de sporen en een plein aan de kop, met banken, afvalbakken, plantenbakken, verlichting en bovenleidingsmasten met decoratieve draden. Alle zichtbare onderdelen gebruiken bestaande game-assets. De aparte oppervlaktedecoratie voegt geen vervoerslanen toe; voertuigpaden en ondergrondse aankleding blijven hetzelfde. Plaats een nieuw bovengronds station om de nieuwe inrichting te beoordelen en test de 25cm hoge voetgangersingang en het instappen.
 
-## 0.8.3 spoorbedweergave
+## 0.8.4 spoorbedweergave
 
 De drie platte perronmodellen onder de rails zijn verwijderd: hun vloer lag gelijk aan het grondvlak, waardoor beide oppervlakken door elkaar tekenden. Het spoorbed gebruikt weer de bestaande native asfaltgrondtextuur. Verhoogde perrons, plein, inrichting, spoorpaden en ondergrondse variant blijven behouden. Plaats een nieuw bovengronds station om de weergave te controleren; bestaande opgeslagen geometrie wordt niet automatisch herbouwd.
+
+## Afwerking 0.8.4
+
+Het kopplein gebruikt vier native verbindingsstukken op vrijwel oorspronkelijke schaal voor een gelijkmatig tegelpatroon. Het spoorbed gebruikt dezelfde native tramtextuur als de gewone tramtrack, aangebracht op kleine oorspronkelijke vlakke stroken langs de beproefde rijpaden. Op het plein staan twee kleine bomen, boombakken en vier bloembakken met azalea. Zijperrons blijven vrij van groen vanwege de bovenleiding. Nieuwe geometrie is alleen visueel; netwerk en ondergrondse variant veranderen niet.
