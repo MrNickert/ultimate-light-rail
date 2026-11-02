@@ -17,7 +17,7 @@ local function main()
  assert(root.params.type=='::/infrastructure/street/tram/tram_new.street_template','native tram approach, no mixed modes outside terminus')
  assert(#root.edges==4 and root.snapNodes[1]==0 and root.snapNodes[2]==3,'both outside endpoints connect')
  assert(root.edges[1][1][1]==-20 and root.edges[4][1][1]==100,'front and back approach geometry')
- assert(#sub.laneLists==7 and #sub.station.terminals==2,'two tracks plus underpass/platform/access lanes')
+ assert(#sub.laneLists==11 and #sub.station.terminals==2,'two tracks plus underpass/platform/six-access lanes')
  for i=1,2 do
   local lane=sub.laneLists[i]
   assert(lane.forwardOnly==true and lane.needsReservation==false,'normal directional tram semantics')
@@ -33,7 +33,7 @@ local function main()
   assert(ref[1]==i-1 and sub.laneLists[ref[1]+1].nodes[ref[2]+1][1][1]==40,'platform midpoint stop')
  end
  local function key(p)return string.format('%.5f,%.5f,%.5f',p[1]+0,p[2]+0,p[3]+0)end
- local graph={}
+ local graph,seenCurves={},{}
  for i=3,#sub.laneLists do
   local lane=sub.laneLists[i]
   assert(lane.transportModes[1]=='PERSON')
@@ -41,6 +41,10 @@ local function main()
    local a,b=lane.nodes[j],lane.nodes[j+1]
    local from,to=key(a[1]),key(b[1])
    assert(from~=to,'no zero-length passenger edge')
+   local forward=from..'|'..key(a[2])..'|'..to..'|'..key(b[2])
+   local reverse=to..'|'..key({-b[2][1],-b[2][2],-b[2][3]})..'|'..from..'|'..key({-a[2][1],-a[2][2],-a[2][3]})
+   assert(not seenCurves[forward] and not seenCurves[reverse],'no duplicate passenger curves, including reverse edges')
+   seenCurves[forward]=true
    for _,v in ipairs(a[2])do assert(v==v and math.abs(v)<1000,'finite native stair tangent')end
    if a[1][2]*b[1][2]<0 then
     assert(a[1][3]<-7 and b[1][3]<-7,'crossing between tracks only underground')
@@ -58,9 +62,16 @@ local function main()
   return visited
  end
  local entries=0
+ local accessPoints={}
  for _,lane in ipairs(sub.laneLists)do
   if lane.linkable then
    entries=entries+1
+   local start=lane.nodes[1][1]
+   assert(start[1]==4 or start[1]==40 or start[1]==76,'front/middle/back public entrance')
+   assert(math.abs(start[2])==11 and start[3]==0.25,'public entrance outside either platform')
+   local identity=tostring(start[1])..':'..tostring(start[2])
+   assert(not accessPoints[identity],'all six access points distinct');accessPoints[identity]=true
+   if start[1]==40 then assert(#lane.nodes==2,'central access reuses native outer walkway, no duplicate stair path')end
    local reached=reachable(lane.nodes[1][1])
    for _,terminal in ipairs(sub.station.terminals)do
     assert(#terminal.personEdges>0 and #terminal.personNodes>0)
@@ -72,7 +83,7 @@ local function main()
    end
   end
  end
- assert(entries==2,'two side entrances')
+ assert(entries==6,'three public access points per platform')
  local underpasses,slabs,holes=0,0,0
  for _,model in ipairs(sub.models)do
   if model.id=='mrnickert_ultimate_metro::/surface_underpass.mdl'then
@@ -96,7 +107,7 @@ local function main()
  assert(underpasses==2 and slabs==4 and holes==2,'native stair decks replace the middle of both platforms')
  local model=resource('surface_underpass.mdl')
  assert(not model.metadata.transportNetworkProvider,'model cannot add hidden rail or pedestrian lanes')
- print('PASS: two directional through tracks and native connections; both side entrances reach both platforms underground; finite paths, native stair proportions and safe terrain holes. Native placement/routing/boarding still need in-game validation.')
+ print('PASS: two directional through tracks and native connections; all six street entrances reach both platforms underground; finite paths, native stair proportions and safe terrain holes. Native placement/routing/boarding still need in-game validation.')
 end
 local ok,err=pcall(main)
 if not ok then io.stderr:write(tostring(err),'\n');os.exit(1)end

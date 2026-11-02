@@ -37,3 +37,7 @@ Vervolgontwerp voor één configureerbare bouwoptie: een gedeelde layoutconfigur
 ## Snelheidsvelden 0.9.1
 
 Belangrijk onderscheid: de native ondergrondse stationsbouwer roept laneutil.createLane aan met speedLimit=40, zonder omzetting. Het native tram-straatprofiel gebruikt LaneConfig.speed=27,77778 voor 100 km/u. Na de gemelde circa 23 km/u op onze rechte doorgaande stationslanen is de stationswaarde 80/3,6 vervangen door rechtstreeks 80. Wissellanen krijgen rechtstreeks 40. Het eigen straatprofiel houdt speed=80/3,6. De geometrie en voertuigconfiguratie zijn niet aangepast. De precieze engine-interpretatie/effectieve snelheidswinst blijft een in-game controlepunt; de oude algemene aanname dat elk snelheidsveld dezelfde conversie nodig heeft geldt niet langer als vastgesteld.
+
+## Zes openbare toegangen 0.9.2
+
+De platformverlenging aan de achterzijde is gesplitst bij x=76. Linkbare voetgangerslanen worden per zijde aangemaakt op x=4/40/76. Begin- en eindtoegangen lopen van y=+/-11 via de perronrand +/-9 naar het loopspoor +/-5,5. De middentoegang eindigt op de bestaande native randknoop (40,+/-9): het native pad naar (40,+/-7,5) wordt hergebruikt. Daardoor ontstaat geen dubbele reverse edge en loopt de nieuwe toegang niet door het trapgat. De straatconnector kiest de daadwerkelijke korte verbinding naar nabijgelegen wegknopen. Het catchment-middelpunt is (40,0,0), met ongewijzigde straal160. De terminalreferenties worden zoals voorheen uit de gegenereerde bovenliggende wachtpaden afgeleid.

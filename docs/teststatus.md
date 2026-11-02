@@ -1,4 +1,4 @@
-# Teststatus 0.9.1
+# Teststatus 0.9.2
 
 ## Actuele proef 0.9.0
 
@@ -70,3 +70,7 @@ Nog in de game te testen: plaatsen, beide aansluitingen, heen/terug-lijnroute, p
 ## Gebruikersproef 0.9.0 en snelheidscorrectie 0.9.1
 
 De gebruiker meldt dat de doorgaande variant direct werkt en toont voertuigen op beide sporen. Afzonderlijke bevestiging van voetgangers door de onderdoorgang en save/herladen blijft open. Ook op het rechte station blijft de tram circa 23 km/u rijden. Omdat de stationsbouwcode 80/3,6 = 22,22 doorgaf, wordt vanaf 0.9.1 voor dit veld de directe native conventie gebruikt: recht 80 en wissel 40. Straatprofielen houden hun aparte m/s-conversie. Lokale tests bewaken dit onderscheid. De daadwerkelijke snelheid na deze wijziging moet nog in de game worden bevestigd; er is nog geen UMSPEED-rapport beschikbaar. Geometrie, reserveringsvlaggen en voertuigprestaties veranderen niet.
+
+## Toegangen 0.9.2 en gebruikerswaarneming snelheid
+
+De gebruiker meldt dat de snelheid na 0.9.1 beter voelt; er is nog geen exacte meting van de maxima. De doorgaande variant krijgt zes afzonderlijke linkbare voetgangerslanen, drie per perron. De lokale graaftest controleert dat elk toegangspunt alle wachtpunten op beide perrons bereikt, dat de middentoegang geen bestaande native randcurve dupliceert en dat passage tussen de perrons uitsluitend ondergronds verloopt. De nieuwe automatische straatverbindingen moeten nog in de game worden bevestigd.

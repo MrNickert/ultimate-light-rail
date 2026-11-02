@@ -52,7 +52,7 @@ return function(_capture,_params)
    transportModes=modes,allowSnapToBaseEdgeEnds=true},
   subconstructions={{models=models,laneLists=lanes,
    station={tag=1,pool={edges={},capacity=0},terminals=terminals,
-    catchmentAreas={{position={4,0,0},radius=160}}},groundFaces=faces,
+    catchmentAreas={{position={40,0,0},radius=160}}},groundFaces=faces,
    terrainAlignmentLists={{type="EQUAL",faces={rectangle(-20,100,-12,12)},slopeLow=0,slopeHigh=0}}}},
   cost=180000,maintenanceCost=20000,
  }

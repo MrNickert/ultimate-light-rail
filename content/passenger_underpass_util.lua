@@ -89,7 +89,7 @@ return function()
   end
   -- Platform extensions join the native walking paths at x=20 and x=60.
   local walkY=side*5.5
-  for _,segment in ipairs({{0,4},{4,20},{60,80}})do
+  for _,segment in ipairs({{0,4},{4,20},{60,76},{76,80}})do
    curves[#curves+1]={{segment[1],walkY,FLOOR},{segment[2],walkY,FLOOR}}
   end
   local path,edges,nodes=lane(curves,false)
@@ -102,8 +102,16 @@ return function()
  end
  lanes[#lanes+1]=lane({{{40,-4,DEPTH},{40,4,DEPTH}}},false)
  for _,side in ipairs({-1,1})do
-  lanes[#lanes+1]=lane({{{4,side*11,FLOOR},{4,side*9,FLOOR}},
-   {{4,side*9,FLOOR},{4,side*5.5,FLOOR}}},true)
+  for _,x in ipairs({4,40,76})do
+   local curves={{{x,side*11,FLOOR},{x,side*9,FLOOR}}}
+   if x~=40 then
+    curves[#curves+1]={{x,side*9,FLOOR},{x,side*5.5,FLOOR}}
+   end
+   -- At x=40 the native path already joins the outer edge to the walkway
+   -- around the stairs. Reuse that edge instead of crossing the opening
+   -- or adding an exact duplicate in reverse (which can crash the engine).
+   lanes[#lanes+1]=lane(curves,true)
+  end
  end
  return {lanes=lanes,waiting=waiting,models=models,holes=holes,floor=FLOOR,depth=DEPTH}
 end

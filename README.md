@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.9.1, revision 27. Drie tramgebaseerde metrostations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.9.2, revision 28. Drie tramgebaseerde metrostations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -66,3 +66,7 @@ Extra controle: `& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_through_
 ## Stationssnelheid 0.9.1
 
 De gebruiker bevestigt een werkende doorgaande variant, maar meldt ook daar ongeveer 23 km/u. De bouwcode gaf 80/3,6 = 22,22 door aan het stationsveld speedLimit. Native stationsscripts geven hun limiet direct door (bijvoorbeeld 40 voor de ondergrondse halte). Daarom is de deling voor stationslanen verwijderd: recht 80, wissel 40. Het aparte straatprofielveld speed blijft op 80/3,6. Dit is een gerichte correctie op basis van de waarneming en native scripts; de werkelijke snelheid na deze wijziging is nog niet in de engine gemeten.
+
+## Zes zijtoegangen 0.9.2
+
+Het doorgaande station biedt per perron drie straataansluitingen: op 4m, 40m en 76m langs het 80m perron. Alle zes toegangen bereiken beide perrons via de onderdoorgang. De middentoegangen sluiten op de bestaande buitenrandpaden aan en lopen niet door de trapopening. Wegen moeten dicht genoeg bij de toegangen liggen; de engine maakt de korte voetgangersverbindingen. Het bereik is gecentreerd op het station, met dezelfde straal van 160m. Plaats een nieuw station om de extra aansluitingen te testen.
