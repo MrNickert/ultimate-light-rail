@@ -1,6 +1,7 @@
 -- Native industrial metal fence, uniformly scaled to 40% (1.3568m above ground).
 -- Native panel length runs along Y; edge repetitions require local X.
 -- Rotate 90 degrees around Z after scaling. Buried geometry supports uneven ground.
+-- Visual boundary only: zero collision box, like the existing tram decals.
 -- No transport metadata or native binary assets are included.
 function data()
  local meshes={
@@ -21,7 +22,7 @@ function data()
  end
  return {version=2,metadata={},lods=lods,
   boundingInfo={bbMin={-0.805,-0.027,-1.202},bbMax={0.814,0.028,1.3568}},
-  collider={type="BOX",params={halfExtents={0.814,0.028,0.679}},
-   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0.679,1}},
+  collider={type="BOX",params={halfExtents={0,0,0}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
  }
 end

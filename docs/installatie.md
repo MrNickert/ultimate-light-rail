@@ -1,8 +1,10 @@
-# Installatie 0.10.2
+# Installatie 0.10.3
 
-Pak `ultimate-light-rail-0.10.2.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De interne map blijft `mrnickert_ultimate_metro`. Herlaad de save; de game hoeft niet afgesloten.
+Pak `ultimate-light-rail-0.10.3.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De interne map blijft `mrnickert_ultimate_metro`. Herlaad de save; de game hoeft niet afgesloten.
 
 Zoek **Lightrail / Light Rail** naast de gewone tramtrack (kleine wegen/tram-infrastructuur, vanaf 1925). Teken een nieuwe elektrische verbinding; bestaande rails krijgen niet automatisch een hek. Voor de nieuwe hekken langs stationsaansluitingen plaats je een nieuw bovengronds station. De hekjes stoppen vóór het perron; bestaande stations blijven werken zonder automatische verbouwing.
+
+Test ook direct vastklikken van een nieuw kopstation en doorgaand station aan bestaand spoor, aan beide stationseinden en bij een T-aansluiting. Controleer dat de bouwpreview geen Collision door hekmodellen geeft en hekken niet over de kruising doorlopen.
 
 Controleer beide buitenhekken, bocht, helling en aansluitingen op gewone tramtrack/stations. Maak een wegkruising: de railovergang moet native blijven en de hekken mogen die niet afsluiten. Controleer ook tunnel/brug, twee of meer trams en opslaan/herladen. Deze nieuwe decoratie is nog niet in-game gevalideerd.
 

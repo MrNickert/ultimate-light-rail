@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie 0.10.2, revision 32. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
+Versie 0.10.3, revision 33. Voorheen **Ultimate Metro**. Een tramgebaseerde stationsset voor lightrail in Transport Fever 3, met gewone elektrische tramtrack en omkeerbare voertuigen zoals Citylink.
 
 ## Lightrailspoor
 
@@ -8,7 +8,7 @@ Versie 0.10.2, revision 32. Voorheen **Ultimate Metro**. Een tramgebaseerde stat
 
 De gebruiker heeft bevestigd dat kruisingen in 0.10.0 vrij blijven. De hekpanelen stonden toen dwars; 0.10.1 draait ze 90 graden. Controleer de gecorrigeerde hekpositie, bochten, hellingen en aansluitingen op stations nog in-game. Ook met meerdere trams testen; de eerdere succesvolle native tramproef is geen bewijs voor deze nieuwe decoratie. Er worden geen bestaande sporen of stations automatisch vervangen.
 
-De bovengrondse stations hebben hetzelfde hek langs de spooraansluitingen: bij het kopstation tot aan het begin van de perrons en bij het doorgaande station aan beide uiteinden. Langs de perrons, toegangen en het kopplein staat geen hek. De ondergrondse variant is ongewijzigd. Voor deze aankleding een nieuw station plaatsen; bestaande stations worden niet automatisch verbouwd. De menuafbeelding is gespiegeld en toont een kortere spoorsectie.
+De bovengrondse stations hebben hetzelfde hek langs de spooraansluitingen: bij het kopstation tot aan het begin van de perrons en bij het doorgaande station aan beide uiteinden. Langs de perrons, toegangen en het kopplein staat geen hek. De ondergrondse variant is ongewijzigd. Voor deze aankleding een nieuw station plaatsen; bestaande stations worden niet automatisch verbouwd. Op de aanklikbare buitenste 10m verzorgt de game de hek-randdecoratie; vaste hekmodellen staan alleen op de interne aansluitingen/wisselstraat en hebben geen botsingsvolume. De menuafbeelding toont een korte sectie met palen buiten de hekken, dwarskabels en twee bovenleidingen. De botsings- en aansluitcorrectie moet nog in-game worden getest.
 
 ## Stations
 
@@ -20,7 +20,7 @@ Alle drie staan in het wegstationsmenu. De doorgaande variant gebruikt vooralsno
 
 ## Installeren en bestaande saves
 
-Pak `ultimate-light-rail-0.10.2.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
+Pak `ultimate-light-rail-0.10.3.zip` uit in je bestaande staging_area en herlaad de save. Zie [installatie](docs/installatie.md).
 
 **De interne map en mod-ID blijven `mrnickert_ultimate_metro`.** Dit voorkomt dat huidige stations en saves hun resources kwijtraken. Deze versie voegt alleen een apart spoorprofiel met hek toe; bestaande stationsbestanden blijven gelijk. Stations opnieuw plaatsen is niet nodig. Verwijder de mod niet zolang een save zijn stations bevat.
 
@@ -43,4 +43,4 @@ python scripts/test_native_layout.py
 python scripts/package.py
 ```
 
-Het pakket bevat 32 runtimebestanden. Alle lokale afhankelijkheden, vertalingen, native assetverwijzingen en pakketinhoud worden gecontroleerd. Er zijn geen automatische wereldwijzigingen of diagnosehooks in de hoofdmod. Modellen, materialen en texturen worden uit de geïnstalleerde game hergebruikt; enkele visuele wrappers en vlakke tramstroken zijn van dit project. De twee eigen menuillustraties zijn gegenereerde previews, geen screenshots. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).
+Het pakket bevat 33 runtimebestanden. Alle lokale afhankelijkheden, vertalingen, native assetverwijzingen en pakketinhoud worden gecontroleerd. Er zijn geen automatische wereldwijzigingen of diagnosehooks in de hoofdmod. Modellen, materialen en texturen worden uit de geïnstalleerde game hergebruikt; enkele visuele wrappers en vlakke tramstroken zijn van dit project. De twee eigen menuillustraties zijn gegenereerde previews, geen screenshots. Zie [credits](CREDITS.md) en [architectuur](docs/architectuur.md).

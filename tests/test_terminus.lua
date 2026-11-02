@@ -35,12 +35,13 @@ local function main()
   local r=script.updateFn({}, {crossover=setting})
   local sub=r.subconstructions[1]
   assert(#r.edgeLists==1 and #r.edgeLists[1].edges==2,"only one straight root STREET segment, no rejected street junctions")
-  assert(r.edgeLists[1].params.type=="mrnickert_ultimate_metro::/lightrail_double.street_template")
+  assert(r.edgeLists[1].params.type=="mrnickert_ultimate_metro::/lightrail_station_approach.street_template")
   assert(r.edgeLists[1].snapNodes[1]==0 and #r.edgeLists[1].snapNodes==1,"only front endpoint is free")
   assert(#sub.station.terminals==2,"two platform terminals")
   local graph,seen={},{}
   local vehicles=setting==2 and 4 or 2
   local undecorated=shared({}, {crossover=setting})
+  undecorated.edgeLists[1].params.type=r.edgeLists[1].params.type
   assert(equal(r.edgeLists,undecorated.edgeLists) and equal(r.snapPoint,undecorated.snapPoint),"surface decoration preserves track approach and snapping")
   assert(equal(sub.station.terminals,undecorated.subconstructions[1].station.terminals),"surface decoration preserves terminal and passenger references")
   for i=1,vehicles do assert(equal(sub.laneLists[i],undecorated.subconstructions[1].laneLists[i]),"vehicle lanes, speed and reservation flags unchanged")end
@@ -179,10 +180,10 @@ local function main()
    assert(math.abs(math.abs(t[14])-5.65)<1e-6 and t[15]==0,"fence matches exterior native track edge")
    local left,right=t[13]-0.805*t[1],t[13]+0.814*t[1]
    assert(right<=0 or left>=80,"fence must not extend alongside platforms or entrances")
-   assert(left>=-40 and right<=0,"fence remains within station approach")
+   assert(left>=-30 and right<=0,"fence remains within station approach")
   end
  end
- assert(fenceCount==50,"fences on both sides of every surface approach")
+ assert(fenceCount==38,"fixed fences only on both internal throat sides; native edges cover snapping section")
   assert(#sub.models>4,"existing rail model visuals generated")
   assert(r.edgeLists[1].edges[1][1][1]==-40 and r.edgeLists[1].edges[2][1][1]==-30,"10m entry replaces long approach")
   for i=1,2 do

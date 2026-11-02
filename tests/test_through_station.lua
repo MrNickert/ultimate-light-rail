@@ -14,7 +14,7 @@ local function main()
  local result=resource('through_station.script.lua').updateFn({}, {})
  local sub=result.subconstructions[1]
  local root=result.edgeLists[1]
- assert(root.params.type=='::/infrastructure/street/tram/tram_new.street_template','native tram approach, no mixed modes outside terminus')
+ assert(root.params.type=='mrnickert_ultimate_metro::/lightrail_fenced.street_template','native-equivalent fenced tram approach, no mixed modes outside terminus')
  assert(#root.edges==4 and root.snapNodes[1]==0 and root.snapNodes[2]==3,'both outside endpoints connect')
  assert(root.edges[1][1][1]==-20 and root.edges[4][1][1]==100,'front and back approach geometry')
  assert(#sub.laneLists==11 and #sub.station.terminals==2,'two tracks plus underpass/platform/six-access lanes')
@@ -113,10 +113,10 @@ local function main()
    assert(math.abs(math.abs(t[14])-5.65)<1e-6 and t[15]==0,"fence matches exterior native track edge")
    local left,right=t[13]-0.805*t[1],t[13]+0.814*t[1]
    assert(right<=0 or left>=80,"fence must not extend alongside platforms or entrances")
-   assert(left>=-20 and right<=100,"fence remains within station approach")
+   assert((left>=-10 and right<=0) or (left>=80 and right<=90),"fence remains within station approach")
   end
  end
- assert(fenceCount==52,"fences on both sides of every surface approach")
+ assert(fenceCount==28,"fixed fences only on internal sections, native fences on snap edges")
  local model=resource('surface_underpass.mdl')
  assert(not model.metadata.transportNetworkProvider,'model cannot add hidden rail or pedestrian lanes')
  print('PASS: two directional through tracks and native connections; all six street entrances reach both platforms underground; finite paths, native stair proportions and safe terrain holes. Native placement/routing/boarding still need in-game validation.')

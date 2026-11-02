@@ -45,7 +45,7 @@ return function(_capture,_params)
  }
  for _,hole in ipairs(crossing.holes)do faces[#faces+1]=hole end
  local result={
-  edgeLists={{type="STREET",params={type="::/infrastructure/street/tram/tram_new.street_template",tramTrackType="ELECTRIC"},
+  edgeLists={{type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
    edges={{{-20,0,0},{10,0,0}},{{-10,0,0},{10,0,0}},{{90,0,0},{10,0,0}},{{100,0,0},{10,0,0}}},
    snapNodes={0,3},freeNodes={0,3}}},
   snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,-20,0,0,1},snapToBaseEdgeTypes={"STREET"},

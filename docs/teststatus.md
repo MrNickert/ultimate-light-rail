@@ -1,3 +1,11 @@
+## 0.10.3: hek bij automatische aansluitingen — nog in-game testen
+
+Gebruiker bevestigt dat 0.10.2 op NIEUWE stations aan de automatisch aanklikkende kant een hekgat toont (beide spoorzijden), en een Collision bij direct plaatsen aan een bestaand netwerk. Zowel doorgaand als terminus. Rechteruiteinde sloot wel goed aan. Vaste hekmodellen stonden op aanklikbare straatranden; vermoedelijke oorzaak is overlap met gegenereerde junctiongeometrie.
+
+Wijziging: vaste hekken uitsluitend langs interne rijpaden (terminus -30..0, doorgaand -10..0 en 80..90). De buitenste 10m straatranden krijgen native randdecoraties zodat de engine de junctionopeningen kan bepalen. Nieuwe verborgen SURFACE-aanloopvariant behoudt alle bestaande terminusmodi; origineel gedeeld/ondergronds profiel blijft ongewijzigd. Doorgaande buitenranden gebruiken het geteste native-equivalente lightrailprofiel. Hekmodel heeft nul botsingsvolume, zoals tramdecals. Perrons/toegangen blijven vrij. Menuillustratie: palen buiten hek, twee contactdraden en dwarskabels, korter stuk.
+
+Lokale controles toetsen onveranderde profieldata, rijpaden, voetgangertoegang, nul hekcollider en geen vaste hekmodellen op snapranden. Dit bewijst geen engineplaatsing: opnieuw direct aanklikken links/rechts, beide stationstypes, aansluiting op gewone tramtrack en lightrail, T-kruising, rijden en opslaan/herladen testen. Gebruik een nieuw station.
+
 ## 0.10.2: stationsaansluitingen tot aan perron
 
 Gebruiker bevestigt in 0.10.1 de hekoriëntatie en vrije kruisingen; screenshot toont ook een voertuig op het spoor. Op verzoek alleen hek langs de bovengrondse stationsaansluitingen, niet langs de perrons: kopstation x=-40..0; doorgaand x=-20..0 en x=80..100, beide buitenzijden y=±5.65. Perrons, alle zes publieke toegangen, kopplein en ondergrondse constructie blijven vrij/ongewijzigd. Alleen visuele modellen toegevoegd; geen lanen, reserveringen, aansluitprofielen of kosten gewijzigd. Menuafbeelding gespiegeld met kortere sectie.

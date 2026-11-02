@@ -72,3 +72,17 @@ for _,lod in ipairs(model.lods) do
  end
 end
 print("PASS: fenced track matches native tram traffic/layout exactly; two visual exterior fences, no added costs or modifiers.")
+
+-- Surface-only hidden terminus approach adds decoration without changing modes.
+local savedApproach=read("content/lightrail_double.street_template.lua")
+local surfaceApproach=read("content/lightrail_station_approach.street_template.lua")
+equal(surfaceApproach.defaultEdgeDecorations,{
+ {"mrnickert_ultimate_metro::/lightrail_fence.edge",false},
+ {"mrnickert_ultimate_metro::/lightrail_fence.edge",true},
+},"native fences on surface snapping edge")
+surfaceApproach.defaultEdgeDecorations=nil
+equal(surfaceApproach,savedApproach,"surface approach traffic stays unchanged")
+for _,extent in ipairs(model.collider.params.halfExtents) do
+ assert(extent==0,"decorative fence must not collide with a snapped junction")
+end
+print("PASS: fenced surface approach preserves all terminus lane data; visual fence adds no collision box.")

@@ -77,7 +77,9 @@ return function(result,options)
  local function add(id,x,y,z,angle,sx,sy,sz)
   models[#models+1]={id=id,transf=matrix(x,y,z,angle,sx,sy,sz)}
  end
- -- Fence only the track approaches/throat. Platforms and their existing
+ -- Fixed fence models only on internal track lanes, never on snap edges.
+ -- Native edge decorations cover the outer 10m and trim around junctions.
+ -- Platforms and their existing
  -- public accesses stay completely open, including future station options.
  -- The same visual-only model is used by the native fenced tram profile.
  local function fenceApproach(x0,x1)
@@ -92,10 +94,10 @@ return function(result,options)
   end
  end
  if options.through then
-  fenceApproach(-20,0)
-  fenceApproach(80,100)
+  fenceApproach(-10,0)
+  fenceApproach(80,90)
  else
-  fenceApproach(-40,0)
+  fenceApproach(-30,0)
  end
  local vehicles=0
  local moved={}
