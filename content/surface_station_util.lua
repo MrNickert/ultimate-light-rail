@@ -57,6 +57,12 @@ local function wires(models,lane,curved)
 end
 return function(result)
  local sub=result.subconstructions[1]
+ -- The native approach has two 5.5m lanes. Match its full 11m ground width
+ -- in the throat; between the platforms only the 8m track bed is exposed.
+ local fill=sub.groundFaces[1].modes[1].key
+ sub.groundFaces[1].face={{0,-4,0},{80,-4,0},{80,4,0},{0,4,0}}
+ table.insert(sub.groundFaces,2,{face={{-30,-5.5,0},{0,-5.5,0},{0,5.5,0},{-30,5.5,0}},
+  modes={{type="FILL",key=fill}}})
  -- Replace only the old ground-level railway rail visuals. Wires are added later.
  local models={}
  for _,model in ipairs(sub.models) do

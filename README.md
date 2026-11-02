@@ -1,6 +1,6 @@
 # Ultimate Metro
 
-Versie 0.8.5, revision 24. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.8.6, revision 25. Twee tramgebaseerde metrokopstations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
@@ -46,3 +46,9 @@ Het kopplein gebruikt vier native verbindingsstukken op vrijwel oorspronkelijke 
 ## Compacte kop en doorlopende trambestrating 0.8.5
 
 Het kopplein is 5m diep in plaats van 10m, met twee bomen en vier bloembakken in een compactere opstelling. De voetgangersverbinding en terreinbewerking zijn mee ingekort. Het spoorbed krijgt nu naast de native railtextuur ook de bijbehorende native trambestrating. De oorspronkelijke grondtextuur street_fill is grind, niet asfalt; die alleen leverde niet dezelfde kleurinvulling als de native aansluiting. Beide materiaalstroken volgen dezelfde rijpaden. De stationsperrons blijven 80m lang.
+
+## 0.8.6 bredere wisselondergrond en snelheidsmeting
+
+De grindondergrond onder de wissel is 11m breed, gelijk aan de twee native aansluitlanen van 5,5m. De perronruimte blijft 8m breed. Instappen met de compacte kop is door de gebruiker bevestigd. Gemeld rijgedrag: circa 13 km/u bij binnenkomst en 23 km/u bij vertrek; versnellen als ongeveer 80% van de tram de wissel gepasseerd is. De oorzaak is nog niet vastgesteld.
+
+De afzonderlijke, tijdelijke **Ultimate Metro Speed Probe** leest de daadwerkelijke speedLimit en curveSpeedLimit van bestaande metroconstructies uit en schrijft één [UMSPEED]-rapport naar stdout.txt. Activeer hem naast de hoofdmod, herlaad en laat circa 10 seconden doorlopen. Hij bevat geen voertuig-, resource- of wereldwijzigingen en geen opgeslagen meetstaat. Schakel hem na de meting weer uit. De gewone mod blijft vrij van diagnosehooks. Zie diagnostics/speed_probe/README.md.

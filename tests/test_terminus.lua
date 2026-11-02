@@ -137,6 +137,10 @@ local function main()
   assert(slabs==4 and platforms==4 and heads==2 and poles==10,"80m platforms and one 5m head row")
   assert(trees==2 and flowers==4 and ribbons>400 and paving==ribbons,"each rail strip has its native paving layer; greenery retained")
   assert(sub.groundFaces[1].modes[1].key=="::/infrastructure/street/shared/street_fill.gtex","native gravel underlay retained below the paving")
+  local throat=sub.groundFaces[2].face
+  local approachWidth=0;for _,config in ipairs(approach.laneConfigs)do approachWidth=approachWidth+config.width end
+  assert(throat[1][1]==-30 and throat[2][1]==0,"wider underlay only covers switch throat")
+  assert(throat[4][2]-throat[1][2]==approachWidth,"throat ground matches native approach width")
   local entry=sub.laneLists[#sub.laneLists]
   assert(entry.nodes[1][1][1]==81.5 and entry.nodes[#entry.nodes][1][1]==85,"public access follows shortened head")
   local pedestrianGraph={}

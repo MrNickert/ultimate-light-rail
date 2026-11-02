@@ -1,4 +1,4 @@
-# Teststatus 0.8.5
+# Teststatus 0.8.6
 
 ## Door de gebruiker bevestigd op het bovengrondse station
 
@@ -40,3 +40,7 @@ De vervormde pleinmodule wordt vervangen door vier native 5x10m verbindingsstukk
 ## 0.8.5 compact plein en native kleurinvulling
 
 Eén rij koptegels is verwijderd. De bomen en bloembakken staan dichter bij elkaar; de wandelverbinding loopt op x=81,5 naar een publieke toegang op x=85. Gedeelde voetgangerspunten worden één keer verplaatst, met opnieuw berekende tangenten. De native .street gebruikt zowel new_medium_tram_track als new_medium_tram_paving; de laatste ontbrak in de interne weergave. Beide lagen worden nu langs elk bestaand rijpad opgebouwd, op verschillende hoogten boven de grindgrond. Geen aanpassing aan voertuigroutes of de ondergrondse variant.
+
+## Gebruikersbevestiging 0.8.5 en vervolg 0.8.6
+
+Instappen via het compacte kopplein is bevestigd. De gebruiker ziet bij de wissel circa 13 km/u bij binnenkomst en 23 km/u bij vertrek; de tram versnelt zodra ongeveer 80% voorbij de wissel is. Dit bewijst nog niet welke engine-limiet de oorzaak is. De gewone 0.8.6 verandert de snelheid en rijgeometrie niet. Alleen de wisselondergrond wordt 11m breed. Een afzonderlijke read-only probe leest effectieve ingestelde en bochtlimieten uit; het engine-rapport is nog nodig voordat een snelheidsoplossing gekozen wordt.

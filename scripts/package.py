@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.8.5"
+VERSION = "0.8.6"
 CONTENT = {
     "content/twin_terminus.con.lua",
     "content/twin_terminus.script.lua",
