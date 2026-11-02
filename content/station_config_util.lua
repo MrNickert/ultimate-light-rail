@@ -6,17 +6,20 @@ return function(capture,params)
  params=params or {}
  -- Copy: the UI/save parameter table must not be changed by a builder.
  local config={};for k,v in pairs(params) do config[k]=v end
+ local lengths={40,60,80,100,120}
+ local length=lengths[tonumber(params.platformLength) or 3] or 80
+ local layout={length=length}
  local isThrough=tonumber(params.stationType)==1
  local isUnderground=tonumber(params.placement)==2
  local fence=not isUnderground and tonumber(params.fence or 2)~=1
  -- No public crossover parameter. Even stale/injected values cannot override type.
  config.crossover=isThrough and 1 or 2
- if isUnderground then return underground(capture,config,isThrough) end
+ if isUnderground then return underground(capture,config,isThrough,length) end
  local result
  if isThrough then
-  result=through(capture,config)
+  result=through(capture,config,layout)
  else
-  result=decorate(terminus(capture,config))
+  result=decorate(terminus(capture,config,layout),layout)
   result.edgeLists[1].params.type="mrnickert_ultimate_metro::/lightrail_station_approach.street_template"
  end
  if not fence then

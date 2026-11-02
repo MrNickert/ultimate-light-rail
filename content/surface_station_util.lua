@@ -57,6 +57,7 @@ local function wires(models,lane,curved)
 end
 return function(result,options)
  options=options or {}
+ local L=options.length or 80
  local floorHeight=options.platformHeight or PLATFORM_HEIGHT
  local deckScale=options.platformScale or PLATFORM_SCALE
  local sub=result.subconstructions[1]
@@ -64,7 +65,7 @@ return function(result,options)
  -- in the throat; between the platforms only the 8m track bed is exposed.
  if not options.through then
  local fill=sub.groundFaces[1].modes[1].key
- sub.groundFaces[1].face={{0,-4,0},{80,-4,0},{80,4,0},{0,4,0}}
+ sub.groundFaces[1].face={{0,-4,0},{L,-4,0},{L,4,0},{0,4,0}}
  table.insert(sub.groundFaces,2,{face={{-30,-5.5,0},{0,-5.5,0},{0,5.5,0},{-30,5.5,0}},
   modes={{type="FILL",key=fill}}})
  end
@@ -95,13 +96,13 @@ return function(result,options)
  end
  if options.through then
   fenceApproach(-10,0)
-  fenceApproach(80,90)
+  fenceApproach(L,L+10)
  else
   fenceApproach(-30,0)
  end
  local vehicles=0
  local moved={}
- local compactX={[85]=81.5,[90]=85}
+ local compactX={[L+5]=L+1.5,[L+10]=L+5}
  for _,lane in ipairs(sub.laneLists) do
   if lane.transportModes[1]=="PERSON" then
    if not options.through then
@@ -127,46 +128,54 @@ return function(result,options)
  for _,model in ipairs(models) do
   if model.id=="::/stations/street/small_stops/small_new.mdl" then
    model.transf[15]=floorHeight
-   if options.through then model.transf[13]=10 end
+   if options.through then model.transf[13]=math.max(4,math.min(10,(L/2-20)/2)) end
   end
  end
  -- Keep the native gravel ground face below the two tram material layers. A flattened platform
  -- mesh had its floor at z=0 too, causing depth fighting with the terrain.
  -- Raised passenger platforms and the head plaza remain separate models.
- -- Continuous low tram platforms: world x=0..80, y=4..9 / -9..-4.
+ -- Continuous low tram platforms: world x=0..L, y=4..9 / -9..-4.
  for _,side in ipairs({-1,1}) do
-  if options.through then
-   for _,x in ipairs({0,60})do add(PLATFORM,x,side*6.5,0,0,0.5,1,deckScale)end
-  else
-   for _,x in ipairs({0,40})do add(PLATFORM,x,side*6.5,0,0,1,1,deckScale)end
+  -- Tile plain deck sections; keep furniture and the 40m native stair module unscaled.
+  local function deck(first,last)
+   while first<last-1e-8 do
+    local span=math.min(40,last-first)
+    add(PLATFORM,first,side*6.5,0,0,span/40,1,deckScale)
+    first=first+span
+   end
   end
+  if options.through then deck(0,L/2-20);deck(L/2+20,L)
+  else deck(0,L) end
   local facing=side==1 and -math.pi/2 or math.pi/2
-  for _,x in ipairs({20,60}) do
+  -- On the 40m through deck the front shelter occupies the whole plain end;
+  -- keep the bench at the other end instead of placing it inside the shelter.
+  local benches=options.through and (L==40 and {L-3} or {L/2-20,L/2+20}) or {L/4,3*L/4}
+  for _,x in ipairs(benches) do
    add("::/assets/buildings/res/grd_frn/bench_c_metal.mdl",x,side*7.7,floorHeight,facing)
-   add("::/assets/buildings/com/misc/trashcan_c_01.mdl",x+3,side*8.2,floorHeight)
+   add("::/assets/buildings/com/misc/trashcan_c_01.mdl",math.min(x+3,L-2),side*8.2,floorHeight)
   end
-  for _,x in ipairs({6,28,52,74}) do
+  for _,x in ipairs({6*L/80,28*L/80,52*L/80,74*L/80}) do
    add("::/assets/buildings/res/garden_lamp/garden_lamp_c_stand.mdl",x,side*8.7,floorHeight,
     side==1 and 0 or math.pi)
   end
-  for _,x in ipairs(options.poles or {-15,8,28,52,72}) do
-   add("::/assets/streets/tram_pole_crossbar.mdl",x,side*6.5,(x<0 or x>80) and 0 or floorHeight,
+  for _,x in ipairs(options.poles or {-15,8*L/80,28*L/80,52*L/80,72*L/80}) do
+   add("::/assets/streets/tram_pole_crossbar.mdl",x,side*6.5,(x<0 or x>L) and 0 or floorHeight,
     side==1 and math.pi or 0,1,4/3.13368,0.75)
   end
  end
  if not options.through then
  -- One 5m row of native head tiles, rather than two rows (10m).
- for _,x in ipairs({85}) do
+ for _,x in ipairs({L+5}) do
   for _,y in ipairs({-4.5,4.5}) do
    add("mrnickert_ultimate_metro::/surface_head_tile.mdl",x,y,0,0,1,0.9,deckScale)
   end
  end
  -- Greenery belongs only on the head plaza, clear of the overhead wiring.
- -- The public walkway at x=81.5 and the central entrance at y=0 remain open.
+ -- The public walkway at L+1.5 and central entrance at y=0 remain open.
  for _,side in ipairs({-1,1}) do
-  add("::/assets/streets/tree_bed_new.mdl",83.8,side*5.5,floorHeight)
-  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",83.8,side*5.5,floorHeight,0,0.65,0.65,0.65)
-  for _,x in ipairs({81.2,83.8}) do
+  add("::/assets/streets/tree_bed_new.mdl",L+3.8,side*5.5,floorHeight)
+  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",L+3.8,side*5.5,floorHeight,0,0.65,0.65,0.65)
+  for _,x in ipairs({L+1.2,L+3.8}) do
    add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,side*8.2,floorHeight)
    for _,offset in ipairs({-0.5,0.5}) do
     add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,side*8.2,floorHeight+0.72,0,0.35,0.35,0.35)
@@ -175,14 +184,14 @@ return function(result,options)
  end
  -- Shorten painted apron and terrain footprint by the same 5m as the plaza.
  for _,point in ipairs(sub.groundFaces[#sub.groundFaces].face) do
-  if point[1]>80 then point[1]=point[1]-5 end
+  if point[1]>L then point[1]=point[1]-5 end
  end
  for _,alignment in ipairs(sub.terrainAlignmentLists) do
   for _,face in ipairs(alignment.faces or {}) do
-   for _,point in ipairs(face) do if point[1]>80 then point[1]=point[1]-5 end end
+   for _,point in ipairs(face) do if point[1]>L then point[1]=point[1]-5 end end
   end
  end
- sub.station.catchmentAreas[1].position[1]=81.5
+ sub.station.catchmentAreas[1].position[1]=L+1.5
  end
  for i=1,vehicles do
   tramSurface(models,sub.laneLists[i],i)

@@ -8,10 +8,10 @@ return function(resource)
   for k in pairs(b) do assert(a[k]~=nil,path..": extra key "..tostring(k)) end
  end
  local con=resource("light_rail_station.con.lua")
- assert(#con.menuCategory.categories==1 and #con.params==3)
- local expected={"placement","stationType","fence"}
+ assert(#con.menuCategory.categories==1 and #con.params==4)
+ local expected={"placement","stationType","platformLength","fence"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and #param.values==2 and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==(i==3 and 5 or 2)) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
@@ -19,7 +19,7 @@ return function(resource)
  end
  local script=resource("light_rail_station.script.lua")
  local menu=resource("station_menu.script.lua")
- assert(con.params[3].checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkFenceFn")
+ assert(con.params[4].checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkFenceFn")
  assert(menu.checkFenceFn({}, {placement=1})=="Enabled")
  assert(menu.checkFenceFn({}, {placement=2})=="Disabled")
  assert(menu.checkFenceFn({}, nil)=="Enabled")
@@ -111,5 +111,5 @@ return function(resource)
   results[id]=r
  end end end
  equal(script.updateFn({},nil),legacySurface.updateFn({}, {crossover=2}),"defaults use validated surface terminus")
- print("PASS: one three-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
+ print("PASS: one four-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

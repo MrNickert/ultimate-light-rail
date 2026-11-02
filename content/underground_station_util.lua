@@ -3,11 +3,13 @@
 local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua"
-return function(capture,params,isThrough)
- local result=isThrough and through(capture,params) or terminus(capture,params)
+return function(capture,params,isThrough,length)
+ local L=length or 80
+ local layout={length=L}
+ local result=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
  local source=result.subconstructions[1]
  local vehicles=isThrough and 2 or 4
- local sub=entrance(params,{through=isThrough})
+ local sub=entrance(params,{through=isThrough,length=L})
  local pedestrians=sub.laneLists
  sub.laneLists={}
  for i=1,vehicles do
@@ -25,7 +27,7 @@ return function(capture,params,isThrough)
   end
  end
  sub.station=source.station
- sub.station.catchmentAreas={{position={69,0,0},radius=200}}
+ sub.station.catchmentAreas={{position={L-11,0,0},radius=200}}
  for i,terminal in ipairs(sub.station.terminals) do
   local pedestrianIndex=vehicles+3+i
   terminal.personEdges={{pedestrianIndex,0},{pedestrianIndex,1},{pedestrianIndex,2}}
@@ -40,7 +42,7 @@ return function(capture,params,isThrough)
   edge.params.edgeType=edge.edgeType
   edge.params.edgeTypeName=edge.edgeTypeName
  end
- result.snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,68,0,0,1},
+ result.snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,L-12,0,0,1},
   snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
  result.subconstructions={sub}
  result.cost=900000

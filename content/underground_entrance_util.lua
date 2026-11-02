@@ -289,11 +289,13 @@ local generatedData = {
 --End Generated
 
 -- Adapted from Urban Games' underground_station.script.lua.
--- Fixed 80m platforms. The native concourse moves towards the closed head;
--- its surface entrance is rotated along the track axis. Vehicle paths stay fixed.
+-- Default 80m platforms, variable length for the unified station. The concourse
+-- stays near the far end; its entrance is rotated along the track axis.
 return function(params,options)
  options=options or {}
- local shift=transf.transl(vec3.new(60,0,0))
+ local L=options.length or 80
+ local centre=L-20
+ local shift=transf.transl(vec3.new(centre,0,0))
  local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
  local result={models={},laneLists={}}
  local function person(curves,linkable,matrix)
@@ -303,27 +305,27 @@ return function(params,options)
  person(generatedData.base.curves.passenger_entrance,false,entranceShift)
  person(makeCircleEdges(-12,8.5,-90),false)
  person(generatedData.rotated.curves.passenger_passageway,false)
- -- Keep platforms at world x=0..80; break exactly at the relocated stairs.
+ -- Keep platforms at world x=0..L; break exactly at the relocated stairs.
  for _,y in ipairs({-5,5}) do
   person({
-   {{-60,y,-17.65},{-14.66,y,-17.65}},
+   {{-centre,y,-17.65},{-14.66,y,-17.65}},
    {{-14.66,y,-17.65},{14.66,y,-17.65}},
    {{14.66,y,-17.65},{20,y,-17.65}},
   },false)
  end
  constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
  constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
- -- The 40m concourse covers x=40..80; native extensions fill x=-30..40.
- for x=20,(options.through and 60 or 80),10 do
+ -- Native extensions fill the shell from the left throat to the 40m concourse.
+ for x=20,(options.through and L-20 or L),10 do
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
    transf.mul(shift,transf.mul(transf.rotZ(math.pi),transf.transl(vec3.new(x,0,0)))))
  end
  if options.through then
-  -- Fill the second open throat x=80..90 with the native extension.
+  -- Fill the second open throat x=L..L+10 with the native extension.
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
-   transf.transl(vec3.new(80,0,0)))
+   transf.transl(vec3.new(L,0,0)))
  end
- local ends=options.through and {{90,false},{-10,true}} or {{80,false},{-30,true}}
+ local ends=options.through and {{L+10,false},{-10,true}} or {{L,false},{-30,true}}
  for _,endpoint in ipairs(ends) do
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}
@@ -333,7 +335,7 @@ return function(params,options)
  -- Existing brick wall mesh: 4m wide, z=-3.2..2, fitted to the 14m head wall.
  if not options.through then
  result.models[#result.models+1]={id="::/assets/buildings/res/misc/wall_2m_m.mdl",
-  transf={1,0,0,0,0,3.5,0,0,0,0,5.65/5.2,0,80.7,0,-12.5-2*5.65/5.2,1}}
+  transf={1,0,0,0,0,3.5,0,0,0,0,5.65/5.2,0,L+0.7,0,-12.5-2*5.65/5.2,1}}
  end
  return result
 end

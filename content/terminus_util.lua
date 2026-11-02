@@ -56,13 +56,14 @@ local function addRailVisuals(models,vehicleLane)
   end
  end
 end
-return function(_captureParams,params)
+return function(_captureParams,params,options)
+  local L=(options or {}).length or 80
   params=params or {}
   local crossover=tonumber(params.crossover or 2)~=1
   local modes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"}
   local lanes={
-   lane({{-30,-2.5,0},{0,-2.5,0},{40,-2.5,0},{80,-2.5,0}},modes,true,false),
-   lane({{-30,2.5,0},{0,2.5,0},{40,2.5,0},{80,2.5,0}},modes,true,false),
+   lane({{-30,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0}},modes,true,false),
+   lane({{-30,2.5,0},{0,2.5,0},{L/2,2.5,0},{L,2.5,0}},modes,true,false),
   }
   if crossover then
    -- Exact halves of a smooth 30m S-curve. At both switches the
@@ -75,14 +76,14 @@ return function(_captureParams,params)
   end
   local vehicles=#lanes
   local models={
-   {id="::/stations/street/small_stops/small_new.mdl",transf=transform(40,-7.5,0,true)},
-   {id="::/stations/street/small_stops/small_new.mdl",transf=transform(40,7.5,0)},
+   {id="::/stations/street/small_stops/small_new.mdl",transf=transform(L/2,-7.5,0,true)},
+   {id="::/stations/street/small_stops/small_new.mdl",transf=transform(L/2,7.5,0)},
   }
   for i=1,vehicles do addRailVisuals(models,lanes[i]) end
-  lanes[#lanes+1]=lane({{0,-5.5,0},{40,-5.5,0},{80,-5.5,0}},{"PERSON"},false,false)
-  lanes[#lanes+1]=lane({{0,5.5,0},{40,5.5,0},{80,5.5,0}},{"PERSON"},false,false)
-  lanes[#lanes+1]=lane({{80,-5.5,0},{85,-5.5,0},{85,0,0},{85,5.5,0},{80,5.5,0}},{"PERSON"},false,false)
-  lanes[#lanes+1]=lane({{85,0,0},{90,0,0}},{"PERSON"},false,true)
+  lanes[#lanes+1]=lane({{0,-5.5,0},{L/2,-5.5,0},{L,-5.5,0}},{"PERSON"},false,false)
+  lanes[#lanes+1]=lane({{0,5.5,0},{L/2,5.5,0},{L,5.5,0}},{"PERSON"},false,false)
+  lanes[#lanes+1]=lane({{L,-5.5,0},{L+5,-5.5,0},{L+5,0,0},{L+5,5.5,0},{L,5.5,0}},{"PERSON"},false,false)
+  lanes[#lanes+1]=lane({{L+5,0,0},{L+10,0,0}},{"PERSON"},false,true)
   local terminalModes={"TRAM","ELECTRIC_TRAM"}
   return {
    edgeLists={{type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_double.street_template",tramTrackType="ELECTRIC"},
@@ -95,13 +96,13 @@ return function(_captureParams,params)
       personNodes={{vehicles,0},{vehicles,1},{vehicles,3}},passengers=true,cargo=false,capacity=100},
      {vehicleNode={1,3},transportModes=terminalModes,personEdges={{vehicles+1,0},{vehicles+1,1}},
       personNodes={{vehicles+1,0},{vehicles+1,1},{vehicles+1,3}},passengers=true,cargo=false,capacity=100},
-    },catchmentAreas={{position={85,0,0},radius=160}}},
+    },catchmentAreas={{position={L+5,0,0},radius=160}}},
     groundFaces={
-     {face=rectangle(-30,80,-4,4),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
-     {face=rectangle(0,80,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
-     {face=rectangle(0,80,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
-     {face=rectangle(80,92,-9,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
-    },terrainAlignmentLists={{type="EQUAL",faces={rectangle(-40,92,-10,10)},slopeLow=0,slopeHigh=0}},
+     {face=rectangle(-30,L,-4,4),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
+     {face=rectangle(0,L,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
+     {face=rectangle(0,L,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
+     {face=rectangle(L,L+12,-9,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
+    },terrainAlignmentLists={{type="EQUAL",faces={rectangle(-40,L+12,-10,10)},slopeLow=0,slopeHigh=0}},
    }},cost=120000,maintenanceCost=20000,
   }
 end

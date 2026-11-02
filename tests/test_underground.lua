@@ -97,6 +97,7 @@ for _,option in ipairs({1,2})do
  assert(wall and wall.transf[13]>80,'visible closed head beyond track endpoints')
 end
 assert(loadfile('tests/test_station_config.lua'))()(resource)
+assert(loadfile('tests/test_station_lengths.lua'))()(resource)
 print('PASS: both switch settings, identical vehicle geometry at -18m, native pedestrian paths reach both platforms, native models/colliders/entrance terrain, 80/40 km/h limits. Engine placement still needs in-game validation.')
 end
 local ok,err=pcall(main)

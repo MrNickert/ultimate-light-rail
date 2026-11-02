@@ -1,3 +1,13 @@
+## 0.12.0: vijf perronlengtes — engineproef open
+
+Nieuwe vierde menuparameter platformLength: 1=40, 2=60, 3=80 (default), 4=100, 5=120 meter. Sleutel ontbreekt in bestaande saves: 80m. Onbekende index valt terug op 80m. Alleen de configuratieadapter zet de index om naar een lengte; bestaande losse adapters blijven standaard 80m.
+
+Perrons worden opgebouwd uit vlakke deckstukken en de ongeschaalde native 40m-trapmodule. Bij 40m doorgaand vervallen losse deckverlengingen; twee buitenste toegangen gebruiken bestaande native loopknopen op 1.5/38.5m. Bovenleidingpalen staan buiten trapopeningen. De wisselstraat blijft 30m; vehicleNode blijft dezelfde index met coördinaat L/2. Ingangen/kop/tweede spooraansluiting, hekken, footprint en wachtposities volgen L. Ondergrondse shell wordt aangevuld met native modules; trappen/meubilair worden niet opgerekt. Bouwkosten, onderhoud, capaciteit, snelheid, rijrichting en reserveringsgedrag blijven gelijk.
+
+Lokale tests: 40 combinaties van lengte × ligging × stationstype × hek met echte native helpers. Zichtbare perrondekking exact 0..L zonder gaten/overlap, geldige terminalrefs, middenstop, vaste wisselvorm, alle publieke ingangen bereiken beide perrons, geen dubbele of nul-lengte loopcurves, juiste tunnel-/hek-/kopposities en eindige modeltransforms. Een eenmalige onafhankelijke vergelijking met uitgepakte content uit de gecommitte 0.11.1-versie bevestigt voor alle acht standaard-80m-resultaten exacte gelijkheid, inclusief alle modellen en native geometrie.
+
+Nog in-game: de vier nieuwe lengtes, vooral 40 en 120m, voor alle vier stationstypen. Plaatsing, visualisatie, aansluitingen, voertuigstop/boarding, opslaan/herladen en bestaande 80m-stations. Het menu en de 80m-varianten waren door gebruiker eerder als foutloos getest geaccepteerd; dat bewijst de nieuwe maten niet.
+
 ## 0.11.1: native stationsicoon; gameproef 0.11.0 geslaagd
 
 Gebruiker bevestigt: alles van 0.11.0 getest en foutloos. Hiermee is het gecombineerde menu met de stationvarianten als geslaagd geaccepteerd. Dit is een gebruikersbevestiging, geen afzonderlijke telemetrie/meting per functie.

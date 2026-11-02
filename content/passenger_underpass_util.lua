@@ -72,7 +72,11 @@ local function lane(curves,linkable)
  end
  return result,waitingEdges,waitingNodes
 end
-return function()
+return function(length)
+ local L=length or 80
+ local centre=L/2
+ local start,finish=centre-20,centre+20
+ local front,back=start==0 and 1.5 or 4,finish==L and L-1.5 or L-4
  local lanes,waiting,models,holes={},{},{},{}
  for _,side in ipairs({-1,1})do
   local y=side*6.5
@@ -83,31 +87,33 @@ return function()
     local z=p[3]
     -- Native join differs by 1.25mm; use one exact lower-floor coordinate.
     if math.abs(z+7.00125)<1e-5 then z=-7 end
-    points[#points+1]={p[1]+20,p[2]+y,z+(FLOOR-1.1)}
+    points[#points+1]={p[1]+start,p[2]+y,z+(FLOOR-1.1)}
    end
    curves[#curves+1]=points
   end
-  -- Platform extensions join the native walking paths at x=20 and x=60.
+  -- Plain extensions join the translated 40m native walking module.
   local walkY=side*5.5
-  for _,segment in ipairs({{0,4},{4,20},{60,76},{76,80}})do
-   curves[#curves+1]={{segment[1],walkY,FLOOR},{segment[2],walkY,FLOOR}}
+  if start>0 then
+   for _,segment in ipairs({{0,front},{front,start},{finish,back},{back,L}})do
+    curves[#curves+1]={{segment[1],walkY,FLOOR},{segment[2],walkY,FLOOR}}
+   end
   end
   local path,edges,nodes=lane(curves,false)
   lanes[#lanes+1]=path;waiting[#waiting+1]={edges=edges,nodes=nodes}
   models[#models+1]={id="mrnickert_ultimate_metro::/surface_underpass.mdl",
-   transf={1,0,0,0,0,1,0,0,0,0,1,0,20,y,FLOOR-1.1,1}}
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,start,y,FLOOR-1.1,1}}
   -- Native rail-module hole: 20m long and 3.2m wide, only in the platform.
-  holes[#holes+1]={face={{30,y-1.6,0},{50,y-1.6,0},{50,y+1.6,0},{30,y+1.6,0}},
+  holes[#holes+1]={face={{centre-10,y-1.6,0},{centre+10,y-1.6,0},{centre+10,y+1.6,0},{centre-10,y+1.6,0}},
    modes={{type="FILL",key="::/infrastructure/shared/hole.gtex"}}}
  end
- lanes[#lanes+1]=lane({{{40,-4,DEPTH},{40,4,DEPTH}}},false)
+ lanes[#lanes+1]=lane({{{centre,-4,DEPTH},{centre,4,DEPTH}}},false)
  for _,side in ipairs({-1,1})do
-  for _,x in ipairs({4,40,76})do
+  for _,x in ipairs({front,centre,back})do
    local curves={{{x,side*11,FLOOR},{x,side*9,FLOOR}}}
-   if x~=40 then
+   if x~=centre then
     curves[#curves+1]={{x,side*9,FLOOR},{x,side*5.5,FLOOR}}
    end
-   -- At x=40 the native path already joins the outer edge to the walkway
+   -- At the centre the native path already joins the outer edge to the walkway
    -- around the stairs. Reuse that edge instead of crossing the opening
    -- or adding an exact duplicate in reverse (which can crash the engine).
    lanes[#lanes+1]=lane(curves,true)

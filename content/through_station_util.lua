@@ -17,11 +17,11 @@ local function vehicle(points)
  return {nodes=nodes,transportModes={"TRAM","ELECTRIC_TRAM"},speedLimit=80,
   forwardOnly=true,needsReservation=false,linkable=false}
 end
-return function(_capture,_params)
- local layout={kind="through",length=80,platforms=2,crossing="underpass"}
- local crossing=underpass()
- local lanes={vehicle({{-10,-2.5,0},{0,-2.5,0},{40,-2.5,0},{80,-2.5,0},{90,-2.5,0}}),
-  vehicle({{90,2.5,0},{80,2.5,0},{40,2.5,0},{0,2.5,0},{-10,2.5,0}})}
+return function(_capture,_params,options)
+ local L=(options or {}).length or 80
+ local crossing=underpass(L)
+ local lanes={vehicle({{-10,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0},{L+10,-2.5,0}}),
+  vehicle({{L+10,2.5,0},{L,2.5,0},{L/2,2.5,0},{0,2.5,0},{-10,2.5,0}})}
  for _,lane in ipairs(crossing.lanes)do lanes[#lanes+1]=lane end
  local modes={"TRAM","ELECTRIC_TRAM"}
  local terminals={}
@@ -39,9 +39,9 @@ return function(_capture,_params)
  }
  for _,model in ipairs(crossing.models)do models[#models+1]=model end
  local faces={
-  {face=rectangle(-10,90,-5.5,5.5),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
-  {face=rectangle(0,80,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
-  {face=rectangle(0,80,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
+  {face=rectangle(-10,L+10,-5.5,5.5),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
+  {face=rectangle(0,L,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
+  {face=rectangle(0,L,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
  }
  for _,hole in ipairs(crossing.holes)do faces[#faces+1]=hole end
  local result={
@@ -51,17 +51,20 @@ return function(_capture,_params)
    {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
     edges={{{-20,0,0},{10,0,0}},{{-10,0,0},{10,0,0}}},snapNodes={0},freeNodes={0}},
    {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
-    edges={{{90,0,0},{10,0,0}},{{100,0,0},{10,0,0}}},snapNodes={1},freeNodes={1}},
+    edges={{{L+10,0,0},{10,0,0}},{{L+20,0,0},{10,0,0}}},snapNodes={1},freeNodes={1}},
   },
   snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,-20,0,0,1},snapToBaseEdgeTypes={"STREET"},
    transportModes=modes,allowSnapToBaseEdgeEnds=true},
   subconstructions={{models=models,laneLists=lanes,
    station={tag=1,pool={edges={},capacity=0},terminals=terminals,
-    catchmentAreas={{position={40,0,0},radius=160}}},groundFaces=faces,
-   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-20,100,-12,12)},slopeLow=0,slopeHigh=0}}}},
+    catchmentAreas={{position={L/2,0,0},radius=160}}},groundFaces=faces,
+   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-20,L+20,-12,12)},slopeLow=0,slopeHigh=0}}}},
   cost=180000,maintenanceCost=20000,
  }
- assert(layout.length==80 and layout.platforms==2,"only validated prototype dimensions exposed")
- return decorate(result,{through=true,platformHeight=crossing.floor,platformScale=crossing.floor/1.1,
-  poles={-6,8,28,52,72,86}})
+ local poles={-6}
+ for _,x in ipairs({8,L/2-12,L/2+12,L-8,L+6}) do
+  if x~=poles[#poles] then poles[#poles+1]=x end
+ end
+ return decorate(result,{length=L,through=true,platformHeight=crossing.floor,platformScale=crossing.floor/1.1,
+  poles=poles})
 end

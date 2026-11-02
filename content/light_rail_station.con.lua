@@ -13,6 +13,8 @@ function data()
     defaultIndex=1,uiType="Button",displayMode="Horizontal"},
    {key="stationType",name=_("LR_STATION_TYPE"),values={_("LR_STATION_THROUGH"),_("LR_STATION_TERMINUS")},
     defaultIndex=2,uiType="Button",displayMode="Horizontal"},
+   {key="platformLength",name=_("LR_STATION_LENGTH"),tooltip=_("LR_STATION_LENGTH_TOOLTIP"),values={"40 m","60 m","80 m","100 m","120 m"},
+    defaultIndex=3,uiType="Button",displayMode="Horizontal"},
    {key="fence",name=_("LR_STATION_FENCE"),tooltip=_("LR_STATION_FENCE_TOOLTIP"),
     values={_("LR_STATION_NO"),_("LR_STATION_YES")},defaultIndex=2,uiType="Button",displayMode="Horizontal",
     checkEnabledScript={fileName="mrnickert_ultimate_metro::/station_menu.script@checkFenceFn",params={}}},
