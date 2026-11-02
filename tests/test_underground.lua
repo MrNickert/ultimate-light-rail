@@ -52,7 +52,7 @@ for _,option in ipairs({1,2})do
  for _,n in ipairs(r.edgeLists[1].edges)do assert(n[1][3]==-18)end
  for i=1,vehicles do
   local a,b=sub.laneLists[i],base.subconstructions[1].laneLists[i]
-  assert(a.speedLimit==(i>2 and 40/3.6 or 80/3.6))
+  assert(a.speedLimit==(i>2 and 40 or 80))
   assert(a.forwardOnly==false and a.needsReservation==true)
   for j,n in ipairs(a.nodes)do
    assert(n[1][1]==b.nodes[j][1][1] and n[1][2]==b.nodes[j][1][2] and n[1][3]==-18,'same vehicle geometry, shifted down')

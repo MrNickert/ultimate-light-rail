@@ -21,6 +21,7 @@ local function main()
  for i=1,2 do
   local lane=sub.laneLists[i]
   assert(lane.forwardOnly==true and lane.needsReservation==false,'normal directional tram semantics')
+  assert(lane.speedLimit==80,'station lane limit is direct, not divided by street-speed conversion')
   assert(#lane.transportModes==2 and lane.transportModes[1]=='TRAM' and lane.transportModes[2]=='ELECTRIC_TRAM','no rail modes')
   assert(lane.nodes[1][1][2]==(i==1 and -2.5 or 2.5),'native track spacing')
   for j=1,#lane.nodes,2 do

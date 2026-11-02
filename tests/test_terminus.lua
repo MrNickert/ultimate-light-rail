@@ -15,6 +15,7 @@ local function main()
  local approach=resource("content/lightrail_double.street_template.lua")
  assert(#approach.menuCategory.categories==0,"saved station approach remains loadable but is hidden from building menu")
  assert(approach.roadType=="STREET" and #approach.laneConfigs==2,"station approach topology preserved")
+ assert(approach.laneConfigs[1].speed==80/3.6,"street template retains its distinct m/s speed convention")
  for _,lane in ipairs(approach.laneConfigs) do
   local modes={};for _,mode in ipairs(lane.transportModes) do modes[mode]=true end
   assert(modes.TRAM and modes.ELECTRIC_TRAM and modes.TRAM_TRACK and modes.ELECTRIC_TRAM_TRACK,"required internal approach modes retained")
@@ -50,6 +51,7 @@ local function main()
   end
   for i=1,vehicles do
    local lane=sub.laneLists[i]
+   assert(lane.speedLimit==(i>2 and 40 or 80),"native construction-lane values are not divided a second time")
    assert(lane.forwardOnly==false and lane.needsReservation==true,"explicit internal rail-style direction and reservation flags")
    local modes={};for _,mode in ipairs(lane.transportModes) do modes[mode]=true end
    assert(modes.TRAM and modes.ELECTRIC_TRAM and modes.TRAM_TRACK and modes.ELECTRIC_TRAM_TRACK,"all measured modes on every internal vehicle lane")

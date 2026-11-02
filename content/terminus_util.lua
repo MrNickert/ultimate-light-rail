@@ -1,8 +1,9 @@
 -- Compact tram-style construction: one straight external STREET approach,
 -- internal mixed-mode vehicle lanes. No root STREET switch junctions.
--- Engine speed values are metres per second.
-local STATION_SPEED=80/3.6
-local CROSSOVER_SPEED=40/3.6
+-- Use native construction-lane values directly (native underground uses 40).
+-- Do not reuse the m/s conversion of street-template LaneConfig.speed here.
+local STATION_SPEED=80
+local CROSSOVER_SPEED=40
 local function transform(x,y,z,reverse)
  local a=reverse and -1 or 1
  return {a,0,0,0, 0,a,0,0, 0,0,1,0, x,y,z,1}

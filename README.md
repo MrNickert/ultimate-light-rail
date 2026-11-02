@@ -1,13 +1,13 @@
 # Ultimate Metro
 
-Versie 0.9.0, revision 26. Drie tramgebaseerde metrostations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
+Versie 0.9.1, revision 27. Drie tramgebaseerde metrostations met twee perrons van 80 meter en een optionele compacte kruiswissel. Gebruik gewone elektrische tramtrack en omkeerbare lightrailvoertuigen, bijvoorbeeld Citylink.
 
 ## Stations
 
 - **Metro Terminus / Metro Kopstation**: het bestaande bovengrondse station, met een eigen menuafbeelding.
 - **Underground Metro Terminus / Ondergronds Metro Kopstation**: een nieuwe variant met sporen op 18 meter diepte, de native ondergrondse stationshal en trappen naar een ingang op straatniveau. Eigen menuafbeelding en ondergrondse bouwweergave.
 
-Beide staan in het wegstationsmenu. De rechte interne stationssporen en de korte aansluiting hebben een maximum van **80 km/u**, de kruiswissel **40 km/u**. De engine kan op bochten of bij nadering van een halte verder afremmen. Intern worden de snelheden gedeeld door 3,6, omdat de velden meters per seconde gebruiken.
+Beide staan in het wegstationsmenu. De rechte interne stationssporen en de korte aansluiting hebben een maximum van **80 km/u**, de kruiswissel **40 km/u**. De engine kan op bochten of bij nadering van een halte verder afremmen. De stationslanen gebruiken nu rechtstreeks 80 en 40, zoals de native constructiescripts hun limieten doorgeven. Alleen het aparte straatprofielveld LaneConfig.speed blijft omgerekend naar m/s. De effectieve snelheid van deze correctie moet nog in de game worden bevestigd.
 
 De mod gebruikt dezelfde beproefde voertuiggeometrie voor beide varianten. De ondergrondse variant verplaatst die 18 meter naar beneden en gebruikt de native voetgangerscirculatie. Er zijn geen automatische wereldwijzigingen of diagnosescripts. De standaard tramtrack tussen stations behoudt zijn normale reserveringsgedrag.
 
@@ -62,3 +62,7 @@ De nieuwe doorrijlanen volgen gewone, gerichte tramverkeersregels. De bestaande 
 Deze stap deelt aankleding met de kopstations en scheidt de rij-/perronindeling van de voetgangersverbinding. Het uiteindelijke doel blijft één configureerbare stationfamilie met type, lengte en aantal perronsporen. Die keuzemogelijkheden zijn nog niet gebouwd; de nieuwe proef is bewust vast op 80m en twee perrons. Bestaande resource-ID's blijven als adapters nodig voor saves.
 
 Extra controle: `& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_through_station.lua`.
+
+## Stationssnelheid 0.9.1
+
+De gebruiker bevestigt een werkende doorgaande variant, maar meldt ook daar ongeveer 23 km/u. De bouwcode gaf 80/3,6 = 22,22 door aan het stationsveld speedLimit. Native stationsscripts geven hun limiet direct door (bijvoorbeeld 40 voor de ondergrondse halte). Daarom is de deling voor stationslanen verwijderd: recht 80, wissel 40. Het aparte straatprofielveld speed blijft op 80/3,6. Dit is een gerichte correctie op basis van de waarneming en native scripts; de werkelijke snelheid na deze wijziging is nog niet in de engine gemeten.

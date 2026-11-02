@@ -1,4 +1,4 @@
-# Teststatus 0.9.0
+# Teststatus 0.9.1
 
 ## Actuele proef 0.9.0
 
@@ -66,3 +66,7 @@ Nieuwe prototypevariant, nog geen bevestigde spelproef. De lokale test controlee
 De bestaande bovengrondse kopstationuitvoer is volledig vergeleken met de vorige commit voor beide wisselinstellingen: modellen, voetgangerspunten, rijpaden en alle overige resultaatvelden zijn identiek. De bestaande ondergrondse helper en voertuigbouwer zijn niet aangepast. De reguliere controles en verpakking zijn groen.
 
 Nog in de game te testen: plaatsen, beide aansluitingen, heen/terug-lijnroute, passagiers en trap-/terreinuitlijning, instappen en opslaan/herladen. De native trapgeometrie is ongeschaald; de vloer is door verticale verplaatsing op de lage metroperrons afgestemd.
+
+## Gebruikersproef 0.9.0 en snelheidscorrectie 0.9.1
+
+De gebruiker meldt dat de doorgaande variant direct werkt en toont voertuigen op beide sporen. Afzonderlijke bevestiging van voetgangers door de onderdoorgang en save/herladen blijft open. Ook op het rechte station blijft de tram circa 23 km/u rijden. Omdat de stationsbouwcode 80/3,6 = 22,22 doorgaf, wordt vanaf 0.9.1 voor dit veld de directe native conventie gebruikt: recht 80 en wissel 40. Straatprofielen houden hun aparte m/s-conversie. Lokale tests bewaken dit onderscheid. De daadwerkelijke snelheid na deze wijziging moet nog in de game worden bevestigd; er is nog geen UMSPEED-rapport beschikbaar. Geometrie, reserveringsvlaggen en voertuigprestaties veranderen niet.

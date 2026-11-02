@@ -13,7 +13,8 @@ local function vehicle(points)
   local a,b=points[i],points[i+1];local t={b[1]-a[1],b[2]-a[2],0}
   nodes[#nodes+1]={a,t,2};nodes[#nodes+1]={b,t,2}
  end
- return {nodes=nodes,transportModes={"TRAM","ELECTRIC_TRAM"},speedLimit=80/3.6,
+ -- Same construction-lane convention as the native station scripts.
+ return {nodes=nodes,transportModes={"TRAM","ELECTRIC_TRAM"},speedLimit=80,
   forwardOnly=true,needsReservation=false,linkable=false}
 end
 return function(_capture,_params)
