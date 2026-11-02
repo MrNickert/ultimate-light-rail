@@ -1,5 +1,15 @@
 # Teststatus 0.8.6
 
+## Afgeronde basis — 2 november 2026
+
+De gebruiker accepteert de vormgeving van het bovengrondse kopstation in 0.8.6, inclusief de aansluitende bredere wisselondergrond, doorlopende trambestrating, het compacte kopplein en het groen. Instappen via de verkorte toegang is bevestigd op 0.8.5. De bestaande rij-/keer-/conflictproeven blijven referenties. Deze afwerkingsronde is op verzoek van de gebruiker afgerond.
+
+Open, apart vervolgonderzoek: circa 13 km/u bij binnenkomst en 23 km/u bij vertrek. In het gecontroleerde stdout.txt stond geen [UMSPEED]-rapport. De oorzaak is niet vastgesteld en de snelheid is niet als opgelost gemarkeerd. De meetmod blijft optioneel; er wordt in deze afronding geen geometrie, voertuig of limiet veranderd.
+
+Een doorgaande metrovariant is besproken als mogelijke volgende stap. De gebruiker vraagt eerst naar het functionele verschil met de standaard tramhalte; er is nog geen nieuwe stationsvariant geïmplementeerd. Het directe onderscheid zou vooral de consistente 80m perrons, vormgeving en toegang zijn.
+
+Onderstaande secties beschrijven eerdere versies en controles; open punten daarin zijn historisch tenzij hierboven genoemd.
+
 ## Door de gebruiker bevestigd op het bovengrondse station
 
 - Omkeren aan het perron, deuren en verlichting.
