@@ -36,12 +36,12 @@ assert re.search(r'toolVariant = "light_rail"[\s\S]{0,350}tab = 17',bar)
 window=(source/'content/gui/native_construction.lua').read_text(encoding='utf-8')
 assert window.index('addCategoryNew("TRACKS")')<window.index('addCategoryNew("LIGHT_RAIL")')
 assert 'ulrCatalog.inject(construction_react_util.getMenuCategories(params.repository))' in window
-assert 'construction.ConstructionTool = nativeTool' in window and 'getActiveTool()' in window
+assert '_react.tools.Construction' in window and 'getActiveTool()' not in window
 icon=(source/'content/gui/light_rail.tga').read_bytes()
 w,h,depth=struct.unpack_from('<HHB',icon,12)
 assert (w,h,depth)==(342,227,32) and len(icon)==18+w*h*4 and icon[17]==40
 assert hashlib.sha256((source/'artwork/light_rail_icon.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
-out=root/'dist/ultimate-light-rail-ui-preview-0.1.2.zip';out.parent.mkdir(exist_ok=True)
+out=root/'dist/ultimate-light-rail-ui-preview-0.1.3.zip';out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     for name in files:archive.write(source/name,mod['modId']+'/'+name)
 with zipfile.ZipFile(out) as archive:assert archive.testzip() is None and len(archive.namelist())==len(files)

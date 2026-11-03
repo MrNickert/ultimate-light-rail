@@ -76,4 +76,28 @@ for _,kind in ipairs({'bar','construction'}) do
  end
 end
 assert(animationCount==2,'expected both construction animations to be exercised')
+-- The singleton window also renders while no Construction tool is active.
+-- Exercise its real generated wrapper callback with a registered native tool,
+-- and fail if rendering tries to inspect the currently active tool.
+local nativeTool={name='Construction'}
+local recipes={}
+local reactStub=setmetatable({
+ RegisterRecipe=function(name,fn)recipes[name]=fn;return function()return {} end end,
+ RegisterWrapperRecipe=function(name,wrapped,fn)recipes[name]=fn;return function()return {} end end,
+ useNodeRef=function()return {get=function()return nil end}end,
+ onEvent=function()end,
+ ref=function(value)return value end,
+}, {__index=function()return dummy end})
+local toolApi={getActiveTool=function()error('startup must not require an active Construction tool')end}
+local gameCtx={toolStack={get=function()return {getApi=function()return toolApi end}end}}
+local startupEnv=setmetatable({
+ _react={tools={Construction=nativeTool}},api=dummy,
+ ug_require=function(path)
+  if path=='::/gui/main/react.lua' then return reactStub end
+  return dummy
+ end,
+}, {__index=_G})
+assert(loadfile('ui-preview/content/gui/native_construction.lua','t',startupEnv))()
+assert(recipes.ULRConstructionListWindow)
+recipes.ULRConstructionListWindow({payload={toolParam={gameCtx=gameCtx}}})
 print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")

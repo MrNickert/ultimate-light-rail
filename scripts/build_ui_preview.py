@@ -54,11 +54,10 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
             s=s.replace('::/gui/construction/menu/category_bulldozer.tga','::/gui/game_bar/icons/symbol_bulldozer_30.tga')
             cutoff=s.index('local makeToolWindowParam =')
             s=s[:cutoff]+'return construction.ConstructionListWindow\n'
-            # The native module only exports its window recipe. Capture the
-            # actual registered tool through the public ToolStack API when its
-            # replacement window renders, rather than leaving a nil local tool.
-            anchor='construction.ConstructionListWindow = react.RegisterWrapperRecipe("ConstructionListWindow",  builtin.Window, function(param : ConstructionToolWindowParam) : TreeNodeId\n'
-            s=replace_once(s,anchor,anchor+"\tlocal nativeTool = getToolStackApi(param.payload.toolParam.gameCtx).getActiveTool()\n\tassert(nativeTool ~= nil and nativeTool.name == \"Construction\", \"ULR UI: expected active native Construction tool\")\n\tconstruction.ConstructionTool = nativeTool\n")
+            # The window renders at startup, before Construction is active.
+            # Reuse the exact native descriptor from the registry populated by
+            # react.RegisterTool; never infer it from the current active tool.
+            s=replace_once(s,'local construction : Construction = {}',"global _react : table\nlocal construction : Construction = { ConstructionTool = assert(_react.tools.Construction, \"ULR UI: native Construction tool not registered\") }")
         names=re.findall(r'react.Register(?:Wrapper)?Recipe\("([^"\n]+)"',s)
         manifest['registeredRecipes'][kind]=names
         for name in names:
