@@ -1,4 +1,4 @@
-# Ultimate Light Rail UI Preview â€” 0.1.2
+# Ultimate Light Rail UI Preview - 0.1.5
 
 Dit is een **aparte experimentele UI-mod** naast de stabiele Ultimate Light Rail 0.17.2 (revision 48). De core en haar stationslogica zijn ongewijzigd. Deze proef is lokaal gebouwd en getest op syntaxis/cataloguswiring, nog niet in de game gerenderd.
 
@@ -9,10 +9,10 @@ Dit is een **aparte experimentele UI-mod** naast de stabiele Ultimate Light Rail
 ## Installeren en proberen
 
 1. Gebruik een kopie van je testsave.
-2. Pak `ultimate-light-rail-ui-preview-0.1.4.zip` uit naast de core in dezelfde staging_area. Het archief heeft een eigen map `mrnickert_ulr_ui_preview`; plaats die niet in de coremap. Overschrijf de vorige UI Preview-bestanden als die er al staan.
+2. Pak `ultimate-light-rail-ui-preview-0.1.5.zip` uit naast de core in dezelfde staging_area. Het archief heeft een eigen map `mrnickert_ulr_ui_preview`; plaats die niet in de coremap. Overschrijf de vorige UI Preview-bestanden als die er al staan.
 3. Activeer zowel Ultimate Light Rail als Ultimate Light Rail UI Preview en herlaad de save.
 4. Zoek de Light Rail-knop tussen de bestaande wegvervoer- en treinknop.
-5. Open de drie submenu's: Remises, Sporen, Stations. De huidige standardstationkaart en actieve ULR Contract Example-kaarten horen hier te verschijnen.
+5. Open Light Rail: de tramremise, het spoor en de stations staan samen in een overzicht, zonder categorietabs. Het zoekveld blijft beschikbaar. De actieve ULR Contract Example-kaarten horen hier ook te verschijnen.
 6. Kies het spoor, een tramremise en een station; controleer dat het native bouwgereedschap en het stationsinstellingenpaneel openen. Controleer ook terugschakelen naar wegen/treinen en sluiten van het venster.
 
 De normale native tramremise blijft tevens in het normale menu staan. Ons spoor en onze bekende stations worden alleen in de UI-catalogus naar Light Rail verplaatst; de engine-resources en saveobjecten worden niet aangepast.
@@ -51,3 +51,5 @@ De generator gebruikt je geÃ¯nstalleerde game. De native-afgeleide Lua/styles,
 0.1.3 haalt de native Construction-tool uit de interne `_react.tools`-registratie, die door de native module wordt gevuld. Het bouwvenster kan zo ook tijdens startup renderen zonder dat Construction actief is. Dit is een interne enginekoppeling en moet bij game-updates opnieuw worden gecontroleerd.
 
 0.1.4 vervangt het te grote, ondoorzichtige referentiebeeld door een compact transparant vectoricoon op het native knopformaat. De UI- en bouwlogica blijven gelijk aan 0.1.3.
+
+0.1.5 voegt remise, spoor en stations samen in een native categorie. De bestaande single-tab-stijl verbergt het categorietabje en behoudt het zoekveld.

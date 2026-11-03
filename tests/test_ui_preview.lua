@@ -15,16 +15,17 @@ local menus={ROAD={{{category="road_buildings"},{depot1,depot2,depot3,station,ex
  ROADS={{{category="roads_small"},{road,track}}},
  LIGHT_RAIL={{{category="ulr_stations"},{marked}}}}
 local result=catalog.inject(menus)
-assert(#result.LIGHT_RAIL==3)
-assert(#result.LIGHT_RAIL[1][2]==3,"all native depot eras retained")
-assert(#result.LIGHT_RAIL[2][2]==1 and result.LIGHT_RAIL[2][2][1].resName==track.resName)
-assert(#result.LIGHT_RAIL[3][2]==3,"standard, known example and marker-based future station discovered")
+assert(#result.LIGHT_RAIL==1,"single combined category: no depot/track/station tabs")
+local all=result.LIGHT_RAIL[1][2]
+assert(#all==7,"all depot eras, track, standard/example/future stations retained")
+assert(all[1].availability.yearFrom==1900 and all[2].availability.yearFrom==1940 and all[3].availability.yearFrom==1980)
+assert(all[4].resName==track.resName)
 assert(#result.ROAD[1][2]==3,"native depots still in normal menu")
 assert(#result.ROADS[1][2]==1 and result.ROADS[1][2][1]==road,"our track leaves normal road menu")
-assert(result.LIGHT_RAIL[2][2][1]~=track,"catalogue uses definition copies")
-assert(result.LIGHT_RAIL[2][2][1].params==track.params and track.action=="NATIVE_ACTION","native builder data preserved")
+assert(all[4]~=track,"catalogue uses definition copies")
+assert(all[4].params==track.params and track.action=="NATIVE_ACTION","native builder data preserved")
 catalog.inject(result)
-assert(#result.LIGHT_RAIL[1][2]==3 and #result.LIGHT_RAIL[2][2]==1 and #result.LIGHT_RAIL[3][2]==3,"no duplication on repeat")
+assert(#result.LIGHT_RAIL==1 and #result.LIGHT_RAIL[1][2]==7,"no duplication or loss on repeat, including third-party stations")
 local files={"catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
  "native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
 for _,file in ipairs(files) do assert(loadfile("ui-preview/content/gui/"..file),"generated Lua syntax: "..file) end

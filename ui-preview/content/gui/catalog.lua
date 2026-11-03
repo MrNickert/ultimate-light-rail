@@ -6,7 +6,7 @@ local function kind(def,category)
  local name=def.resName or ""
  if name:find("/depots/road/tram_depot/tram_depot.con",1,true) then return "depot" end
  if name:find(core.."lightrail_fenced.street_template",1,true)==1 then return "track" end
- if name:find(core.."light_rail_station.con",1,true)==1 or name:find(example,1,true)==1 or category=="ulr_stations" then return "station" end
+ if name:find(core.."light_rail_station.con",1,true)==1 or name:find(example,1,true)==1 or category=="ulr_stations" or category=="ulr_all" then return "station" end
 end
 function M.inject(menus)
  local buckets={depot={},track={},station={}}
@@ -32,13 +32,15 @@ function M.inject(menus)
    entry[2]=kept
   end
  end
+ -- A single native category automatically hides its category tab while
+ -- retaining the normal search field and item availability/placement logic.
+ local all={}
+ for _,k in ipairs({"depot","track","station"}) do
+  for _,def in ipairs(buckets[k]) do all[#all+1]=def end
+ end
  menus.LIGHT_RAIL={
-  {{category="ulr_depots",menu="LIGHT_RAIL",name=_("ULR_UI_DEPOTS"),order=100,
-    icon="::/gui/hud/icons/building_depot_tram_32.tga"},buckets.depot},
-  {{category="ulr_tracks",menu="LIGHT_RAIL",name=_("ULR_UI_TRACKS"),order=200,
-    icon="::/gui/game_bar/icons/infrastructure_tracks_30.tga"},buckets.track},
-  {{category="ulr_stations",menu="LIGHT_RAIL",name=_("ULR_UI_STATIONS"),order=300,
-    icon="::/gui/construction/menu/menu_categories/category_road_buildings.tga"},buckets.station},
+  {{category="ulr_all",menu="LIGHT_RAIL",name=_("ULR_UI_MENU"),order=100,
+    icon="mrnickert_ulr_ui_preview::/gui/light_rail.tga"},all},
  }
  return menus
 end
