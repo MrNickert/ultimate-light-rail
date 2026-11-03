@@ -80,3 +80,8 @@ De visuele perron-/kapgrenzen volgen first/last van het volledige vaste construc
 ## Stationscontract 0.15.0
 
 De publieke configureerbare stationadapter normaliseert opgeslagen indices en roept station_api_v1 aan met station_standard_design. De API valideert de expliciete configuratie en roept private station_layout_builder aan. Deze dispatch hergebruikt ongewijzigde geometriebouwers. Zes visuele rollen vervangen uitsluitend model-ID's; de kern levert transforms en netwerken. Legacy scripts blijven behouden. Zie station-api-v1.md voor scope, beperkingen en het externe voorbeeld. De volledige 0.14.2-uitvoer is voor 72 gevallen vastgelegd vóór de refactor en blijft gelijk.
+
+
+## Componenten 0.16.0
+
+De standaardadapter gebruikt station_standard_kit met componentwaarden default. station_api_v1 accepteert assets of components, nooit beide. station_components valideert de vaste sleutels en 20m-declaraties en past uitsluitend sub.models aan. De klassieke assetconsumers en 72 volledige standaardresultaten blijven gelijk. Eigen hele 20m-perronstukken vervangen alleen volledige, vlakke en volle-breedtestukken; korte resten/trapstroken blijven kern. Generieke daken herhalen 0..L en delen native vaste supports. Bovengrondse masts verhuizen buiten de kap met behoud van contactdraadpositie. Elevated kapfalse verwijdert kappen plus hun losse supports; draagpijlers en veiligheid blijven. Ondergrondse hal accepteert uitsluitend defaults. Zie asset-kit-v1.md voor alle beperkingen.

@@ -51,6 +51,11 @@ assert [struct.unpack_from('<3f',paving,i*12) for i in range(4)] == [(0,0,0),(3,
 assert [struct.unpack_from('<2f',paving,48+i*8) for i in range(4)] == [(0,0),(1,0),(1,1),(0,1)]
 for offset in (192,216,240,264):
     assert struct.unpack_from('<6I',paving,offset)==(0,1,2,0,2,3)
+with zipfile.ZipFile(content / 'stations/rail.zip') as archive:
+    native_floor = archive.read('rail/era_c/msh/perron_5_lod0.msh.blob')
+    floor_indices = struct.unpack_from('<6I', native_floor, 1116)
+    floor_points = [struct.unpack_from('<3f', native_floor, i*12) for i in floor_indices]
+    assert all(abs(point[2]-1.1)<1e-5 for point in floor_points), 'Verify native floor used by 20m adapter'
 # Rigid closed concrete: actual vertices/triangles, winding, normals, UVs.
 concrete = (root / 'content/elevated_concrete.msh.blob').read_bytes()
 assert len(concrete) == 1728

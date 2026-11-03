@@ -1,6 +1,14 @@
 # Ultimate Light Rail
 
-Versie 0.15.0, revision 44. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie 0.16.0, revision 45. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+
+## Modulaire assetbouwset — 0.16.0
+
+Ontwerpen kunnen nu per onderdeel de standaard kiezen, een eigen model leveren of optionele aankleding weglaten. Beschikbaar: perron, hokje, overkapping, bomen, plantenbakken, bankjes, prullenbakken en lampen. Eigen rechte perron- en dakmodules verklaren exact 20m en worden niet uitgerekt. Ook bovengrondse perrons kunnen nu via een ontwerp een overkapping krijgen.
+
+De kern houdt vaste perronbreedte/hoogte, entrees, trappen, routes en twee sporen. Trapmodules en korte passtukken blijven vaste kernonderdelen; de ondergrondse hal is in deze versie niet aanpasbaar. Ons standaardontwerp behoudt zijn native 40m-adapters en alle 72 standaardbouwresultaten blijven exact gelijk. De eerdere asset-role API blijft ondersteund.
+
+Zie [handleiding voor makers](docs/asset-kit-v1.md) voor voorbeelden en expliciete grenzen. De losse voorbeeldmod 0.2.0 voegt een Covered/Minimal-bouwset toe om dit in-game te testen. De nieuwe aankleding en externe modimport zijn nog niet in-game bevestigd.
 
 ## Stationscontract v1 — 0.15.0
 

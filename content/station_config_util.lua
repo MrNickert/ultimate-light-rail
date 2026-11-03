@@ -1,6 +1,6 @@
 -- Save/UI compatibility adapter. New designs call the versioned API directly.
 local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
-local standard=require "mrnickert_ultimate_metro::/station_standard_design.lua"
+local standard=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
 return function(capture,params)
  params=params or {}
  local lengths={40,60,80,100,120}

@@ -1,6 +1,8 @@
 -- Public, versioned contract. Geometry is owned by the core, visuals by designs.
 local build=require "mrnickert_ultimate_metro::/station_layout_builder.lua"
 local standard=require "mrnickert_ultimate_metro::/station_standard_design.lua"
+local kit=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
+local components=require "mrnickert_ultimate_metro::/station_components.lua"
 local api={apiVersion=1}
 local lengths={[40]=true,[60]=true,[80]=true,[100]=true,[120]=true}
 local fields={apiVersion=true,placement=true,stationType=true,platformLength=true,platformTracks=true,fence=true,design=true}
@@ -16,6 +18,12 @@ local function modelId(value)
  return true
 end
 function api.getDefaultDesign() return standard() end
+function api.getDefaultKit() return kit() end
+function api.getContract()
+ return {apiVersion=1,moduleLength=20,platformWidth=5,platformFloorHeight=0.25,platformTracks=2,
+  platformLengths={40,60,80,100,120},fixedStairs=true,fixedEntrances=true,fixedRoutes=true,
+  components={"platform","shelter","canopy","trees","planters","benches","bins","lights"}}
+end
 function api.buildStation(spec,captureParams,constructionParams)
  check(type(spec)=="table","station specification must be a table")
  onlyFields(spec,fields,"station")
@@ -29,17 +37,22 @@ function api.buildStation(spec,captureParams,constructionParams)
  check(constructionParams==nil or type(constructionParams)=="table","constructionParams must be a table")
  local defaults=standard()
  local design=spec.design
- if design==nil then design=defaults end
+ if design==nil then design=kit() end
  check(type(design)=="table","design must be a table")
- onlyFields(design,{apiVersion=true,id=true,assets=true},"design")
+ onlyFields(design,{apiVersion=true,id=true,assets=true,components=true},"design")
  check(design.apiVersion==1,"design apiVersion must be 1")
  check(type(design.id)=="string" and design.id:match("^[a-z0-9_-]+$"),"design id must be a lowercase identifier")
- check(type(design.assets)=="table","design assets must be a table")
+ check(not (design.assets~=nil and design.components~=nil),"choose assets or components, not both")
  local replacements={}
- for role,id in pairs(design.assets) do
-  check(defaults.assets[role]~=nil,"unknown asset role "..tostring(role))
-  check(modelId(id),"asset "..tostring(role).." must be a mod-qualified .mdl reference")
-  replacements[defaults.assets[role]]=id
+ if design.components~=nil then
+  components.validate(design.components,spec)
+ else
+  check(type(design.assets)=="table","design assets or components must be a table")
+  for role,id in pairs(design.assets) do
+   check(defaults.assets[role]~=nil,"unknown asset role "..tostring(role))
+   check(modelId(id),"asset "..tostring(role).." must be a mod-qualified .mdl reference")
+   replacements[defaults.assets[role]]=id
+  end
  end
  local normalized={placement=spec.placement,stationType=spec.stationType,platformLength=spec.platformLength,
   fence=spec.placement~="underground" and spec.fence~=false}
@@ -50,6 +63,7 @@ function api.buildStation(spec,captureParams,constructionParams)
  for _,sub in ipairs(result.subconstructions or {}) do
   for _,model in ipairs(sub.models or {}) do model.id=replacements[model.id] or model.id end
  end
+ if design.components~=nil then return components.apply(result,normalized,design.components) end
  return result
 end
 return api

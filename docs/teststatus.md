@@ -213,3 +213,8 @@ Gebruiker bevestigt werking van 0.14.1, met uitsluitend een placeholderblok op h
 ## 0.15.0 — stationscontract v1
 
 Gebruiker keurde 0.14.2 visueel goed. Voor de refactor zijn alle volledige resultaten vastgelegd (60 combinaties, 6 defaults/terugvallen, 6 legacyvarianten). De 72 SHA256-waarden blijven gelijk na aansluiting van de configureerbare stations op API v1. Native layouttests en contractvalidatie slagen; visuele vervanging van rollen verandert alleen de bedoelde model-ID's, caller-tabellen blijven intact. De aparte voorbeeld-consumer gebruikt dezelfde API en eigen modelnamespace in de lokale harness. Geen in-game bewijs van externe dependency/import of de nieuwe standaardplaatsingen; visuele vergelijking naast de referentiesave en werking volgen apart.
+
+
+## 0.16.0 — onderdelencontract
+
+Gebruiker bevestigde eerste visuele/werkingstest van de contractversie. De 72 standaardresultaten blijven na uitbreiding volledig gelijk aan 0.14.2. Nieuwe tests bestrijken 40 bovengrondse/elevated combinaties met optionele aankleding uit en met eigen 20m-perron/dakmodules. Alle niet-modelvelden blijven exact gelijk; modules hebben unittransforms, trapopeningen blijven vrij en contactdraadposities behouden. Onjuiste modulelengtes, ontbreken van verplichte perrons, onbekende velden en ondergrondse aanpassingen geven fouten. Beide varianten van de onafhankelijke voorbeeld-consumer zijn lokaal uitgevoerd. In-game blijven Covered/Minimal-uiterlijk, collisions, twee-moddependency/import en instappen te beoordelen. De standaard native 40m-adapters en vaste pas-/trapstukken zijn expliciete beperkingen, geen volledige 20m-vervanging van alle modellen.

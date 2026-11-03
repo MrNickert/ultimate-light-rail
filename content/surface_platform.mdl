@@ -1,6 +1,7 @@
 -- Visual-only wrapper around Urban Games' modern 40m platform meshes.
 -- No copied mesh/material/texture files and no inherited transport metadata.
--- Native walking surface is z=0.8; the station scales it to 0.25m.
+-- Native walking surface is z=1.1. Historical builder scales are retained
+-- for save/output compatibility; new 20m kits normalize the floor to 0.25m.
 function data()
  return {
   boundingInfo={bbMin={0,-2.5,0},bbMax={40,2.5,1.1}},

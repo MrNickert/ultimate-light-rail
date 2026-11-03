@@ -1,5 +1,7 @@
 # Stationscontract v1
 
+Vanaf **0.16.0 / revision 45** is `components` de aanbevolen ontwerpvorm. Zie [assetbouwset v1](asset-kit-v1.md) voor standaard/eigen/geen, verplichte 20m-modules en de vaste delen. De oudere `assets`-vorm hieronder blijft voor compatibiliteit ondersteund. Gebruik per ontwerp één vorm.
+
 Eerste implementatie: Ultimate Light Rail 0.15.0 / revision 44. Onze bestaande configureerbare stations gebruiken dit contract daadwerkelijk. Een onafhankelijke voorbeeld-consumer is lokaal getest; activeren en laden van twee mods in de game is nog niet bevestigd.
 
 ## Opbouw
@@ -69,7 +71,7 @@ Een rol werkt alleen waar de bestaande bouwer het referentiemodel plaatst. De on
 
 Een vervangmodel behoudt oorsprong, assen, vloerhoogte, afmetingen en veilige collisionruimte van het referentiemodel. De kern hergebruikt alle transforms, inclusief versmallen, verkorten en roteren. Nieuwe perronbreedtes en eigen traplocaties passen niet in v1.
 
-- Perron: lokaal x=0..40m, y=-2.5..2.5m, oorspronkelijke loopvloer z=0.8m. De kern schaalt dit naar de gekozen lengte, breedte en hoogte; bedek geen trapgaten.
+- Perron: lokaal x=0..40m, y=-2.5..2.5m, native loopvloer z=circa 1.1m (geverifieerd uit de mesh; historische buildertransforms blijven behouden). De kern schaalt dit naar de gekozen lengte, breedte en hoogte; bedek geen trapgaten.
 - Kopplein: referentie x=-5..0m, y=-5..5m, behoud de vloer-/randhoogte.
 - Kap: behoud de referentiehoogte en vrije ruimte voor contactdraden en kernkolommen; voeg geen kolommen in trapgaten toe.
 - Entreestoep: 3x3m vlak op lokaal z=0. Bankje volgens referentiemodel. Beide wrappers hebben geen collisionvolume; behoud vrije looproute en straataansluiting.
@@ -85,7 +87,7 @@ Mod-ID, alle bestaande construction-ID's en de vier opgeslagen menukeuzes blijve
 
 `examples/contract_station` is een zelfstandige optionele consumer met eigen mod-ID, dependency, construction, script en perronwrapper. Het hoofdarchief bevat dit voorbeeld niet. De wrapper verwijst rechtstreeks naar dezelfde native meshes, met dezelfde dimensies. Geen native mesh-/texturebinaries worden gekopieerd.
 
-De dependency vereist core revision 44 of hoger, `loadBefore=true`, `optional=false`. De consumer voegt één vast bovengronds doorgaand 80m station toe. Het uiterlijk blijft bewust gelijk om de geometrie te kunnen vergelijken. De lokale test controleert deze aparte consumer, maar bewijst nog geen engine-import tussen twee actieve mods.
+Het oorspronkelijke voorbeeld 0.1.0 vereiste revision 44; de huidige voorbeeldmod 0.2.0 vereist revision 45 vanwege het extra componentenvoorbeeld. De dependency gebruikt `loadBefore=true`, `optional=false`. De consumer voegt één vast bovengronds doorgaand 80m station toe. Het uiterlijk blijft bewust gelijk om de geometrie te kunnen vergelijken. De lokale test controleert deze aparte consumer, maar bewijst nog geen engine-import tussen twee actieve mods.
 
 ## Bewijs
 

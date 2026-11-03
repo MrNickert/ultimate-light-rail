@@ -105,6 +105,7 @@ for _,option in ipairs({1,2})do
  assert(wall and wall.transf[13]>80,'visible closed head beyond track endpoints')
 end
 assert(loadfile('tests/test_station_api.lua'))()(resource)
+assert(loadfile('tests/test_station_components.lua'))()(resource)
 assert(loadfile('tests/test_station_config.lua'))()(resource)
 assert(loadfile('tests/test_station_lengths.lua'))()(resource)
 assert(loadfile('tests/test_elevated_station.lua'))()(resource)
