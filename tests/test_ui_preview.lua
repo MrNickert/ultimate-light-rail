@@ -39,9 +39,14 @@ local imports={
  ["mrnickert_ulr_ui_preview::/gui/native_bar.lua"]=previewBar,
  ["mrnickert_ulr_ui_preview::/gui/native_construction.lua"]=previewWindow,
 }
-local env={ug_require=function(path)assert(imports[path],path);return imports[path]end}
-local replacement=assert(loadfile("ui-preview/content/gui/replacement.script.lua","t",env))()
+local importCount=0
+local env={ug_require=function(path)importCount=importCount+1;assert(imports[path],path);return imports[path]end}
+local moduleReturn=assert(loadfile("ui-preview/content/gui/replacement.script.lua","t",env))()
+assert(moduleReturn==nil and type(env.data)=='function','script resource must define data(), not return a module')
+local replacement=env.data()
+assert(importCount==0,'GUI recipes must load only when the replacement callback runs')
 replacement.doReplaceFn({ReplaceRecipe=function(a,b)calls[#calls+1]={a,b}end})
+assert(importCount==4)
 assert(#calls==2 and calls[1][1]==baseBar.GameBar and calls[1][2]==previewBar.GameBar)
 assert(calls[2][1]==baseWindow and calls[2][2]==previewWindow)
 -- Execute both stylesheet data functions: animation registration is global,

@@ -1,13 +1,15 @@
-# Ultimate Light Rail UI Preview — 0.1.1
+# Ultimate Light Rail UI Preview — 0.1.2
 
 Dit is een **aparte experimentele UI-mod** naast de stabiele Ultimate Light Rail 0.17.2 (revision 48). De core en haar stationslogica zijn ongewijzigd. Deze proef is lokaal gebouwd en getest op syntaxis/cataloguswiring, nog niet in de game gerenderd.
 
 0.1.1 herstelt de opstartcrash "Duplicate animation name" uit 0.1.0. De eigen stijlen registreren hun animaties nu met een unieke ULR-prefix; een regressiecontrole voert beide stijlen uit en controleert registraties en verwijzingen naast de bestaande native animatienamen.
 
+0.1.2 herstelt "function data() not defined": de replacement-scriptresource levert de callback via data(), zoals de native scriptloader vereist. GUI-modules worden pas binnen de callback geladen. De lokale controle test nu dit resourceformaat in plaats van het script als gewone Lua-module te laden.
+
 ## Installeren en proberen
 
 1. Gebruik een kopie van je testsave.
-2. Pak `ultimate-light-rail-ui-preview-0.1.1.zip` uit naast de core in dezelfde staging_area. Het archief heeft een eigen map `mrnickert_ulr_ui_preview`; plaats die niet in de coremap. Overschrijf de vorige UI Preview-bestanden als die er al staan.
+2. Pak `ultimate-light-rail-ui-preview-0.1.2.zip` uit naast de core in dezelfde staging_area. Het archief heeft een eigen map `mrnickert_ulr_ui_preview`; plaats die niet in de coremap. Overschrijf de vorige UI Preview-bestanden als die er al staan.
 3. Activeer zowel Ultimate Light Rail als Ultimate Light Rail UI Preview en herlaad de save.
 4. Zoek de Light Rail-knop tussen de bestaande wegvervoer- en treinknop.
 5. Open de drie submenu's: Remises, Sporen, Stations. De huidige standardstationkaart en actieve ULR Contract Example-kaarten horen hier te verschijnen.

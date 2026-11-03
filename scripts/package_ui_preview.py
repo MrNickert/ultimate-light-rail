@@ -41,7 +41,7 @@ icon=(source/'content/gui/light_rail.tga').read_bytes()
 w,h,depth=struct.unpack_from('<HHB',icon,12)
 assert (w,h,depth)==(342,227,32) and len(icon)==18+w*h*4 and icon[17]==40
 assert hashlib.sha256((source/'artwork/light_rail_icon.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
-out=root/'dist/ultimate-light-rail-ui-preview-0.1.1.zip';out.parent.mkdir(exist_ok=True)
+out=root/'dist/ultimate-light-rail-ui-preview-0.1.2.zip';out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     for name in files:archive.write(source/name,mod['modId']+'/'+name)
 with zipfile.ZipFile(out) as archive:assert archive.testzip() is None and len(archive.namelist())==len(files)
