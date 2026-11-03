@@ -15,7 +15,12 @@ function mat.gemv(m,v)
 end
 local vec={new=function(x,y,z)return{x=x,y=y,z=z}end,fromArray=function(v)return{x=v[1],y=v[2],z=v[3]}end}
 function vec.toArray(v)return{v.x,v.y,v.z}end
-orderedPairs=pairs
+function orderedPairs(values)
+ local keys={};for k in pairs(values) do keys[#keys+1]=k end
+ table.sort(keys,function(a,b) if type(a)~=type(b) then return type(a)<type(b) end;return a<b end)
+ local i=0
+ return function() i=i+1;local k=keys[i];if k~=nil then return k,values[k] end end
+end
 local cache={}
 function require(name)
  local own=name:match('^mrnickert_ultimate_metro::/(.+)$')
@@ -36,6 +41,9 @@ end
 local function resource(path)
  local env=setmetatable({_ = function(k)return k end},{__index=_G})
  assert(loadfile('content/'..path,'t',env))();return env.data()
+end
+if arg[2] then
+ assert(loadfile('tests/station_contract_snapshot.lua'))()(resource,arg[2]);return
 end
 local underground=resource('underground_terminus.script.lua')
 local surface=resource('twin_terminus.script.lua')
