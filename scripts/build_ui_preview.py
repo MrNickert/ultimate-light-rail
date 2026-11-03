@@ -73,6 +73,12 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
         css_raw=archive.read(css_path)
         manifest['nativeSources'][css_path]=hashlib.sha256(css_raw).hexdigest()
         css=imports(css_raw.decode('utf-8'),css_path)
+        # Animation names are global across stylesheets, even when their
+        # recipe selectors are scoped. Rename declarations and references.
+        animation_names=re.findall(r'^\s*\["([^"\n]+)"\]\s*=\s*\{',css,re.M)
+        for animation in animation_names:
+            css=css.replace('"'+animation+'"','"ulr-ui-'+kind+'-'+animation+'"')
+        manifest.setdefault('animations',{})[kind]=['ulr-ui-'+kind+'-'+name for name in animation_names]
         for name in sorted(names,key=len,reverse=True):
             css=re.sub(r'R::'+re.escape(name)+r'(?![A-Za-z0-9])','R::ULR'+name,css)
         # Emit styles only for preview recipes, leave original GUI selectors alone.

@@ -44,4 +44,31 @@ local replacement=assert(loadfile("ui-preview/content/gui/replacement.script.lua
 replacement.doReplaceFn({ReplaceRecipe=function(a,b)calls[#calls+1]={a,b}end})
 assert(#calls==2 and calls[1][1]==baseBar.GameBar and calls[1][2]==previewBar.GameBar)
 assert(calls[2][1]==baseWindow and calls[2][2]==previewWindow)
-print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax and two-recipe replacement wiring. Engine UI rendering not tested.")
+-- Execute both stylesheet data functions: animation registration is global,
+-- so syntax checks alone cannot detect the duplicate-name crash.
+local dummy
+dummy=setmetatable({}, {__index=function()return dummy end,__call=function()return dummy end})
+local registered={['appear-construction-list']=true,['info-callout-popup-pop']=true}
+local animationCount=0
+for _,kind in ipairs({'bar','construction'}) do
+ local styles={}
+ local env={api=dummy,_=function(key)return key end,require=function(path)
+  if path:find('stylesheetutil',1,true) then
+   return {makeAdder=function()return function(_,style)styles[#styles+1]=style end end}
+  end
+  return dummy
+ end}
+ assert(loadfile('ui-preview/content/gui/native_'..kind..'.css.lua','t',env))()
+ local result=env.data()
+ for name in pairs(result.animations or {}) do
+  assert(not registered[name],'duplicate global animation: '..name)
+  assert(name:find('ulr-ui-'..kind..'-',1,true)==1,'animation lacks preview namespace')
+  registered[name]=true
+  animationCount=animationCount+1
+ end
+ for _,style in ipairs(styles) do
+  if style.animationName then assert(registered[style.animationName],'unresolved animation: '..style.animationName) end
+ end
+end
+assert(animationCount==2,'expected both construction animations to be exercised')
+print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")
