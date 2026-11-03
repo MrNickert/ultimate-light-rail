@@ -7,10 +7,10 @@ function data()
   boundingInfo={bbMin={0,-2.5,0},bbMax={20,2.5,0.25}},
   collider={type="BOX",params={halfExtents={10,2.5,0.125}},transf={1,0,0,0,0,1,0,0,0,0,1,0,10,0,0.125,1}},
   lods={
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_lod0.msh",
 							name = "perron_5",
@@ -23,10 +23,10 @@ function data()
 				visibleFrom = 0,
 				visibleTo = 104.308,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_lod1.msh",
 							name = "perron_5",
@@ -39,10 +39,10 @@ function data()
 				visibleFrom = 104.308,
 				visibleTo = 312.924,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_lod2.msh",
 							name = "perron_5",
@@ -55,10 +55,10 @@ function data()
 				visibleFrom = 312.924,
 				visibleTo = 938.772,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_floor.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_lod3.msh",
 							name = "perron_5",

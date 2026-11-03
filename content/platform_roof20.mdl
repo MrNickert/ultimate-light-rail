@@ -2,20 +2,20 @@
 -- Native modern rail canopy and lighting, without fixed support locations.
 -- Independent native columns in the elevated builder keep stair shafts clear.
 function data()
-return { 
+return {
 		boundingInfo = {bbMin={-0.094,-2.645,3.1499},bbMax={20.094,2.645,4.385}},
 		collider={type="BOX",params={halfExtents={10.094,2.645,0.618}},transf={1,0,0,0,0,1,0,0,0,0,1,0,10,0,3.767,1}},
 		lods = {
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", "::/stations/rail/era_c/mat/era_c_rail_station_perron_atlas.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod0.msh",
 							name = "perron_5_roof",
 							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
-						
+
 					},
 					name = "RootNode",
 					transf = { 0.5,0,0,0,0,1,0,0,0,0,1,0,0,0,-1.1,1 },
@@ -23,16 +23,16 @@ return {
 				visibleFrom = 0,
 				visibleTo = 100,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod1.msh",
 							name = "perron_5_roof",
 							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
-						
+
 					},
 					name = "RootNode",
 					transf = { 0.5,0,0,0,0,1,0,0,0,0,1,0,0,0,-1.1,1 },
@@ -40,16 +40,16 @@ return {
 				visibleFrom = 100,
 				visibleTo = 300,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod2.msh",
 							name = "perron_5_roof",
 							transf = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, },
 						},
-						
+
 					},
 					name = "RootNode",
 					transf = { 0.5,0,0,0,0,1,0,0,0,0,1,0,0,0,-1.1,1 },
@@ -57,10 +57,10 @@ return {
 				visibleFrom = 300,
 				visibleTo = 900,
 			},
-			{ 
-				node = { 
+			{
+				node = {
 					children = {
-						{ 
+						{
 							materials = { "::/stations/rail/era_c/mat/era_c_rail_station_perron_trim.mtl", },
 							mesh = "::/stations/rail/era_c/msh/perron_5_roof_lod3.msh",
 							name = "perron_5_roof",
@@ -74,10 +74,10 @@ return {
 				visibleTo = 3600,
 			},
 		},
-		metadata = { 
-			lightSourceList = { 
+		metadata = {
+			lightSourceList = {
 				lights = {
-					{ 
+					{
 						angleMax = 50,
 						color = { 0.866667, 0.945139, 1, },
 						fromTime = 20,
