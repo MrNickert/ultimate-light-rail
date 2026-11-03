@@ -1,7 +1,7 @@
-# Installatie en eindcontrole 0.17.1
+# Installatie en eindcontrole 0.17.2
 
 1. Bewaar desgewenst je referentiesave; gebruik voor deze clean-up een nieuwe testsave.
-2. Pak `ultimate-light-rail-0.17.1.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De map blijft `mrnickert_ultimate_metro`.
+2. Pak `ultimate-light-rail-0.17.2.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De map blijft `mrnickert_ultimate_metro`.
 3. Herlaad/start de nieuwe testsave; het spel volledig afsluiten is niet nodig.
 4. Plaats nieuwe standaardstations. Bestaande objecten worden niet automatisch omgebouwd naar de nieuwe modelassemblage.
 
@@ -25,3 +25,6 @@ Verwijder de mod niet uit een save waarin haar stations of infrastructuur nog aa
 Ligging: Ondergronds – Bovengronds – Verhoogd (Engels: Underground – Surface – Elevated). Bovengronds/Surface is de tweede knop en standaard geselecteerd. De liggingrij heeft het label boven de knoppen, zodat alle drie de volledige namen over de paneelbreedte passen. De overige keuzerijen blijven horizontaal. Ondergronds schakelt de aansluithekken uit.
 
 De betekenis van de eerste twee opgeslagen liggingindices is bewust verwisseld; oude saves zijn geen compatibiliteitsdoel voor deze opschoning. De benoemde externe API-liggingen en de stationsgeometrie veranderen niet.
+
+
+0.17.2 groepeert het paneel met native scheidingslijnen: Ligging / Stationstype + Perronlengte / Hekken. De knoppenvolgorde, defaults en stationsopbouw blijven gelijk aan 0.17.1. Vanaf die werkende versie is een herlaadbeurt voldoende om het menu opnieuw te bekijken.

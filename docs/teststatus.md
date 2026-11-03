@@ -1,3 +1,7 @@
+# Actuele status — 0.17.2 menugroepen
+
+Gebruiker meldt dat 0.17.1 verder werkt. 0.17.2 voegt drie native parametergroepen toe, met scheidingslijnen tussen Ligging, Stationstype/Perronlengte en Hekken. De zichtbare naam is Fences/Hekken; tooltip blijft de werking verduidelijken. Geen gewijzigde parameterwaarden, callbacklogica, stationsmodellen of routes. De echte visuele balans van de scheidingslijnen moet nog in-game worden bekeken.
+
 # Actuele status — 0.17.1 menu-opruiming
 
 Gebruiker bevestigt plaatsing en werking van alle drie de liggingen van 0.17.0. Alle lengtes zijn ook geplaatst voor visuele controle, maar werking is niet afzonderlijk per lengte getest.

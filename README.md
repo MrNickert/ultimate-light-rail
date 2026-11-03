@@ -1,17 +1,17 @@
 # Ultimate Light Rail
 
-Versie **0.17.1**, modrevision **47**, stationscontract **API v1**. Tramgebaseerde lightrailstations en spoor voor Transport Fever 3. De interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie **0.17.2**, modrevision **48**, stationscontract **API v1**. Tramgebaseerde lightrailstations en spoor voor Transport Fever 3. De interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
 ## Voor spelers
 
-Kies **Lightrailstation / Light Rail Station** in het wegstationsmenu.
+Kies **Lightrailstation / Light Rail Station** in het wegstationsmenu. Het instellingenpaneel heeft drie blokken met native scheidingslijnen: Ligging; Stationstype + Perronlengte; Hekken.
 
 | Instelling | Keuzes |
 | --- | --- |
 | Ligging | Ondergronds / Bovengronds / Verhoogd |
 | Stationstype | Doorgaand / Kopstation |
 | Perronlengte | 40 / 60 / 80 / 100 / 120 meter |
-| Hek langs aansluiting | Nee / Ja; ondergronds uitgeschakeld |
+| Hekken | Nee / Ja; ondergronds uitgeschakeld |
 
 Alle stations hebben twee perronsporen. Kopstations hebben automatisch een kruiswissel. De lightrail gebruikt tramvoertuigen en sluit op native elektrische tramtrack aan. Het openbare Lightrailspoor volgt het normale native tramgedrag, met lage metalen buitenhekken.
 
