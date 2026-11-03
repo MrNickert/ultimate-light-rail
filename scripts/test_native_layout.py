@@ -23,7 +23,7 @@ for package in content.rglob('*.zip'):
 for file in (root / 'content').rglob('*'):
     if file.suffix not in ('.lua', '.mdl', '.msh'):
         continue
-    for resource in re.findall(r'"::/([^"@]+)', file.read_text(encoding='utf-8')):
+    for resource in re.findall(r'''["']::/([^"'@\n]+)["']''', file.read_text(encoding='utf-8')):
         candidates = (resource, resource + '.lua', resource + '.tl', resource.removesuffix('.tga') + '@2x.tga')
         assert any(candidate in resources for candidate in candidates), (file.name, resource)
 for texture in (root / 'content/ui').glob('*.tga'):

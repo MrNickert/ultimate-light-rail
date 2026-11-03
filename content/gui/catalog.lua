@@ -1,12 +1,11 @@
 -- GUI definitions only. Never change engine resources, station data or routes.
 local M={}
 local core="mrnickert_ultimate_metro::/"
-local example="ulr_contract_example::/"
 local function kind(def,category)
  local name=def.resName or ""
  if name:find("/depots/road/tram_depot/tram_depot.con",1,true) then return "depot" end
  if name:find(core.."lightrail_fenced.street_template",1,true)==1 then return "track" end
- if name:find(core.."light_rail_station.con",1,true)==1 or name:find(example,1,true)==1 or category=="ulr_stations" or category=="ulr_all" then return "station" end
+ if category=="ulr_stations" or category=="ulr_all" then return "station" end
 end
 function M.inject(menus)
  local buckets={depot={},track={},station={}}
@@ -40,7 +39,7 @@ function M.inject(menus)
  end
  menus.LIGHT_RAIL={
   {{category="ulr_all",menu="LIGHT_RAIL",name=_("ULR_UI_MENU"),order=100,
-    icon="mrnickert_ulr_ui_preview::/gui/light_rail.tga"},all},
+    icon="mrnickert_ultimate_metro::/gui/light_rail.tga"},all},
  }
  return menus
 end

@@ -52,7 +52,7 @@ try {
                 $offset+=4
             }
         }
-        [IO.File]::WriteAllBytes((Join-Path $projectRoot 'ui-preview/content/gui/light_rail.tga'),$bytes)
+        [IO.File]::WriteAllBytes((Join-Path $projectRoot 'content/gui/light_rail.tga'),$bytes)
     } finally { $smallGraphics.Dispose(); $small.Dispose() }
 } finally { $pen.Dispose(); $body.Dispose(); $graphics.Dispose(); $large.Dispose() }
 Write-Output 'Rendered 30x30 transparent native-style vector icon.'

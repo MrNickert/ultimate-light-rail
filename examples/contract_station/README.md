@@ -1,20 +1,16 @@
-# Independent Ultimate Light Rail API examples
+# Ultimate Light Rail — API Examples 1.0.0
 
-This is a separate optional test mod, not part of the main mod ZIP. The example requires core revision 45 or newer and remains usable with 0.17.0. Our main standard stations do not depend on this example mod.
+Zelfstandige, optionele assetmod. Vereist **Ultimate Light Rail 1.0.0 / revision 49**. De hoofdmod is niet afhankelijk van dit voorbeeld.
 
-## Menu entries
+## Ontwerpen
 
-- **ULR Contract Example**: the original fixed surface through station, 80m, replacing one platform model through the older asset-role contract. Kept as a compatibility consumer.
-- **ULR Component Kit Example**: choose through/terminus, 40/60/80/100/120m and Covered/Minimal. Covered uses independent 20m platform/roof wrappers with no shelters or greenery; Minimal also removes canopy, benches, bins and lights.
+- **ULR Component Kit Example**: surface, doorgaand/kopstation, 40/60/80/100/120m, Covered/Minimal. Covered gebruikt eigen 20m-perron- en dakwrappers zonder hokjes/groen. Minimal laat daarnaast kap, bankjes, bakken en lampen weg.
+- **ULR Contract Example**: vast bovengronds doorgaand 80m-station dat één perronmodel vervangt via modelrollen.
 
-Short platform infills and fixed stairs remain core-owned. The wrappers reference installed native meshes/materials; no native binary assets are included.
+Beide constructionbeschrijvingen gebruiken de publieke menuhelper. Ze verschijnen in hetzelfde Light Rail-menu als de standaardstations. Vaste trap- en passtukken blijven van de kern. De modelwrappers verwijzen naar geïnstalleerde native resources; er worden geen native mesh-/texturebinaries meegeleverd.
 
-## Confirmed versus pending
+## Eigen assetmod
 
-The user placed the component example at 40m/80m with and without a roof. Boarding and switch operation were confirmed in two tested variants. This confirms that particular independent mod/API coupling in-game. It does not validate every combination or future external model. The migrated bundled 0.17.0 station family still needs an end check.
+Kopieer dit voorbeeld en wijzig mod-ID, zichtbare namen en alle eigen namespaceverwijzingen. Behoud de verplichte dependency op core revision 49. Gebruik het componentenvoorbeeld als startpunt; vervang de modellen door eigen 20m-assets en test je ontwerp in de game.
 
-## Developing your own station
-
-Use these files as source templates, then change the mod ID, visible name and all own namespace references. New authors following the current API helper/entrance-bench-variant documentation should require revision 46. This historical example keeps revision 45 because it uses the earlier feature subset.
-
-Build with `python scripts/package_contract_example.py`. The developer pack includes these sources, maker documentation and original reference wrappers. It is not a mod ZIP to activate directly.
+Lees de developer kit voor vaste maten en grenzen. Installeer de volledige hoofdmod om het voorbeeld te gebruiken. Bouw het aparte voorbeeldarchief met `python scripts/package_contract_example.py`.

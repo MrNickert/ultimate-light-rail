@@ -1,30 +1,24 @@
-# Installatie en eindcontrole 0.17.2
+# Installatie — Ultimate Light Rail 1.0.0
 
-1. Bewaar desgewenst je referentiesave; gebruik voor deze clean-up een nieuwe testsave.
-2. Pak `ultimate-light-rail-0.17.2.zip` uit in de bestaande staging_area en overschrijf de modbestanden. De map blijft `mrnickert_ultimate_metro`.
-3. Herlaad/start de nieuwe testsave; het spel volledig afsluiten is niet nodig.
-4. Plaats nieuwe standaardstations. Bestaande objecten worden niet automatisch omgebouwd naar de nieuwe modelassemblage.
+1. Pak `ultimate-light-rail-1.0.0.zip` uit in je lokale modmap of Steam `staging_area`. De ZIP bevat de map `mrnickert_ultimate_metro`.
+2. Activeer **Ultimate Light Rail** en laad je save.
+3. Open **Light Rail**, tussen wegvervoer en trein. Plaats een station en sluit native elektrische tramtrack of het lightrailspoor aan.
+4. Verbind een tramremise, maak een lijn en wijs passende tramvoertuigen toe.
 
-Controleer bovengronds, ondergronds en elevated, met doorgaand/kopstation en de verschillende lengtes. De gewone bouwoptie en opgeslagen keuzes blijven gelijk. Bovengronds blijft standaard zonder kap; elevated met kap.
+De UI is inbegrepen. Schakel de afzonderlijke **Ultimate Light Rail UI Preview** uit als die in je testinstallatie staat; activeer die niet naast 1.0.0. Overschrijf bij bijwerken de hoofdmodbestanden. Opnieuw laden is voldoende; je hoeft het spel niet volledig af te sluiten.
 
-Vanaf deze versie gebruikt de standaardbouwset echte 20m-referentiecomponenten in de vrije perron-/dakdelen. De wrapper hergebruikt native 40m-visuals op halve lengte; tegel- en dakherhaling kan dus verschillen van de oude referentiestations. Vaste trappen, korte passtukken en de ondergrondse hal blijven kernonderdelen.
+## Gebruik
 
-Controleer eerst uitstraling, aansluiten op sporen/straat en vrije trapgaten. Controleer daarna instappen, rijden, keren, kruisende routes en opslaan/herladen. De automatische vergelijking bevestigt ongewijzigde functionele bouwdata, maar vervangt deze enginecontrole niet.
+Kies ligging, stationstype, perronlengte en hekken vóór het plaatsen. Ondergronds zijn hekken uitgeschakeld. Kopstations hebben automatisch wissels. De centrale entree van een verhoogd station sluit op straatniveau aan; houd de trap- en pijlerzones vrij.
+
+Een lijn kiest een geldige route, niet noodzakelijk beide sporen. Selecteer terminals of plaats waypoints waar je een specifieke rijweg wilt. Voertuigen moeten binnen de perronlengte passen.
 
 ## Voorbeeldmod
 
-De reeds geteste voorbeeldmod 0.2.0 blijft bruikbaar. Die is geen dependency van de hoofdmod en hoeft niet actief te zijn voor onze standaardstations. Alleen het voorbeeld vereist Ultimate Light Rail. Testobjecten uit de voorbeeldmod vereisen dat die mod actief blijft in hun save.
+`ultimate-light-rail-contract-example-1.0.0.zip` is optioneel. Activeer die samen met de hoofdmod om twee API-voorbeelden in hetzelfde menu te bekijken. De hoofdmod vereist dit voorbeeld niet. De developer-kit-ZIP is documentatie en bronmateriaal, geen direct activeerbare mod.
 
-## Verwijderen
+## Compatibiliteit
 
-Verwijder de mod niet uit een save waarin haar stations of infrastructuur nog aanwezig zijn. Legacy construction-ID's en resources blijven meegeleverd voor bestaande saves. Geen automatische migratie of afbraak.
+De technische hoofdmod-ID is `mrnickert_ultimate_metro`. De release bevat geen migratie voor ontwikkelsaves. Gebruik een aparte savekopie voor het controleren van een bestaande testwereld. Andere mods die dezelfde native bouw-UI vervangen kunnen conflicteren. De UI-koppeling moet bij game-updates opnieuw worden gecontroleerd.
 
-
-## Menucontrole 0.17.1
-
-Ligging: Ondergronds – Bovengronds – Verhoogd (Engels: Underground – Surface – Elevated). Bovengronds/Surface is de tweede knop en standaard geselecteerd. De liggingrij heeft het label boven de knoppen, zodat alle drie de volledige namen over de paneelbreedte passen. De overige keuzerijen blijven horizontaal. Ondergronds schakelt de aansluithekken uit.
-
-De betekenis van de eerste twee opgeslagen liggingindices is bewust verwisseld; oude saves zijn geen compatibiliteitsdoel voor deze opschoning. De benoemde externe API-liggingen en de stationsgeometrie veranderen niet.
-
-
-0.17.2 groepeert het paneel met native scheidingslijnen: Ligging / Stationstype + Perronlengte / Hekken. De knoppenvolgorde, defaults en stationsopbouw blijven gelijk aan 0.17.1. Vanaf die werkende versie is een herlaadbeurt voldoende om het menu opnieuw te bekijken.
+Verwijder de hoofdmod niet uit een save met haar stations of infrastructuur. Verwijder een assetmod niet zolang haar stations in de save staan.

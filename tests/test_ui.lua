@@ -1,5 +1,5 @@
 _ = function(key)return key end
-local catalog=assert(loadfile("ui-preview/content/gui/catalog.lua"))()
+local catalog=assert(loadfile("content/gui/catalog.lua"))()
 local function def(name,year)
  return {resName=name,name=name,action="NATIVE_ACTION",availability={yearFrom=year or 0,yearTo=0},params={{key="unchanged"}}}
 end
@@ -11,9 +11,9 @@ local example=def("ulr_contract_example::/kit_example.con")
 local marked=def("future_author::/station.con")
 local track=def("mrnickert_ultimate_metro::/lightrail_fenced.street_template")
 local road=def("::/infrastructure/street/town/town_new_small.street_template")
-local menus={ROAD={{{category="road_buildings"},{depot1,depot2,depot3,station,example}}},
+local menus={ROAD={{{category="road_buildings"},{depot1,depot2,depot3}}},
  ROADS={{{category="roads_small"},{road,track}}},
- LIGHT_RAIL={{{category="ulr_stations"},{marked}}}}
+ LIGHT_RAIL={{{category="ulr_stations"},{station,example,marked}}}}
 local result=catalog.inject(menus)
 assert(#result.LIGHT_RAIL==1,"single combined category: no depot/track/station tabs")
 local all=result.LIGHT_RAIL[1][2]
@@ -26,9 +26,25 @@ assert(all[4]~=track,"catalogue uses definition copies")
 assert(all[4].params==track.params and track.action=="NATIVE_ACTION","native builder data preserved")
 catalog.inject(result)
 assert(#result.LIGHT_RAIL==1 and #result.LIGHT_RAIL[1][2]==7,"no duplication or loss on repeat, including third-party stations")
+local menu=assert(loadfile("content/station_menu.lua"))()
+local first=menu.getMenuCategory(123)
+local second=menu.getMenuCategory()
+assert(first.categories[1].category=="ulr_stations" and first.categories[1].order==123)
+assert(second.categories[1].order==1000 and first~=second and first.categories~=second.categories)
+for _,bad in ipairs({-1,0.5,"100",math.huge}) do assert(not pcall(menu.getMenuCategory,bad)) end
+for _,path in ipairs({"content/light_rail_station.con.lua",
+ "examples/contract_station/content/example.con.lua",
+ "examples/contract_station/content/kit_example.con.lua"}) do
+ local descriptionEnv={_=function(key)return key end,require=function(name)
+  assert(name=="mrnickert_ultimate_metro::/station_menu.lua","construction must use lightweight menu helper")
+  return menu
+ end}
+ assert(loadfile(path,"t",descriptionEnv))()
+ assert(descriptionEnv.data().menuCategory.categories[1].category=="ulr_stations",path)
+end
 local files={"catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
  "native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
-for _,file in ipairs(files) do assert(loadfile("ui-preview/content/gui/"..file),"generated Lua syntax: "..file) end
+for _,file in ipairs(files) do assert(loadfile("content/gui/"..file),"generated Lua syntax: "..file) end
 -- Verify that exactly the two intended public native recipes are replaced.
 local calls={}
 local baseBar={GameBar={tag="baseBar"}}
@@ -37,12 +53,12 @@ local baseWindow={tag="baseWindow"};local previewWindow={tag="previewWindow"}
 local imports={
  ["::/gui/main/react.lua"]={},["::/gui/game_bar/game_bar.tl"]=baseBar,
  ["::/gui/construction/construction.tl"]=baseWindow,
- ["mrnickert_ulr_ui_preview::/gui/native_bar.lua"]=previewBar,
- ["mrnickert_ulr_ui_preview::/gui/native_construction.lua"]=previewWindow,
+ ["mrnickert_ultimate_metro::/gui/native_bar.lua"]=previewBar,
+ ["mrnickert_ultimate_metro::/gui/native_construction.lua"]=previewWindow,
 }
 local importCount=0
 local env={ug_require=function(path)importCount=importCount+1;assert(imports[path],path);return imports[path]end}
-local moduleReturn=assert(loadfile("ui-preview/content/gui/replacement.script.lua","t",env))()
+local moduleReturn=assert(loadfile("content/gui/replacement.script.lua","t",env))()
 assert(moduleReturn==nil and type(env.data)=='function','script resource must define data(), not return a module')
 local replacement=env.data()
 assert(importCount==0,'GUI recipes must load only when the replacement callback runs')
@@ -64,7 +80,7 @@ for _,kind in ipairs({'bar','construction'}) do
   end
   return dummy
  end}
- assert(loadfile('ui-preview/content/gui/native_'..kind..'.css.lua','t',env))()
+ assert(loadfile('content/gui/native_'..kind..'.css.lua','t',env))()
  local result=env.data()
  for name in pairs(result.animations or {}) do
   assert(not registered[name],'duplicate global animation: '..name)
@@ -98,7 +114,7 @@ local startupEnv=setmetatable({
   return dummy
  end,
 }, {__index=_G})
-assert(loadfile('ui-preview/content/gui/native_construction.lua','t',startupEnv))()
+assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
 assert(recipes.ULRConstructionListWindow)
 recipes.ULRConstructionListWindow({payload={toolParam={gameCtx=gameCtx}}})
 print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")

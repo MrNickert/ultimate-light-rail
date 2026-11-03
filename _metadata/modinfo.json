@@ -1,15 +1,15 @@
 {
-    "name": "Ultimate Light Rail",
-    "summary": "Light rail stations: surface, underground or elevated, with five lengths and covered platforms.",
-    "description": "Ultimate Light Rail 0.17.2 polishes the construction menu and English/Dutch descriptions. Native separators divide Location, Station type/Platform length, and Fences into three sections. The fence label is shortened to Fences (Hekken in Dutch). Location buttons read Underground, Surface, Elevated, with Surface selected by default. The location row uses the full panel width to show complete labels, and each option explains its entrance and track level. Visible Metro wording is replaced by Light Rail. This clean-up changes the menu index meanings to 1=underground, 2=surface, 3=elevated; use a fresh test save. The named API v1 placements and station geometry remain unchanged. The user confirmed placement and operation of all three station placements in 0.17.0, and visually placed all platform lengths; operation at each length was not separately tested. Current automated tests preserve the same functional output for equivalent station choices. Fixed v1 stairs/end infills and the underground hall remain core-owned.",
-    "authors": [
-        {
-            "name": "MrNickert",
-            "role": "CREATOR"
-        }
-    ],
-    "tags": [
-        "Script Mod"
-    ],
-    "url": ""
+  "name": "Ultimate Light Rail",
+  "summary": "Light rail stations, terminus operation and fenced tracks in a dedicated build menu.",
+  "description": "Ultimate Light Rail 1.0.0 adds a dedicated Light Rail construction menu with the native tram depot, fenced light rail track and configurable passenger stations. Choose surface, underground or elevated; through or terminus; 40, 60, 80, 100 or 120 metre platforms; and approach fences. Terminus stations include crossover tracks and support reversing tram vehicles. Elevated stations include concrete structures, roofs and a central street-level entrance. Uses existing tram vehicles and connects to native tram infrastructure. The public API v1 and 20 metre component kit let asset makers add station designs to the same menu. Vehicles must fit the selected platform length. Other mods replacing the same construction UI may conflict.",
+  "authors": [
+    {
+      "name": "MrNickert",
+      "role": "CREATOR"
+    }
+  ],
+  "tags": [
+    "Script Mod"
+  ],
+  "url": ""
 }

@@ -1,6 +1,6 @@
 {
   "modId": "ulr_contract_example",
-  "revision": 2,
+  "revision": 3,
   "severityAdd": "None",
   "severityRemove": "Critical",
   "visible": true,
@@ -9,7 +9,7 @@
     {
       "mod": {
         "modId": "mrnickert_ultimate_metro",
-        "revisionMin": 45,
+        "revisionMin": 49,
         "revisionMax": -1
       },
       "modInfo": {

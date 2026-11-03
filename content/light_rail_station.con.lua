@@ -1,3 +1,4 @@
+local stationApi=require "mrnickert_ultimate_metro::/station_menu.lua"
 -- One new resource ID; legacy construction IDs remain available to saved games.
 function data()
  return {
@@ -7,7 +8,7 @@ function data()
    previewIcon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c_preview.tga",
    attributes={cost={120000,900000},maintenanceCost={20000,180000}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
-  menuCategory={categories={{category="road_buildings",filterCategories={"passenger","station"},order=1015}}},
+  menuCategory=stationApi.getMenuCategory(1015),
   params={
    {key="placement",group="ulr_location",name=_("LR_STATION_PLACEMENT"),values={_("LR_STATION_UNDERGROUND"),_("LR_STATION_SURFACE"),_("LR_STATION_ELEVATED")},
     tooltips={_("LR_STATION_UNDERGROUND_TOOLTIP"),_("LR_STATION_SURFACE_TOOLTIP"),_("LR_STATION_ELEVATED_TOOLTIP")},

@@ -1,8 +1,8 @@
 {
-    "modId": "mrnickert_ultimate_metro",
-    "revision": 48,
-    "severityAdd": "None",
-    "severityRemove": "Critical",
-    "visible": true,
-    "cosmetic": false
+  "modId": "mrnickert_ultimate_metro",
+  "revision": 49,
+  "severityAdd": "None",
+  "severityRemove": "Critical",
+  "visible": true,
+  "cosmetic": false
 }

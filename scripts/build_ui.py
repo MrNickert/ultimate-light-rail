@@ -1,5 +1,5 @@
-"""Build a separate experimental GUI add-on from the installed native GUI sources.
-No installed game files or stable-core runtime files are modified.
+"""Build the integrated Light Rail GUI from the installed native GUI sources.
+No installed game files are modified.
 """
 from pathlib import Path, PurePosixPath
 import argparse, hashlib, json, re, subprocess, tempfile, zipfile
@@ -8,9 +8,8 @@ p=argparse.ArgumentParser()
 p.add_argument('--game',type=Path,default=Path(r'C:\Program Files (x86)\Steam\steamapps\common\Transport Fever 3'))
 p.add_argument('--teal',default=r'C:\Program Files\Teal\0.24.8\tl.exe')
 a=p.parse_args()
-preview=root/'ui-preview'
-content=preview/'content/gui';content.mkdir(parents=True,exist_ok=True)
-manifest={'coreTag':'v0.17.2-core-stable','nativeSources':{},'registeredRecipes':{}}
+content=root/'content/gui';content.mkdir(parents=True,exist_ok=True)
+manifest={'version':'1.0.0','nativeSources':{},'registeredRecipes':{}}
 def replace_once(s,old,new):
     assert s.count(old)==1, f'Native GUI anchor changed: {old[:90]}'
     return s.replace(old,new,1)
@@ -38,7 +37,7 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
             gameCtx = param.gameCtx,
             toolVariant = "light_rail",
             id = "menu.construction.light_rail",
-            iconPath = "mrnickert_ulr_ui_preview::/gui/light_rail.tga",
+            iconPath = "mrnickert_ultimate_metro::/gui/light_rail.tga",
             tooltip = _("ULR_UI_MENU"),
             tab = 17,
             eventName = "openLightRail",
@@ -46,7 +45,7 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
         else:
             s=replace_once(s,'construction_react_util.getMenuCategories(params.repository)',
                 'ulrCatalog.inject(construction_react_util.getMenuCategories(params.repository))')
-            s='local ulrCatalog = ug_require "mrnickert_ulr_ui_preview::/gui/catalog.lua"\n'+s
+            s='local ulrCatalog = ug_require "mrnickert_ultimate_metro::/gui/catalog.lua"\n'+s
             s=replace_once(s,'\taddCategoryNew("TRACKS")\n','\taddCategoryNew("TRACKS")\n\taddCategoryNew("LIGHT_RAIL")\n')
             # The stable native Construction tool owns the state/actions. Replace
             # only its window recipe, not the native tool registration itself.
@@ -67,7 +66,7 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
         output=content/('native_'+kind+'.lua')
         subprocess.run([a.teal,'gen',str(target),'-o',str(output)],cwd=root,check=True)
         generated=output.read_text(encoding='utf-8')
-        output.write_text('-- Generated UI preview adapter. Source hashes are in build_manifest.json.\n'+generated,encoding='utf-8',newline='\n')
+        output.write_text('-- Generated Light Rail UI adapter. Source hashes are in build_manifest.json.\n'+generated,encoding='utf-8',newline='\n')
         css_path=native.removesuffix('.tl')+'.css.lua'
         css_raw=archive.read(css_path)
         manifest['nativeSources'][css_path]=hashlib.sha256(css_raw).hexdigest()
@@ -80,7 +79,7 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
         manifest.setdefault('animations',{})[kind]=['ulr-ui-'+kind+'-'+name for name in animation_names]
         for name in sorted(names,key=len,reverse=True):
             css=re.sub(r'R::'+re.escape(name)+r'(?![A-Za-z0-9])','R::ULR'+name,css)
-        # Emit styles only for preview recipes, leave original GUI selectors alone.
+        # Emit styles only for Light Rail recipes, leave original GUI selectors alone.
         old='local a = ssu.makeAdder(result)'
         replacement="""local addNative = ssu.makeAdder(result)
  local a = function(selector, style)
@@ -89,7 +88,7 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
   end
  end"""
         css=replace_once(css,old,replacement)
-        (content/('native_'+kind+'.css.lua')).write_text('-- Generated preview-only recipe styles.\n'+css,encoding='utf-8',newline='\n')
-manifest['iconSourceSha256']=hashlib.sha256((preview/'artwork/light_rail_icon.png').read_bytes()).hexdigest()
-(preview/'build_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
-print('Generated UI adapters and preview-scoped styles; stable core untouched.')
+        (content/('native_'+kind+'.css.lua')).write_text('-- Generated Light Rail recipe styles.\n'+css,encoding='utf-8',newline='\n')
+manifest['iconSourceSha256']=hashlib.sha256((root/'artwork/light_rail_reference.png').read_bytes()).hexdigest()
+(root/'content/gui/build_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+print('Generated Light Rail UI adapters and scoped styles.')

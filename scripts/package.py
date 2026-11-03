@@ -6,8 +6,9 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.17.2"
+VERSION = "1.0.0"
 CONTENT = {
+    "content/station_menu.lua",
     "content/station_standard_kit.lua",
     "content/station_components.lua",
     "content/platform20.mdl",
@@ -60,6 +61,10 @@ CONTENT = {
     "content/ui/metro_underground_terminus.tga",
     "content/ui/metro_underground_terminus_preview.tga",
 }
+CONTENT.update({"content/gui/"+name for name in (
+    "catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
+    "native_bar.lua","native_bar.css.lua","native_construction.lua","native_construction.css.lua",
+    "light_rail.tga","build_manifest.json")})
 FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json"})
 
 mod = json.loads((ROOT / "mod.json").read_text(encoding="utf-8"))
@@ -80,9 +85,9 @@ for name in FILES:
     text = "" if name.endswith((".tga", ".blob")) else data.decode("utf-8")
     assert name == name.lower() and " " not in name
     if name.endswith((".lua", ".mdl", ".msh")):
-        assert "api.cmd" not in text and "addModifier" not in text
+        assert name.startswith("content/gui/native_") or ("api.cmd" not in text and "addModifier" not in text)
         assert not name.endswith(".gs.lua"), "No automatic diagnostic scripts in the clean build"
-        keys.update(re.findall(r'_\("([^"]+)"\)', text))
+        if not name.startswith("content/gui/native_"): keys.update(re.findall(r'_\("([^"]+)"\)', text))
         for resource in re.findall(re.escape(mod["modId"]) + r"::/([a-z0-9_./]+)", text):
             assert (f"content/{resource}" if resource.endswith((".lua", ".tga", ".mdl", ".msh")) else f"content/{resource}.lua") in CONTENT, f"Missing local dependency: {resource}"
     payload[name] = data

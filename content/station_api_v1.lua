@@ -17,6 +17,7 @@ local function modelId(value)
  for part in value:gmatch("[^/]+") do if part==".." then return false end end
  return true
 end
+api.getMenuCategory=require("mrnickert_ultimate_metro::/station_menu.lua").getMenuCategory
 function api.getDefaultDesign() return standard() end
 function api.getDefaultKit(placement)
  check(placement==nil or placement=="surface" or placement=="elevated" or placement=="underground","unsupported default-kit placement")

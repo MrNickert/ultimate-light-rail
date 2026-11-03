@@ -1,98 +1,101 @@
-# Stationscontract v1
+# Station API v1 — Ultimate Light Rail 1.0.0
 
-Vanaf **0.16.0 / revision 45**, met expliciete standaardbouwsets vanaf **0.17.0 / revision 46**, is `components` de aanbevolen ontwerpvorm. Zie [assetbouwset v1](asset-kit-v1.md) voor standaard/eigen/geen, verplichte 20m-modules en de vaste delen. De oudere `assets`-vorm hieronder blijft voor compatibiliteit ondersteund. Gebruik per ontwerp één vorm.
+De publieke API bouwt tramgebaseerde passagiersstations. De kern beheert geometrie, transportnetwerk, terminals, entrees en looproutes; een ontwerp levert visuele onderdelen.
 
-Eerste implementatie: Ultimate Light Rail 0.15.0 / revision 44. Onze bestaande configureerbare stations gebruiken dit contract daadwerkelijk. De onafhankelijke voorbeeldmod is inmiddels in-game geplaatst; instappen en wissels zijn bevestigd voor twee geteste varianten. Dat staat los van de eindcontrole van de nieuwe 0.17-standaardassemblage.
+## Dependency
 
-## Opbouw
+Neem dit op in je eigen `mod.json`:
 
-- `station_api_v1.lua`: publiek contract, validatie en beperkte visuele vervanging.
-- `station_standard_design.lua`: ons eigen ontwerp, met verse tabellen per aanroep.
-- `station_layout_builder.lua`: private dispatch naar de bestaande bewezen bouwers.
-- `station_config_util.lua`: vertaalt de actuele menu-indices naar benoemde API-liggingen. Vanaf 0.17.1 is de menuvolgorde bewust opgeschoond.
+```json
+"dependencies": [{
+  "mod": {"modId": "mrnickert_ultimate_metro", "revisionMin": 49, "revisionMax": -1},
+  "modInfo": {"displayName": "Ultimate Light Rail"},
+  "loadBefore": true,
+  "optional": false
+}]
+```
 
-Onze standaardstations gebruiken dezelfde publieke API. Verborgen legacy constructions behouden hun oude scripts. De helpers mengen intern nog geometrie en aankleding; deze eerste contractlaag vervangt benoemde model-ID's na de bestaande bouwstappen. Dit is nog geen vrij configureerbaar stationsbouwsysteem.
+## Construction en gedeeld menu
 
-## Aanroep
+Gebruik de lichte menuhelper in je `.con.lua`; deze laadt geen stationsbouwers:
 
 ```lua
-local api = require "mrnickert_ultimate_metro::/station_api_v1.lua"
+local menu = require "mrnickert_ultimate_metro::/station_menu.lua"
 function data()
- return {updateFn=function(captureParams, params)
-  return api.buildStation({
-   apiVersion=1,
-   placement="surface",
-   stationType="through",
-   platformLength=80,
-   platformTracks=2,
-   fence=true,
-   design={apiVersion=1,id="my_design",assets={
-    platformSurface="my_mod::/platform.mdl",
+ return {
+  availability={yearFrom=0,yearTo=0},
+  description={name="My Light Rail Station",description="My station design.",
+   icon="my_mod::/station.tga"},
+  menuCategory=menu.getMenuCategory(1100),
+  params={},
+  updateScript={fileName="my_mod::/station.script@updateFn"},
+ }
+end
+```
+
+`getMenuCategory(order)` geeft een nieuwe tabel met de gedeelde categorie `ulr_stations` en de filters `passenger` en `station`. `order` is optioneel, standaard 1000, en moet een niet-negatief geheel getal zijn. Dezelfde helper is beschikbaar als `station_api_v1.getMenuCategory`. Gebruik in resourcebeschrijvingen bij voorkeur de lichte module. Het menu herkent de categorie ongeacht jouw mod-ID; wijzig de hoofdmod niet. `buildStation()` alleen registreert geen menu-item.
+
+## Updatescript
+
+```lua
+local station = require "mrnickert_ultimate_metro::/station_api_v1.lua"
+function data()
+ return {updateFn=function(capture,params)
+  return station.buildStation({
+   apiVersion=1, placement="surface", stationType="through",
+   platformLength=80, platformTracks=2, fence=true,
+   design={apiVersion=1,id="my_design",components={
+    platform={model="my_mod::/platform20.mdl",moduleLength=20},
+    canopy={model="my_mod::/roof20.mdl",moduleLength=20},
+    shelter=false, trees=false, planters=false,
    }},
-  },captureParams,params)
+  },capture,params)
  end}
 end
 ```
 
-Het resultaat is rechtstreeks een construction-update-resultaat. De consumer levert een eigen `.con.lua`, script en resources. Er is geen globale registratie, automatische menu-inschrijving, migratie of routeplannerpatch. `require` gebruikt onze bestaande mod-gekwalificeerde Lua-imports; `buildStation` is onze eigen API.
+Het resultaat is rechtstreeks het construction-update-resultaat. `capture` en `params` zijn optionele tabellen; de API wijzigt geen caller-tabellen.
 
 ## Stationvelden
 
 | Veld | Contract |
 | --- | --- |
-| apiVersion | Verplicht, exact 1 |
-| placement | Verplicht: surface, underground, elevated |
-| stationType | Verplicht: through, terminus |
-| platformLength | Verplicht aantal meters: 40, 60, 80, 100, 120 |
-| platformTracks | Optioneel, standaard 2; andere aantallen afgewezen |
-| fence | Optioneel boolean, standaard true; ondergronds effectief false |
-| design | Optioneel ontwerp; weglaten gebruikt standaardontwerp |
+| `apiVersion` | Verplicht, exact 1 |
+| `placement` | Verplicht: `surface`, `underground`, `elevated` |
+| `stationType` | Verplicht: `through`, `terminus` |
+| `platformLength` | Verplicht: 40, 60, 80, 100 of 120 meter |
+| `platformTracks` | Optioneel, standaard 2; alleen 2 toegestaan |
+| `fence` | Optionele boolean; standaard true, ondergronds effectief false |
+| `design` | Optioneel; weglaten gebruikt de standaardbouwset |
 
-Kopstation impliceert kruiswissel, doorgaand geen kruiswissel. Onbekende velden worden met een herkenbare API-fout afgewezen. `captureParams` en `constructionParams` zijn optionele tabellen. De API verandert geen caller-tabellen. De UI gebruikt vanaf 0.17.1 index 1=ondergronds, 2=bovengronds, 3=verhoogd. Oude liggingindices worden niet omgezet; de benoemde API-velden veranderen niet.
+Kopstation impliceert kruiswissel; doorgaand heeft geen kruiswissel. Liggingen zijn benoemde waarden, geen menu-indices. Onbekende velden en ongeldige waarden geven een API-fout.
 
-## Ontwerp
+## Ontwerpen en helpers
 
-Een ontwerp is `{apiVersion=1,id="lowercase_identifier",assets={...}}`. `api.getDefaultDesign()` geeft een onafhankelijke kopie van ons standaardontwerp. Ontbrekende rollen gebruiken hun standaardmodel. Onbekende rollen, callbacks en ongekwalificeerde modelpaden worden afgewezen.
+Een ontwerp bevat `apiVersion=1`, een lowercase `id` en precies één van `components` of `assets`. Gebruik voor nieuwe ontwerpen `components`; de [componentenhandleiding](asset-kit-v1.md) beschrijft standaard/eigen/geen en alle modelmaten.
 
-Alle referenties hieronder hebben prefix `mrnickert_ultimate_metro::/`, behalve het native wachthokje.
+- `getContract()`: modulelengte, perronmaten, ondersteunde componenten en vaste layoutafspraken.
+- `getDefaultKit()`: verse contextafhankelijke standaardselecties.
+- `getDefaultKit(placement)`: concrete standaardbouwset voor surface/elevated; vaste lege componentenbouwset voor underground.
+- `getDefaultDesign()`: verse standaardconfiguratie met modelrollen.
 
-| Rol | Referentiemodel | Toepassing |
-| --- | --- | --- |
-| platformSurface | surface_platform.mdl | Bovengrondse/verhoogde vlakke perronstukken |
-| headSurface | surface_head_tile.mdl | Bovengronds kopplein |
-| shelter | ::/stations/street/small_stops/small_new.mdl | Bovengrondse wachthokjes |
-| elevatedRoof | elevated_platform_roof.mdl | Verhoogde kap; kernkolommen blijven |
-| elevatedEntranceBench | elevated_entrance.mdl | Parkbank bij verhoogde entree |
-| entrancePaving | elevated_paving.mdl | Bestrating verhoogde entree |
+Modelreferenties zijn mod-gekwalificeerd: `my_mod::/model.mdl` of een native `::/model.mdl`. Geef geen callbacks, eigen transforms of transportmetadata in een ontwerp mee.
 
-Een rol werkt alleen waar de bestaande bouwer het referentiemodel plaatst. De ondergrondse hal, trapmodellen, veiligheid, draagconstructie, bovenleiding en kapkolommen blijven vast in v1.
+## Modelrollen
 
-### Fysieke aansluitafspraken
+Als alternatief voor componenten ondersteunt `assets` vervanging van deze rollen. Ontbrekende rollen houden het standaardmodel. De kern behoudt alle transforms, inclusief schaling; deze vorm is bedoeld voor visuele vervangers met exact het referentieprofiel.
 
-Een vervangmodel behoudt oorsprong, assen, vloerhoogte, afmetingen en veilige collisionruimte van het referentiemodel. De kern hergebruikt alle transforms, inclusief versmallen, verkorten en roteren. Nieuwe perronbreedtes en eigen traplocaties passen niet in v1.
+| Rol | Referentiemodel, prefix `mrnickert_ultimate_metro::/` tenzij anders vermeld |
+| --- | --- |
+| `platformSurface` | `surface_platform.mdl` |
+| `headSurface` | `surface_head_tile.mdl` |
+| `shelter` | native `::/stations/street/small_stops/small_new.mdl` |
+| `elevatedRoof` | `elevated_platform_roof.mdl` |
+| `elevatedEntranceBench` | `elevated_entrance.mdl` |
+| `entrancePaving` | `elevated_paving.mdl` |
 
-- Perron: lokaal x=0..40m, y=-2.5..2.5m, native loopvloer z=circa 1.1m (geverifieerd uit de mesh; historische buildertransforms blijven behouden). De kern schaalt dit naar de gekozen lengte, breedte en hoogte; bedek geen trapgaten.
-- Kopplein: referentie x=-5..0m, y=-5..5m, behoud de vloer-/randhoogte.
-- Kap: behoud de referentiehoogte en vrije ruimte voor contactdraden en kernkolommen; voeg geen kolommen in trapgaten toe.
-- Entreestoep: 3x3m vlak op lokaal z=0. Bankje volgens referentiemodel. Beide wrappers hebben geen collisionvolume; behoud vrije looproute en straataansluiting.
-- Modellen mogen geen transportmetadata, terminals of extra persoon-/voertuiglanen toevoegen.
+Een rol werkt alleen waar de bouwer het model plaatst. De perronrol volgt lokaal x=0..40m, y=-2,5..2,5m met referentievloer rond z=1,1m vóór kerntransforms. Het kopplein volgt x=-5..0m, y=-5..5m. De entreestoep is een lokaal 3×3m-vlak op z=0. Houd oorsprong, vrije ruimte en het volledige referentieprofiel aan. Voor ongeschaalde 20m-modules gebruik je `components`.
 
-Dit zijn verplichtingen voor assetmakers. De API valideert schema en modelreferentie, maar inspecteert externe modellen niet volledig. De engine moet resources nog laden; een verkeerd model kan alsnog botsingen of fouten veroorzaken.
+## Grenzen
 
-## Saves en versies
-
-Mod-ID en construction-ID's blijven technisch gelijk. De menu-indexvolgorde is vanaf 0.17.1 bewust gewijzigd, zonder save-omzetlaag; oude saves zijn geen compatibiliteitsdoel voor deze clean-up. Ontbrekende lengte blijft 80m. Nieuwe plaatsingen gaan via het contract. API-versie staat los van modrevision. Een brekende API krijgt een nieuw publiek pad/versienummer.
-
-## Externe proef
-
-`examples/contract_station` is een zelfstandige optionele consumer met eigen mod-ID, dependency, construction, script en perronwrapper. Het hoofdarchief bevat dit voorbeeld niet. De wrapper verwijst rechtstreeks naar dezelfde native meshes, met dezelfde dimensies. Geen native mesh-/texturebinaries worden gekopieerd.
-
-Het oorspronkelijke voorbeeld 0.1.0 vereiste revision 44; de huidige voorbeeldmod 0.2.0 vereist revision 45 vanwege het extra componentenvoorbeeld. De dependency gebruikt `loadBefore=true`, `optional=false`. De consumer voegt één vast bovengronds doorgaand 80m station toe. Het uiterlijk blijft bewust gelijk om de geometrie te kunnen vergelijken. De gebruiker bevestigde inmiddels in-game plaatsing van de Component Kit Example en werking van twee varianten. Dit is het bewijs voor die concrete twee-modkoppeling; de lokale harness alleen was daarvoor niet voldoende.
-
-## Bewijs
-
-`python scripts/test_station_contract.py` vergelijkt sinds de 20m-standaardmigratie alle 72 functionele resultaten met de vóór die migratie vastgelegde 0.16.0-nulmeting. Alleen subconstruction-modeltabellen zijn uitgesloten. Voor 27 ondergrondse/legacy-gevallen wordt ook de volledige oude 0.14.2-uitvoer nog vergeleken. Beide oorspronkelijke manifests blijven bewaard; ze zijn niet overschreven om nieuwe modellen te accepteren.
-
-`python scripts/test_native_layout.py` controleert daarnaast expliciete standaardbouwsets, standaardresolutie, directe API-aanroepen, moduledekking, echte visuele vervanging, caller-isolatie, ongeldige contracten en de twee externe voorbeeld-consumers.
-
-Voor de gewijzigde standaardpresentatie is geen claim van bytegelijke modeluitvoer meer van toepassing. Routes, terminals, terrein, snapframes, kosten en overige niet-modeldata blijven wel gelijk. Visuele eindcontrole in de game blijft nodig voor 0.17.0.
+API v1 ondersteunt precies twee sporen, vaste perronbreedte en vloerhoogte, vaste entrees/trappen en de opgegeven lengtes. Ondergronds is de hal een vaste assemblage. De API valideert het schema en modelpaden; externe meshgeometrie en colliders moeten door de maker worden gecontroleerd. Een API-versie staat los van de modrevision. Een brekend stationscontract hoort in een nieuw publiek API-pad.

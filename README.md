@@ -1,56 +1,51 @@
 # Ultimate Light Rail
 
-Versie **0.17.2**, modrevision **48**, stationscontract **API v1**. Tramgebaseerde lightrailstations en spoor voor Transport Fever 3. De interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+**Release 1.0.0 · modrevision 49 · Station API v1**
 
-## Voor spelers
+Tramgebaseerde lightrail voor Transport Fever 3, met een eigen bouwmenu, spoor en configureerbare passagiersstations.
 
-Kies **Lightrailstation / Light Rail Station** in het wegstationsmenu. Het instellingenpaneel heeft drie blokken met native scheidingslijnen: Ligging; Stationstype + Perronlengte; Hekken.
+## Spelen
+
+Open **Light Rail**, tussen wegvervoer en trein. De tramremise, het lightrailspoor en alle aangesloten stations staan samen in één overzicht met zoekveld.
 
 | Instelling | Keuzes |
 | --- | --- |
-| Ligging | Ondergronds / Bovengronds / Verhoogd |
+| Ligging | Ondergronds / Bovengronds / Verhoogd; standaard bovengronds |
 | Stationstype | Doorgaand / Kopstation |
 | Perronlengte | 40 / 60 / 80 / 100 / 120 meter |
 | Hekken | Nee / Ja; ondergronds uitgeschakeld |
 
-Alle stations hebben twee perronsporen. Kopstations hebben automatisch een kruiswissel. De lightrail gebruikt tramvoertuigen en sluit op native elektrische tramtrack aan. Het openbare Lightrailspoor volgt het normale native tramgedrag, met lage metalen buitenhekken.
+Alle stations hebben twee perronsporen. Kopstations bevatten een kruiswissel en ondersteunen keren zonder zichtbare keerlus. Gebruik tramvoertuigen en native elektrische tramtrack; kies voertuigen die binnen de perronlengte passen. Te lange voertuigen kunnen de wissel bezet houden. Selecteer zo nodig terminals of waypoints om beide sporen te gebruiken.
 
-Bovengronds blijven de stations standaard zonder kap, met hokjes en meubilair. Het doorgaande station heeft een vaste voetgangersonderdoorgang en meerdere publieke aansluitingen. Het kopstation heeft een ingericht kopplein. Elevated heeft een betonnen draagconstructie, perronkappen en één centrale entree op maaiveld; spoorhoogte +12m. Ondergronds liggen de sporen op -18m met een vaste native hal en straattoegang.
+Bovengrondse stations hebben lage perrons, meubilair en bij een kopstation een ingericht kopplein. Doorgaande stations hebben een voetgangersonderdoorgang. Verhoogde stations hebben een betonnen draagconstructie, kappen en één centrale entree op maaiveld; de sporen liggen op +12m. Ondergronds liggen de sporen op -18m met een vaste hal en straattoegang. Het openbare lightrailspoor heeft lage metalen buitenhekken en behoudt native tramverkeersgedrag.
 
-Gebruik voertuigen die binnen de gekozen perronlengte passen: te lange voertuigen kunnen een kruiswissel geblokkeerd houden. [Installeren en testen](docs/installatie.md).
+[Installatie](docs/installatie.md) · [Teststatus en beperkingen](docs/teststatus.md)
 
-## De standaardstations gebruiken zelf het contract
+## Stations maken
 
-Vanaf 0.17.0 kiezen de inbegrepen bovengrondse/elevated ontwerpen expliciet dezelfde 20m-perron- en dakcomponenten die een externe maker kan aanleveren. Ze hebben geen aparte publieke bouwroute. De native ondergrondse hal blijft een vaste kernassemblage en loopt eveneens via de API.
+De standaardstations gebruiken dezelfde publieke API als externe ontwerpen. Makers kiezen standaardonderdelen, eigen modellen of geen optionele aankleding. De kern beheert twee sporen, vaste entrees, trappen, looproutes, terminals en wissels.
 
-De 20m-overstap verandert de zichtbare modelopbouw en tegel-/dakherhaling. De oude 40m-native helpermodellen blijven nodig voor legacy en vaste korte pas-/trapstukken. Ze zijn geen algemene uitzonderingsroute voor onze nieuwe standaardontwerpen.
-
-De menuvolgorde is vanaf 0.17.1 opgeschoond: 1=ondergronds, 2=bovengronds (standaard), 3=verhoogd. Dit is bewust geen omzetlaag voor eerder opgeslagen liggingindices; gebruik een nieuwe testsave. Construction-ID's blijven technisch gelijk, maar oude saves worden voor deze clean-up niet als compatibel gegarandeerd. De API gebruikt ongewijzigde benoemde liggingen; externe ontwerpen hoeven hun `placement="surface"` niet te veranderen.
-
-## Voor assetmakers
-
-Een ontwerp kiest per onderdeel **standaard**, **eigen model** of **geen**. Beschikbaar: perron, hokje, kap, bomen, plantenbakken, bankjes, prullenbakken en lampen. De kern houdt spoorindeling, twee sporen, vaste perronbreedte/hoogte, entrees, trappen en routes in beheer.
-
-- [Handleiding en aansluitmaten](docs/asset-kit-v1.md)
-- [API-schema en compatibiliteit](docs/station-api-v1.md)
+- [Developer kit: beginnen](docs/developer-kit-readme.md)
+- [20m-componenten en aansluitmaten](docs/asset-kit-v1.md)
+- [API v1 en gedeeld bouwmenu](docs/station-api-v1.md)
 - [Zelfstandige voorbeeldmod](examples/contract_station/README.md)
 
-Gewone eigen perron- en dakmodules zijn exact 20m. Korte passtukken, trapzones en de ondergrondse hal blijven vast. Nieuwe modellen moeten binnen het referentieprofiel passen; de API controleert niet automatisch alle externe mesh- en collisiongeometrie. Nieuwe mods die de 0.17-helpers of entreebankvariant gebruiken, vereisen minimaal revision 46.
+Gebruik `station_menu.lua` in de constructionbeschrijving om eigen stations in het Light Rail-menu op te nemen. Een eigen namespace vereist geen aanpassing aan de hoofdmod.
 
-## Wat is bewezen?
+## Bouwen en controleren
 
-Automatisch: alle **72 functionele referentiegevallen** behouden hun volledige uitvoer behalve de visuele modellen. Bij **27 ondergrondse/legacy-gevallen** is ook de volledige modeluitvoer gelijk gebleven. Aanvullend zijn perron-/kapdekking, vaste trappen, 20m-modules, API-validatie en ongewijzigde caller-tabellen gecontroleerd.
-
-In-game: de gebruiker bevestigde de eerdere standaardstations en daarna plaatsing van de losse Component Kit Example met/zonder kap op 40m en 80m. Instappen en wissels zijn bevestigd in twee geteste voorbeeldvarianten. Dit bewijst de externe modkoppeling voor die voorbeelden, niet alle mogelijke modellen en varianten. De gebruiker bevestigde inmiddels plaatsing en werking van alle drie de liggingen uit 0.17.0, plus visuele plaatsing van alle lengtes. Werking is niet per lengte afzonderlijk getest. De nieuwe menu-indeling van 0.17.1 moet nog visueel in-game worden beoordeeld. [Volledige teststatus](docs/teststatus.md).
-
-## Ontwikkelen
+Windows, Python 3, PowerShell, Teal 0.24.8 en een geïnstalleerde Steam-versie van Transport Fever 3 zijn nodig. VS Code kan de meegeleverde `all_def.tl` gebruiken. `tlconfig.example.lua` is de lokale configuratiebasis.
 
 ```powershell
+python scripts/build_ui.py
+./scripts/convert_ui_icon.ps1
 python scripts/test_station_contract.py
 python scripts/test_native_layout.py
+& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_ui.lua
+python scripts/check_ui.py
 python scripts/package.py
 python scripts/package_contract_example.py
 python scripts/package_sdk.py
 ```
 
-Native tests gebruiken de geïnstalleerde spelbestanden en `C:\Program Files\Teal\0.24.8\tl.exe`; er worden geen native mesh-/texturebinaries meegeleverd. Het hoofdarchief bevat alleen de runtime-mod. De voorbeeldmod en makersdocumentatie zijn aparte archieven. Geen automatische wijzigingen aan saves, routes of native resources.
+De drie ZIP's in `dist/` zijn de hoofdmod, de optionele voorbeeldmod en de developer kit. De UI is onderdeel van de hoofdmod. Native GUI-adapters worden tijdens de build afgeleid van de geïnstalleerde bronnen; de manifest-hashes staan in het pakket. [Architectuur](docs/architectuur.md) · [Credits](CREDITS.md).

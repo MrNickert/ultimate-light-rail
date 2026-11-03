@@ -2,16 +2,12 @@
 from pathlib import Path
 import hashlib, json, re, struct, zipfile
 root=Path(__file__).resolve().parents[1]
-source=root/'ui-preview'
+source=root
 mod=json.loads((source/'mod.json').read_text(encoding='utf-8'))
-assert mod['modId']=='mrnickert_ulr_ui_preview' and mod['cosmetic'] is True
-assert mod['severityRemove']=='None'
-dep=mod['dependencies'][0]
-assert dep['mod']['modId']=='mrnickert_ultimate_metro' and dep['mod']['revisionMin']==48 and dep['optional'] is False
-manifest=json.loads((source/'build_manifest.json').read_text(encoding='utf-8'))
-files=['mod.json','strings.json','_metadata/modinfo.json','README.md','build_manifest.json']
-files += [p.relative_to(source).as_posix() for p in sorted((source/'content').rglob('*')) if p.is_file()]
-assert len(files)==14, files
+assert mod['modId']=='mrnickert_ultimate_metro' and mod['revision']==49
+manifest=json.loads((source/'content/gui/build_manifest.json').read_text(encoding='utf-8'))
+files=[p.relative_to(source).as_posix() for p in sorted((source/'content/gui').rglob('*')) if p.is_file()]
+assert len(files)==10,files
 native=set()
 game=Path(r'C:\Program Files (x86)\Steam\steamapps\common\Transport Fever 3/base/content')
 for archive_path in game.rglob('*.zip'):
@@ -44,10 +40,5 @@ pixels=[tuple(icon[i:i+4]) for i in range(18,len(icon),4)]
 assert all(pixel[:3]==(255,255,255) for pixel in pixels),'icon must be a tintable white mask'
 assert any(p[3]==0 for p in pixels) and any(p[3]==255 for p in pixels),'transparent background and opaque symbol required'
 assert all(pixels[y*w+x][3]==0 for y in range(h) for x in range(w) if x in (0,w-1) or y in (0,h-1)),'icon must fit inside its button'
-assert hashlib.sha256((source/'artwork/light_rail_icon.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
-out=root/'dist/ultimate-light-rail-ui-preview-0.1.5.zip';out.parent.mkdir(exist_ok=True)
-with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
-    for name in files:archive.write(source/name,mod['modId']+'/'+name)
-with zipfile.ZipFile(out) as archive:assert archive.testzip() is None and len(archive.namelist())==len(files)
-print(out)
-print(f'{len(files)} files; native references, unique preview recipes, tab order, icon format and ZIP checked. Engine UI unverified.')
+assert hashlib.sha256((source/'artwork/light_rail_reference.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
+print('PASS: integrated UI resources, unique recipes, tab order, native tool binding, transparent icon and source provenance.')
