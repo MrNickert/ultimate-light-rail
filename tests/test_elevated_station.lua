@@ -39,7 +39,7 @@ return function(resource)
   for kind=1,2 do for fence=1,2 do
    local p={placement=3,stationType=kind,fence=fence,platformLength=index,seed=42}
    local r=script.updateFn({},p)
-   local surface=script.updateFn({}, {placement=1,stationType=kind,fence=fence,platformLength=index,seed=42})
+   local surface=script.updateFn({}, {placement=2,stationType=kind,fence=fence,platformLength=index,seed=42})
    local sub=r.subconstructions[1]
    local vehicles=kind==1 and 2 or 4
    assert(#sub.laneLists==vehicles+6 and #sub.station.terminals==2)

@@ -1,3 +1,13 @@
+# Actuele status — 0.17.1 menu-opruiming
+
+Gebruiker bevestigt plaatsing en werking van alle drie de liggingen van 0.17.0. Alle lengtes zijn ook geplaatst voor visuele controle, maar werking is niet afzonderlijk per lengte getest.
+
+0.17.1 heeft een bewust nieuwe ruwe menu-indexvolgorde: ondergronds=1, bovengronds=2, verhoogd=3, met bovengronds standaard. De testmatrix voert dezelfde semantische referentiestations uit met de nieuwe menu-indices; de oorspronkelijke functionele manifests zijn niet opnieuw vastgelegd of veranderd. Alle 72 functionele gevallen en 27 complete ondergrondse/legacy-gevallen blijven gelijk. De keuzevolgorde, Surface-default, verticale liggingrij en juiste hek-disable zijn automatisch gecontroleerd. De feitelijke labelbreedte in de game is nog een visuele controle.
+
+Alle Engelse/Nederlandse renderteksten zijn gecontroleerd op zichtbare Metro-vermeldingen: geen. Technische mod-ID's, resourcepaden en private vertaalsleutels vallen buiten de zichtbare naamsopschoning.
+
+De voorgaande status is hieronder als historie behouden.
+
 # Actuele status — 0.17.0
 
 - In-game bevestigd door gebruiker: eerste contractstandaard ziet er gelijk uit en werkt; externe Component Kit Example geplaatst op 40m/80m met/zonder kap; instappen en wissels werken in twee geteste voorbeeldvarianten.

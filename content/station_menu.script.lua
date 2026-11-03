@@ -2,7 +2,7 @@
 function data()
  return {
   checkFenceFn=function(_capture,params)
-   return tonumber((params or {}).placement)==2 and "Disabled" or "Enabled"
+   return tonumber((params or {}).placement)==1 and "Disabled" or "Enabled"
   end,
  }
 end

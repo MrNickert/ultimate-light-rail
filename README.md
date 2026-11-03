@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-Versie **0.17.0**, modrevision **46**, stationscontract **API v1**. Tramgebaseerde lightrailstations en spoor voor Transport Fever 3. De interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie **0.17.1**, modrevision **47**, stationscontract **API v1**. Tramgebaseerde lightrailstations en spoor voor Transport Fever 3. De interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
 ## Voor spelers
 
@@ -8,7 +8,7 @@ Kies **Lightrailstation / Light Rail Station** in het wegstationsmenu.
 
 | Instelling | Keuzes |
 | --- | --- |
-| Ligging | Bovengronds / Ondergronds / Verhoogd |
+| Ligging | Ondergronds / Bovengronds / Verhoogd |
 | Stationstype | Doorgaand / Kopstation |
 | Perronlengte | 40 / 60 / 80 / 100 / 120 meter |
 | Hek langs aansluiting | Nee / Ja; ondergronds uitgeschakeld |
@@ -25,7 +25,7 @@ Vanaf 0.17.0 kiezen de inbegrepen bovengrondse/elevated ontwerpen expliciet deze
 
 De 20m-overstap verandert de zichtbare modelopbouw en tegel-/dakherhaling. De oude 40m-native helpermodellen blijven nodig voor legacy en vaste korte pas-/trapstukken. Ze zijn geen algemene uitzonderingsroute voor onze nieuwe standaardontwerpen.
 
-Geplaatste stations worden niet automatisch herbouwd. Alle construction-ID's, opgeslagen keuze-indexen en standaardlengte van 80m blijven behouden. Oude verborgen stations blijven laadbaar; hun scripts behouden de vorige werking.
+De menuvolgorde is vanaf 0.17.1 opgeschoond: 1=ondergronds, 2=bovengronds (standaard), 3=verhoogd. Dit is bewust geen omzetlaag voor eerder opgeslagen liggingindices; gebruik een nieuwe testsave. Construction-ID's blijven technisch gelijk, maar oude saves worden voor deze clean-up niet als compatibel gegarandeerd. De API gebruikt ongewijzigde benoemde liggingen; externe ontwerpen hoeven hun `placement="surface"` niet te veranderen.
 
 ## Voor assetmakers
 
@@ -41,7 +41,7 @@ Gewone eigen perron- en dakmodules zijn exact 20m. Korte passtukken, trapzones e
 
 Automatisch: alle **72 functionele referentiegevallen** behouden hun volledige uitvoer behalve de visuele modellen. Bij **27 ondergrondse/legacy-gevallen** is ook de volledige modeluitvoer gelijk gebleven. Aanvullend zijn perron-/kapdekking, vaste trappen, 20m-modules, API-validatie en ongewijzigde caller-tabellen gecontroleerd.
 
-In-game: de gebruiker bevestigde de eerdere standaardstations en daarna plaatsing van de losse Component Kit Example met/zonder kap op 40m en 80m. Instappen en wissels zijn bevestigd in twee geteste voorbeeldvarianten. Dit bewijst de externe modkoppeling voor die voorbeelden, niet alle mogelijke modellen en varianten. De nieuwe standaardassemblage van 0.17.0 vraagt nog een visuele/functionele eindcontrole. [Volledige teststatus](docs/teststatus.md).
+In-game: de gebruiker bevestigde de eerdere standaardstations en daarna plaatsing van de losse Component Kit Example met/zonder kap op 40m en 80m. Instappen en wissels zijn bevestigd in twee geteste voorbeeldvarianten. Dit bewijst de externe modkoppeling voor die voorbeelden, niet alle mogelijke modellen en varianten. De gebruiker bevestigde inmiddels plaatsing en werking van alle drie de liggingen uit 0.17.0, plus visuele plaatsing van alle lengtes. Werking is niet per lengte afzonderlijk getest. De nieuwe menu-indeling van 0.17.1 moet nog visueel in-game worden beoordeeld. [Volledige teststatus](docs/teststatus.md).
 
 ## Ontwikkelen
 

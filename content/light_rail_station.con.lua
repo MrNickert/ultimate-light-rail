@@ -9,8 +9,9 @@ function data()
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
   menuCategory={categories={{category="road_buildings",filterCategories={"passenger","station"},order=1015}}},
   params={
-   {key="placement",name=_("LR_STATION_PLACEMENT"),values={_("LR_STATION_SURFACE"),_("LR_STATION_UNDERGROUND"),_("LR_STATION_ELEVATED")},
-    defaultIndex=1,uiType="Button",displayMode="Horizontal"},
+   {key="placement",name=_("LR_STATION_PLACEMENT"),values={_("LR_STATION_UNDERGROUND"),_("LR_STATION_SURFACE"),_("LR_STATION_ELEVATED")},
+    tooltips={_("LR_STATION_UNDERGROUND_TOOLTIP"),_("LR_STATION_SURFACE_TOOLTIP"),_("LR_STATION_ELEVATED_TOOLTIP")},
+    defaultIndex=2,uiType="Button",displayMode="Vertical"},
    {key="stationType",name=_("LR_STATION_TYPE"),values={_("LR_STATION_THROUGH"),_("LR_STATION_TERMINUS")},
     defaultIndex=2,uiType="Button",displayMode="Horizontal"},
    {key="platformLength",name=_("LR_STATION_LENGTH"),tooltip=_("LR_STATION_LENGTH_TOOLTIP"),values={"40 m","60 m","80 m","100 m","120 m"},

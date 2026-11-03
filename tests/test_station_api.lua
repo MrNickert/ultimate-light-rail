@@ -15,7 +15,7 @@ return function(resource)
  local script=resource("light_rail_station.script.lua")
  for placement=1,3 do for kind=1,2 do for index,length in ipairs({40,60,80,100,120}) do for fence=1,2 do
   local spec={apiVersion=1,placement=placements[placement],stationType=kinds[kind],platformLength=length,platformTracks=2,fence=fence==2}
-  local params={placement=placement,stationType=kind,platformLength=index,fence=fence,seed=42,crossover=1}
+  local params={placement=({2,1,3})[placement],stationType=kind,platformLength=index,fence=fence,seed=42,crossover=1}
   local savedSpec,savedParams=copy(spec),copy(params)
   equal(api.buildStation(spec,{},params),script.updateFn({},params),"direct API equals standard station")
   equal(spec,savedSpec,"no specification mutation");equal(params,savedParams,"no save parameter mutation")

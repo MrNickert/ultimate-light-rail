@@ -9,7 +9,7 @@ Eerste implementatie: Ultimate Light Rail 0.15.0 / revision 44. Onze bestaande c
 - `station_api_v1.lua`: publiek contract, validatie en beperkte visuele vervanging.
 - `station_standard_design.lua`: ons eigen ontwerp, met verse tabellen per aanroep.
 - `station_layout_builder.lua`: private dispatch naar de bestaande bewezen bouwers.
-- `station_config_util.lua`: vertaalt bestaande menu-/save-indices; behoudt oude defaults.
+- `station_config_util.lua`: vertaalt de actuele menu-indices naar benoemde API-liggingen. Vanaf 0.17.1 is de menuvolgorde bewust opgeschoond.
 
 Onze standaardstations gebruiken dezelfde publieke API. Verborgen legacy constructions behouden hun oude scripts. De helpers mengen intern nog geometrie en aankleding; deze eerste contractlaag vervangt benoemde model-ID's na de bestaande bouwstappen. Dit is nog geen vrij configureerbaar stationsbouwsysteem.
 
@@ -48,7 +48,7 @@ Het resultaat is rechtstreeks een construction-update-resultaat. De consumer lev
 | fence | Optioneel boolean, standaard true; ondergronds effectief false |
 | design | Optioneel ontwerp; weglaten gebruikt standaardontwerp |
 
-Kopstation impliceert kruiswissel, doorgaand geen kruiswissel. Onbekende velden worden met een herkenbare API-fout afgewezen. `captureParams` en `constructionParams` zijn optionele tabellen. De API verandert geen caller-tabellen. De bestaande save-adapter blijft tolerant voor oude indices.
+Kopstation impliceert kruiswissel, doorgaand geen kruiswissel. Onbekende velden worden met een herkenbare API-fout afgewezen. `captureParams` en `constructionParams` zijn optionele tabellen. De API verandert geen caller-tabellen. De UI gebruikt vanaf 0.17.1 index 1=ondergronds, 2=bovengronds, 3=verhoogd. Oude liggingindices worden niet omgezet; de benoemde API-velden veranderen niet.
 
 ## Ontwerp
 
@@ -81,7 +81,7 @@ Dit zijn verplichtingen voor assetmakers. De API valideert schema en modelrefere
 
 ## Saves en versies
 
-Mod-ID, alle bestaande construction-ID's en de vier opgeslagen menukeuzes blijven behouden. Ontbrekende lengte blijft 80m. Geplaatste stations worden niet automatisch verbouwd; nieuwe plaatsingen gaan via het contract. API-versie staat los van modrevision. Een brekende API krijgt een nieuw publiek pad/versienummer.
+Mod-ID en construction-ID's blijven technisch gelijk. De menu-indexvolgorde is vanaf 0.17.1 bewust gewijzigd, zonder save-omzetlaag; oude saves zijn geen compatibiliteitsdoel voor deze clean-up. Ontbrekende lengte blijft 80m. Nieuwe plaatsingen gaan via het contract. API-versie staat los van modrevision. Een brekende API krijgt een nieuw publiek pad/versienummer.
 
 ## Externe proef
 

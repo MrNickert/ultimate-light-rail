@@ -23,21 +23,25 @@ return function(resource)
   assert(param.key==expected[i] and (#param.values==(i==3 and 5 or (i==1 and 3 or 2))) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
+ assert(con.params[1].values[1]=="LR_STATION_UNDERGROUND" and con.params[1].values[2]=="LR_STATION_SURFACE" and con.params[1].values[3]=="LR_STATION_ELEVATED")
+ assert(con.params[1].defaultIndex==2 and con.params[1].displayMode=="Vertical","full-width location row, Surface selected by default")
+ assert(#con.params[1].tooltips==3)
+ for i=2,4 do assert(con.params[i].displayMode=="Horizontal") end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
   assert(#resource(name..".con.lua").menuCategory.categories==0,"legacy menu entry hidden, not deleted")
  end
  local script=resource("light_rail_station.script.lua")
  local menu=resource("station_menu.script.lua")
  assert(con.params[4].checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkFenceFn")
- assert(menu.checkFenceFn({}, {placement=1})=="Enabled")
- assert(menu.checkFenceFn({}, {placement=2})=="Disabled")
+ assert(menu.checkFenceFn({}, {placement=1})=="Disabled")
+ assert(menu.checkFenceFn({}, {placement=2})=="Enabled")
  assert(menu.checkFenceFn({}, nil)=="Enabled")
  local legacySurface=resource("twin_terminus.script.lua")
  local legacyThrough=resource("through_station.script.lua")
  local legacyUnderground=resource("underground_terminus.script.lua")
  local results={}
  for placement=1,2 do for stationType=1,2 do for fence=1,2 do
-  local params={placement=placement,stationType=stationType,fence=fence,seed=42,crossover=1}
+  local params={placement=({2,1,3})[placement],stationType=stationType,fence=fence,seed=42,crossover=1}
   local r=script.updateFn({},params)
   assert(params.crossover==1 and params.fence==fence,"builder must not mutate UI/save parameters")
   local sub=r.subconstructions[1]

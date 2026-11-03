@@ -1,11 +1,12 @@
--- Save/UI compatibility adapter. New designs call the versioned API directly.
+-- UI adapter: clean order 1=underground, 2=surface, 3=elevated.
+-- New designs call the versioned API directly with named placements.
 local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local standard=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
 return function(capture,params)
  params=params or {}
  local lengths={40,60,80,100,120}
  local placementIndex=tonumber(params.placement)
- local placement=placementIndex==2 and "underground" or (placementIndex==3 and "elevated" or "surface")
+ local placement=placementIndex==1 and "underground" or (placementIndex==3 and "elevated" or "surface")
  return api.buildStation({
   apiVersion=1,
   placement=placement,

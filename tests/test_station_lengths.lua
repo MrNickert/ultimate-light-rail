@@ -14,7 +14,7 @@ return function(resource)
  for index,L in ipairs(lengths) do
   assert(con.params[3].values[index]==L.." m")
   for placement=1,2 do for stationType=1,2 do for fence=1,2 do
-   local params={placement=placement,stationType=stationType,fence=fence,platformLength=index,seed=42}
+   local params={placement=({2,1,3})[placement],stationType=stationType,fence=fence,platformLength=index,seed=42}
    local r=script.updateFn({},params)
    assert(params.platformLength==index,"saved index must not be overwritten by metres")
    local sub=r.subconstructions[1]
@@ -141,9 +141,9 @@ return function(resource)
    for _,m in ipairs(sub.models) do for _,v in ipairs(m.transf) do assert(v==v and math.abs(v)<1e6) end end
   end end end
  end
- equal(script.updateFn({},{}),script.updateFn({}, {platformLength=3}),"old saves default to 80m")
+ equal(script.updateFn({},{}),script.updateFn({}, {platformLength=3}),"missing length defaults to 80m")
  for _,invalid in ipairs({0,6,80,-1,2.5,"invalid"}) do
   equal(script.updateFn({},{}),script.updateFn({}, {platformLength=invalid}))
  end
- print("PASS: 40 length/type/placement/fence combinations; exact deck coverage and midpoint stops; unchanged switches, all public accesses, no duplicate curves or poles in stair holes; old-save 80m default.")
+ print("PASS: 40 length/type/placement/fence combinations; exact deck coverage and midpoint stops; unchanged switches, all public accesses, no duplicate curves or poles in stair holes; 80m fallback.")
 end

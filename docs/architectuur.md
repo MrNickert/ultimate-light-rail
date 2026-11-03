@@ -92,3 +92,8 @@ De standaardadapter gebruikt station_standard_kit met componentwaarden default. 
 station_standard_kit(placement) geeft concrete modellen/afwezigheid voor surface/elevated en de vaste underground-halkern. De save-adapter gebruikt deze profielen rechtstreeks. Context-defaults uit externe componentontwerpen worden naar dezelfde profielen opgelost; false blijft expliciete afwezigheid. De standaardperrons/kappen zijn nu 20m-units, dezelfde API-route als add-ons. Het entreebankje behoudt zijn eigen model via de optionele benches.entranceModel-variant. Kopplein en vaste perronpasstukken sluiten op dezelfde 0,25m-vloer aan. De oorspronkelijke assets-contractvorm en verborgen legacy-scriptpaden blijven voor compatibiliteit behouden.
 
 Vóór runtimewijzigingen is een afzonderlijke functionele 0.16.0-nulmeting vastgelegd. De 72 resultaten blijven gelijk met alleen models uitgezonderd; 27 underground/legacy-resultaten worden nog volledig tegen 0.14.2 vergeleken. De oude volledige manifest is bewaard. Dit maakt de bewuste modelmigratie apart reviewbaar van het behoud van functionele data.
+
+
+## Menu-clean-up 0.17.1
+
+De opgeslagen placement-index is nu rechtstreeks 1=underground, 2=surface, 3=elevated. De menuvolgorde en defaultIndex=2 sluiten daarop aan; de hekcallback schakelt bij index1 uit. Er is op verzoek geen save-omzetlaag. Named API-placements blijven gelijk. De bestaande semantische testscenario's vertalen hun historische matrixlabels naar de nieuwe ruwe menu-index, zodat gelijkheid van de gegenereerde stations gecontroleerd blijft zonder de baselines te overschrijven. De liggingrij gebruikt het native Vertical-display (label boven volle knoppenrij) en drie individuele tooltips.

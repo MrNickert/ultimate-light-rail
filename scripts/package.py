@@ -6,7 +6,7 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.17.0"
+VERSION = "0.17.1"
 CONTENT = {
     "content/station_standard_kit.lua",
     "content/station_components.lua",

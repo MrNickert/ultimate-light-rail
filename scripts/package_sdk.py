@@ -2,7 +2,7 @@
 from pathlib import Path
 import json, zipfile
 root=Path(__file__).resolve().parents[1]
-assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==46
+assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']>=46
 prefix='ultimate-light-rail-developer-kit-v1'
 files={
  'docs/asset-kit-v1.md':'docs/asset-kit-v1.md',
@@ -15,10 +15,10 @@ for path in (root/'examples/contract_station').rglob('*'):
     if path.is_file():
         assert path.suffix in ('.md','.json','.lua','.mdl')
         files['example/'+path.relative_to(root/'examples/contract_station').as_posix()]=path.relative_to(root).as_posix()
-intro="""# Ultimate Light Rail maker kit — API v1 / core 0.17.0
+intro="""# Ultimate Light Rail maker kit — API v1 / core 0.17.1
 
 This ZIP is developer material, not a game mod to activate directly.
-Install Ultimate Light Rail revision 46 (0.17.0) separately.
+Install Ultimate Light Rail revision 47 (0.17.1) separately.
 
 1. Read docs/asset-kit-v1.md for the fixed layout and supported components.
 2. Copy example/ to your own mod folder; change its mod ID, name and every own namespace reference. The supplied example ID is already used by our test mod.
@@ -28,9 +28,9 @@ Install Ultimate Light Rail revision 46 (0.17.0) separately.
 
 reference/ contains original model declarations that reference the installed game's native resources. No native mesh or texture binary is included. The 20m reference wrappers internally halve native 40m visuals; an independently authored exact 20m model needs no internal halving. Fixed stair/end infills remain core-owned.
 
-The existing example has been placed in-game and two variants were confirmed boarding and switching. New bundled 0.17.0 stations still need an in-game end check. This is not a claim that all future assets fit automatically.
+The existing example has been placed in-game and two variants were confirmed boarding and switching. The user also confirmed all three bundled 0.17.0 placements working and all lengths visually; operation at every length was not separately tested. The 0.17.1 menu layout still needs a visual in-game check. This is not a claim that all future assets fit automatically.
 """
-out=root/'dist/ultimate-light-rail-developer-kit-v1-0.17.0.zip'
+out=root/'dist/ultimate-light-rail-developer-kit-v1-0.17.1.zip'
 out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     archive.writestr(prefix+'/README.md',intro)
