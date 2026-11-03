@@ -18,7 +18,12 @@ return function(resource,directory)
  end
  local function snapshot(name,script,params)
   local file=assert(io.open(directory.."/"..name..".txt","wb"))
-  writeValue(file,resource(script).updateFn({},params));file:close()
+  local result=resource(script).updateFn({},params)
+  writeValue(file,result);file:close()
+  -- Preserve a separate functional baseline before the standard-kit migration.
+  for _,sub in ipairs(result.subconstructions or {}) do sub.models=nil end
+  file=assert(io.open(directory.."/"..name..".functional","wb"))
+  writeValue(file,result);file:close()
  end
  local script="light_rail_station.script.lua"
  for placement=1,3 do for kind=1,2 do for length=1,5 do for fence=1,2 do
