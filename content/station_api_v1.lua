@@ -18,7 +18,10 @@ local function modelId(value)
  return true
 end
 function api.getDefaultDesign() return standard() end
-function api.getDefaultKit() return kit() end
+function api.getDefaultKit(placement)
+ check(placement==nil or placement=="surface" or placement=="elevated" or placement=="underground","unsupported default-kit placement")
+ return kit(placement)
+end
 function api.getContract()
  return {apiVersion=1,moduleLength=20,platformWidth=5,platformFloorHeight=0.25,platformTracks=2,
   platformLengths={40,60,80,100,120},fixedStairs=true,fixedEntrances=true,fixedRoutes=true,

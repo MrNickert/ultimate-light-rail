@@ -7,6 +7,15 @@ return function(resource)
   for k,v in pairs(a) do equal(v,b[k],path.."."..tostring(k)) end
   for k in pairs(b) do assert(a[k]~=nil,path..": extra key "..tostring(k)) end
  end
+ local function functional(result)
+  local r={};for k,v in pairs(result) do r[k]=v end
+  r.subconstructions={}
+  for i,sub in ipairs(result.subconstructions or {}) do
+   local t={};for k,v in pairs(sub) do if k~="models" then t[k]=v end end
+   r.subconstructions[i]=t
+  end
+  return r
+ end
  local con=resource("light_rail_station.con.lua")
  assert(#con.menuCategory.categories==1 and #con.params==4)
  local expected={"placement","stationType","platformLength","fence"}
@@ -49,7 +58,7 @@ return function(resource)
    local baseline=(stationType==1 and legacyThrough or legacySurface).updateFn({}, {crossover=2,seed=42})
    equal(sub.laneLists,baseline.subconstructions[1].laneLists,"validated surface vehicle/passenger paths")
    equal(sub.station,baseline.subconstructions[1].station,"validated surface station terminals")
-   if fence==2 then equal(r,baseline,"validated fenced surface layout") end
+   if fence==2 then equal(functional(r),functional(baseline),"validated fenced surface functional layout") end
    for _,edge in ipairs(r.edgeLists) do
     local profile=edge.params.type
     if fence==1 then
@@ -110,6 +119,6 @@ return function(resource)
   end
   results[id]=r
  end end end
- equal(script.updateFn({},nil),legacySurface.updateFn({}, {crossover=2}),"defaults use validated surface terminus")
+ equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
  print("PASS: one four-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

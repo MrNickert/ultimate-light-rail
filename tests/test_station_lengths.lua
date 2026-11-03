@@ -89,9 +89,9 @@ return function(resource)
     local hasWall=false
     for _,m in ipairs(sub.models) do
      local t=m.transf
-     if m.id=="mrnickert_ultimate_metro::/surface_platform.mdl" then
+     if m.id=="mrnickert_ultimate_metro::/surface_platform.mdl" or m.id=="mrnickert_ultimate_metro::/platform20.mdl" then
       local side=t[14]<0 and -1 or 1
-      coverage[side][#coverage[side]+1]={t[13],t[13]+40*t[1]}
+      coverage[side][#coverage[side]+1]={t[13],t[13]+(m.id=="mrnickert_ultimate_metro::/platform20.mdl" and 20 or 40)*t[1]}
      elseif m.id=="mrnickert_ultimate_metro::/surface_underpass.mdl" then
       assert(t[1]==1 and t[6]==1 and t[11]==1,"stairs must not be stretched")
       local side=t[14]<0 and -1 or 1

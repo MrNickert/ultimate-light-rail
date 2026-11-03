@@ -1,6 +1,6 @@
 # Assetbouwset v1 — handleiding voor makers
 
-Beschikbaar vanaf Ultimate Light Rail 0.16.0 / revision 45. Dit is een uitbreiding binnen API v1. De eerdere `assets`-vorm blijft werken, maar voor nieuwe ontwerpen gebruiken we `components`. Beide vormen mogen niet in één ontwerp gemengd worden.
+De componentenbasis bestaat vanaf 0.16.0 / revision 45. Deze handleiding beschrijft **0.17.0 / revision 46**, waarin onze inbegrepen stations zelf expliciete bouwsets gebruiken. Dit is een uitbreiding binnen API v1. De eerdere `assets`-vorm blijft werken, maar voor nieuwe ontwerpen gebruiken we `components`. Beide vormen mogen niet in één ontwerp gemengd worden.
 
 ## Kort beginnen
 
@@ -74,13 +74,15 @@ Perronhoogte, aantal sporen, vrije plaatsing en andere traplocaties zijn geen in
 
 ## De 20m-afspraak: gewone modules versus vaste stukken
 
-Aangeleverde rechte perron- en dakmodellen zijn **exact 20m lang**. De kern herhaalt ze zonder lengte-, breedte- of hoogteschaling. De `moduleLength=20`-declaratie is verplicht. De maker moet de werkelijke modelgeometrie conform aanleveren; de API inspecteert niet automatisch iedere externe mesh.
+Aangeleverde rechte perron- en dakmodellen zijn **exact 20m lang**. De kern herhaalt ze zonder lengte-, breedte- of hoogteschaling. De `moduleLength=20`-declaratie is verplicht. De maker moet de werkelijke modelgeometrie conform aanleveren; de API inspecteert niet automatisch iedere externe mesh. Defaults volgen de inbegrepen bouwset van de gebruikte coreversie. Kies expliciete modellen als je een eigen vaste vormgeving wilt behouden.
 
 De herhaling begint bij het vaste vrije bouwvlak. Dit is geen nieuw globaal raster dat bestaande traplocaties verplaatst. De 40m native onderdoorgang, 18m elevated trappen, smalle stroken naast openingen en korte eind-/aansluitstukken blijven van de kern. Een eigen model vervangt alleen volledige 20m-perronstukken; resterende korte stukken gebruiken het bestaande kernmodel, zodat geen maatwerkmodel uitgerekt of over een trapgat gelegd wordt. Daardoor zijn sommige randstukken nog niet volledig in de eigen stijl vorm te geven.
 
 Eigen daken bedekken de bruikbare perronlengte 0..L, in hele 20m-modules. Elevated wissel-/eindzones behouden vaste native dakpasstukken. De kern plaatst kapkolommen op vaste veilige plekken, houdt hokjes buiten de kolomlijn en zet bovengrondse bovenleidingmasten buiten de kap; contactdraden blijven op dezelfde positie.
 
-Ons standaardontwerp blijft visueel exact gelijk: het gebruikt intern native 40m-platforms en kappen als adapters voor twee logische modules. Dat is een expliciete compatibiliteitsvoorziening. De nieuwe referentiewrappers `platform20.mdl` en `platform_roof20.mdl` zijn 20m groot door het native 40m-model in hun eigen wrapper te halveren. Daarmee verandert het patroon van die referentie-onderdelen in lengterichting. Voor een eigen exact 20m gemodelleerde mesh is deze halvering niet nodig. Er zijn geen native mesh- of texturebinaries gekopieerd. De native perronvloer is aan de geïnstalleerde mesh gecontroleerd op z≈1,1m; de nieuwe 20m-wrapper en de vaste perronpasstukken van een eigen kit normaliseren die naar z=0,25m. De historische standaardtransforms blijven om compatibiliteitsredenen ongewijzigd.
+Onze inbegrepen bovengrondse/elevated stations kiezen nu zelf expliciet `platform20.mdl` en, waar van toepassing, `platform_roof20.mdl`. Deze referentiewrappers zijn 20m groot door de geïnstalleerde native 40m-visuals intern op halve lengte te gebruiken. Het patroon in lengterichting verandert daardoor. Zelf gemodelleerde 20m-assets hoeven intern niet gehalveerd te worden. De kern plaatst de aangeleverde 20m-modellen ongeschaald. Oude 40m-helpers blijven voor legacy en korte vaste passtukken, niet als volledige alternatieve standaardbouwset.
+
+De native perronvloer is aan de geïnstalleerde mesh gecontroleerd op z≈1,1m; de nieuwe 20m-wrapper, het kopplein en vaste perronpasstukken worden naar z=0,25m genormaliseerd. Er zijn geen native mesh- of texturebinaries gekopieerd.
 
 ## Aansluitmaten voor modellen
 
@@ -98,7 +100,9 @@ Gebruik een passende collider die de vrije loopruimte niet afsluit. Eigen resour
 
 ## Helpers
 
-- `api.getDefaultKit()` geeft een verse onderdelenconfiguratie.
+- `api.getDefaultKit()` geeft verse context-defaultselecties.
+- `api.getDefaultKit("surface")` of `"elevated"` geeft de concrete inbegrepen bouwset met expliciete modelreferenties. `"underground"` geeft de vaste hal als lege componententabel. Deze contexthelper is beschikbaar vanaf revision 46.
+- Voor `benches` is vanaf revision 46 optioneel `entranceModel` toegestaan naast `model`: één banktype op het perron en een ander bij de elevated ingang. Zonder dit veld gebruikt de ingang hetzelfde eigen bankmodel.
 - `api.getContract()` geeft onder andere modulelengte, vaste perronmaten, beschikbare sleutels en de vaste-route/entree/trap-afspraken.
 - `api.getDefaultDesign()` blijft de oude asset-role configuratie teruggeven voor bestaande consumers.
 
@@ -106,4 +110,35 @@ Gebruik een passende collider die de vrije loopruimte niet afsluit. Eigen resour
 
 De optionele `ulr_contract_example` 0.2.0 heeft twee menu-items: het oude rolvoorbeeld en **ULR Component Kit Example**. Bij de laatste kies je doorgaand/kopstation, lengte en Covered/Minimal. Covered toont een bovengrondse kap met 20m-modelwrappers uit de eigen namespace, zonder hokjes/groen. Minimal laat daarnaast dak en meubilair weg. De dependency vereist core revision 45.
 
-Alle 72 standaardreferentiegevallen blijven exact gelijk aan de bestaande nulmeting. Bij 40 bovengrondse/elevated combinaties zijn optionele verwijdering, ongeschaalde modules, vaste functionele uitvoer en veilige kolom-/mastposities lokaal gecontroleerd. De daadwerkelijke twee-modimport, aankleding, botsingen en instappen moeten nog in de game worden beoordeeld.
+Alle 72 functionele referentiegevallen blijven gelijk, met alleen de modeltabellen uitgesloten omdat de standaardassemblage nu bewust 20m-onderdelen gebruikt. Voor 27 ondergrondse/legacy-gevallen blijft ook de volledige modeluitvoer gelijk. Alle lengtes en beide typen zijn lokaal op dekking en routing gecontroleerd.
+
+De gebruiker heeft de onafhankelijke voorbeeldmod geplaatst: 40m/80m, met/zonder dak. Instappen en wissels zijn bevestigd in twee geteste varianten. De nieuwe inbegrepen standaardbouwsets van 0.17.0 vragen nog een in-game eindcontrole; dat is een aparte validatie en geen bewijs voor alle toekomstige externe assets.
+
+## Zelf een mod aanleveren
+
+```text
+my_station_mod/
+  mod.json
+  _metadata/modinfo.json
+  content/
+    my_station.con.lua
+    my_station.script.lua
+    platform20.mdl
+    roof20.mdl
+    ... eigen meshes, materialen en textures indien nodig
+```
+
+Declareer voor nieuwe makers die deze handleiding volgen de verplichte coredependency in `mod.json`:
+
+```json
+"dependencies": [{
+  "mod": {"modId": "mrnickert_ultimate_metro", "revisionMin": 46, "revisionMax": -1},
+  "modInfo": {"displayName": "Ultimate Light Rail"},
+  "loadBefore": true,
+  "optional": false
+}]
+```
+
+Gebruik je eigen mod-ID en eigen resource-ID's. Een `.con.lua` verzorgt naam, menuafbeelding, keuzeknoppen en de verwijzing naar je script. Het script roept `buildStation` aan zoals hierboven. De voorbeeldmod bevat werkende declarations als startpunt; haar dependency is nog revision 45 omdat die bewust ook de eerdere componentenbasis demonstreert. Verhoog bij gebruik van revision-46-functies zelf het minimum.
+
+Aanlevercheck: juiste 20m-maten, oorsprong en vloer; geen vaste kapkolommen in het dakmodel; geen transportmetadata; alle resources mod-gekwalificeerd; eigen dependency; testen op korte/lange stations, trapvrijheid, straat-/spooraansluiting, instappen, kruisen en save/herladen. Dat zijn praktische acceptatiecriteria; het is geen claim dat de API iedere modelafwijking automatisch afvangt.

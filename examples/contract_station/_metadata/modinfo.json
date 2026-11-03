@@ -1,7 +1,7 @@
 {
   "name": "ULR Contract Examples",
   "summary": "Optional independent consumers of the Ultimate Light Rail station API.",
-  "description": "Local test mod requiring Ultimate Light Rail revision 45. Adds ULR Contract Example and ULR Component Kit Example. The component example offers Covered and Minimal surface stations with independent 20m model wrappers. Two-mod engine loading and appearance are still to be tested. Not included in the core mod package.",
+  "description": "Optional independent Ultimate Light Rail API consumers. Requires core revision 45 or newer. Adds ULR Contract Example and ULR Component Kit Example. The component example offers Covered/Minimal surface stations with its own 20m model wrappers. The user confirmed placement at 40m/80m with/without roofs and boarding/switching in two tested variants. This is not a guarantee for every combination or external model. The main core mod does not depend on this example.",
   "authors": [
     {
       "name": "MrNickert",

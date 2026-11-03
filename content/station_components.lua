@@ -1,5 +1,6 @@
 -- Optional presentation only. Fixed routes, stairs, structure and safety stay core-owned.
 local M={}
+local standardKit=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
 local PREFIX="mrnickert_ultimate_metro::/"
 local keys={platform=true,shelter=true,canopy=true,trees=true,planters=true,benches=true,bins=true,lights=true}
 local ids={
@@ -24,8 +25,9 @@ function M.validate(components,spec)
   fail(key~="platform" or value~=false,"the platform is required")
   fail(spec.placement~="underground" or value=="default","custom components are not supported in the fixed underground hall")
   if type(value)=="table" then
-   for field in pairs(value) do fail(field=="model" or ((key=="platform" or key=="canopy") and field=="moduleLength"),"unknown field "..tostring(field).." in component "..key) end
+   for field in pairs(value) do fail(field=="model" or (key=="benches" and field=="entranceModel") or ((key=="platform" or key=="canopy") and field=="moduleLength"),"unknown field "..tostring(field).." in component "..key) end
    fail(modelId(value.model),"component "..key.." needs a qualified .mdl model")
+   if value.entranceModel~=nil then fail(modelId(value.entranceModel),"entranceModel needs a qualified .mdl model") end
    if key=="platform" or key=="canopy" then fail(value.moduleLength==20,"component "..key.." must declare moduleLength=20") end
   end
  end
@@ -37,6 +39,16 @@ local function transform(x,y,z,angle)
 end
 function M.apply(result,spec,components)
  if spec.placement=="underground" then return result end
+ -- Resolve defaults to the same explicit kit used by our bundled stations.
+ -- Preserve false: it means absent, not fallback.
+ local defaults=standardKit(spec.placement).components
+ local resolved={}
+ for key in pairs(keys) do
+  local value=components[key]
+  if value==nil or value=="default" then value=defaults[key] end
+  resolved[key]=value
+ end
+ components=resolved
  local elevated=spec.placement=="elevated"
  local L,centre=spec.platformLength,spec.platformLength/2
  local floor=elevated and 12.25 or 0.25
@@ -50,7 +62,9 @@ function M.apply(result,spec,components)
    for key,list in pairs(ids) do
     for i,id in ipairs(list) do if m.id==id then
      if components[key]==false then keep=false
-     elseif type(components[key])=="table" and (i==1 or key=="benches") then replacement=components[key].model end
+     elseif type(components[key])=="table" and (i==1 or key=="benches") then
+      replacement=(key=="benches" and i==2 and components[key].entranceModel) or components[key].model
+     end
     end end
    end
    if m.id==PREFIX.."elevated_platform_roof.mdl" or m.id=="::/assets/stations/rail/era_c_perron_pillar.mdl" or m.id=="::/assets/stations/rail/era_c_perron_holder.mdl" then
@@ -60,6 +74,9 @@ function M.apply(result,spec,components)
    -- Replace only complete 20m units of plain, full-width platform. The fixed
    -- stair surrounds, narrow strips and short end infills remain core parts.
    local platform=components.platform
+   if keep and type(platform)=="table" and m.id==PREFIX.."surface_head_tile.mdl" then
+    local t=copy(m.transf);t[11]=0.25/1.1;m={id=m.id,transf=t}
+   end
    if keep and type(platform)=="table" and m.id==PREFIX.."surface_platform.mdl" then
     -- Native perron_5 floor vertices are at z=1.1, verified from the installed
     -- mesh. All core infills in a custom kit must meet the fixed 0.25m floor.

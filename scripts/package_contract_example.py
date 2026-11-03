@@ -22,4 +22,4 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
 with zipfile.ZipFile(out) as archive:
     assert archive.testzip() is None and len(archive.namelist())==len(files)
 print(out)
-print('Optional independent example packaged; actual two-mod engine loading remains unverified.')
+print('Optional independent example packaged. In-game evidence and remaining limits are documented in its README.')

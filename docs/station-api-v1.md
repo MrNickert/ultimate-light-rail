@@ -1,8 +1,8 @@
 # Stationscontract v1
 
-Vanaf **0.16.0 / revision 45** is `components` de aanbevolen ontwerpvorm. Zie [assetbouwset v1](asset-kit-v1.md) voor standaard/eigen/geen, verplichte 20m-modules en de vaste delen. De oudere `assets`-vorm hieronder blijft voor compatibiliteit ondersteund. Gebruik per ontwerp één vorm.
+Vanaf **0.16.0 / revision 45**, met expliciete standaardbouwsets vanaf **0.17.0 / revision 46**, is `components` de aanbevolen ontwerpvorm. Zie [assetbouwset v1](asset-kit-v1.md) voor standaard/eigen/geen, verplichte 20m-modules en de vaste delen. De oudere `assets`-vorm hieronder blijft voor compatibiliteit ondersteund. Gebruik per ontwerp één vorm.
 
-Eerste implementatie: Ultimate Light Rail 0.15.0 / revision 44. Onze bestaande configureerbare stations gebruiken dit contract daadwerkelijk. Een onafhankelijke voorbeeld-consumer is lokaal getest; activeren en laden van twee mods in de game is nog niet bevestigd.
+Eerste implementatie: Ultimate Light Rail 0.15.0 / revision 44. Onze bestaande configureerbare stations gebruiken dit contract daadwerkelijk. De onafhankelijke voorbeeldmod is inmiddels in-game geplaatst; instappen en wissels zijn bevestigd voor twee geteste varianten. Dat staat los van de eindcontrole van de nieuwe 0.17-standaardassemblage.
 
 ## Opbouw
 
@@ -87,12 +87,12 @@ Mod-ID, alle bestaande construction-ID's en de vier opgeslagen menukeuzes blijve
 
 `examples/contract_station` is een zelfstandige optionele consumer met eigen mod-ID, dependency, construction, script en perronwrapper. Het hoofdarchief bevat dit voorbeeld niet. De wrapper verwijst rechtstreeks naar dezelfde native meshes, met dezelfde dimensies. Geen native mesh-/texturebinaries worden gekopieerd.
 
-Het oorspronkelijke voorbeeld 0.1.0 vereiste revision 44; de huidige voorbeeldmod 0.2.0 vereist revision 45 vanwege het extra componentenvoorbeeld. De dependency gebruikt `loadBefore=true`, `optional=false`. De consumer voegt één vast bovengronds doorgaand 80m station toe. Het uiterlijk blijft bewust gelijk om de geometrie te kunnen vergelijken. De lokale test controleert deze aparte consumer, maar bewijst nog geen engine-import tussen twee actieve mods.
+Het oorspronkelijke voorbeeld 0.1.0 vereiste revision 44; de huidige voorbeeldmod 0.2.0 vereist revision 45 vanwege het extra componentenvoorbeeld. De dependency gebruikt `loadBefore=true`, `optional=false`. De consumer voegt één vast bovengronds doorgaand 80m station toe. Het uiterlijk blijft bewust gelijk om de geometrie te kunnen vergelijken. De gebruiker bevestigde inmiddels in-game plaatsing van de Component Kit Example en werking van twee varianten. Dit is het bewijs voor die concrete twee-modkoppeling; de lokale harness alleen was daarvoor niet voldoende.
 
 ## Bewijs
 
-`python scripts/test_station_contract.py` vergelijkt de volledige bouwresultaten met vooraf vastgelegde SHA256-waarden uit 0.14.2 / commit d3ce898: 60 combinaties, zes standaard-/terugvalgevallen en zes legacyvarianten. Sleutels worden gesorteerd, getallen met 17 significante cijfers opgeslagen en model-/lanevolgorde behouden. De native `orderedPairs`-teststub is voor deze nulmeting gecorrigeerd naar gesorteerde iteratie, vóór runtimewijzigingen. Dit is geen render- of savebestandvergelijking.
+`python scripts/test_station_contract.py` vergelijkt sinds de 20m-standaardmigratie alle 72 functionele resultaten met de vóór die migratie vastgelegde 0.16.0-nulmeting. Alleen subconstruction-modeltabellen zijn uitgesloten. Voor 27 ondergrondse/legacy-gevallen wordt ook de volledige oude 0.14.2-uitvoer nog vergeleken. Beide oorspronkelijke manifests blijven bewaard; ze zijn niet overschreven om nieuwe modellen te accepteren.
 
-`python scripts/test_native_layout.py` controleert daarnaast directe API-aanroepen, daadwerkelijke visuele vervanging, caller-isolatie, ongeldige contracten, de onafhankelijke voorbeeld-consumer en alle eerdere layouttests.
+`python scripts/test_native_layout.py` controleert daarnaast expliciete standaardbouwsets, standaardresolutie, directe API-aanroepen, moduledekking, echte visuele vervanging, caller-isolatie, ongeldige contracten en de twee externe voorbeeld-consumers.
 
-In-game: nieuwe stations naast de 0.14.2-referentiestations plaatsen. Werking en de externe twee-modproef worden afzonderlijk beoordeeld.
+Voor de gewijzigde standaardpresentatie is geen claim van bytegelijke modeluitvoer meer van toepassing. Routes, terminals, terrein, snapframes, kosten en overige niet-modeldata blijven wel gelijk. Visuele eindcontrole in de game blijft nodig voor 0.17.0.

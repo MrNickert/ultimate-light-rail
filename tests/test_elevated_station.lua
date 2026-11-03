@@ -152,11 +152,12 @@ return function(resource)
    local posts,trees,planters=0,0,0
    for _,m in ipairs(sub.models) do
     local t=m.transf
-    if m.id=="mrnickert_ultimate_metro::/elevated_platform_roof.mdl" then
+    if m.id=="mrnickert_ultimate_metro::/elevated_platform_roof.mdl" or m.id=="mrnickert_ultimate_metro::/platform_roof20.mdl" then
      local side=t[14]<0 and -1 or 1
-     roofs[side][#roofs[side]+1]={t[13],t[13]+40*t[1]}
-     assert(t[6]==1 and t[11]==1 and t[15]==12.25-1.1,"canopy retains native width and height")
-     assert(t[15]+roof.boundingInfo.bbMax[3]<17.5,"roof must clear longitudinal contact wire")
+     local modular=m.id=="mrnickert_ultimate_metro::/platform_roof20.mdl"
+     roofs[side][#roofs[side]+1]={t[13],t[13]+(modular and 20 or 40)*t[1]}
+     assert(t[6]==1 and t[11]==1 and t[15]==(modular and 12.25 or 12.25-1.1),"canopy retains reference width and height")
+     assert(t[15]+(modular and resource("platform_roof20.mdl").boundingInfo.bbMax[3] or roof.boundingInfo.bbMax[3])<17.5,"roof must clear longitudinal contact wire")
     elseif m.id=="::/assets/stations/rail/era_c_perron_pillar.mdl" then
      posts=posts+1
      assert(t[13]<=L/2-10 or t[13]>=L/2+10,"roof supports clear stair openings")
@@ -186,7 +187,7 @@ return function(resource)
      local covered=false
      for _,m in ipairs(sub.models) do
       local t=m.transf
-      if m.id=="mrnickert_ultimate_metro::/surface_platform.mdl" and x>=t[13]-1e-6 and x<=t[13]+40*t[1]+1e-6
+      if (m.id=="mrnickert_ultimate_metro::/surface_platform.mdl" or m.id=="mrnickert_ultimate_metro::/platform20.mdl") and x>=t[13]-1e-6 and x<=t[13]+(m.id=="mrnickert_ultimate_metro::/platform20.mdl" and 20 or 40)*t[1]+1e-6
        and side*y>=t[14]-2.5*t[6]-1e-6 and side*y<=t[14]+2.5*t[6]+1e-6 then covered=true end
      end
      assert(covered,"platform deck continues to both structural ends")

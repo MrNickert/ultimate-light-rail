@@ -1,3 +1,13 @@
+# Actuele status — 0.17.0
+
+- In-game bevestigd door gebruiker: eerste contractstandaard ziet er gelijk uit en werkt; externe Component Kit Example geplaatst op 40m/80m met/zonder kap; instappen en wissels werken in twee geteste voorbeeldvarianten.
+- Automatisch: 72 volledige functionele resultaten gelijk aan de vóór migratie vastgelegde 0.16.0-bouw. Alleen visuele modeltabellen zijn uitgezonderd.
+- Automatisch: 27 complete ondergrondse/legacy-resultaten inclusief modellen gelijk aan de oorspronkelijke 0.14.2-nulmeting.
+- Automatisch: alle 60 parametercombinaties via de publieke API, 40 boven-/elevated componentgevallen, en 20 elevated structuur-/toegangsgevallen. Nieuwe 20m-modules en behouden korte delen bedekken de perrons/kappen; standaardmodellen zijn expliciet geconfigureerd.
+- Nog in-game: visuele/functionele eindcontrole van nieuwe standaardstations uit 0.17.0, inclusief save/herladen. Eerdere tests van de voorbeeldmod zijn geen afvinking van iedere standaardvariant of van toekomstige eigen assets.
+
+De onderstaande versienotities zijn historisch. Claims van volledig gelijke modeluitvoer bij 0.15/0.16 gelden niet voor de bewuste zichtbare 20m-standaardmigratie van 0.17.
+
 ## 0.14.0: doorlopende elevated-perrons, kappen en entreegroen â€” visuele proef open
 
 Gebruiker bevestigt snappen en plaatsen 0.13.2 werkt. Nieuwe wens: perrons langs hele constructie, bij terminus ook naast kruiswissels; native stationsdak; bloembakken/bomen beneden. Bushaltekeuze: entree inrichten voor een losse zelf te plaatsen native bushalte. Geen geÃ¯ntegreerde busstop bouwen.

@@ -25,6 +25,7 @@ return function(resource)
  assert(api.getDefaultDesign().assets.platformSurface~="example_design::/platform.mdl","fresh default design")
  for _,placement in ipairs({"surface","elevated"}) do
   local spec={apiVersion=1,placement=placement,stationType="through",platformLength=80,fence=true}
+  spec.design={apiVersion=1,id="legacy_reference",assets={}}
   local baseline=api.buildStation(spec,{}, {seed=42})
   spec.design={apiVersion=1,id="example_design",assets={platformSurface="example_design::/platform.mdl"}}
   local original=copy(spec)
@@ -56,7 +57,8 @@ return function(resource)
  local env=setmetatable({},{__index=_G})
  assert(loadfile("examples/contract_station/content/example.script.lua","t",env))()
  local addon=env.data().updateFn({}, {seed=42})
- local base=api.buildStation(valid,{}, {seed=42})
+ local legacySpec=copy(valid);legacySpec.design={apiVersion=1,id="legacy_reference",assets={}}
+ local base=api.buildStation(legacySpec,{}, {seed=42})
  local count=0
  for _,sub in ipairs(addon.subconstructions) do for _,m in ipairs(sub.models) do
   if m.id=="ulr_contract_example::/example_platform.mdl" then

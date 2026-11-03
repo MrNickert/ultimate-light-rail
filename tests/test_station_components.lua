@@ -18,6 +18,23 @@ return function(resource)
  assert(contract.fixedStairs and contract.fixedEntrances and contract.fixedRoutes)
  contract.moduleLength=99;assert(api.getContract().moduleLength==20)
  local kit=api.getDefaultKit();kit.components.shelter=false;assert(api.getDefaultKit().components.shelter=="default")
+ for _,placement in ipairs({"surface","elevated","underground"}) do
+  local bundled=api.getDefaultKit(placement)
+  if placement=="underground" then assert(next(bundled.components)==nil,"native underground hall is a fixed core assembly")
+  else
+   assert(bundled.components.platform.model=="mrnickert_ultimate_metro::/platform20.mdl")
+   assert(bundled.components.platform.moduleLength==20)
+   for _,value in pairs(bundled.components) do assert(value~="default","bundled kits must declare models/absence explicitly") end
+   if placement=="elevated" then
+    assert(bundled.components.canopy.model=="mrnickert_ultimate_metro::/platform_roof20.mdl")
+    assert(bundled.components.benches.entranceModel=="mrnickert_ultimate_metro::/elevated_entrance.mdl")
+   else assert(bundled.components.canopy==false) end
+  end
+  local spec={apiVersion=1,placement=placement,stationType="through",platformLength=80,design=bundled}
+  local explicit=api.buildStation(spec,{}, {seed=42})
+  spec.design=api.getDefaultKit()
+  equal(explicit,api.buildStation(spec,{}, {seed=42}),"default selectors resolve to the real bundled kit")
+ end
  local platform=resource("platform20.mdl")
  assert(platform.boundingInfo.bbMax[1]==20)
  for _,lod in ipairs(platform.lods) do
@@ -108,7 +125,7 @@ return function(resource)
  local valid={apiVersion=1,placement="surface",stationType="through",platformLength=80}
  for _,c in ipairs({{platform=false},{canopy=true},{platform={model="x::/p.mdl",moduleLength=40}},
   {canopy={model="x::/r.mdl",moduleLength=10}},{trees={model="tree.mdl"}},
-  {trees={model="x::/t.mdl",x=1}},{stairs=false}}) do
+  {trees={model="x::/t.mdl",x=1}},{stairs=false},{benches={model="x::/b.mdl",entranceModel="missing.mdl"}}}) do
   valid.design={apiVersion=1,id="invalid",components=c}
   local ok,err=pcall(api.buildStation,valid)
   assert(not ok and tostring(err):find("Ultimate Light Rail API v1:",1,true))

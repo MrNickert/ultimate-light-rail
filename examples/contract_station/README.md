@@ -1,14 +1,20 @@
-# Independent API v1 example
+# Independent Ultimate Light Rail API examples
 
-This is a separate, optional test mod, not part of the main mod ZIP. It requires Ultimate Light Rail revision 45 or newer and adds one fixed surface through station with 80m platforms.
+This is a separate optional test mod, not part of the main mod ZIP. The example requires core revision 45 or newer and remains usable with 0.17.0. Our main standard stations do not depend on this example mod.
 
-Its script imports the core API through the other mod namespace. Its own platform wrapper points at installed native meshes/materials, with exactly the reference dimensions. No native binary assets are included. The appearance intentionally matches the standard station so geometry can be compared directly.
+## Menu entries
 
-The local integration test checks this consumer through a namespace-aware test loader. Actual two-mod loading, dependency activation and placement still require a game test. This is not proof that community add-ons already work in-game.
+- **ULR Contract Example**: the original fixed surface through station, 80m, replacing one platform model through the older asset-role contract. Kept as a compatibility consumer.
+- **ULR Component Kit Example**: choose through/terminus, 40/60/80/100/120m and Covered/Minimal. Covered uses independent 20m platform/roof wrappers with no shelters or greenery; Minimal also removes canopy, benches, bins and lights.
 
+Short platform infills and fixed stairs remain core-owned. The wrappers reference installed native meshes/materials; no native binary assets are included.
 
-## Component kit example 0.2.0
+## Confirmed versus pending
 
-Requires core revision 45 (0.16.0). Adds a second menu entry: ULR Component Kit Example. Select through/terminus, five lengths and Covered/Minimal. Covered uses independent 20m platform/roof wrappers, no shelters or greenery; Minimal also removes canopy, benches, bins and lights. Both use the same unchanged core routes and fixed stairs. Short platform infills and stair modules remain native/core pieces. The original asset-role example remains as a compatibility consumer.
+The user placed the component example at 40m/80m with and without a roof. Boarding and switch operation were confirmed in two tested variants. This confirms that particular independent mod/API coupling in-game. It does not validate every combination or future external model. The migrated bundled 0.17.0 station family still needs an end check.
 
-Build separately with `python scripts/package_contract_example.py`. Native wrappers are our own declarations referencing installed resources, without copied native binary files. No two-mod game validation has happened yet.
+## Developing your own station
+
+Use these files as source templates, then change the mod ID, visible name and all own namespace references. New authors following the current API helper/entrance-bench-variant documentation should require revision 46. This historical example keeps revision 45 because it uses the earlier feature subset.
+
+Build with `python scripts/package_contract_example.py`. The developer pack includes these sources, maker documentation and original reference wrappers. It is not a mod ZIP to activate directly.
