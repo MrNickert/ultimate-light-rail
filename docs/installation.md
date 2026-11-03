@@ -7,6 +7,8 @@
 
 The UI is included. If your test installation has the separate **Ultimate Light Rail UI Preview**, disable it; do not enable it alongside 1.0.0. Overwrite the core files when updating. Reloading the save is sufficient; you do not need to close the game completely.
 
+Bundled stations and light rail track are available from 1925. Before that year, the native tram depot may still appear according to its own availability dates.
+
 ## Using stations
 
 Choose the location, station type, platform length and fences before placement. Fences are disabled underground. Terminus stations include crossovers automatically. The central elevated entrance connects at street level; keep stairs and support areas clear.

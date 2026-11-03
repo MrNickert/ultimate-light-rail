@@ -31,7 +31,7 @@ Use the lightweight menu helper in your `.con.lua`; it does not load station bui
 local menu = require "mrnickert_ultimate_metro::/station_menu.lua"
 function data()
  return {
-  availability={yearFrom=0,yearTo=0},
+  availability={yearFrom=1925,yearTo=0},
   description={name="My Light Rail Station",description="My station design.",
    icon="my_mod::/station.tga"},
   menuCategory=menu.getMenuCategory(1100),
@@ -42,6 +42,8 @@ end
 ```
 
 `getMenuCategory(order)` returns a fresh table with the shared `ulr_stations` category and the `passenger` and `station` filters. `order` is optional, defaults to 1000 and must be a nonnegative integer. The same helper is available as `station_api_v1.getMenuCategory`. Prefer the lightweight module in resource descriptions. The menu recognises the category regardless of your mod ID; do not modify the core. Calling `buildStation()` alone does not register a menu item.
+
+Availability belongs to the construction description, not to `buildStation`. Bundled stations and examples use 1925 to match the native modern tram track. Creators choose their own `yearFrom` and `yearTo`; the API does not impose an introduction year on third-party designs.
 
 ## Update script
 

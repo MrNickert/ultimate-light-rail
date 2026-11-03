@@ -2,6 +2,8 @@
 
 A standalone, optional asset mod. Requires **Ultimate Light Rail 1.0.0 / revision 49**. The core does not depend on this example.
 
+Both example stations are available from 1925, matching the bundled stations and modern tram track.
+
 ## Designs
 
 - **ULR Component Kit Example**: surface, through/terminus, 40/60/80/100/120m, Covered/Minimal. Covered uses custom 20m platform and canopy wrappers without shelters or greenery. Minimal also omits the canopy, benches, bins and lights.

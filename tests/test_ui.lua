@@ -32,6 +32,10 @@ local second=menu.getMenuCategory()
 assert(first.categories[1].category=="ulr_stations" and first.categories[1].order==123)
 assert(second.categories[1].order==1000 and first~=second and first.categories~=second.categories)
 for _,bad in ipairs({-1,0.5,"100",math.huge}) do assert(not pcall(menu.getMenuCategory,bad)) end
+local trackEnv={_=function(key)return key end}
+assert(loadfile("content/lightrail_fenced.street_template.lua","t",trackEnv))()
+local trackAvailability=trackEnv.data().availability
+assert(trackAvailability.yearFrom==1925 and trackAvailability.yearTo==0)
 for _,path in ipairs({"content/light_rail_station.con.lua",
  "examples/contract_station/content/example.con.lua",
  "examples/contract_station/content/kit_example.con.lua"}) do
@@ -40,7 +44,9 @@ for _,path in ipairs({"content/light_rail_station.con.lua",
   return menu
  end}
  assert(loadfile(path,"t",descriptionEnv))()
- assert(descriptionEnv.data().menuCategory.categories[1].category=="ulr_stations",path)
+ local description=descriptionEnv.data()
+ assert(description.menuCategory.categories[1].category=="ulr_stations",path)
+ assert(description.availability.yearFrom==trackAvailability.yearFrom and description.availability.yearTo==trackAvailability.yearTo,"station availability must match modern tram track: "..path)
 end
 local files={"catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
  "native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}

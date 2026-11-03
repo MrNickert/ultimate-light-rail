@@ -5,6 +5,7 @@
 - 72 functional station cases are compared with recorded reference outputs; routing, terminals and other non-visual build data remain unchanged.
 - 27 fixed underground/internal layouts also have complete-output comparisons.
 - Native resources, mesh buffers, platform/canopy coverage, fixed stairs, clear pole zones, fences and all supported lengths are checked.
+- Bundled and example station descriptions are checked against the public track introduction year, 1925.
 - API validation, default selections, model replacement and unchanged caller-owned tables are tested.
 - GUI tests cover one combined catalogue, depot eras, external category discovery, repeat construction without loss or duplication, resource `data()` and both UI replacements.
 - Stylesheet functions execute with test dependencies; global animation names and references are checked. The construction window is tested without an active Construction tool.
@@ -20,6 +21,8 @@ The dedicated Light Rail button, compact icon and combined catalogue containing 
 
 ## Scope
 
-The integrated 1.0.0 core still needs a short final installation check: disable the separate UI Preview, open the menu, select the depot/track/station, place them, run a line and reload the save. The integration uses the tested UI code in the core namespace and a shared category helper.
+The integrated 1.0.0 core has been used to build a working light rail line in an existing save, as confirmed by the user.
+
+The introduction-year adjustment still needs an in-game boundary check: the bundled stations and track should be unavailable in 1924 and available in 1925. The native depot keeps its own availability. Existing stations are not removed when a construction introduction year changes.
 
 Not every combination of length, vehicle and external model has been tested individually in the engine. Automated checks do not replace that practical testing. Overlong vehicles can block terminus crossovers. External colliders can block pedestrian routes. Other UI-replacement mods and future game updates require separate checks.

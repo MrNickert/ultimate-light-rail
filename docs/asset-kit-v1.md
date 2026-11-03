@@ -79,6 +79,10 @@ A reference roof may extend a few centimetres beyond its nominal length. Keep st
 
 Platform height, additional tracks, free placement and alternative stair positions are not creator options in v1.
 
+## Availability
+
+Set introduction and retirement years in your construction description. Bundled stations and examples use 1925, matching the modern native tram track. API v1 does not restrict third-party station dates.
+
 ## Supplying and testing a mod
 
 ```text

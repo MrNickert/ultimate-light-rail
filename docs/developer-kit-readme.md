@@ -1,6 +1,6 @@
 # Ultimate Light Rail Developer Kit
 
-**Core 1.0.0 · revision 49 · Station API v1**
+**Core 1.0.0 · revision 50 · Station API v1**
 
 This package contains documentation, a standalone example mod and reference declarations. Install the core mod separately. Do not activate the developer kit itself in the game.
 
@@ -28,3 +28,5 @@ The example mod contains a configurable 20m component kit and a fixed design usi
 - `reference/`: model declarations and the concrete standard kit; no copies of native meshes or textures.
 
 Platform and canopy modules are exactly 20m long. Platform width, floor height, two tracks, entrances and stairs are fixed. The underground hall cannot be customised with component models. Models must respect reference profiles and clear routes; schema validation does not inspect every mesh or collider automatically.
+
+The bundled example stations start in 1925, matching the standard stations and modern native tram track. Availability is declared in each construction description; custom asset mods choose their own dates. This does not change the API v1 build contract or its minimum required revision.

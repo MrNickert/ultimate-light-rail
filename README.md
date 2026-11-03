@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · mod revision 49 · Station API v1**
+**Release 1.0.0 · mod revision 50 · Station API v1**
 
 Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 
@@ -14,6 +14,8 @@ Open **Light Rail**, between Road and Rail. The tram depot, light rail track and
 | Station type | Through / Terminus |
 | Platform length | 40 / 60 / 80 / 100 / 120 metres |
 | Fences | No / Yes; disabled underground |
+
+Bundled stations and the public light rail track become available in **1925**, matching the native modern tram track. The tram depot retains its native availability dates.
 
 All stations have two platform tracks. Terminus stations include a crossover and support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
 

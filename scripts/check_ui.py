@@ -1,10 +1,10 @@
-"""Validate and package only the experimental UI add-on, not the core."""
+"""Validate integrated Light Rail UI resources against the installed game."""
 from pathlib import Path
 import hashlib, json, re, struct, zipfile
 root=Path(__file__).resolve().parents[1]
 source=root
 mod=json.loads((source/'mod.json').read_text(encoding='utf-8'))
-assert mod['modId']=='mrnickert_ultimate_metro' and mod['revision']==49
+assert mod['modId']=='mrnickert_ultimate_metro' and mod['revision']==50
 manifest=json.loads((source/'content/gui/build_manifest.json').read_text(encoding='utf-8'))
 files=[p.relative_to(source).as_posix() for p in sorted((source/'content/gui').rglob('*')) if p.is_file()]
 assert len(files)==10,files

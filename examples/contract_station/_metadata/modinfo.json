@@ -1,7 +1,7 @@
 {
   "name": "ULR Contract Examples",
   "summary": "Optional independent consumers of the Ultimate Light Rail station API.",
-  "description": "Independent API v1 examples for Ultimate Light Rail 1.0.0 (revision 49). Adds a fixed 80m surface station using asset roles and a configurable component-kit station with 20m platform/roof models, through/terminus types, all supported lengths and Covered/Minimal appearances. Both use the shared Light Rail menu helper. This optional mod depends on Ultimate Light Rail; it is not required by the core. Updates and extensions within the documented public API v1 contract remain backward compatible. Breaking changes will use a new API version alongside v1; existing conforming v1 add-ons will remain supported.",
+  "description": "Independent API v1 examples for Ultimate Light Rail 1.0.0 (revision 49). Adds a fixed 80m surface station using asset roles and a configurable component-kit station with 20m platform/roof models, through/terminus types, all supported lengths and Covered/Minimal appearances. Both use the shared Light Rail menu helper. This optional mod depends on Ultimate Light Rail; it is not required by the core. Updates and extensions within the documented public API v1 contract remain backward compatible. Breaking changes will use a new API version alongside v1; existing conforming v1 add-ons will remain supported. Included stations are available from 1925, matching the modern native tram track.",
   "authors": [
     {
       "name": "MrNickert",

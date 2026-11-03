@@ -2,7 +2,7 @@ local stationApi=require "mrnickert_ultimate_metro::/station_menu.lua"
 -- One new resource ID; legacy construction IDs remain available to saved games.
 function data()
  return {
-  availability={yearFrom=0,yearTo=0},
+  availability={yearFrom=1925,yearTo=0},
   description={name=_("LR_STATION_NAME"),description=_("LR_STATION_DESC"),
    icon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c.tga",
    previewIcon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c_preview.tga",

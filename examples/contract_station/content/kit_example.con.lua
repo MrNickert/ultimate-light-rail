@@ -1,7 +1,7 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_menu.lua"
 function data()
  return {
-  availability={yearFrom=0,yearTo=0},
+  availability={yearFrom=1925,yearTo=0},
   description={name="ULR Component Kit Example",description="20m component contract test: covered or minimal surface platforms.",
    icon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c.tga"},
   menuCategory=stationApi.getMenuCategory(1017),
