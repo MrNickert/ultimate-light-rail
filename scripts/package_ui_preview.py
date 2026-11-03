@@ -39,9 +39,13 @@ assert 'ulrCatalog.inject(construction_react_util.getMenuCategories(params.repos
 assert '_react.tools.Construction' in window and 'getActiveTool()' not in window
 icon=(source/'content/gui/light_rail.tga').read_bytes()
 w,h,depth=struct.unpack_from('<HHB',icon,12)
-assert (w,h,depth)==(342,227,32) and len(icon)==18+w*h*4 and icon[17]==40
+assert (w,h,depth)==(30,30,32) and len(icon)==18+w*h*4 and icon[17]==40
+pixels=[tuple(icon[i:i+4]) for i in range(18,len(icon),4)]
+assert all(pixel[:3]==(255,255,255) for pixel in pixels),'icon must be a tintable white mask'
+assert any(p[3]==0 for p in pixels) and any(p[3]==255 for p in pixels),'transparent background and opaque symbol required'
+assert all(pixels[y*w+x][3]==0 for y in range(h) for x in range(w) if x in (0,w-1) or y in (0,h-1)),'icon must fit inside its button'
 assert hashlib.sha256((source/'artwork/light_rail_icon.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
-out=root/'dist/ultimate-light-rail-ui-preview-0.1.3.zip';out.parent.mkdir(exist_ok=True)
+out=root/'dist/ultimate-light-rail-ui-preview-0.1.4.zip';out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     for name in files:archive.write(source/name,mod['modId']+'/'+name)
 with zipfile.ZipFile(out) as archive:assert archive.testzip() is None and len(archive.namelist())==len(files)
