@@ -1,22 +1,24 @@
-# Componentenbouwset v1 — Ultimate Light Rail 1.0.0
+# Component Kit v1 — Ultimate Light Rail 1.0.0
 
-Voor makers van visuele stationontwerpen. Vereist core revision 49. De standaardstations gebruiken dezelfde publieke bouw-API en componentenregels.
+For creators of visual station designs. Requires core revision 49. Bundled stations use the same public build API and component rules.
 
-## Wie levert wat?
+Updates and extensions within API v1 remain backward compatible with the documented contract. Breaking changes will use a new API version alongside v1, leaving existing conforming v1 add-ons supported. Read the [compatibility policy](compatibility.md).
 
-De maker levert een eigen mod, constructionbeschrijving, updatescript en de modellen die afwijken van de standaard. Gebruik `station_menu.lua.getMenuCategory()` om in het gedeelde Light Rail-menu te verschijnen. [Volledige API en voorbeeldcode](station-api-v1.md).
+## Responsibilities
 
-De kern levert twee perronsporen, wissels bij kopstations, stopposities, terminals, entrees, trappen, looproutes, draagconstructie en veiligheidsvoorzieningen. Kopieer deze logica niet naar een assetmod.
+Creators supply their own mod, construction description, update script and any models replacing the standard appearance. Use `station_menu.lua.getMenuCategory()` to join the shared Light Rail menu. See the [API and example code](station-api-v1.md).
 
-## Drie keuzes
+The core supplies two platform tracks, terminus crossovers, stopping positions, terminals, entrances, stairs, pedestrian routes, structural supports and safety features. Do not copy this logic into an asset mod.
 
-| Waarde | Betekenis |
+## Three choices per component
+
+| Value | Meaning |
 | --- | --- |
-| Weggelaten of `"default"` | Contextafhankelijk standaardonderdeel |
-| `false` | Geen optioneel onderdeel |
-| `{model="my_mod::/model.mdl"}` | Eigen model op de vaste plaatsen |
+| Omitted or `"default"` | Context-dependent standard component |
+| `false` | Omit an optional component |
+| `{model="my_mod::/model.mdl"}` | Use a custom model at the fixed positions |
 
-Voor `platform` en `canopy` is ook `moduleLength=20` verplicht. Een perron kan niet worden weggelaten. `true`, losse modelstrings, callbacks en eigen plaatsingsvelden zijn niet toegestaan.
+`platform` and `canopy` also require `moduleLength=20`. A platform cannot be omitted. `true`, bare model strings, callbacks and custom positioning fields are not supported.
 
 ```lua
 design={apiVersion=1,id="my_station",components={
@@ -27,57 +29,57 @@ design={apiVersion=1,id="my_station",components={
 }}
 ```
 
-## Onderdelen
+## Components
 
-| Sleutel | Toepassing |
+| Key | Placement |
 | --- | --- |
-| `platform` | Rechte 20m-perronstukken buiten vaste trap-/passtukken |
-| `shelter` | Vaste wachthokjesplekken; elevated heeft plekken voor een eigen hokje |
-| `canopy` | 20m-overkapping, zowel surface als elevated |
-| `trees` | Bovengronds kopplein of elevated entreeplein |
-| `planters` | Dezelfde vaste pleinen |
-| `benches` | Perronbankjes en elevated entreebank |
-| `bins` | Vaste prullenbakplekken op het perron |
-| `lights` | Vaste perronlampen |
+| `platform` | Straight 20m platform sections outside fixed stair and infill sections |
+| `shelter` | Fixed shelter positions; elevated stations provide positions for a custom shelter |
+| `canopy` | 20m canopy modules, both surface and elevated |
+| `trees` | Surface terminus forecourt or elevated entrance plaza |
+| `planters` | The same fixed plazas |
+| `benches` | Platform benches and the elevated entrance bench |
+| `bins` | Fixed platform bin positions |
+| `lights` | Fixed platform light positions |
 
-Een eigen bank kan optioneel `entranceModel="my_mod::/entrance_bench.mdl"` opgeven voor een apart model bij de verhoogde entree. Zonder dit veld gebruikt de ingang hetzelfde eigen bankmodel.
+A custom bench can optionally specify `entranceModel="my_mod::/entrance_bench.mdl"` for a separate elevated entrance model. Without it, the entrance uses the same custom bench model.
 
-`trees=false` verwijdert ook boomroosters; een eigen boom behoudt het rooster. `planters=false` verwijdert ook de bijbehorende struiken; een eigen bak behoudt die struiken en moet erop aansluiten. Bovenleiding, veiligheidshekken, pijlers en kapsteunen blijven kernonderdelen.
+`trees=false` also removes tree beds; a custom tree retains the bed. `planters=false` also removes associated shrubs; a custom planter retains those shrubs and must fit them. Catenary, safety fences, structural pillars and canopy supports remain core-owned.
 
-Defaults zijn contextafhankelijk: surface heeft standaard geen kap, elevated wel. Kies een expliciete kapmodeltabel voor een bovengrondse overkapping. Een keuze maakt geen nieuwe plekken: een doorgaand bovengronds station heeft bijvoorbeeld geen kopplein voor bomen.
+Defaults depend on context: surface stations have no canopy by default; elevated stations do. Choose an explicit canopy model table for a surface canopy. Selecting a component does not create new positions: a surface through station, for example, has no terminus forecourt for trees.
 
-## Verplichte 20m-modules
+## Required 20m modules
 
-Gewone rechte perron- en dakmodellen zijn exact **20m lang**. De kern herhaalt eigen modellen zonder lengte-, breedte- of hoogteschaling. `moduleLength=20` is een verklaring van de maker; de API meet de externe mesh niet automatisch.
+Ordinary straight platform and canopy models are exactly **20m long**. The core repeats custom models without length, width or height scaling. `moduleLength=20` is the creator's declaration; the API does not measure external meshes automatically.
 
-De kern vervangt alleen volledige 20m-stukken in het vrije bouwvlak. Vaste trappen, de native onderdoorgang, smalle stroken bij openingen en korte aansluit-/eindstukken blijven kernonderdelen. Op een kort doorgaand station kan het hele perron uit vaste stukken bestaan, waardoor een eigen perronmodel daar niet wordt gebruikt. Deze stukken zijn in v1 niet afzonderlijk te stylen.
+The core replaces only complete 20m sections in the available build area. Fixed stairs, the native underpass, narrow strips next to openings and short connection/end pieces remain core-owned. A short through station can consist entirely of fixed pieces, so a custom platform model may not be used there. These pieces cannot be styled individually in v1.
 
-Kappen bedekken de bruikbare perronlengte 0..L in hele 20m-modules. Verhoogde wissel-/eindzones hebben vaste dakpasstukken. De kern plaatst kapkolommen op veilige plekken, houdt wachthokjes vrij en verplaatst bovengrondse masten buiten de kap; de contactdraden blijven op hun positie.
+Canopies cover the usable platform length 0..L in whole 20m modules. Elevated crossover/end zones use fixed canopy infills. The core places supports safely, keeps shelters clear and moves surface catenary poles outside the canopy; contact wires retain their positions.
 
-De meegeleverde referentiewrappers gebruiken native 40m-visuals intern op halve lengte. Zelf gemodelleerde 20m-assets hoeven intern niet gehalveerd te worden.
+The supplied reference wrappers use native 40m visuals internally at half length. Independently authored 20m assets do not need this internal scaling.
 
-## Modelmaten
+## Model dimensions
 
-| Onderdeel | Lokale modelruimte |
+| Component | Local model space |
 | --- | --- |
-| Perron | x=0..20m, y=-2,5..2,5m; loopvloer z=0,25m; oorsprong op spoor-/dekniveau |
-| Kap | x=0..20m; referentiebreedte circa 5,29m; dak z=3,1499..4,385m boven perronvloer; oorsprong op perronvloer |
-| Kapsteunen | Door de kern geleverd; geen eigen vaste kolommen in het dakmodel |
-| Wachthokje | Nulpunt en veilige ruimte van native `small_new.mdl` |
-| Bomen, bakken, meubels | Referentieposes en -schalen volgen; geen eigen plaatsingscoördinaten |
+| Platform | x=0..20m, y=-2.5..2.5m; walking floor z=0.25m; origin at track/deck level |
+| Canopy | x=0..20m; reference width approximately 5.29m; roof z=3.1499..4.385m above the platform floor; origin at platform floor |
+| Canopy supports | Supplied by the core; do not include fixed columns in the roof model |
+| Shelter | Follow the origin and safe envelope of native `small_new.mdl` |
+| Trees, planters, furniture | Follow reference poses and scales; no custom placement coordinates |
 
-Een dak mag bij de referentie enkele centimeters over de nominale lengte steken. Houd trappen, loopruimte, contactdraden en kapliggers vrij. Gebruik passende colliders. Voeg geen transportproviders, terminals of extra persoon-/voertuiglanen toe aan modellen.
+A reference roof may extend a few centimetres beyond its nominal length. Keep stairs, walking space, contact wires and canopy beams clear. Use appropriate colliders. Do not add transport providers, terminals or additional pedestrian/vehicle lanes to models.
 
-## Vaste grenzen
+## Fixed boundaries
 
-- Twee perronsporen; lengtes 40/60/80/100/120m.
-- Perronbreedte 5m; loopvloer 0,25m boven lokaal spoor-/dekniveau.
-- Vaste entree-, trap-, onderdoorgang- en routeposities.
-- Ondergrondse hal volledig vast: componenten mogen daar alleen weggelaten of `"default"` zijn. Eigen modellen en `false` worden afgewezen.
+- Two platform tracks; lengths 40/60/80/100/120m.
+- Platform width 5m; walking floor 0.25m above local track/deck level.
+- Fixed entrance, stair, underpass and route positions.
+- Fully fixed underground hall: components may only be omitted or `"default"`. Custom models and `false` are rejected.
 
-Perronhoogte, extra sporen, vrije plaatsing en andere traplocaties zijn geen makeropties in v1.
+Platform height, additional tracks, free placement and alternative stair positions are not creator options in v1.
 
-## Aanleveren en testen
+## Supplying and testing a mod
 
 ```text
 my_station_mod/
@@ -88,7 +90,7 @@ my_station_mod/
     station.script.lua
     platform20.mdl
     roof20.mdl
-    ... eigen meshes, materialen en textures
+    ... custom meshes, materials and textures
 ```
 
-Gebruik een eigen mod-ID en eigen namespace. Declareer de verplichte coredependency op revision 49. Test met beide mods actief: menuherkenning, korte en lange stations, doorgaand en kopstation, trapvrijheid, straat-/spooraansluiting, instappen, wissels en opslaan/herladen. Een geldig schema bewijst niet dat een willekeurig extern model in de engine past.
+Use your own mod ID and namespace. Declare the required core dependency on revision 49. Test with both mods enabled: menu discovery, short and long stations, through and terminus layouts, stair clearance, street/track connections, boarding, crossovers and save/reload. A valid schema does not prove that an arbitrary external model fits in the engine.

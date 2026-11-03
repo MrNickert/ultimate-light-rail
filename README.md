@@ -1,40 +1,44 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · modrevision 49 · Station API v1**
+**Release 1.0.0 · mod revision 49 · Station API v1**
 
-Tramgebaseerde lightrail voor Transport Fever 3, met een eigen bouwmenu, spoor en configureerbare passagiersstations.
+Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 
-## Spelen
+## Playing
 
-Open **Light Rail**, tussen wegvervoer en trein. De tramremise, het lightrailspoor en alle aangesloten stations staan samen in één overzicht met zoekveld.
+Open **Light Rail**, between Road and Rail. The tram depot, light rail track and participating stations share one searchable catalogue.
 
-| Instelling | Keuzes |
+| Setting | Choices |
 | --- | --- |
-| Ligging | Ondergronds / Bovengronds / Verhoogd; standaard bovengronds |
-| Stationstype | Doorgaand / Kopstation |
-| Perronlengte | 40 / 60 / 80 / 100 / 120 meter |
-| Hekken | Nee / Ja; ondergronds uitgeschakeld |
+| Location | Underground / Surface / Elevated; Surface selected by default |
+| Station type | Through / Terminus |
+| Platform length | 40 / 60 / 80 / 100 / 120 metres |
+| Fences | No / Yes; disabled underground |
 
-Alle stations hebben twee perronsporen. Kopstations bevatten een kruiswissel en ondersteunen keren zonder zichtbare keerlus. Gebruik tramvoertuigen en native elektrische tramtrack; kies voertuigen die binnen de perronlengte passen. Te lange voertuigen kunnen de wissel bezet houden. Selecteer zo nodig terminals of waypoints om beide sporen te gebruiken.
+All stations have two platform tracks. Terminus stations include a crossover and support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
 
-Bovengrondse stations hebben lage perrons, meubilair en bij een kopstation een ingericht kopplein. Doorgaande stations hebben een voetgangersonderdoorgang. Verhoogde stations hebben een betonnen draagconstructie, kappen en één centrale entree op maaiveld; de sporen liggen op +12m. Ondergronds liggen de sporen op -18m met een vaste hal en straattoegang. Het openbare lightrailspoor heeft lage metalen buitenhekken en behoudt native tramverkeersgedrag.
+Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks are at -18m, with a fixed hall and street access. The public light rail track has low metal fences and preserves native tram traffic behaviour.
 
-[Installatie](docs/installatie.md) · [Teststatus en beperkingen](docs/teststatus.md)
+[Installation](docs/installation.md) · [Validation and limitations](docs/validation.md)
 
-## Stations maken
+## Creating stations
 
-De standaardstations gebruiken dezelfde publieke API als externe ontwerpen. Makers kiezen standaardonderdelen, eigen modellen of geen optionele aankleding. De kern beheert twee sporen, vaste entrees, trappen, looproutes, terminals en wissels.
+Bundled stations and third-party designs use the same public API. Creators can select standard components, provide custom models or omit optional decorations. The core owns two-track layouts, entrances, stairs, pedestrian routes, terminals and crossovers.
 
-- [Developer kit: beginnen](docs/developer-kit-readme.md)
-- [20m-componenten en aansluitmaten](docs/asset-kit-v1.md)
-- [API v1 en gedeeld bouwmenu](docs/station-api-v1.md)
-- [Zelfstandige voorbeeldmod](examples/contract_station/README.md)
+- [Developer kit: getting started](docs/developer-kit-readme.md)
+- [20m components and model dimensions](docs/asset-kit-v1.md)
+- [Station API v1 and the shared menu](docs/station-api-v1.md)
+- [Standalone example mod](examples/contract_station/README.md)
 
-Gebruik `station_menu.lua` in de constructionbeschrijving om eigen stations in het Light Rail-menu op te nemen. Een eigen namespace vereist geen aanpassing aan de hoofdmod.
+Use `station_menu.lua` in your construction description to register stations in the Light Rail menu. Your own namespace requires no changes to the core mod.
 
-## Bouwen en controleren
+## API compatibility commitment
 
-Windows, Python 3, PowerShell, Teal 0.24.8 en een geïnstalleerde Steam-versie van Transport Fever 3 zijn nodig. VS Code kan de meegeleverde `all_def.tl` gebruiken. `tlconfig.example.lua` is de lokale configuratiebasis.
+Updates and extensions within API v1 will remain backward compatible with its documented public contract. Existing conforming API v1 add-ons will continue to work without being rewritten for each core update. If a change must break that contract, it will be introduced in a new API version alongside v1; it will not silently change or replace API v1. Core release numbers and API versions are independent. See the [compatibility policy](docs/compatibility.md) for the supported interface and boundaries.
+
+## Building and checking
+
+You need Windows, Python 3, PowerShell, Teal 0.24.8 and an installed Steam copy of Transport Fever 3. VS Code can use the supplied `all_def.tl`. Use `tlconfig.example.lua` as the basis for your local configuration.
 
 ```powershell
 python scripts/build_ui.py
@@ -48,4 +52,4 @@ python scripts/package_contract_example.py
 python scripts/package_sdk.py
 ```
 
-De drie ZIP's in `dist/` zijn de hoofdmod, de optionele voorbeeldmod en de developer kit. De UI is onderdeel van de hoofdmod. Native GUI-adapters worden tijdens de build afgeleid van de geïnstalleerde bronnen; de manifest-hashes staan in het pakket. [Architectuur](docs/architectuur.md) · [Credits](CREDITS.md).
+The three ZIPs in `dist/` contain the core mod, optional example mod and developer kit. The UI is part of the core. Native GUI adapters are generated from the installed game's sources; source hashes are included in the build manifest. [Architecture](docs/architecture.md) · [Credits](CREDITS.md).

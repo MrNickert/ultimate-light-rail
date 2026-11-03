@@ -1,10 +1,16 @@
 # Station API v1 — Ultimate Light Rail 1.0.0
 
-De publieke API bouwt tramgebaseerde passagiersstations. De kern beheert geometrie, transportnetwerk, terminals, entrees en looproutes; een ontwerp levert visuele onderdelen.
+The public API builds tram-based passenger stations. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
+
+## Compatibility commitment
+
+Updates and extensions within API v1 remain backward compatible with its documented public contract. Existing conforming v1 add-ons will continue to work without being rewritten for each core update. New v1 features are additive and optional for existing callers.
+
+If a breaking change is necessary, it will be introduced in a new, explicitly versioned API alongside v1. The v1 module and contract will remain available and supported. Existing callers will not be silently switched to new behaviour or forced to migrate. Core release versions and API versions are independent. See the [compatibility policy](compatibility.md) for the complete commitment and scope.
 
 ## Dependency
 
-Neem dit op in je eigen `mod.json`:
+Include this in your own `mod.json`:
 
 ```json
 "dependencies": [{
@@ -15,9 +21,11 @@ Neem dit op in je eigen `mod.json`:
 }]
 ```
 
-## Construction en gedeeld menu
+The minimum revision identifies the required feature set; it is not an API version. Leaving `revisionMax=-1` allows later compatible core revisions.
 
-Gebruik de lichte menuhelper in je `.con.lua`; deze laadt geen stationsbouwers:
+## Construction description and shared menu
+
+Use the lightweight menu helper in your `.con.lua`; it does not load station builders:
 
 ```lua
 local menu = require "mrnickert_ultimate_metro::/station_menu.lua"
@@ -33,9 +41,9 @@ function data()
 end
 ```
 
-`getMenuCategory(order)` geeft een nieuwe tabel met de gedeelde categorie `ulr_stations` en de filters `passenger` en `station`. `order` is optioneel, standaard 1000, en moet een niet-negatief geheel getal zijn. Dezelfde helper is beschikbaar als `station_api_v1.getMenuCategory`. Gebruik in resourcebeschrijvingen bij voorkeur de lichte module. Het menu herkent de categorie ongeacht jouw mod-ID; wijzig de hoofdmod niet. `buildStation()` alleen registreert geen menu-item.
+`getMenuCategory(order)` returns a fresh table with the shared `ulr_stations` category and the `passenger` and `station` filters. `order` is optional, defaults to 1000 and must be a nonnegative integer. The same helper is available as `station_api_v1.getMenuCategory`. Prefer the lightweight module in resource descriptions. The menu recognises the category regardless of your mod ID; do not modify the core. Calling `buildStation()` alone does not register a menu item.
 
-## Updatescript
+## Update script
 
 ```lua
 local station = require "mrnickert_ultimate_metro::/station_api_v1.lua"
@@ -54,38 +62,38 @@ function data()
 end
 ```
 
-Het resultaat is rechtstreeks het construction-update-resultaat. `capture` en `params` zijn optionele tabellen; de API wijzigt geen caller-tabellen.
+The return value is directly usable as the construction update result. `capture` and `params` are optional tables; the API does not mutate caller-owned tables.
 
-## Stationvelden
+## Station fields
 
-| Veld | Contract |
+| Field | Contract |
 | --- | --- |
-| `apiVersion` | Verplicht, exact 1 |
-| `placement` | Verplicht: `surface`, `underground`, `elevated` |
-| `stationType` | Verplicht: `through`, `terminus` |
-| `platformLength` | Verplicht: 40, 60, 80, 100 of 120 meter |
-| `platformTracks` | Optioneel, standaard 2; alleen 2 toegestaan |
-| `fence` | Optionele boolean; standaard true, ondergronds effectief false |
-| `design` | Optioneel; weglaten gebruikt de standaardbouwset |
+| `apiVersion` | Required; exactly 1 |
+| `placement` | Required: `surface`, `underground`, `elevated` |
+| `stationType` | Required: `through`, `terminus` |
+| `platformLength` | Required: 40, 60, 80, 100 or 120 metres |
+| `platformTracks` | Optional, defaults to 2; only 2 is accepted |
+| `fence` | Optional boolean; defaults to true, effectively false underground |
+| `design` | Optional; omitting it uses the standard kit |
 
-Kopstation impliceert kruiswissel; doorgaand heeft geen kruiswissel. Liggingen zijn benoemde waarden, geen menu-indices. Onbekende velden en ongeldige waarden geven een API-fout.
+A terminus includes a crossover; a through station does not. Locations are named values, not menu indices. Unknown fields and invalid values produce an API error.
 
-## Ontwerpen en helpers
+## Designs and helpers
 
-Een ontwerp bevat `apiVersion=1`, een lowercase `id` en precies één van `components` of `assets`. Gebruik voor nieuwe ontwerpen `components`; de [componentenhandleiding](asset-kit-v1.md) beschrijft standaard/eigen/geen en alle modelmaten.
+A design contains `apiVersion=1`, a lowercase `id` and exactly one of `components` or `assets`. Prefer `components` for new designs; the [component guide](asset-kit-v1.md) describes standard/custom/none choices and all model dimensions.
 
-- `getContract()`: modulelengte, perronmaten, ondersteunde componenten en vaste layoutafspraken.
-- `getDefaultKit()`: verse contextafhankelijke standaardselecties.
-- `getDefaultKit(placement)`: concrete standaardbouwset voor surface/elevated; vaste lege componentenbouwset voor underground.
-- `getDefaultDesign()`: verse standaardconfiguratie met modelrollen.
+- `getContract()`: module length, platform dimensions, supported components and fixed layout responsibilities.
+- `getDefaultKit()`: fresh context-dependent default selections.
+- `getDefaultKit(placement)`: the concrete standard surface/elevated kit; an empty component kit for the fixed underground hall.
+- `getDefaultDesign()`: a fresh standard configuration using asset roles.
 
-Modelreferenties zijn mod-gekwalificeerd: `my_mod::/model.mdl` of een native `::/model.mdl`. Geef geen callbacks, eigen transforms of transportmetadata in een ontwerp mee.
+Model references are mod-qualified: `my_mod::/model.mdl` or a native `::/model.mdl`. Do not supply callbacks, custom transforms or transport metadata in a design.
 
-## Modelrollen
+## Asset roles
 
-Als alternatief voor componenten ondersteunt `assets` vervanging van deze rollen. Ontbrekende rollen houden het standaardmodel. De kern behoudt alle transforms, inclusief schaling; deze vorm is bedoeld voor visuele vervangers met exact het referentieprofiel.
+As an alternative to components, `assets` supports replacement of these roles. Missing roles retain their standard model. The core preserves all transforms, including scaling; use this form for visual replacements matching the exact reference profile.
 
-| Rol | Referentiemodel, prefix `mrnickert_ultimate_metro::/` tenzij anders vermeld |
+| Role | Reference model, prefixed with `mrnickert_ultimate_metro::/` unless stated otherwise |
 | --- | --- |
 | `platformSurface` | `surface_platform.mdl` |
 | `headSurface` | `surface_head_tile.mdl` |
@@ -94,8 +102,10 @@ Als alternatief voor componenten ondersteunt `assets` vervanging van deze rollen
 | `elevatedEntranceBench` | `elevated_entrance.mdl` |
 | `entrancePaving` | `elevated_paving.mdl` |
 
-Een rol werkt alleen waar de bouwer het model plaatst. De perronrol volgt lokaal x=0..40m, y=-2,5..2,5m met referentievloer rond z=1,1m vóór kerntransforms. Het kopplein volgt x=-5..0m, y=-5..5m. De entreestoep is een lokaal 3×3m-vlak op z=0. Houd oorsprong, vrije ruimte en het volledige referentieprofiel aan. Voor ongeschaalde 20m-modules gebruik je `components`.
+A role applies only where the builder places that model. The platform role uses local x=0..40m, y=-2.5..2.5m with its reference floor around z=1.1m before core transforms. The terminus forecourt uses x=-5..0m, y=-5..5m. The entrance pavement is a local 3×3m plane at z=0. Preserve the origin, clearance and complete reference profile. Use `components` for unscaled 20m modules.
 
-## Grenzen
+## Boundaries
 
-API v1 ondersteunt precies twee sporen, vaste perronbreedte en vloerhoogte, vaste entrees/trappen en de opgegeven lengtes. Ondergronds is de hal een vaste assemblage. De API valideert het schema en modelpaden; externe meshgeometrie en colliders moeten door de maker worden gecontroleerd. Een API-versie staat los van de modrevision. Een brekend stationscontract hoort in een nieuw publiek API-pad.
+API v1 supports exactly two tracks, fixed platform width and floor height, fixed entrances/stairs and the specified lengths. The underground hall is a fixed assembly. The API validates schemas and model paths; creators must check external meshes and colliders in the game.
+
+These fixed model interfaces and supported public calls are covered by the compatibility policy. Internal builder modules and generated UI recipes are not public extension points. Bug fixes and improvements must preserve the documented v1 contract; changes that cannot do so require a new API version.

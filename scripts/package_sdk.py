@@ -8,6 +8,7 @@ files={
  'README.md':'docs/developer-kit-readme.md',
  'docs/asset-kit-v1.md':'docs/asset-kit-v1.md',
  'docs/station-api-v1.md':'docs/station-api-v1.md',
+ 'docs/compatibility.md':'docs/compatibility.md',
  'reference/platform20.mdl':'content/platform20.mdl',
  'reference/platform_roof20.mdl':'content/platform_roof20.mdl',
  'reference/standard_kit.lua':'content/station_standard_kit.lua',
@@ -24,8 +25,9 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
 with zipfile.ZipFile(out) as archive:
     assert archive.testzip() is None and len(archive.namelist())==len(files)
     assert not any(n.endswith(('.blob','.dds','.tga')) for n in archive.namelist())
-    for name in ['README.md','docs/asset-kit-v1.md','docs/station-api-v1.md','example/README.md']:
+    for name in ['README.md','docs/asset-kit-v1.md','docs/station-api-v1.md','docs/compatibility.md','example/README.md']:
         text=archive.read(prefix+'/'+name).decode('utf-8')
         assert '0.17.' not in text and 'UI Preview' not in text
+        assert 'backward compatible' in text and 'new API version' in text
 print(out)
 print('Developer kit verified: current API v1 documentation, complete example and reference declarations; no native binaries.')

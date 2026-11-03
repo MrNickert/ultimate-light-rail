@@ -1,16 +1,18 @@
 # Ultimate Light Rail — API Examples 1.0.0
 
-Zelfstandige, optionele assetmod. Vereist **Ultimate Light Rail 1.0.0 / revision 49**. De hoofdmod is niet afhankelijk van dit voorbeeld.
+A standalone, optional asset mod. Requires **Ultimate Light Rail 1.0.0 / revision 49**. The core does not depend on this example.
 
-## Ontwerpen
+## Designs
 
-- **ULR Component Kit Example**: surface, doorgaand/kopstation, 40/60/80/100/120m, Covered/Minimal. Covered gebruikt eigen 20m-perron- en dakwrappers zonder hokjes/groen. Minimal laat daarnaast kap, bankjes, bakken en lampen weg.
-- **ULR Contract Example**: vast bovengronds doorgaand 80m-station dat één perronmodel vervangt via modelrollen.
+- **ULR Component Kit Example**: surface, through/terminus, 40/60/80/100/120m, Covered/Minimal. Covered uses custom 20m platform and canopy wrappers without shelters or greenery. Minimal also omits the canopy, benches, bins and lights.
+- **ULR Contract Example**: a fixed 80m surface through station replacing one platform model through asset roles.
 
-Beide constructionbeschrijvingen gebruiken de publieke menuhelper. Ze verschijnen in hetzelfde Light Rail-menu als de standaardstations. Vaste trap- en passtukken blijven van de kern. De modelwrappers verwijzen naar geïnstalleerde native resources; er worden geen native mesh-/texturebinaries meegeleverd.
+Both construction descriptions use the public menu helper. They appear in the same Light Rail menu as bundled stations. Fixed stairs and infills remain core-owned. Model wrappers reference installed native resources; no native mesh/texture binaries are redistributed.
 
-## Eigen assetmod
+## Creating your own asset mod
 
-Kopieer dit voorbeeld en wijzig mod-ID, zichtbare namen en alle eigen namespaceverwijzingen. Behoud de verplichte dependency op core revision 49. Gebruik het componentenvoorbeeld als startpunt; vervang de modellen door eigen 20m-assets en test je ontwerp in de game.
+Copy this example and change the mod ID, visible names and all references to its own namespace. Keep the required dependency on core revision 49. Use the component example as your starting point; replace its models with your own 20m assets and test your design in the game.
 
-Lees de developer kit voor vaste maten en grenzen. Installeer de volledige hoofdmod om het voorbeeld te gebruiken. Bouw het aparte voorbeeldarchief met `python scripts/package_contract_example.py`.
+API v1 updates and extensions remain backward compatible with the documented public contract. Breaking changes will be introduced in a new API version alongside v1; conforming existing v1 add-ons will remain supported without forced migration. Consult the developer kit's `docs/compatibility.md` for the policy.
+
+Read the developer kit for fixed dimensions and boundaries. Install the full core to use this example. Build its separate archive with `python scripts/package_contract_example.py`.

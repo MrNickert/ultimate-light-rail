@@ -2,24 +2,29 @@
 
 **Core 1.0.0 · revision 49 · Station API v1**
 
-Dit pakket bevat documentatie, een zelfstandige voorbeeldmod en referentiedeclaraties. Installeer de hoofdmod afzonderlijk. De kit zelf activeer je niet in de game.
+This package contains documentation, a standalone example mod and reference declarations. Install the core mod separately. Do not activate the developer kit itself in the game.
 
-## Start
+## API compatibility commitment
 
-1. Lees `docs/asset-kit-v1.md` voor maten en ondersteunde onderdelen.
-2. Kopieer `example/` naar je eigen modmap. Wijzig mod-ID, zichtbare namen en alle verwijzingen naar de voorbeeldnamespace `ulr_contract_example`.
-3. Declareer Ultimate Light Rail revision 49 als verplichte dependency met `loadBefore=true` en `optional=false`.
-4. Gebruik `station_menu.lua.getMenuCategory()` in je `.con.lua`. Je station verschijnt dan in het gedeelde Light Rail-menu.
-5. Roep `station_api_v1.lua.buildStation()` aan vanuit je updatescript en lever je eigen 20m-modellen aan.
-6. Test minimaal korte en lange perrons, beide stationstypen, vrije trapzones, instappen, kruisen en opslaan/herladen.
+Updates and extensions within API v1 remain backward compatible with its documented public contract. Existing conforming v1 add-ons will continue to work without a rewrite for each core update. Any breaking changes will be introduced in a new API version alongside v1. The v1 entry point and contract will remain supported; existing add-ons will not be migrated automatically. Core release numbers and API versions are independent. Read `docs/compatibility.md` for the complete policy.
 
-De voorbeeldmod bevat een configureerbare 20m-componentenbouwset en een vast ontwerp met modelrollen. Gebruik de componentenbouwset als startpunt voor nieuwe ontwerpen. Beide voorbeelden tonen de gedeelde menukoppeling.
+## Getting started
 
-## Bestanden
+1. Read `docs/asset-kit-v1.md` for dimensions and supported components.
+2. Copy `example/` into your own mod folder. Change the mod ID, visible names and every reference to the example namespace `ulr_contract_example`.
+3. Declare Ultimate Light Rail revision 49 as a required dependency with `loadBefore=true` and `optional=false`.
+4. Use `station_menu.lua.getMenuCategory()` in your `.con.lua`. Your station will appear in the shared Light Rail menu.
+5. Call `station_api_v1.lua.buildStation()` from your update script and supply your own 20m models.
+6. Test short and long platforms, both station types, stair clearance, boarding, crossing movements and save/reload.
 
-- `docs/asset-kit-v1.md`: componentkeuzes, modelmaten en vaste delen.
-- `docs/station-api-v1.md`: API, dependency, constructionbeschrijving en modelrollen.
-- `example/`: volledige, optionele voorbeeldmod.
-- `reference/`: modeldeclaraties en de concrete standaardbouwset ter referentie; geen kopieën van native meshes of textures.
+The example mod contains a configurable 20m component kit and a fixed design using asset roles. Use the component kit as the starting point for new designs. Both examples demonstrate the shared menu integration.
 
-Perron- en dakmodules zijn exact 20m. Perronbreedte, vloerhoogte, twee sporen, entrees en trappen staan vast. Ondergronds is de hal niet met eigen componenten aan te passen. Modellen moeten de referentieprofielen en vrije routes respecteren; schemavalidatie controleert niet automatisch iedere mesh of collider.
+## Package contents
+
+- `docs/asset-kit-v1.md`: component choices, model dimensions and fixed parts.
+- `docs/station-api-v1.md`: API, dependency, construction description and asset roles.
+- `docs/compatibility.md`: public API stability and versioning policy.
+- `example/`: the complete optional example mod.
+- `reference/`: model declarations and the concrete standard kit; no copies of native meshes or textures.
+
+Platform and canopy modules are exactly 20m long. Platform width, floor height, two tracks, entrances and stairs are fixed. The underground hall cannot be customised with component models. Models must respect reference profiles and clear routes; schema validation does not inspect every mesh or collider automatically.
