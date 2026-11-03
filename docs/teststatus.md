@@ -208,3 +208,8 @@ Nog in-game: weg aan weerszijden naast het entreeplein plaatsen; stoepuitstralin
 ## 0.14.2 — entreebankje
 
 Gebruiker bevestigt werking van 0.14.1, met uitsluitend een placeholderblok op het entreeplein. Het log meldt dat elevated_entrance.mdl niet kon laden wegens verwijzingen naar native onderdelen in de modnamespace. Vervangen door een native parkbank-wrapper met expliciete base-namespace voor alle mesh-/materiaalverwijzingen. Bankje staat vrij van de centrale route, naar de straat gericht; indeling en routing behouden. Nieuwe uitstraling nog in-game te beoordelen.
+
+
+## 0.15.0 — stationscontract v1
+
+Gebruiker keurde 0.14.2 visueel goed. Voor de refactor zijn alle volledige resultaten vastgelegd (60 combinaties, 6 defaults/terugvallen, 6 legacyvarianten). De 72 SHA256-waarden blijven gelijk na aansluiting van de configureerbare stations op API v1. Native layouttests en contractvalidatie slagen; visuele vervanging van rollen verandert alleen de bedoelde model-ID's, caller-tabellen blijven intact. De aparte voorbeeld-consumer gebruikt dezelfde API en eigen modelnamespace in de lokale harness. Geen in-game bewijs van externe dependency/import of de nieuwe standaardplaatsingen; visuele vergelijking naast de referentiesave en werking volgen apart.

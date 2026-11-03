@@ -6,8 +6,11 @@ import re
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.14.2"
+VERSION = "0.15.0"
 CONTENT = {
+    "content/station_api_v1.lua",
+    "content/station_standard_design.lua",
+    "content/station_layout_builder.lua",
     "content/elevated_paving.mdl",
     "content/elevated_paving.msh",
     "content/elevated_paving.msh.blob",

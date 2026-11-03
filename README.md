@@ -1,8 +1,16 @@
 # Ultimate Light Rail
 
-Versie 0.14.2, revision 43. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
+Versie 0.15.0, revision 44. Tramgebaseerde lightrailinfrastructuur voor Transport Fever 3. Interne mod-ID blijft `mrnickert_ultimate_metro` voor savecompatibiliteit.
 
-## EÃƒÂ©n configureerbaar station
+## Stationscontract v1 — 0.15.0
+
+Ons configureerbare station gebruikt nu `station_api_v1.lua`, met het standaardontwerp als eerste contractgebruiker. Alle opgeslagen keuzes en construction-ID's blijven behouden. De complete resultaten van 60 combinaties, zes defaults/terugvalgevallen en zes legacyvarianten zijn gelijk aan de vooraf vastgelegde 0.14.2-nulmeting, inclusief modellen, transforms, netwerk, terminals, terrein en snapframes.
+
+Zes visuele rollen kunnen worden vervangen binnen de geometrie van hun referentiemodel. Meer sporen, vrije perronbreedtes, eigen traproutes en algemene ondergrondse assetvervanging vallen buiten v1. De externe modkoppeling is lokaal getest, maar nog niet in-game bevestigd.
+
+Zie [API-contract](docs/station-api-v1.md). Het optionele externe voorbeeld staat in `examples/contract_station` en zit niet in de hoofd-ZIP. Voor onze visuele vergelijking plaats je nieuwe stations naast de exemplaren in de 0.14.2-referentiesave. Er wordt niets automatisch herbouwd.
+
+## Eén configureerbaar station
 
 Zoek **Lightrailstation / Light Rail Station** in het wegstationsmenu. Het native instellingenpaneel heeft vier keuzes:
 

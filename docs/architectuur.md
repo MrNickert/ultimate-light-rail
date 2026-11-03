@@ -75,3 +75,8 @@ Elevated-apronvoorrand is lokaal evenwijdig aan X op y=-14. Het native straatsna
 ## Elevated-aankleding 0.14.0
 
 De visuele perron-/kapgrenzen volgen first/last van het volledige vaste constructiedek; operationele wacht- en voertuignetwerken blijven 0..L. De root-BRIDGE-stukken blijven vrij van extra vaste modellen. elevated_platform_roof.mdl behoudt native roof-meshes en verlichting, verwijdert geïntegreerde feets en krijgt een nauwkeurige collider boven de loopvloer. De builder plaatst losse native kolommen buiten de traprange. Catenarymasten zijn buitenwaarts geplaatst, armen herberekend en consoles toegevoegd; geen aanpassing van de voertuigbanen. Groen alleen op maaiveld naast vrijgehouden publieke route/straatfront; geen busnetwerkmutatie. Huidige menuafbeelding behouden.
+
+
+## Stationscontract 0.15.0
+
+De publieke configureerbare stationadapter normaliseert opgeslagen indices en roept station_api_v1 aan met station_standard_design. De API valideert de expliciete configuratie en roept private station_layout_builder aan. Deze dispatch hergebruikt ongewijzigde geometriebouwers. Zes visuele rollen vervangen uitsluitend model-ID's; de kern levert transforms en netwerken. Legacy scripts blijven behouden. Zie station-api-v1.md voor scope, beperkingen en het externe voorbeeld. De volledige 0.14.2-uitvoer is voor 72 gevallen vastgelegd vóór de refactor en blijft gelijk.

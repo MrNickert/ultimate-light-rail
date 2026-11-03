@@ -1,0 +1,22 @@
+{
+  "modId": "ulr_contract_example",
+  "revision": 1,
+  "severityAdd": "None",
+  "severityRemove": "Critical",
+  "visible": true,
+  "cosmetic": false,
+  "dependencies": [
+    {
+      "mod": {
+        "modId": "mrnickert_ultimate_metro",
+        "revisionMin": 44,
+        "revisionMax": -1
+      },
+      "modInfo": {
+        "displayName": "Ultimate Light Rail"
+      },
+      "loadBefore": true,
+      "optional": false
+    }
+  ]
+}

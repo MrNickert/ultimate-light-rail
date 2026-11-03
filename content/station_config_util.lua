@@ -1,41 +1,17 @@
-local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
-local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
-local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
-local underground=require "mrnickert_ultimate_metro::/underground_station_util.lua"
-local elevated=require "mrnickert_ultimate_metro::/elevated_station_util.lua"
+-- Save/UI compatibility adapter. New designs call the versioned API directly.
+local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
+local standard=require "mrnickert_ultimate_metro::/station_standard_design.lua"
 return function(capture,params)
  params=params or {}
- -- Copy: the UI/save parameter table must not be changed by a builder.
- local config={};for k,v in pairs(params) do config[k]=v end
  local lengths={40,60,80,100,120}
- local length=lengths[tonumber(params.platformLength) or 3] or 80
- local layout={length=length}
- local isThrough=tonumber(params.stationType)==1
- local isUnderground=tonumber(params.placement)==2
- local fence=not isUnderground and tonumber(params.fence or 2)~=1
- -- No public crossover parameter. Even stale/injected values cannot override type.
- config.crossover=isThrough and 1 or 2
- if isUnderground then return underground(capture,config,isThrough,length) end
- if tonumber(params.placement)==3 then return elevated(capture,config,isThrough,length,fence) end
- local result
- if isThrough then
-  result=through(capture,config,layout)
- else
-  result=decorate(terminus(capture,config,layout),layout)
-  result.edgeLists[1].params.type="mrnickert_ultimate_metro::/lightrail_station_approach.street_template"
- end
- if not fence then
-  for _,sub in ipairs(result.subconstructions) do
-   local models={}
-   for _,model in ipairs(sub.models) do
-    if model.id~="mrnickert_ultimate_metro::/lightrail_fence.mdl" then models[#models+1]=model end
-   end
-   sub.models=models
-  end
-  for _,edge in ipairs(result.edgeLists) do
-   edge.params.type=isThrough and "::/infrastructure/street/tram/tram_new.street_template"
-    or "mrnickert_ultimate_metro::/lightrail_double.street_template"
-  end
- end
- return result
+ local placement=tonumber(params.placement)
+ return api.buildStation({
+  apiVersion=1,
+  placement=placement==2 and "underground" or (placement==3 and "elevated" or "surface"),
+  stationType=tonumber(params.stationType)==1 and "through" or "terminus",
+  platformLength=lengths[tonumber(params.platformLength) or 3] or 80,
+  platformTracks=2,
+  fence=tonumber(params.fence or 2)~=1,
+  design=standard(),
+ },capture,params)
 end
