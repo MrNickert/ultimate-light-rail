@@ -13,3 +13,8 @@ saves/
 *.sav
 Thumbs.db
 Desktop.ini
+
+# UI preview: generated native adapters and converted icon.
+ui-preview/content/gui/native_*.lua
+ui-preview/content/gui/light_rail.tga
+ui-preview/build_manifest.json

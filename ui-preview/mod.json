@@ -1,0 +1,22 @@
+{
+  "modId": "mrnickert_ulr_ui_preview",
+  "revision": 1,
+  "severityAdd": "None",
+  "severityRemove": "None",
+  "visible": true,
+  "cosmetic": true,
+  "dependencies": [
+    {
+      "mod": {
+        "modId": "mrnickert_ultimate_metro",
+        "revisionMin": 48,
+        "revisionMax": -1
+      },
+      "modInfo": {
+        "displayName": "Ultimate Light Rail"
+      },
+      "loadBefore": true,
+      "optional": false
+    }
+  ]
+}

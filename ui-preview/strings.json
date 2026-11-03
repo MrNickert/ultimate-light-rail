@@ -1,0 +1,14 @@
+{
+  "en": {
+    "ULR_UI_MENU": "Light Rail",
+    "ULR_UI_DEPOTS": "Depots",
+    "ULR_UI_TRACKS": "Tracks",
+    "ULR_UI_STATIONS": "Stations"
+  },
+  "nl": {
+    "ULR_UI_MENU": "Lightrail",
+    "ULR_UI_DEPOTS": "Remises",
+    "ULR_UI_TRACKS": "Sporen",
+    "ULR_UI_STATIONS": "Stations"
+  }
+}
