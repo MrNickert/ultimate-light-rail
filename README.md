@@ -55,3 +55,7 @@ python scripts/package_sdk.py
 ```
 
 The three ZIPs in `dist/` contain the core mod, optional example mod and developer kit. The UI is part of the core. Native GUI adapters are generated from the installed game's sources; source hashes are included in the build manifest. [Architecture](docs/architecture.md) · [Credits](CREDITS.md).
+
+## Publishing
+
+The [publication package](publication/README.md) contains the English mod.io page copy, GitHub release text, a gameplay-based cover layout and the final screenshot capture list. It also records the remaining year-boundary and public-download checks.

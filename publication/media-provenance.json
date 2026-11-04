@@ -1,0 +1,13 @@
+{
+  "policy": "Use authentic gameplay captures. Do not generate or retouch station geometry, trains, passengers or scenery. Branding is a separate vector layer.",
+  "reference-elevated-gameplay.png": {
+    "source": "codex-clipboard-773a7a40-f6f9-4946-9cec-2eb1684f5ecb.png",
+    "sha256": "526cb3853652c047112e8a5c21ec0fb9647657467817e69b316017a7332ef365",
+    "use": "Composition reference; replace with a clean current hero capture for the final cover."
+  },
+  "cover-layout.svg": {
+    "type": "Code-native vector layout embedding the unchanged source capture",
+    "status": "Draft; not a final upload image"
+  },
+  "inspiration": "The two latest supplied promotional images are style references only; they are not included as gameplay evidence or final upload artwork."
+}

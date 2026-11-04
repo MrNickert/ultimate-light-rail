@@ -1,0 +1,55 @@
+# Ultimate Light Rail
+
+Build a light rail network with stations designed for through services and reversing tram operations.
+
+Ultimate Light Rail adds a dedicated **Light Rail** construction menu containing the native tram depot, fenced light rail track and configurable passenger stations. Use existing tram vehicles and connect directly to native electric tram infrastructure.
+
+## Three locations, one station family
+
+- **Surface:** low platforms, shelters and furniture, with a pedestrian underpass at through stations and a landscaped forecourt at terminus stations.
+- **Underground:** tracks at -18m, a fixed station hall and street-level pedestrian access.
+- **Elevated:** a concrete structure at +12m, platform canopies and a central entrance with stairs from street level.
+
+## Through or terminus
+
+Choose a through station for intermediate stops or a terminus with an integrated scissors crossover. Tram vehicles can stop and reverse without a visible turning loop. Native track connections and tram traffic handling are retained.
+
+## Configurable platforms
+
+All stations have two platform tracks. Choose **40, 60, 80, 100 or 120 metres**, with optional approach fences above ground. Crossovers are determined by station type; there is no separate crossover setting.
+
+**Available from 1925:** bundled stations and fenced light rail track follow the introduction year of the native modern tram track. The native tram depot retains its own availability dates.
+
+## Getting started
+
+1. Enable Ultimate Light Rail and load your game.
+2. Open **Light Rail**, between Road and Rail in the construction bar.
+3. Choose a station location, type and platform length; place it and connect electric tram track.
+4. Connect a tram depot, create a line and assign suitable tram vehicles.
+
+Use vehicles that fit the platform length: an overlong vehicle can keep the crossover occupied. Select terminals or add waypoints when you need a particular track assignment. The mod uses existing vehicles; it does not include a new vehicle fleet.
+
+## Built for station creators
+
+The public **Station API v1** and developer kit let asset creators supply their own station designs without rebuilding transport logic. Ordinary straight platform and canopy components are exactly **20m**. Select standard components, custom models or no optional decoration. Entrances, stairs, routing and the two-track layout remain core-owned. The underground hall is fixed in v1.
+
+Stations registered through the public menu helper appear in the same Light Rail menu, regardless of the asset mod's namespace.
+
+**API compatibility commitment:** updates and extensions within the documented API v1 contract remain backward compatible. Existing conforming v1 add-ons will continue to work without a rewrite for each core update. Breaking changes will use a new, explicitly versioned API alongside v1; the v1 contract will remain available and supported.
+
+- [Developer kit 1.0.0](https://github.com/MrNickert/ultimate-metro/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip)
+- [Optional API example mod 1.0.0](https://github.com/MrNickert/ultimate-metro/releases/download/v1.0.0/ultimate-light-rail-contract-example-1.0.0.zip)
+- [Documentation and source](https://github.com/MrNickert/ultimate-metro)
+- [API compatibility policy](https://github.com/MrNickert/ultimate-metro/blob/main/docs/compatibility.md)
+
+The developer kit is documentation and source material, not a directly installable mod. The optional example mod requires Ultimate Light Rail; the main mod does not require the example.
+
+## Compatibility and removal
+
+The construction UI is included in the main mod. Disable the separate **Ultimate Light Rail UI Preview** if it is still installed from testing. Other mods replacing the same native construction UI may conflict.
+
+Do not remove Ultimate Light Rail from a save containing its stations or infrastructure. Asset mods must also remain installed while their stations are in use. The release does not provide migration for development saves. Compatibility with console platforms has not been established; current testing uses Windows/Steam.
+
+## Credits
+
+Created by **MrNickert**. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gallery gameplay images are actual in-game captures.
