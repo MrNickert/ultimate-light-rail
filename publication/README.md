@@ -11,8 +11,10 @@ Prepared locally for review and upload. Nothing has been published or made publi
 - `release-notes.md`: concise 1.0.0 release notes.
 - `github-release.md`: copy for the GitHub Release containing the three downloads.
 - `screenshots-needed.md`: final capture list and framing guidance.
-- `media/cover-layout.svg`: a draft title layout using an unchanged gameplay capture.
-- `media-provenance.json`: source and authenticity record for the media draft.
+- `media/cover.png`: the finished 1920×1080 cover, with a title/footer frame around the unscaled gameplay capture.
+- `media/cover-layout.svg`: the editable vector layout source.
+- `media/gameplay-elevated.png` and `media/gameplay-fenced-crossing.png`: original gallery captures.
+- `media-provenance.json`: source and authenticity record for the packaged media.
 
 Choose one page-copy format appropriate to the website editor; do not paste the HTML source into a plain-text field. Only tags actually offered by the game's upload form should be selected. `Script Mod` is the existing core tag; additional category suggestions in the field sheet still need confirmation in the form.
 
@@ -22,10 +24,14 @@ The exported upload folder contains the current core, developer kit, optional ex
 
 The prepared GitHub links point to `MrNickert/ultimate-metro` and the `v1.0.0` release. They are intended destinations, not a claim that those URLs are public or live. The connected GitHub account did not expose this repository during preparation (404); verify visibility and release downloads before making the mod page public.
 
+## Packaged Mod Hub metadata
+
+The core archive includes the cover, two screenshots, formatted HTML description, summary, author, tags and homepage. The screenshot region in the cover is drawn at the original resolution and checked pixel-for-pixel by `scripts/build_publication_media.ps1`; only the surrounding vector frame is new. After extracting the updated archive, click **Refresh** in the Mod Hub. Validation errors and warnings must be inspected from the fresh game report; packaging checks are not a claim of a green engine validation.
+
 ## Remaining release gates
 
 1. Confirm the 1924/1925 transition in-game, including whether the Light Rail button appears without reloading.
-2. Provide the final gameplay captures listed in `screenshots-needed.md`; replace the reference hero in the layout and export a PNG cover. The SVG draft is not an upload-ready PNG. A final `_metadata/0.png` cover can then be included for the in-game uploader.
+2. Review the packaged cover and two gallery captures. The core ZIP includes `_metadata/0.png`, `1.png`, `2.png` and the formatted `description.html`. Additional terminus/underground/settings images from `screenshots-needed.md` can improve the gallery, but the supplied media are ready for the next Mod Hub check.
 3. Push the final release commit. Check that `v1.0.0` identifies the intended final release content. Do not force-update a tag already published to users; resolve versioning before publishing.
 4. Make the intended source/release repository public and create the GitHub Release with all three archives plus checksums. Verify the download links as a logged-out visitor.
 5. Extract the core ZIP into the game's staging area. Preserve any existing mod.io linkage file when updating an already-created listing.

@@ -65,7 +65,7 @@ CONTENT.update({"content/gui/"+name for name in (
     "catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
     "native_bar.lua","native_bar.css.lua","native_construction.lua","native_construction.css.lua",
     "light_rail.tga","build_manifest.json")})
-FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json"})
+FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json", "_metadata/0.png", "_metadata/1.png", "_metadata/2.png", "_metadata/description.html"})
 
 mod = json.loads((ROOT / "mod.json").read_text(encoding="utf-8"))
 info = json.loads((ROOT / "_metadata/modinfo.json").read_text(encoding="utf-8"))
@@ -82,7 +82,7 @@ keys = set()
 for name in FILES:
     data = (ROOT / name).read_bytes()
     assert not data.startswith(b"\xef\xbb\xbf"), f"UTF-8 BOM: {name}"
-    text = "" if name.endswith((".tga", ".blob")) else data.decode("utf-8")
+    text = "" if name.endswith((".tga", ".blob", ".png")) else data.decode("utf-8")
     assert name == name.lower() and " " not in name
     if name.endswith((".lua", ".mdl", ".msh")):
         assert name.startswith("content/gui/native_") or ("api.cmd" not in text and "addModifier" not in text)

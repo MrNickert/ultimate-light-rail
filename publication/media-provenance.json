@@ -1,13 +1,28 @@
 {
-  "policy": "Use authentic gameplay captures. Do not generate or retouch station geometry, trains, passengers or scenery. Branding is a separate vector layer.",
-  "reference-elevated-gameplay.png": {
-    "source": "codex-clipboard-773a7a40-f6f9-4946-9cec-2eb1684f5ecb.png",
-    "sha256": "526cb3853652c047112e8a5c21ec0fb9647657467817e69b316017a7332ef365",
-    "use": "Composition reference; replace with a clean current hero capture for the final cover."
+  "policy": "Authentic gameplay only. Gallery captures are byte-for-byte copies. The cover adds a separate title/footer frame around the elevated capture at its original resolution; no scenery, geometry, vehicle, passenger, lighting or image content is generated, retouched, cropped or resized.",
+  "gameplay-elevated.png": {
+    "source": "codex-clipboard-4167971c-cd6f-4662-8f1b-c7c567a36ce9.png",
+    "sha256": "7615d4d6399b178d18109d40c931e85439f4050aeb15856dbc8c9134c45d3a0a",
+    "use": "Final supplied gameplay capture; original pixels retained."
+  },
+  "gameplay-fenced-crossing.png": {
+    "source": "codex-clipboard-42b6efa2-d07c-4b5e-8059-7bae6b6945cb.png",
+    "sha256": "62f6deb5e34e1b6774fe1583875433395bb6a0b4f6c2a75e45c1c3ef956d49eb",
+    "use": "Final supplied gameplay capture; original pixels retained."
   },
   "cover-layout.svg": {
-    "type": "Code-native vector layout embedding the unchanged source capture",
-    "status": "Draft; not a final upload image"
+    "type": "Code-native vector title frame embedding the unchanged current gameplay capture",
+    "status": "Final layout source"
   },
-  "inspiration": "The two latest supplied promotional images are style references only; they are not included as gameplay evidence or final upload artwork."
+  "cover.png": {
+    "type": "Raster render of title/footer frame with gameplay drawn unscaled",
+    "gameplayRegion": {
+      "x": 4,
+      "y": 150,
+      "width": 1911,
+      "height": 849
+    },
+    "build": "scripts/build_publication_media.ps1"
+  },
+  "inspiration": "Promotional references guide colour and typography only; they are not gallery media."
 }
