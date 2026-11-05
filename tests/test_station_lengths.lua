@@ -136,7 +136,7 @@ return function(resource)
     assert((wall~=nil)==(stationType==2))
     if wall then assert(wall.transf[13]==L+0.7) end
     assert(r.snapPoint.transf[13]==L-12,"surface entrance follows concourse")
-    assert(r.cost==900000 and r.maintenanceCost==180000)
+    assert(r.cost==900000 and r.maintenanceCost==30000)
    end
    for _,m in ipairs(sub.models) do for _,v in ipairs(m.transf) do assert(v==v and math.abs(v)<1e6) end end
   end end end

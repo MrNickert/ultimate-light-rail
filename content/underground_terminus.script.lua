@@ -43,7 +43,7 @@ function data()
    snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
   result.subconstructions={sub}
   result.cost=900000
-  result.maintenanceCost=180000
+  result.maintenanceCost=30000
   return result
  end}
 end

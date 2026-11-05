@@ -9,6 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 VERSION = "1.0.0"
 CONTENT = {
     "content/station_menu.lua",
+    "content/maintenance_migration.gs.lua",
+    "content/maintenance_migration.script.lua",
     "content/station_standard_kit.lua",
     "content/station_components.lua",
     "content/platform20.mdl",
@@ -85,8 +87,8 @@ for name in FILES:
     text = "" if name.endswith((".tga", ".blob", ".png")) else data.decode("utf-8")
     assert name == name.lower() and " " not in name
     if name.endswith((".lua", ".mdl", ".msh")):
-        assert name.startswith("content/gui/native_") or ("api.cmd" not in text and "addModifier" not in text)
-        assert not name.endswith(".gs.lua"), "No automatic diagnostic scripts in the clean build"
+        assert name.startswith("content/gui/native_") or name == "content/maintenance_migration.script.lua" or ("api.cmd" not in text and "addModifier" not in text)
+        assert not name.endswith(".gs.lua") or name == "content/maintenance_migration.gs.lua", "Only the explicit maintenance migration may run automatically"
         if not name.startswith("content/gui/native_"): keys.update(re.findall(r'_\("([^"]+)"\)', text))
         for resource in re.findall(re.escape(mod["modId"]) + r"::/([a-z0-9_./]+)", text):
             assert (f"content/{resource}" if resource.endswith((".lua", ".tga", ".mdl", ".msh")) else f"content/{resource}.lua") in CONTENT, f"Missing local dependency: {resource}"
@@ -104,4 +106,4 @@ with zipfile.ZipFile(out) as archive:
     assert set(archive.namelist()) == {mod["modId"] + "/" + name for name in FILES}
 print(out)
 print("SHA256:", hashlib.sha256(out.read_bytes()).hexdigest())
-print(f"{len(FILES)} files verified; complete local dependencies and localization; no simulation diagnostic scripts")
+print(f"{len(FILES)} files verified; complete local dependencies and localization; one explicit maintenance migration; no simulation diagnostic scripts")

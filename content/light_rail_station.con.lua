@@ -6,7 +6,7 @@ function data()
   description={name=_("LR_STATION_NAME"),description=_("LR_STATION_DESC"),
    icon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c.tga",
    previewIcon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c_preview.tga",
-   attributes={cost={120000,900000},maintenanceCost={20000,180000}},
+   attributes={cost={120000,900000},maintenanceCost={20000,30000}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
   menuCategory=stationApi.getMenuCategory(1015),
   params={

@@ -9,7 +9,7 @@ function data()
             description = _("METRO_UNDERGROUND_TERMINUS_DESC"),
             icon = "mrnickert_ultimate_metro::/ui/metro_underground_terminus.tga",
             previewIcon = "mrnickert_ultimate_metro::/ui/metro_underground_terminus_preview.tga",
-            attributes = { cost = {900000, -1}, maintenanceCost = {180000, -1} },
+            attributes = { cost = {900000, -1}, maintenanceCost = {30000, -1} },
             cargoTypeSet = { cargoClassesIncluded = {"PASSENGERS"}, cargoClassesExcluded = {},
                 cargoTypesIncluded = {}, cargoTypesExcluded = {} },
         },

@@ -12,11 +12,13 @@ The documented v1 API and model interface remain backward compatible across upda
 
 ## UI
 
-The core registers a native `react-replacement-config`. The script supplies `data().doReplaceFn` and replaces the GameBar and ConstructionListWindow recipes. The existing Construction tool remains responsible for building; the adapter uses its descriptor from `_react.tools.Construction`.
+The core uses the native pre-UI setup phase to install small additive adapters. `GameBar` and `ConstructionListWindow` remain native. The button adapter calls existing wrappers through and inserts Light Rail beside Rail; the scoped construction adapter appends a category and restores helper functions after the native callback. Named routing resolves the category's current index rather than storing a fixed tab number. See [UI integration](ui-integration.md).
 
-`content/gui/catalog.lua` collects the native tram depot, the custom track and constructions in the `ulr_stations` category. One combined category retains the native search field and hides category tabs. The native tram depot also remains in its regular menu. Catalogue filtering does not modify engine resources or save objects.
+`content/gui/catalog.lua` collects the native tram depot, the custom track and constructions in `ulr_stations`. The native tram depot retains its ordinary menu entry. The GUI build generates checked native recipe-layout descriptors and source hashes, without copying the complete native renderers or styles. Engine-internal coupling is isolated and checked; arbitrary mods that bypass native recipes still require separate compatibility investigation.
 
-`scripts/build_ui.py` derives adapters and styles from the installed GUI sources. Recipes and animations receive unique names; imports explicitly target native or core namespaces. The package includes generated Lua and source hashes. Internal UI integration and source anchors need checking after game updates. Mods replacing the same recipes may conflict.
+## Maintenance
+
+The shared underground builder sets maintenance to 30,000 builder units; other placements and construction prices retain their existing values. A single production game script performs the saved, owner- and baseline-checked maintenance migration for existing bundled underground stations. It sends only maintenance-component commands and preserves accrued charges. No station reconstruction or geometry changes are submitted. See [maintenance](maintenance.md).
 
 ## Build
 

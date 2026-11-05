@@ -1,8 +1,8 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · mod revision 52 · Station API v1**
+**Release 1.0.0 · mod revision 53 · Station API v1**
 
-Compatibility test candidate: additive UI integration (revision 52), not yet published or engine-validated. See [UI integration](docs/ui-integration.md).
+The additive UI integration (revision 52) has been tested in-game alongside Undo. The current underground-maintenance update (revision 53) still needs in-game validation. See [UI integration](docs/ui-integration.md).
 
 Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 
@@ -23,7 +23,9 @@ All stations have two platform tracks. Terminus stations include a crossover and
 
 Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks are at -18m, with a fixed hall and street access. The public light rail track has low metal fences and preserves native tram traffic behaviour.
 
-[Installation](docs/installation.md) · [Validation and limitations](docs/validation.md)
+Underground stations use a maintenance base of **30,000** (about **$180,000/year at the previously tested settings**), matching the rebalanced vanilla underground stop. No separate cost mod is required for ULR stations. A saved, one-time migration updates player-owned bundled underground stations still using the previous base of 180,000. Surface/elevated stations, build prices, geometry, lines and accrued charges are preserved. Already adjusted or nonstandard costs are skipped. Migration changes remain in the save after removing a mod; no automatic refunds or reversions are performed.
+
+[Maintenance and existing stations](docs/maintenance.md) · [Installation](docs/installation.md) · [Validation and limitations](docs/validation.md)
 
 ## Creating stations
 
@@ -50,6 +52,7 @@ python scripts/build_ui.py
 python scripts/test_station_contract.py
 python scripts/test_native_layout.py
 & 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_ui.lua
+& 'C:\Program Files\Teal\0.24.8\tl.exe' run tests/test_maintenance_migration.lua
 python scripts/check_ui.py
 python scripts/package.py
 python scripts/package_contract_example.py

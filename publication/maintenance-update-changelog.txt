@@ -1,0 +1,1 @@
+Underground Ultimate Light Rail stations now use the same maintenance base as rebalanced vanilla underground stops, without requiring the separate cost mod. Existing player-owned bundled underground stations using the previous default are adjusted once. Surface and elevated maintenance, construction prices and station layouts are unchanged.
