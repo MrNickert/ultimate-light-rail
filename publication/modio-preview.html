@@ -1,54 +1,24 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ultimate Light Rail — mod.io content preview</title><style>body{margin:0;background:#101820;color:#e8f1f5;font:17px/1.7 'Segoe UI',Arial,sans-serif}main{width:min(1000px,calc(100% - 40px));margin:40px auto 80px}h1{font-size:48px;line-height:1.1;letter-spacing:-.04em;margin:35px 0}h2{font-size:33px;line-height:1.18;margin:55px 0 20px}h3{font-size:24px;margin:35px 0 15px}p{margin:18px 0}img{width:100%;height:auto;border:1px solid #294856}a{color:#83eed2}li{margin:9px 0}code{background:#233440;padding:2px 5px}.notice{border:1px solid #294856;padding:15px 20px;color:#a9bdc7;font-size:13px}.notice a{margin-right:15px}</style><main><div class="notice"><a href="landing/">← Interactive landing preview</a>mod.io content preview. The final site theme controls fonts and spacing; image panels retain their design.</div><h1>Ultimate Light Rail</h1>
-<p><a href="media/cover.png"><img src="media/cover.png" alt="Ultimate Light Rail — actual gameplay cover" /></a></p>
-<p>Build a light rail network with stations designed for through services and reversing tram operations.</p>
-<p>Ultimate Light Rail adds a dedicated <strong>Light Rail</strong> construction menu containing the native tram depot, fenced light rail track and configurable passenger stations. Use existing tram vehicles and connect directly to native electric tram infrastructure.</p>
-<h2>Three locations, one station family</h2>
-<ul>
-<li><strong>Surface:</strong> low platforms, shelters and furniture, with a pedestrian underpass at through stations and a landscaped forecourt at terminus stations.</li>
-<li><strong>Underground:</strong> tracks at -18m, a fixed station hall and street-level pedestrian access.</li>
-<li><strong>Elevated:</strong> a concrete structure at +12m, platform canopies and a central entrance with stairs from street level.</li>
-</ul>
-<p><a href="media/gameplay-elevated-daylight.png"><img src="media/gameplay-elevated-daylight.png" alt="Elevated station and street access — actual gameplay" /></a></p>
-<h2>Through or terminus</h2>
-<p>Choose a through station for intermediate stops or a terminus with an integrated scissors crossover. Tram vehicles can stop and reverse without a visible turning loop. Native track connections and tram traffic handling are retained.</p>
-<h2>Configurable platforms</h2>
-<p>All stations have two platform tracks. Choose <strong>40, 60, 80, 100 or 120 metres</strong>, with optional approach fences above ground. Crossovers are determined by station type; there is no separate crossover setting.</p>
-<p><strong>Available from 1925:</strong> bundled stations and fenced light rail track follow the introduction year of the native modern tram track. The native tram depot retains its own availability dates.</p>
-<p><a href="media/gameplay-fenced-crossing.png"><img src="media/gameplay-fenced-crossing.png" alt="Fenced track at a native road crossing — actual gameplay" /></a></p>
-<h2>Getting started</h2>
-<ol>
-<li>Enable Ultimate Light Rail and load your game.</li>
-<li>Open <strong>Light Rail</strong>, between Road and Rail in the construction bar.</li>
-<li>Choose a station location, type and platform length; place it and connect electric tram track.</li>
-<li>Connect a tram depot, create a line and assign suitable tram vehicles.</li>
-</ol>
-<p>Use vehicles that fit the platform length: an overlong vehicle can keep the crossover occupied. Select terminals or add waypoints when you need a particular track assignment. The mod uses existing vehicles; it does not include a new vehicle fleet.</p>
-<p><a href="media/gameplay-station-variants.png"><img src="media/gameplay-station-variants.png" alt="Supported station lengths and locations — actual game placements" /></a></p>
-<h2>Built for station creators</h2>
-<p>The public <strong>Station API v1</strong> and developer kit let asset creators supply their own station designs without rebuilding transport logic. Ordinary straight platform and canopy components are exactly <strong>20m</strong>. Select standard components, custom models or no optional decoration. Entrances, stairs, routing and the two-track layout remain core-owned. The underground hall is fixed in v1.</p>
-<p>Stations registered through the public menu helper appear in the same Light Rail menu, regardless of the asset mod&#x27;s namespace.</p>
-<p><a href="media/api-components.png"><img src="media/api-components.png" alt="Component kit: real independent example stations with reference component choices" /></a></p>
-<h3>You supply the appearance. The core supplies the network.</h3>
-<ul>
-<li><strong>Creator-owned:</strong> ordinary 20m platform and canopy models, shelters, trees, planters, benches, bins and lights.</li>
-<li><strong>Core-owned:</strong> two-track layout, terminals, crossovers, stopping positions, fixed entrances, stairs, pedestrian routes and structural safety features.</li>
-<li><strong>Three choices per optional component:</strong> use the standard component, provide a qualified custom model, or omit it with <code>false</code>. The platform itself is required.</li>
-</ul>
-<h3>A small, explicit integration</h3>
-<p>Declare the core dependency, register a construction through <code>station_menu.lua.getMenuCategory()</code>, and call <code>station_api_v1.lua.buildStation()</code> from your update script. Your own namespace is recognised through the shared category; no core patch is needed.</p>
-<p><a href="media/api-contract.png"><img src="media/api-contract.png" alt="Public Station API v1: menu registration, build call and compatibility commitment" /></a></p>
-<p>The API panels are documentation graphics; their gameplay example is a real capture. Code is provided as text in the developer kit. Ordinary platform and canopy modules must declare <code>moduleLength=20</code>. Short infill and stair zones remain core-owned. Underground custom component models are not supported in v1.</p>
-<p><strong>API compatibility commitment:</strong> updates and extensions within the documented API v1 contract remain backward compatible. Existing conforming v1 add-ons will continue to work without a rewrite for each core update. Breaking changes will use a new, explicitly versioned API alongside v1; the v1 contract will remain available and supported.</p>
-<ul>
-<li><a href="https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip">Developer kit 1.0.0</a></li>
-<li><a href="https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-contract-example-1.0.0.zip">Optional API example mod 1.0.0</a></li>
-<li><a href="https://github.com/MrNickert/ultimate-light-rail">Documentation and source</a></li>
-<li><a href="https://github.com/MrNickert/ultimate-light-rail/blob/main/docs/compatibility.md">API compatibility policy</a></li>
-</ul>
-<p>The developer kit is documentation and source material, not a directly installable mod. The optional example mod requires Ultimate Light Rail; the main mod does not require the example.</p>
-<h2>Compatibility and removal</h2>
-<p>The construction UI is included in the main mod. Disable the separate <strong>Ultimate Light Rail UI Preview</strong> if it is still installed from testing. Other mods replacing the same native construction UI may conflict.</p>
-<p>Do not remove Ultimate Light Rail from a save containing its stations or infrastructure. Asset mods must also remain installed while their stations are in use. The release does not provide migration for development saves. Compatibility with console platforms has not been established; current testing uses Windows/Steam.</p>
-<h2>Credits</h2>
-<p>Created by <strong>MrNickert</strong>. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gameplay panels are actual in-game captures. API panels combine an authentic example capture with documented reference code; the contract panel is documentation, not gameplay.</p>
-</main></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ultimate Light Rail — mod.io content preview</title><style>body{margin:0;background:#0c202e;color:#e8f3f9;font:17px/1.75 Segoe UI,Arial,sans-serif}main{width:min(1080px,calc(100% - 40px));margin:30px auto 80px}h2{color:#a0f7dc;font-size:32px;line-height:1.2;margin:50px 0 20px}img{width:100%;height:auto;display:block;border-radius:10px}a{color:#7de7fa}p{margin:22px 0}li{margin:8px 0}.notice{font-size:13px;color:#a8c0cd;margin-bottom:24px}</style></head><body><main><p class="notice">mod.io content preview · <a href="landing/">Full landing page</a> · The website controls text styling; the cover and API panel retain their artwork.</p><p><img src="media/cover.png" alt="Ultimate Light Rail — terminus stations for Transport Fever 3; promotional artwork" /></p>
+<h2>Your city. Your light rail.</h2>
+<p>Take your tram network underground, keep it at street level, or carry it above the city. Build proper passenger stations and reversing termini, all from a dedicated <strong>Light Rail</strong> construction menu.</p>
+<ul><li><strong>Three locations:</strong> Underground, Surface and Elevated.</li><li><strong>Two layouts:</strong> through stations and termini with an integrated scissors crossover.</li><li><strong>Five platform lengths:</strong> 40, 60, 80, 100 and 120 metres.</li><li><strong>Native tram connections:</strong> use your existing electric tram infrastructure and vehicles.</li><li><strong>One menu:</strong> depot, fenced light rail track, bundled stations and compatible station packs.</li></ul>
+<p><strong>Available from 1925.</strong> Stations and fenced track follow the native modern tram track's introduction year. The native tram depot keeps its own availability dates.</p>
+<h2>Change ends. Keep your network moving.</h2>
+<p>Terminus stations include the crossover needed for reversing operations, without a visible turning loop. Through stations keep both ends open for intermediate stops. Choose your platform length and optional approach fences; underground stations use a fixed hall, elevated stations include a concrete structure and central stair access.</p>
+<h2>Built for players. Open to station creators.</h2>
+<p><img src="media/api-overview.png" alt="Station API v1 — modular station visuals and core-managed transport logic; illustrated overview" /></p>
+<p>The bundled stations use the same public <strong>Station API v1</strong> available to other creators. Supply your platform and canopy models on the <strong>20m component grid</strong>, choose shelters and decoration, or omit optional elements. Your station pack appears in the same Light Rail menu.</p>
+<p>The core manages the two-track layout, terminals, crossovers, entrances, stairs and pedestrian routing. API v1 keeps those positions fixed; it does not support arbitrary stair placement, additional tracks or custom underground-hall models.</p>
+<p><strong>A stable dependency:</strong> updates and extensions within the documented API v1 contract remain backward compatible. Breaking changes will introduce a new API version alongside v1. Existing conforming v1 station packs remain supported.</p>
+<p><a href="https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip">Download the developer kit</a> · <a href="https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-contract-example-1.0.0.zip">Download the example station pack</a> · <a href="https://github.com/MrNickert/ultimate-light-rail/blob/main/docs/station-api-v1.md">Read the API documentation</a></p>
+<h2>In the game</h2>
+<p><img src="media/gameplay-elevated.png" alt="Actual gameplay: an elevated Ultimate Light Rail station in a working city" /></p>
+<p><img src="media/gameplay-fenced-crossing.png" alt="Actual gameplay: native tram vehicles using fenced light rail track and a road crossing" /></p>
+<p>The cover and API overview are illustrative promotional artwork. These two screenshots show the current in-game assets.</p>
+<h2>Start building</h2>
+<ol><li>Enable Ultimate Light Rail and load your game.</li><li>Open <strong>Light Rail</strong> between Road and Rail on the construction bar.</li><li>Place a station, connect electric tram track and a tram depot.</li><li>Create a line and assign tram vehicles that fit the platform length.</li></ol>
+<p>Select terminals or add waypoints when you need a particular track assignment. Overlong vehicles can keep a terminus crossover occupied. No additional vehicle fleet is included.</p>
+<h2>Compatibility and credits</h2>
+<p>Keep Ultimate Light Rail and any required station packs enabled while their infrastructure is present in your save. Mods replacing the same native construction UI may conflict. Development-save migration and console compatibility are not promised.</p>
+<p>Created by <strong>MrNickert</strong>. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native texture, mesh or material binaries are redistributed. <a href="https://github.com/MrNickert/ultimate-light-rail">Source, documentation and downloads</a>.</p>
+</main></body></html>

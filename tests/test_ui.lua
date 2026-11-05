@@ -104,14 +104,16 @@ assert(animationCount==2,'expected both construction animations to be exercised'
 -- and fail if rendering tries to inspect the currently active tool.
 local nativeTool={name='Construction'}
 local recipes={}
+local closeConstructionHandler
+local poppedTool
 local reactStub=setmetatable({
  RegisterRecipe=function(name,fn)recipes[name]=fn;return function()return {} end end,
  RegisterWrapperRecipe=function(name,wrapped,fn)recipes[name]=fn;return function()return {} end end,
  useNodeRef=function()return {get=function()return nil end}end,
- onEvent=function()end,
+ onEvent=function(name,callback)if name=='closeConstructionWindow' then closeConstructionHandler=callback end end,
  ref=function(value)return value end,
 }, {__index=function()return dummy end})
-local toolApi={getActiveTool=function()error('startup must not require an active Construction tool')end}
+local toolApi={getActiveTool=function()error('startup must not require an active Construction tool')end, pop=function(tool)poppedTool=tool end}
 local gameCtx={toolStack={get=function()return {getApi=function()return toolApi end}end}}
 local startupEnv=setmetatable({
  _react={tools={Construction=nativeTool}},api=dummy,
@@ -120,7 +122,17 @@ local startupEnv=setmetatable({
   return dummy
  end,
 }, {__index=_G})
+-- Mod Hub validation has a GUI module loader, but no registered Construction tool.
+-- Loading must succeed both before the registry exists and while it is empty.
+startupEnv._react=nil
+assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
+startupEnv._react={tools={}}
+assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
+startupEnv._react.tools.Construction=nativeTool
 assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
 assert(recipes.ULRConstructionListWindow)
 recipes.ULRConstructionListWindow({payload={toolParam={gameCtx=gameCtx}}})
-print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")
+assert(closeConstructionHandler,'native close event must be registered')
+closeConstructionHandler(nil,nil)
+assert(poppedTool==nativeTool,'deferred lookup must use the native registered tool when the event fires')
+print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, absent/empty tool-registry validation, event-time native tool resolution, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")

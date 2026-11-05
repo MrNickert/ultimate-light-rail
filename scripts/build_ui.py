@@ -55,8 +55,14 @@ with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.Tempora
             s=s[:cutoff]+'return construction.ConstructionListWindow\n'
             # The window renders at startup, before Construction is active.
             # Reuse the exact native descriptor from the registry populated by
-            # react.RegisterTool; never infer it from the current active tool.
-            s=replace_once(s,'local construction : Construction = {}',"global _react : table\nlocal construction : Construction = { ConstructionTool = assert(_react.tools.Construction, \"ULR UI: native Construction tool not registered\") }")
+            # react.RegisterTool at event time; validation can load this module before the tool registry exists.
+            s=replace_once(s,'local construction : Construction = {}',"""global _react : table
+local construction : Construction = {}
+local function getNativeConstructionTool() : any
+    return assert(_react and _react.tools and _react.tools.Construction,
+        "ULR UI: native Construction tool not registered")
+end""")
+            s=s.replace('construction.ConstructionTool', 'getNativeConstructionTool()')
         names=re.findall(r'react.Register(?:Wrapper)?Recipe\("([^"\n]+)"',s)
         manifest['registeredRecipes'][kind]=names
         for name in names:

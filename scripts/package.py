@@ -65,7 +65,7 @@ CONTENT.update({"content/gui/"+name for name in (
     "catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
     "native_bar.lua","native_bar.css.lua","native_construction.lua","native_construction.css.lua",
     "light_rail.tga","build_manifest.json")})
-FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json", "_metadata/0.png", "_metadata/1.png", "_metadata/2.png", "_metadata/3.png", "_metadata/4.png", "_metadata/5.png", "_metadata/6.png", "_metadata/description.html"})
+FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json", "_metadata/0.png", "_metadata/1.png", "_metadata/2.png", "_metadata/3.png", "_metadata/4.png", "_metadata/description.html"})
 
 mod = json.loads((ROOT / "mod.json").read_text(encoding="utf-8"))
 info = json.loads((ROOT / "_metadata/modinfo.json").read_text(encoding="utf-8"))

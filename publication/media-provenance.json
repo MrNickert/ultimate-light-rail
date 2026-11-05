@@ -1,5 +1,5 @@
 {
-  "policy": "Authentic gameplay only. Gallery captures are byte-for-byte copies. The cover adds a separate title/footer frame around the elevated capture at its original resolution; no scenery, geometry, vehicle, passenger, lighting or image content is generated, retouched, cropped or resized.",
+  "policy": "Selected illustrative promotional artwork follows the user-supplied visual direction. Actual gameplay captures remain unchanged and are identified separately. Export resizing only normalises presentation assets to 1920x1080.",
   "gameplay-elevated.png": {
     "source": "codex-clipboard-4167971c-cd6f-4662-8f1b-c7c567a36ce9.png",
     "sha256": "7615d4d6399b178d18109d40c931e85439f4050aeb15856dbc8c9134c45d3a0a",
@@ -10,21 +10,13 @@
     "sha256": "62f6deb5e34e1b6774fe1583875433395bb6a0b4f6c2a75e45c1c3ef956d49eb",
     "use": "Final supplied gameplay capture; original pixels retained."
   },
-  "cover-layout.svg": {
-    "type": "Code-native vector title frame embedding the unchanged current gameplay capture",
-    "status": "Final layout source"
-  },
   "cover.png": {
-    "type": "Raster render of title/footer frame with gameplay drawn unscaled",
-    "gameplayRegion": {
-      "x": 4,
-      "y": 150,
-      "width": 1911,
-      "height": 849
-    },
+    "type": "User-supplied illustrative promotional artwork; not a gameplay screenshot",
+    "source": "artwork/publication-cover-source.png",
+    "sha256": "4923eb1d1058a5e05b85f95173865877ff37ba5baf55108608f4f83b24ab73ac",
     "build": "scripts/build_publication_media.ps1"
   },
-  "inspiration": "Promotional references guide colour and typography only; they are not gallery media.",
+  "inspiration": "The selected user-supplied cover and API design define the publication visual direction.",
   "gameplay-component-kit.png": {
     "source": "codex-clipboard-f34f1b3f-3437-4682-b434-72ba26448583.png",
     "sha256": "3c9c93530b64b9f4206adeade6a3f851f1bd1ad80ddbc8a6c15cd18de3cfc352",
@@ -52,5 +44,11 @@
     "source": "codex-clipboard-3af11c5d-91cd-40cd-8d4e-5b3378300813.png",
     "sha256": "71a19ad10ca0abd2d5383a78b152c3c6fc5d2861f5679f43743780527c9e5929",
     "use": "Supplied in-game capture, retained without image retouching."
+  },
+  "api-overview.png": {
+    "type": "AI-edited user-supplied promotional infographic; not gameplay or executable code",
+    "source": "artwork/publication-api-source.png",
+    "sha256": "887714ca7f2d9f6d465480aa5642a15cfda1982bc438503d7ebdcc2821055d3a",
+    "edit": "Replace misleading JSON with documented API v1 capabilities; retain the supplied visual direction"
   }
 }

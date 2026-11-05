@@ -1,66 +1,43 @@
 # Ultimate Light Rail 1.0.0 — publication package
 
-Prepared locally for review and upload. Nothing has been published or made public by this preparation step.
+Current release candidate: mod revision 51, Station API v1. Nothing is published by these packaging scripts.
 
-## Copy-ready material
+## Visual direction and gallery
 
-- `modio-fields.json`: title, summary, version, revision, suggested slug and release destinations.
-- `summary.txt`: the short description, within the core metadata's 100-character budget.
-- `modio-description.md`: the English page copy for an editor supporting Markdown.
-- `modio-description.html`: visual mod.io page content with wide image panels; no custom CSS or JavaScript required.
-- `modio-preview.html`: a local content preview with the images resolved locally.
-- `landing/index.html`: the complete responsive, interactive player/creator landing-page preview.
-- `modhub-description.html`: tag-free text for the game's native RichTextView; presentation images are supplied through its gallery.
-- `release-notes.md`: concise 1.0.0 release notes.
-- `github-release.md`: copy for the GitHub Release containing the three downloads.
-- `screenshots-needed.md`: supplied evidence and optional additional capture guidance.
-- `media/api-components.png`: the real independent component example with supported visual choices.
-- `media/api-contract.png`: readable public menu/build reference code and the v1 compatibility commitment.
-- `api-presentation-snippets.lua`: the matching copyable reference fragments.
-- `media/cover.png`: the finished 1920×1080 cover, with a title/footer frame around the unscaled gameplay capture.
-- `media/cover-layout.svg`: the editable vector layout source.
-- `media/gameplay-elevated.png` and `media/gameplay-fenced-crossing.png`: original gallery captures.
-- `media-provenance.json`: source and authenticity record for the packaged media.
+- `media/cover.png`: selected user-supplied illustrated cover, normalised to 1920×1080.
+- `media/api-overview.png`: the selected API infographic, with its misleading JSON replaced by documented v1 capabilities; 1920×1080.
+- `media/gameplay-elevated.png` and `media/gameplay-fenced-crossing.png`: unchanged gameplay captures.
 
-Choose one page-copy format appropriate to the website editor; do not paste the HTML source into a plain-text field. Only tags actually offered by the game's upload form should be selected. `Script Mod` is the existing core tag; additional category suggestions in the field sheet still need confirmation in the form.
+The cover is `_metadata/0.png`. The detail gallery deliberately starts with that same designed cover (`1.png`), then the API overview (`2.png`), and the two gameplay captures (`3.png`, `4.png`). The cover and API panel are promotional illustrations, not screenshots. Model assemblies in the game are shown by the two gameplay captures. Source and image hashes are recorded in `media-provenance.json`.
 
-## Downloads
+## Text and previews
 
-The exported upload folder contains the current core, developer kit, optional example and their checksum file. Upload only the core as the active mod.io game download. The developer kit and example belong on the public GitHub Release, with links from the mod.io description.
+- `modhub-description.html`: concise escaped plain text for the native Mod Hub. No HTML elements are allowed; unsupported tags can crash its RichTextView.
+- `modio-description.html`: image-led web description for the mod.io website editor. Copy into its HTML/source editing mode, not a plain-text field. Do not copy this file over the native description.
+- `modio-description.md`: matching copy for a Markdown-capable editor.
+- `modio-preview.html`: local preview of the web description with local image paths.
+- `landing/index.html`: independent interactive landing preview using the same selected cover and API artwork. Its CSS/JavaScript is not embedded in mod.io.
+- `modio-fields.json`: current title, summary, tags, revision, download destinations and validation status.
 
-The prepared GitHub links point to `MrNickert/ultimate-light-rail` and the `v1.0.0` release. They are intended destinations, not a claim that those URLs are public or live. The connected GitHub account did not expose this repository during preparation (404); verify visibility and release downloads before making the mod page public.
+The web description's image URLs target the public GitHub repository. They work for visitors only after the repository and assets are public and pushed. The in-game description and galleries are packaged locally and do not depend on those URLs. The local preview is not proof that content has been published to mod.io.
 
-## Packaged Mod Hub metadata
+## Tags
 
-The core archive includes the cover, four gameplay gallery captures, two API documentation panels, tag-free native description, summary, author, tags and homepage. The screenshot region in the cover is drawn at the original resolution and checked pixel-for-pixel by `scripts/build_publication_media.ps1`; only the surrounding vector frame is new. After extracting the updated archive, click **Refresh** in the Mod Hub. Validation errors and warnings must be inspected from the fresh game report; packaging checks are not a claim of a green engine validation.
+Script Mod, Tram, Road Station, Road Construction, Depot. These labels were present in the user's in-game tag picker and describe actual included content. No Official, Curated or unrelated vehicle tags are assigned.
 
-## Remaining release gates
+## Validation
 
-1. Confirm the 1924/1925 transition in-game, including whether the Light Rail button appears without reloading.
-2. Review the cover and gallery (`_metadata/0.png` through `6.png`). The API panels are documentation graphics; gameplay scenes are authentic supplied captures. Native Mod Hub formatting is represented by `modhub-description.html`. The full website content is in `modio-description.html`.
-3. Push the final release commit. Check that `v1.0.0` identifies the intended final release content. Do not force-update a tag already published to users; resolve versioning before publishing.
-4. Make the intended source/release repository public and create the GitHub Release with all three archives plus checksums. Verify the download links as a logged-out visitor.
-5. Extract the core ZIP into the game's staging area. Preserve any existing mod.io linkage file when updating an already-created listing.
-6. Use the in-game Mod Manager's validation/upload flow, review the metadata and cover, and check whether it will create a new mod or update an existing one. Keep the listing hidden/private while reviewing where that option is available.
-7. In the mod.io website editor, apply `modio-description.html` for the visual long-form page after the repository is public. Its image URLs use the committed publication media, so check that each image loads as a logged-out visitor. Check all downloads and gallery images, then make the listing public after final review.
+The UI adapter resolves the native Construction tool at event time rather than module-load time, so Mod Hub validation can load it before the tool registry is populated. Local tests cover a missing registry, an empty registry, a registered tool, and startup without an active construction tool. They do not replace an in-game validation pass.
 
-The page copy states the 1925 introduction year and the public API v1 backward-compatibility commitment. It makes no promise of console compatibility, arbitrary stair placement, a new vehicle fleet or a customisable underground hall.
+Four known model warnings concern native game textures using BC3/DXT5 where the validator recommends BC1/DXT1 for opaque maps. They reference the native park-bench material, station canopy atlas (two models), and tram paving metal/gloss map. Those textures are not bundled or modified by this mod. The warning is recorded rather than suppressed or "fixed" by redistributing modified base-game textures.
 
-## Reference sources checked
+## Upload workflow
 
-- [TF3 in-game upload workflow](https://mod.io/g/transportfever3/r/creating-and-updating-mods-via-the-in-game-mod-manager)
-- [mod.io: adding a mod](https://docs.mod.io/restapi/docs/add-mod)
-- [mod.io: adding gallery media](https://docs.mod.io/restapi/docs/add-mod-media)
-- [mod.io: allowed tags belong to the parent game](https://docs.mod.io/restapi/docs/add-mod-tags)
+1. Build UI and artwork, then the core, example, developer kit and publication packages with the scripts under `scripts/`.
+2. Apply the refreshed candidate to the staging area, preserve any mod.io linkage file, and archive obsolete gallery files `5.png` and `6.png` outside `_metadata`.
+3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
+4. Load the mod in a game and verify menu operation after the deferred-tool-lookup change. Confirm year availability separately.
+5. Push the final commit, verify the intended `v1.0.0` tag and create a public GitHub Release containing the core, developer kit, example and checksums. Do not overwrite a tag already published to users.
+6. Upload only the core as the mod.io game download. Apply `modio-description.html` in the website editor after the public images are reachable. Review the actual page while hidden/private, then publish when ready.
 
-The game-specific guide is a community workflow reference. Treat the current in-game validation and upload dialog as the final check for this installation. The suggested 1920×1080 artwork target is a design choice; a platform upload limit has not been assumed.
-
-## Landing page versus the mod.io page
-
-`landing/index.html` is an independent local presentation with responsive CSS, a length-grid illustration, image enlargement and a FAQ. It is not assumed to be embeddable unchanged inside mod.io. The mod.io version uses basic rich HTML plus pre-rendered image panels, preserving the API visuals without relying on our stylesheet or JavaScript. The game uses a native RichTextView, so its metadata description stays tag-free and image-free while the same presentation images are in its gallery.
-
-The web-copy image destinations use `https://raw.githubusercontent.com/MrNickert/ultimate-light-rail/main/publication/media/`. They will not be available to other users while the repository is private or before these files are pushed. The local preview resolves the same panels locally for review.
-
-## Native description crash guard
-
-The 2026-11-05 crash log reports `Unbound UI transformation for tag name` inside the Mod Hub RichTextView. The packaged native description now contains escaped plain text with no HTML elements. The seven cover/gallery images remain included. The visual web description stays in `modio-description.html`; do not replace the native description with that file. Reopening the Mod Hub and loading a game still require engine validation.
+The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.

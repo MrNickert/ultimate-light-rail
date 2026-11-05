@@ -2,18 +2,20 @@
 from pathlib import Path
 import json, zipfile
 root=Path(__file__).resolve().parents[1]
-assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==50
+assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==51
 prefix='ultimate-light-rail-developer-kit-1.0.0'
 files={
  'README.md':'docs/developer-kit-readme.md',
  'docs/asset-kit-v1.md':'docs/asset-kit-v1.md',
  'docs/station-api-v1.md':'docs/station-api-v1.md',
  'docs/compatibility.md':'docs/compatibility.md',
+ 'docs/validation-notes.md':'docs/validation-notes.md',
  'reference/platform20.mdl':'content/platform20.mdl',
  'reference/platform_roof20.mdl':'content/platform_roof20.mdl',
  'reference/standard_kit.lua':'content/station_standard_kit.lua',
  'reference/station_menu.lua':'content/station_menu.lua',
  'reference/api-presentation-snippets.lua':'publication/api-presentation-snippets.lua',
+ 'docs/station-api-overview.png':'publication/media/api-overview.png',
  'docs/component-kit-in-game.png':'publication/media/api-components.png',
  'docs/api-integration-reference.png':'publication/media/api-contract.png',
 }

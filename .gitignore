@@ -20,3 +20,6 @@ content/gui/light_rail.tga
 content/gui/build_manifest.json
 
 publication/downloads/
+
+# Retired publication artwork kept locally as a reversible archive.
+artwork/previous-publication/
