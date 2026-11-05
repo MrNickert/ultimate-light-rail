@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=1920"><title>Station API v1 — integration contract</title><link rel="stylesheet" href="styles.css"><main class="board"><div class="eyebrow">Ultimate Light Rail / public station framework</div><span class="board-version">DOCUMENTED API v1</span><h1>One API. Three station locations.</h1><div class="flow">Declare your dependency <b>→</b> Register in Light Rail <b>→</b> Build through API v1 <b>→</b> Test your assets</div><div class="contract-layout"><div class="codepanel"><div class="bar"><span>01 / JOIN THE SHARED MENU</span><span>your_station.con.lua</span></div><pre><span class="kw">local</span> menu = require
+  <span class="str">&quot;mrnickert_ultimate_metro::/station_menu.lua&quot;</span>
+
+<span class="kw">function</span> data()
+  <span class="kw">return</span> {
+    availability = {yearFrom=<span class="num">1925</span>, yearTo=<span class="num">0</span>},
+    description = {
+      name = <span class="str">&quot;Your Light Rail Station&quot;</span>,
+      description = <span class="str">&quot;Your station design.&quot;</span>,
+      icon = <span class="str">&quot;your_stations::/station.tga&quot;</span>,
+    },
+    menuCategory = menu.getMenuCategory(<span class="num">1100</span>),
+    params = {},
+    updateScript = {
+      fileName =
+        <span class="str">&quot;your_stations::/station.script@updateFn&quot;</span>,
+    },
+  }
+<span class="kw">end</span></pre></div><div class="codepanel"><div class="bar"><span>02 / BUILD THE STATION</span><span>inside updateFn</span></div><pre><span class="kw">local</span> api = require
+  <span class="str">&quot;mrnickert_ultimate_metro::/station_api_v1.lua&quot;</span>
+
+<span class="kw">return</span> api.buildStation({
+  apiVersion = <span class="num">1</span>,
+  placement = <span class="str">&quot;elevated&quot;</span>,
+  stationType = <span class="str">&quot;terminus&quot;</span>,
+  platformLength = <span class="num">80</span>,
+  platformTracks = <span class="num">2</span>,
+  fence = <span class="kw">true</span>,
+}, capture, params)
+
+<span class="comment">-- Add design.components for custom visuals.</span>
+<span class="comment">-- Ordinary platform / canopy modules: 20m.</span>
+<span class="comment">-- Stairs and routes stay core-owned.</span></pre></div></div><div class="contract-promise"><strong>API v1 stays compatible.</strong><p>Updates and extensions preserve the documented v1 contract. Breaking changes get a new API version alongside v1 — without forcing existing add-ons to migrate.</p></div><div class="board-footer"><span>Public API usage example · use your own namespace and models</span><span>Surface · Underground · Elevated / 40–120m</span></div></main></html>

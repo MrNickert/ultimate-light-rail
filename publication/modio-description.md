@@ -1,5 +1,7 @@
 # Ultimate Light Rail
 
+![Ultimate Light Rail — actual gameplay cover](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/cover.png)
+
 Build a light rail network with stations designed for through services and reversing tram operations.
 
 Ultimate Light Rail adds a dedicated **Light Rail** construction menu containing the native tram depot, fenced light rail track and configurable passenger stations. Use existing tram vehicles and connect directly to native electric tram infrastructure.
@@ -9,6 +11,8 @@ Ultimate Light Rail adds a dedicated **Light Rail** construction menu containing
 - **Surface:** low platforms, shelters and furniture, with a pedestrian underpass at through stations and a landscaped forecourt at terminus stations.
 - **Underground:** tracks at -18m, a fixed station hall and street-level pedestrian access.
 - **Elevated:** a concrete structure at +12m, platform canopies and a central entrance with stairs from street level.
+
+![Elevated station and street access — actual gameplay](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/gameplay-elevated-daylight.png)
 
 ## Through or terminus
 
@@ -20,6 +24,8 @@ All stations have two platform tracks. Choose **40, 60, 80, 100 or 120 metres**,
 
 **Available from 1925:** bundled stations and fenced light rail track follow the introduction year of the native modern tram track. The native tram depot retains its own availability dates.
 
+![Fenced track at a native road crossing — actual gameplay](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/gameplay-fenced-crossing.png)
+
 ## Getting started
 
 1. Enable Ultimate Light Rail and load your game.
@@ -29,11 +35,29 @@ All stations have two platform tracks. Choose **40, 60, 80, 100 or 120 metres**,
 
 Use vehicles that fit the platform length: an overlong vehicle can keep the crossover occupied. Select terminals or add waypoints when you need a particular track assignment. The mod uses existing vehicles; it does not include a new vehicle fleet.
 
+![Supported station lengths and locations — actual game placements](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/gameplay-station-variants.png)
+
 ## Built for station creators
 
 The public **Station API v1** and developer kit let asset creators supply their own station designs without rebuilding transport logic. Ordinary straight platform and canopy components are exactly **20m**. Select standard components, custom models or no optional decoration. Entrances, stairs, routing and the two-track layout remain core-owned. The underground hall is fixed in v1.
 
 Stations registered through the public menu helper appear in the same Light Rail menu, regardless of the asset mod's namespace.
+
+![Component kit: real independent example stations with reference component choices](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/api-components.png)
+
+### You supply the appearance. The core supplies the network.
+
+- **Creator-owned:** ordinary 20m platform and canopy models, shelters, trees, planters, benches, bins and lights.
+- **Core-owned:** two-track layout, terminals, crossovers, stopping positions, fixed entrances, stairs, pedestrian routes and structural safety features.
+- **Three choices per optional component:** use the standard component, provide a qualified custom model, or omit it with `false`. The platform itself is required.
+
+### A small, explicit integration
+
+Declare the core dependency, register a construction through `station_menu.lua.getMenuCategory()`, and call `station_api_v1.lua.buildStation()` from your update script. Your own namespace is recognised through the shared category; no core patch is needed.
+
+![Public Station API v1: menu registration, build call and compatibility commitment](https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/api-contract.png)
+
+The API panels are documentation graphics; their gameplay example is a real capture. Code is provided as text in the developer kit. Ordinary platform and canopy modules must declare `moduleLength=20`. Short infill and stair zones remain core-owned. Underground custom component models are not supported in v1.
 
 **API compatibility commitment:** updates and extensions within the documented API v1 contract remain backward compatible. Existing conforming v1 add-ons will continue to work without a rewrite for each core update. Breaking changes will use a new, explicitly versioned API alongside v1; the v1 contract will remain available and supported.
 
@@ -52,4 +76,4 @@ Do not remove Ultimate Light Rail from a save containing its stations or infrast
 
 ## Credits
 
-Created by **MrNickert**. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gallery gameplay images are actual in-game captures.
+Created by **MrNickert**. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gameplay panels are actual in-game captures. API panels combine an authentic example capture with documented reference code; the contract panel is documentation, not gameplay.

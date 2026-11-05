@@ -30,3 +30,7 @@ The example mod contains a configurable 20m component kit and a fixed design usi
 Platform and canopy modules are exactly 20m long. Platform width, floor height, two tracks, entrances and stairs are fixed. The underground hall cannot be customised with component models. Models must respect reference profiles and clear routes; schema validation does not inspect every mesh or collider automatically.
 
 The bundled example stations start in 1925, matching the standard stations and modern native tram track. Availability is declared in each construction description; custom asset mods choose their own dates. This does not change the API v1 build contract or its minimum required revision.
+
+## Visual references
+
+The kit also includes `docs/component-kit-in-game.png` with the real independent example and component choices, and `docs/api-integration-reference.png` with menu/build reference code. `reference/api-presentation-snippets.lua` provides copyable text for those integration examples; use the complete example mod as the runnable starting point. These are documentation panels, not additional asset types or API capabilities.

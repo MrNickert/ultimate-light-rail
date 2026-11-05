@@ -24,5 +24,33 @@
     },
     "build": "scripts/build_publication_media.ps1"
   },
-  "inspiration": "Promotional references guide colour and typography only; they are not gallery media."
+  "inspiration": "Promotional references guide colour and typography only; they are not gallery media.",
+  "gameplay-component-kit.png": {
+    "source": "codex-clipboard-f34f1b3f-3437-4682-b434-72ba26448583.png",
+    "sha256": "3c9c93530b64b9f4206adeade6a3f851f1bd1ad80ddbc8a6c15cd18de3cfc352",
+    "use": "Actual supplied standalone Component Kit Example: 40m/80m through stations, canopy on/off."
+  },
+  "api-components.png": {
+    "type": "Code-native presentation board embedding an unchanged gameplay capture; right panel is documented reference code",
+    "source": "landing/api-components.html"
+  },
+  "api-contract.png": {
+    "type": "Screenshot of code-native public API documentation board, not a gameplay capture",
+    "source": "landing/api-contract.html"
+  },
+  "gameplay-station-settings.png": {
+    "source": "codex-clipboard-6e15101d-affe-4287-aba4-1b050de549b8.png",
+    "sha256": "08c222843265dff638d825a24c1e025394b0ae0a4f67d7b3c36d375d3282cb22",
+    "use": "Supplied in-game capture, retained without image retouching."
+  },
+  "gameplay-station-variants.png": {
+    "source": "codex-clipboard-023e21b1-9780-44fd-9aa1-9dc55698e65c.png",
+    "sha256": "97a63a31570776f876c9b2ea4e9865ffa0980eb50f7fdd37363cda9cdb478a60",
+    "use": "Supplied in-game capture, retained without image retouching."
+  },
+  "gameplay-elevated-daylight.png": {
+    "source": "codex-clipboard-3af11c5d-91cd-40cd-8d4e-5b3378300813.png",
+    "sha256": "71a19ad10ca0abd2d5383a78b152c3c6fc5d2861f5679f43743780527c9e5929",
+    "use": "Supplied in-game capture, retained without image retouching."
+  }
 }

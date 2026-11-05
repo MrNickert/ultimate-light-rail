@@ -18,3 +18,5 @@ Desktop.ini
 content/gui/native_*.lua
 content/gui/light_rail.tga
 content/gui/build_manifest.json
+
+publication/downloads/

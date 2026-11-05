@@ -20,13 +20,20 @@
   "developerKit": "https://github.com/MrNickert/ultimate-metro/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip",
   "exampleMod": "https://github.com/MrNickert/ultimate-metro/releases/download/v1.0.0/ultimate-light-rail-contract-example-1.0.0.zip",
   "linkStatus": "Prepared destinations; public repository and GitHub Release availability must be checked before publishing.",
-  "mediaStatus": "Packaged cover and two authentic gameplay gallery images are ready. Further station-type/settings images are optional additions.",
+  "mediaStatus": "Cover, four gameplay gallery images and two API documentation panels are packaged. The full visual landing page and mod.io-safe content preview are included. Web-page image URLs become available after the repository/assets are public.",
   "yearBoundaryTest": "Pending user confirmation: 1924 unavailable, 1925 available, with automatic menu refresh.",
   "logoImage": "_metadata/0.png",
   "galleryImages": [
     "_metadata/1.png",
-    "_metadata/2.png"
+    "_metadata/2.png",
+    "_metadata/3.png",
+    "_metadata/4.png",
+    "_metadata/5.png",
+    "_metadata/6.png"
   ],
   "richDescription": "_metadata/description.html",
-  "inGameValidation": "Refresh the updated staging copy and inspect the game report. Previous error/warning counts are not assumed resolved."
+  "inGameValidation": "Refresh the updated staging copy and inspect the game report. Previous error/warning counts are not assumed resolved.",
+  "nativeDescriptionHtml": "modhub-description.html",
+  "localLandingPage": "landing/index.html",
+  "modioContentPreview": "modio-preview.html"
 }

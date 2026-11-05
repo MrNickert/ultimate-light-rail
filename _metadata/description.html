@@ -23,6 +23,15 @@
 <h2>Built for station creators</h2>
 <p>The public <strong>Station API v1</strong> and developer kit let asset creators supply their own station designs without rebuilding transport logic. Ordinary straight platform and canopy components are exactly <strong>20m</strong>. Select standard components, custom models or no optional decoration. Entrances, stairs, routing and the two-track layout remain core-owned. The underground hall is fixed in v1.</p>
 <p>Stations registered through the public menu helper appear in the same Light Rail menu, regardless of the asset mod&#x27;s namespace.</p>
+<h3>You supply the appearance. The core supplies the network.</h3>
+<ul>
+<li><strong>Creator-owned:</strong> ordinary 20m platform and canopy models, shelters, trees, planters, benches, bins and lights.</li>
+<li><strong>Core-owned:</strong> two-track layout, terminals, crossovers, stopping positions, fixed entrances, stairs, pedestrian routes and structural safety features.</li>
+<li><strong>Three choices per optional component:</strong> use the standard component, provide a qualified custom model, or omit it with <code>false</code>. The platform itself is required.</li>
+</ul>
+<h3>A small, explicit integration</h3>
+<p>Declare the core dependency, register a construction through <code>station_menu.lua.getMenuCategory()</code>, and call <code>station_api_v1.lua.buildStation()</code> from your update script. Your own namespace is recognised through the shared category; no core patch is needed.</p>
+<p>The API panels are documentation graphics; their gameplay example is a real capture. Code is provided as text in the developer kit. Ordinary platform and canopy modules must declare <code>moduleLength=20</code>. Short infill and stair zones remain core-owned. Underground custom component models are not supported in v1.</p>
 <p><strong>API compatibility commitment:</strong> updates and extensions within the documented API v1 contract remain backward compatible. Existing conforming v1 add-ons will continue to work without a rewrite for each core update. Breaking changes will use a new, explicitly versioned API alongside v1; the v1 contract will remain available and supported.</p>
 <ul>
 <li><a href="https://github.com/MrNickert/ultimate-metro/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip">Developer kit 1.0.0</a></li>
@@ -35,4 +44,4 @@
 <p>The construction UI is included in the main mod. Disable the separate <strong>Ultimate Light Rail UI Preview</strong> if it is still installed from testing. Other mods replacing the same native construction UI may conflict.</p>
 <p>Do not remove Ultimate Light Rail from a save containing its stations or infrastructure. Asset mods must also remain installed while their stations are in use. The release does not provide migration for development saves. Compatibility with console platforms has not been established; current testing uses Windows/Steam.</p>
 <h2>Credits</h2>
-<p>Created by <strong>MrNickert</strong>. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gallery gameplay images are actual in-game captures.</p>
+<p>Created by <strong>MrNickert</strong>. Station assemblies reference installed Transport Fever 3 assets by Urban Games. No native mesh, material or texture binaries are redistributed. Gameplay panels are actual in-game captures. API panels combine an authentic example capture with documented reference code; the contract panel is documentation, not gameplay.</p>

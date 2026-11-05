@@ -23,13 +23,19 @@ assert base64.b64decode(embedded.split(',',1)[1])==original,'gameplay source mus
 for metadata,source in [('0.png','cover.png'),('1.png','gameplay-elevated.png'),('2.png','gameplay-fenced-crossing.png')]:
     assert (root/'_metadata'/metadata).read_bytes()==(pub/'media'/source).read_bytes()
 assert struct.unpack_from('>II',(root/'_metadata/0.png').read_bytes(),16)==(1920,1080)
-assert (root/'_metadata/description.html').read_bytes()==(pub/'modio-description.html').read_bytes()
+assert (root/'_metadata/description.html').read_bytes()==(pub/'modhub-description.html').read_bytes()
+for metadata,source in [('3.png','api-components.png'),('4.png','api-contract.png'),('5.png','gameplay-elevated-daylight.png'),('6.png','gameplay-station-variants.png')]:
+    assert (root/'_metadata'/metadata).read_bytes()==(pub/'media'/source).read_bytes()
+for name in ['api-components.png','api-contract.png']:
+    assert struct.unpack_from('>II',(pub/'media'/name).read_bytes(),16)==(1920,1080)
+assert (pub/'landing/index.html').exists() and (pub/'modio-preview.html').exists()
+assert '<script' not in (pub/'modio-description.html').read_text(encoding='utf-8')
 names=['ultimate-light-rail-1.0.0.zip','ultimate-light-rail-developer-kit-1.0.0.zip','ultimate-light-rail-contract-example-1.0.0.zip']
 for name in names:
     with zipfile.ZipFile(root/'dist'/name) as z:
         assert z.testzip() is None
         if name==names[0]:
-            for file in ['mod.json','_metadata/modinfo.json','_metadata/0.png','_metadata/1.png','_metadata/2.png','_metadata/description.html']:
+            for file in ['mod.json','_metadata/modinfo.json',*[f'_metadata/{n}.png' for n in range(7)],'_metadata/description.html']:
                 assert z.read(mod['modId']+'/'+file)==(root/file).read_bytes(),'rebuild core before packaging upload material'
         if 'developer-kit' in name:assert any(n.endswith('/docs/compatibility.md') for n in z.namelist())
 checksums=''.join(hashlib.sha256((root/'dist'/n).read_bytes()).hexdigest()+'  '+n+'\n' for n in names)
@@ -37,7 +43,7 @@ prefix='ultimate-light-rail-modio-upload-1.0.0/'
 out=root/'dist/ultimate-light-rail-modio-upload-1.0.0.zip'
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
     for p in sorted(pub.rglob('*')):
-        if p.is_file():z.write(p,prefix+p.relative_to(pub).as_posix())
+        if p.is_file() and 'downloads' not in p.relative_to(pub).parts:z.write(p,prefix+p.relative_to(pub).as_posix())
     for n in names:z.write(root/'dist'/n,prefix+'downloads/'+n)
     z.writestr(prefix+'downloads/SHA256SUMS.txt',checksums)
 with zipfile.ZipFile(out) as z:assert z.testzip() is None

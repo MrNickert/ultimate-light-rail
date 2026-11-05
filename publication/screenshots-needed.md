@@ -40,3 +40,7 @@ The 1924/1925 availability check is a test result rather than a promotional scre
 - `media/cover-layout.svg`: editable vector layout embedding the current elevated source.
 
 The polished inspiration images are style references only and are not uploaded as gameplay captures.
+
+## Additional evidence now supplied
+
+The page also includes the real station-settings capture, the overview of supported length/location placements and the daylight elevated station. The original independent Component Kit Example capture is used in the API component panel. The two API panels explain actual supported choices and show reference usage; they do not depict freely movable stairs or a customisable underground hall.

@@ -13,6 +13,9 @@ files={
  'reference/platform_roof20.mdl':'content/platform_roof20.mdl',
  'reference/standard_kit.lua':'content/station_standard_kit.lua',
  'reference/station_menu.lua':'content/station_menu.lua',
+ 'reference/api-presentation-snippets.lua':'publication/api-presentation-snippets.lua',
+ 'docs/component-kit-in-game.png':'publication/media/api-components.png',
+ 'docs/api-integration-reference.png':'publication/media/api-contract.png',
 }
 for path in (root/'examples/contract_station').rglob('*'):
     if path.is_file():
