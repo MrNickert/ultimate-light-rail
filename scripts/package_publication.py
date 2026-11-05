@@ -6,7 +6,7 @@ pub=root/'publication'
 fields=json.loads((pub/'modio-fields.json').read_text(encoding='utf-8'))
 mod=json.loads((root/'mod.json').read_text(encoding='utf-8'))
 info=json.loads((root/'_metadata/modinfo.json').read_text(encoding='utf-8'))
-assert fields['modId']==mod['modId'] and fields['revision']==mod['revision']==51
+assert fields['modId']==mod['modId'] and fields['revision']==mod['revision']==52
 assert fields['name']==info['name'] and fields['summary']==info['summary'] and len(info['summary'])<=100
 assert fields['version']=='1.0.0' and info['url']==fields['homepage']
 assert fields['tags']==info['tags']==['Script Mod','Tram','Road Station','Road Construction','Depot']
@@ -49,4 +49,4 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
  z.writestr(prefix+'downloads/SHA256SUMS.txt',checksums)
 with zipfile.ZipFile(out) as z:assert z.testzip() is None
 print(out)
-print('PASS: revision 51, approved tags, selected artwork, source provenance, concise native copy, API promise and current download integrity. In-game validation remains a separate check.')
+print('PASS: revision 52, approved tags, selected artwork, source provenance, concise native copy, API promise and current download integrity. In-game validation remains a separate check.')

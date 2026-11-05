@@ -33,7 +33,8 @@
     "LR_STATION_UNDERGROUND_TOOLTIP": "Tracks 18 m below ground, with an entrance at street level. Use the underground view to connect tram tunnels.",
     "LR_STATION_SURFACE_TOOLTIP": "Platforms at ground level. Connect electric tram tracks and nearby streets.",
     "LR_STATION_ELEVATED_TOOLTIP": "Covered platforms 12 m above ground, with one central entrance and stairs from street level. Connect tram tracks on bridges.",
-    "ULR_UI_MENU": "Light Rail"
+    "ULR_UI_MENU": "Light Rail",
+    "ULR_UI_SEARCH": "Search..."
   },
   "nl": {
     "METRO_TERMINUS_NAME": "Lightrailkopstation",
@@ -69,6 +70,7 @@
     "LR_STATION_UNDERGROUND_TOOLTIP": "Sporen op 18 m diepte, met een ingang op straatniveau. Gebruik de ondergrondse weergave om tramtunnels aan te sluiten.",
     "LR_STATION_SURFACE_TOOLTIP": "Perrons op maaiveld. Sluit elektrisch tramspoor en nabijgelegen straten aan.",
     "LR_STATION_ELEVATED_TOOLTIP": "Overdekte perrons op 12 m hoogte, met één centrale ingang en trappen vanaf straatniveau. Sluit tramsporen op bruggen aan.",
-    "ULR_UI_MENU": "Light Rail"
+    "ULR_UI_MENU": "Light Rail",
+    "ULR_UI_SEARCH": "Zoeken..."
   }
 }

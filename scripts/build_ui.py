@@ -1,100 +1,26 @@
-"""Build the integrated Light Rail GUI from the installed native GUI sources.
-No installed game files are modified.
-"""
-from pathlib import Path, PurePosixPath
-import argparse, hashlib, json, re, subprocess, tempfile, zipfile
+"""Generate checked native recipe layout descriptors, not copies of native UI."""
+from pathlib import Path
+import argparse, hashlib, json, re, zipfile
 root=Path(__file__).resolve().parents[1]
 p=argparse.ArgumentParser()
 p.add_argument('--game',type=Path,default=Path(r'C:\Program Files (x86)\Steam\steamapps\common\Transport Fever 3'))
-p.add_argument('--teal',default=r'C:\Program Files\Teal\0.24.8\tl.exe')
 a=p.parse_args()
-content=root/'content/gui';content.mkdir(parents=True,exist_ok=True)
-manifest={'version':'1.0.0','nativeSources':{},'registeredRecipes':{}}
-def replace_once(s,old,new):
-    assert s.count(old)==1, f'Native GUI anchor changed: {old[:90]}'
-    return s.replace(old,new,1)
-def imports(s,native_path):
-    def fix(m):
-        ref=m[2]
-        if '::' not in ref:
-            if ref.startswith('/'):ref='::'+ref
-            else:ref='::/'+str(PurePosixPath(native_path).parent/ref)
-        return m[1]+'"'+ref+'"'
-    s=re.sub(r'((?:ug_require|require)\s*\(?\s*)"([^"\n]+)"',fix,s)
-    s=re.sub(r'"/([^"\n]+)"',r'"::/\1"',s)
-    s=re.sub(r'"(gui/[^"\n]+\.(?:tga|gres))"',r'"::/\1"',s)
-    return s
-with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive, tempfile.TemporaryDirectory(prefix='ulr-ui-build-') as temp:
-    for kind,native in [('bar','gui/game_bar/game_bar.tl'),('construction','gui/construction/construction.tl')]:
-        raw=archive.read(native)
-        manifest['nativeSources'][native]=hashlib.sha256(raw).hexdigest()
-        s=raw.decode('utf-8')
-        if kind=='bar':
-            start=s.index('local routesGroup :')
-            position=s.index('\n\t\t{\n\t\t\tgameCtx = param.gameCtx,\n\t\t\ttoolVariant = "rail",',start)
-            s=s[:position]+"""
-        {
-            gameCtx = param.gameCtx,
-            toolVariant = "light_rail",
-            id = "menu.construction.light_rail",
-            iconPath = "mrnickert_ultimate_metro::/gui/light_rail.tga",
-            tooltip = _("ULR_UI_MENU"),
-            tab = 17,
-            eventName = "openLightRail",
-        },"""+s[position:]
-        else:
-            s=replace_once(s,'construction_react_util.getMenuCategories(params.repository)',
-                'ulrCatalog.inject(construction_react_util.getMenuCategories(params.repository))')
-            s='local ulrCatalog = ug_require "mrnickert_ultimate_metro::/gui/catalog.lua"\n'+s
-            s=replace_once(s,'\taddCategoryNew("TRACKS")\n','\taddCategoryNew("TRACKS")\n\taddCategoryNew("LIGHT_RAIL")\n')
-            # The stable native Construction tool owns the state/actions. Replace
-            # only its window recipe, not the native tool registration itself.
-            assert s.count('::/gui/construction/menu/category_bulldozer.tga')==2
-            s=s.replace('::/gui/construction/menu/category_bulldozer.tga','::/gui/game_bar/icons/symbol_bulldozer_30.tga')
-            cutoff=s.index('local makeToolWindowParam =')
-            s=s[:cutoff]+'return construction.ConstructionListWindow\n'
-            # The window renders at startup, before Construction is active.
-            # Reuse the exact native descriptor from the registry populated by
-            # react.RegisterTool at event time; validation can load this module before the tool registry exists.
-            s=replace_once(s,'local construction : Construction = {}',"""global _react : table
-local construction : Construction = {}
-local function getNativeConstructionTool() : any
-    return assert(_react and _react.tools and _react.tools.Construction,
-        "ULR UI: native Construction tool not registered")
-end""")
-            s=s.replace('construction.ConstructionTool', 'getNativeConstructionTool()')
-        names=re.findall(r'react.Register(?:Wrapper)?Recipe\("([^"\n]+)"',s)
-        manifest['registeredRecipes'][kind]=names
-        for name in names:
-            s=s.replace('Recipe("'+name+'"','Recipe("ULR'+name+'"')
-        s=imports(s,native)
-        target=Path(temp)/(kind+'.tl');target.write_text(s,encoding='utf-8')
-        output=content/('native_'+kind+'.lua')
-        subprocess.run([a.teal,'gen',str(target),'-o',str(output)],cwd=root,check=True)
-        generated=output.read_text(encoding='utf-8')
-        output.write_text('-- Generated Light Rail UI adapter. Source hashes are in build_manifest.json.\n'+generated,encoding='utf-8',newline='\n')
-        css_path=native.removesuffix('.tl')+'.css.lua'
-        css_raw=archive.read(css_path)
-        manifest['nativeSources'][css_path]=hashlib.sha256(css_raw).hexdigest()
-        css=imports(css_raw.decode('utf-8'),css_path)
-        # Animation names are global across stylesheets, even when their
-        # recipe selectors are scoped. Rename declarations and references.
-        animation_names=re.findall(r'^\s*\["([^"\n]+)"\]\s*=\s*\{',css,re.M)
-        for animation in animation_names:
-            css=css.replace('"'+animation+'"','"ulr-ui-'+kind+'-'+animation+'"')
-        manifest.setdefault('animations',{})[kind]=['ulr-ui-'+kind+'-'+name for name in animation_names]
-        for name in sorted(names,key=len,reverse=True):
-            css=re.sub(r'R::'+re.escape(name)+r'(?![A-Za-z0-9])','R::ULR'+name,css)
-        # Emit styles only for Light Rail recipes, leave original GUI selectors alone.
-        old='local a = ssu.makeAdder(result)'
-        replacement="""local addNative = ssu.makeAdder(result)
- local a = function(selector, style)
-  for part in selector:gmatch("[^,]+") do
-   if part:find("R::ULR",1,true) then addNative(part,style) end
-  end
- end"""
-        css=replace_once(css,old,replacement)
-        (content/('native_'+kind+'.css.lua')).write_text('-- Generated Light Rail recipe styles.\n'+css,encoding='utf-8',newline='\n')
+content=root/'content/gui'
+manifest={'version':'1.0.0','integration':'additive-native-recipes','nativeSources':{},'registeredRecipes':{'bar':[],'construction':[]},'animations':{'bar':[],'construction':[]}}
+with zipfile.ZipFile(a.game/'base/content/gui.zip') as archive:
+ for kind,path in [('bar','gui/game_bar/game_bar.tl'),('construction','gui/construction/construction.tl')]:
+  raw=archive.read(path);s=raw.decode('utf-8');manifest['nativeSources'][path]=hashlib.sha256(raw).hexdigest()
+  names=re.findall(r'react.Register(?:Wrapper)?Recipe\("([^"\n]+)"',s)
+  if kind=='bar':
+   first=names.index('MainRadialMenu')
+   layout={'anchorSpan':names.index('GameBar')-first,'groupOffset':names.index('ConstructionToolButtonGroup')-first,'buttonOffset':names.index('ConstructionToolButton')-first}
+  else:
+   assert re.search(r'local categories[^\n]*react.useStateLazy',s) and 'construction_react_util.getMenuCategories(params.repository)' in s
+   assert s.count('react.onEvent("constructionMenuSetTab",')==2
+   layout={'contentOffset':names.index('ConstructionListContent')-names.index('ConstructionListWindow')}
+  manifest[kind+'Layout']=layout
+  (content/('native_'+kind+'.lua')).write_text('-- Checked native recipe layout only. No copied UI recipes.\nreturn {'+', '.join(k+'='+str(v) for k,v in layout.items())+'}\n',encoding='utf-8')
+  (content/('native_'+kind+'.css.lua')).write_text('-- Native UI styles remain in use.\nfunction data()return {}end\n',encoding='utf-8')
 manifest['iconSourceSha256']=hashlib.sha256((root/'artwork/light_rail_reference.png').read_bytes()).hexdigest()
-(root/'content/gui/build_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
-print('Generated Light Rail UI adapters and scoped styles.')
+(content/'build_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+print('Generated additive integration descriptors; native GameBar and ConstructionListWindow are retained.')

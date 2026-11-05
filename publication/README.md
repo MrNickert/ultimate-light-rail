@@ -1,6 +1,6 @@
 # Ultimate Light Rail 1.0.0 — publication package
 
-Current release candidate: mod revision 51, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 52, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 
@@ -27,7 +27,7 @@ Script Mod, Tram, Road Station, Road Construction, Depot. These labels were pres
 
 ## Validation
 
-The UI adapter resolves the native Construction tool at event time rather than module-load time, so Mod Hub validation can load it before the tool registry is populated. Local tests cover a missing registry, an empty registry, a registered tool, and startup without an active construction tool. They do not replace an in-game validation pass.
+The test candidate uses additive native recipe integration. GameBar and ConstructionListWindow are retained. A small checked bar adapter inserts the button and calls previous wrappers through; a scoped construction-content adapter appends the category and restores native helpers after each callback. See `docs/ui-integration.md`. In-game coexistence still requires verification.
 
 Four known model warnings concern native game textures using BC3/DXT5 where the validator recommends BC1/DXT1 for opaque maps. They reference the native park-bench material, station canopy atlas (two models), and tram paving metal/gloss map. Those textures are not bundled or modified by this mod. The warning is recorded rather than suppressed or "fixed" by redistributing modified base-game textures.
 

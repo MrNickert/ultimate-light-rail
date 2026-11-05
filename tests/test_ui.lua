@@ -48,91 +48,16 @@ for _,path in ipairs({"content/light_rail_station.con.lua",
  assert(description.menuCategory.categories[1].category=="ulr_stations",path)
  assert(description.availability.yearFrom==trackAvailability.yearFrom and description.availability.yearTo==trackAvailability.yearTo,"station availability must match modern tram track: "..path)
 end
-local files={"catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
- "native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
-for _,file in ipairs(files) do assert(loadfile("content/gui/"..file),"generated Lua syntax: "..file) end
--- Verify that exactly the two intended public native recipes are replaced.
+local files={"catalog.lua","ui_bridge.lua","additive_bar.lua","additive_construction.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua","native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
+for _,file in ipairs(files)do assert(loadfile('content/gui/'..file),file)end
 local calls={}
-local baseBar={GameBar={tag="baseBar"}}
-local previewBar={GameBar={tag="previewBar"}}
-local baseWindow={tag="baseWindow"};local previewWindow={tag="previewWindow"}
-local imports={
- ["::/gui/main/react.lua"]={},["::/gui/game_bar/game_bar.tl"]=baseBar,
- ["::/gui/construction/construction.tl"]=baseWindow,
- ["mrnickert_ultimate_metro::/gui/native_bar.lua"]=previewBar,
- ["mrnickert_ultimate_metro::/gui/native_construction.lua"]=previewWindow,
-}
-local importCount=0
-local env={ug_require=function(path)importCount=importCount+1;assert(imports[path],path);return imports[path]end}
-local moduleReturn=assert(loadfile("content/gui/replacement.script.lua","t",env))()
-assert(moduleReturn==nil and type(env.data)=='function','script resource must define data(), not return a module')
-local replacement=env.data()
-assert(importCount==0,'GUI recipes must load only when the replacement callback runs')
-replacement.doReplaceFn({ReplaceRecipe=function(a,b)calls[#calls+1]={a,b}end})
-assert(importCount==4)
-assert(#calls==2 and calls[1][1]==baseBar.GameBar and calls[1][2]==previewBar.GameBar)
-assert(calls[2][1]==baseWindow and calls[2][2]==previewWindow)
--- Execute both stylesheet data functions: animation registration is global,
--- so syntax checks alone cannot detect the duplicate-name crash.
-local dummy
-dummy=setmetatable({}, {__index=function()return dummy end,__call=function()return dummy end})
-local registered={['appear-construction-list']=true,['info-callout-popup-pop']=true}
-local animationCount=0
-for _,kind in ipairs({'bar','construction'}) do
- local styles={}
- local env={api=dummy,_=function(key)return key end,require=function(path)
-  if path:find('stylesheetutil',1,true) then
-   return {makeAdder=function()return function(_,style)styles[#styles+1]=style end end}
-  end
-  return dummy
- end}
- assert(loadfile('content/gui/native_'..kind..'.css.lua','t',env))()
- local result=env.data()
- for name in pairs(result.animations or {}) do
-  assert(not registered[name],'duplicate global animation: '..name)
-  assert(name:find('ulr-ui-'..kind..'-',1,true)==1,'animation lacks preview namespace')
-  registered[name]=true
-  animationCount=animationCount+1
- end
- for _,style in ipairs(styles) do
-  if style.animationName then assert(registered[style.animationName],'unresolved animation: '..style.animationName) end
- end
-end
-assert(animationCount==2,'expected both construction animations to be exercised')
--- The singleton window also renders while no Construction tool is active.
--- Exercise its real generated wrapper callback with a registered native tool,
--- and fail if rendering tries to inspect the currently active tool.
-local nativeTool={name='Construction'}
-local recipes={}
-local closeConstructionHandler
-local poppedTool
-local reactStub=setmetatable({
- RegisterRecipe=function(name,fn)recipes[name]=fn;return function()return {} end end,
- RegisterWrapperRecipe=function(name,wrapped,fn)recipes[name]=fn;return function()return {} end end,
- useNodeRef=function()return {get=function()return nil end}end,
- onEvent=function(name,callback)if name=='closeConstructionWindow' then closeConstructionHandler=callback end end,
- ref=function(value)return value end,
-}, {__index=function()return dummy end})
-local toolApi={getActiveTool=function()error('startup must not require an active Construction tool')end, pop=function(tool)poppedTool=tool end}
-local gameCtx={toolStack={get=function()return {getApi=function()return toolApi end}end}}
-local startupEnv=setmetatable({
- _react={tools={Construction=nativeTool}},api=dummy,
- ug_require=function(path)
-  if path=='::/gui/main/react.lua' then return reactStub end
-  return dummy
- end,
-}, {__index=_G})
--- Mod Hub validation has a GUI module loader, but no registered Construction tool.
--- Loading must succeed both before the registry exists and while it is empty.
-startupEnv._react=nil
-assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
-startupEnv._react={tools={}}
-assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
-startupEnv._react.tools.Construction=nativeTool
-assert(loadfile('content/gui/native_construction.lua','t',startupEnv))()
-assert(recipes.ULRConstructionListWindow)
-recipes.ULRConstructionListWindow({payload={toolParam={gameCtx=gameCtx}}})
-assert(closeConstructionHandler,'native close event must be registered')
-closeConstructionHandler(nil,nil)
-assert(poppedTool==nativeTool,'deferred lookup must use the native registered tool when the event fires')
-print("PASS: UI catalogue, depot eras, discovery/filtering, repeat injection, generated Lua syntax, absent/empty tool-registry validation, event-time native tool resolution, two-recipe replacement wiring and global animation registration. Engine UI rendering not tested.")
+local env={ug_require=function(path)
+ assert(path=='mrnickert_ultimate_metro::/gui/additive_bar.lua' or path=='mrnickert_ultimate_metro::/gui/additive_construction.lua')
+ return {install=function()calls[#calls+1]=path end}
+end}
+assert(loadfile('content/gui/replacement.script.lua','t',env))()
+assert(#calls==0,'UI setup must be deferred until the engine setup callback')
+env.data().doReplaceFn({ReplaceRecipe=function()error('Whole native recipes must not be replaced')end})
+assert(#calls==2)
+dofile('tests/test_additive_ui.lua')
+print('PASS: catalogue, availability, generated syntax and additive UI integration. Engine rendering still requires in-game testing.')

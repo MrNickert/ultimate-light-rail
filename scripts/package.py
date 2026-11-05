@@ -62,7 +62,7 @@ CONTENT = {
     "content/ui/metro_underground_terminus_preview.tga",
 }
 CONTENT.update({"content/gui/"+name for name in (
-    "catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
+    "ui_bridge.lua","additive_bar.lua","additive_construction.lua","catalog.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua",
     "native_bar.lua","native_bar.css.lua","native_construction.lua","native_construction.css.lua",
     "light_rail.tga","build_manifest.json")})
 FILES = sorted(CONTENT | {"mod.json", "strings.json", "credits.txt", "_metadata/modinfo.json", "_metadata/0.png", "_metadata/1.png", "_metadata/2.png", "_metadata/3.png", "_metadata/4.png", "_metadata/description.html"})
@@ -104,4 +104,4 @@ with zipfile.ZipFile(out) as archive:
     assert set(archive.namelist()) == {mod["modId"] + "/" + name for name in FILES}
 print(out)
 print("SHA256:", hashlib.sha256(out.read_bytes()).hexdigest())
-print(f"{len(FILES)} files verified; complete local dependencies and localization; no diagnostic hooks")
+print(f"{len(FILES)} files verified; complete local dependencies and localization; no simulation diagnostic scripts")

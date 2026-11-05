@@ -1,6 +1,6 @@
 # Release validation notes
 
-The core's generated construction UI module must be loadable without a populated `_react.tools` registry. Tool resolution is deferred until a UI event needs to push or pop the native Construction tool. Local regression coverage exercises absent and empty registries as well as registered-tool startup.
+The additive adapters contain no tool lookup at module load and register no second native Construction tool. UI installation is deferred to the engine setup callback. The native GameBar and ConstructionListWindow remain in use. See `ui-integration.md` for engine coupling and diagnostics.
 
 ## Native texture compression warnings
 
