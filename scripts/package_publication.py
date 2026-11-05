@@ -24,6 +24,7 @@ for metadata,source in [('0.png','cover.png'),('1.png','gameplay-elevated.png'),
     assert (root/'_metadata'/metadata).read_bytes()==(pub/'media'/source).read_bytes()
 assert struct.unpack_from('>II',(root/'_metadata/0.png').read_bytes(),16)==(1920,1080)
 assert (root/'_metadata/description.html').read_bytes()==(pub/'modhub-description.html').read_bytes()
+assert '<' not in (root/'_metadata/description.html').read_text(encoding='utf-8'), 'Native description must stay tag-free: unsupported HTML tags can crash RichTextView'
 for metadata,source in [('3.png','api-components.png'),('4.png','api-contract.png'),('5.png','gameplay-elevated-daylight.png'),('6.png','gameplay-station-variants.png')]:
     assert (root/'_metadata'/metadata).read_bytes()==(pub/'media'/source).read_bytes()
 for name in ['api-components.png','api-contract.png']:

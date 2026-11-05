@@ -10,7 +10,7 @@ Prepared locally for review and upload. Nothing has been published or made publi
 - `modio-description.html`: visual mod.io page content with wide image panels; no custom CSS or JavaScript required.
 - `modio-preview.html`: a local content preview with the images resolved locally.
 - `landing/index.html`: the complete responsive, interactive player/creator landing-page preview.
-- `modhub-description.html`: structured text for the game's native RichTextView; presentation images are supplied through its gallery.
+- `modhub-description.html`: tag-free text for the game's native RichTextView; presentation images are supplied through its gallery.
 - `release-notes.md`: concise 1.0.0 release notes.
 - `github-release.md`: copy for the GitHub Release containing the three downloads.
 - `screenshots-needed.md`: supplied evidence and optional additional capture guidance.
@@ -28,11 +28,11 @@ Choose one page-copy format appropriate to the website editor; do not paste the 
 
 The exported upload folder contains the current core, developer kit, optional example and their checksum file. Upload only the core as the active mod.io game download. The developer kit and example belong on the public GitHub Release, with links from the mod.io description.
 
-The prepared GitHub links point to `MrNickert/ultimate-metro` and the `v1.0.0` release. They are intended destinations, not a claim that those URLs are public or live. The connected GitHub account did not expose this repository during preparation (404); verify visibility and release downloads before making the mod page public.
+The prepared GitHub links point to `MrNickert/ultimate-light-rail` and the `v1.0.0` release. They are intended destinations, not a claim that those URLs are public or live. The connected GitHub account did not expose this repository during preparation (404); verify visibility and release downloads before making the mod page public.
 
 ## Packaged Mod Hub metadata
 
-The core archive includes the cover, four gameplay gallery captures, two API documentation panels, formatted HTML description, summary, author, tags and homepage. The screenshot region in the cover is drawn at the original resolution and checked pixel-for-pixel by `scripts/build_publication_media.ps1`; only the surrounding vector frame is new. After extracting the updated archive, click **Refresh** in the Mod Hub. Validation errors and warnings must be inspected from the fresh game report; packaging checks are not a claim of a green engine validation.
+The core archive includes the cover, four gameplay gallery captures, two API documentation panels, tag-free native description, summary, author, tags and homepage. The screenshot region in the cover is drawn at the original resolution and checked pixel-for-pixel by `scripts/build_publication_media.ps1`; only the surrounding vector frame is new. After extracting the updated archive, click **Refresh** in the Mod Hub. Validation errors and warnings must be inspected from the fresh game report; packaging checks are not a claim of a green engine validation.
 
 ## Remaining release gates
 
@@ -57,6 +57,10 @@ The game-specific guide is a community workflow reference. Treat the current in-
 
 ## Landing page versus the mod.io page
 
-`landing/index.html` is an independent local presentation with responsive CSS, a length-grid illustration, image enlargement and a FAQ. It is not assumed to be embeddable unchanged inside mod.io. The mod.io version uses basic rich HTML plus pre-rendered image panels, preserving the API visuals without relying on our stylesheet or JavaScript. The game uses a native RichTextView, so its metadata description stays image-free while the same presentation images are in its gallery.
+`landing/index.html` is an independent local presentation with responsive CSS, a length-grid illustration, image enlargement and a FAQ. It is not assumed to be embeddable unchanged inside mod.io. The mod.io version uses basic rich HTML plus pre-rendered image panels, preserving the API visuals without relying on our stylesheet or JavaScript. The game uses a native RichTextView, so its metadata description stays tag-free and image-free while the same presentation images are in its gallery.
 
-The web-copy image destinations use `https://raw.githubusercontent.com/MrNickert/ultimate-metro/main/publication/media/`. They will not be available to other users while the repository is private or before these files are pushed. The local preview resolves the same panels locally for review.
+The web-copy image destinations use `https://raw.githubusercontent.com/MrNickert/ultimate-light-rail/main/publication/media/`. They will not be available to other users while the repository is private or before these files are pushed. The local preview resolves the same panels locally for review.
+
+## Native description crash guard
+
+The 2026-11-05 crash log reports `Unbound UI transformation for tag name` inside the Mod Hub RichTextView. The packaged native description now contains escaped plain text with no HTML elements. The seven cover/gallery images remain included. The visual web description stays in `modio-description.html`; do not replace the native description with that file. Reopening the Mod Hub and loading a game still require engine validation.

@@ -19,4 +19,4 @@ API v1 updates and extensions remain backward compatible with the documented con
 
 The example and developer kit are optional. Current in-game testing uses Windows/Steam. The core and third-party asset mods must remain installed while their objects are used in a save.
 
-[API compatibility policy](https://github.com/MrNickert/ultimate-metro/blob/main/docs/compatibility.md)
+[API compatibility policy](https://github.com/MrNickert/ultimate-light-rail/blob/main/docs/compatibility.md)
