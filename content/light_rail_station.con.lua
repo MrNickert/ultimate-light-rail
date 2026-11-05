@@ -4,8 +4,8 @@ function data()
  return {
   availability={yearFrom=1925,yearTo=0},
   description={name=_("LR_STATION_NAME"),description=_("LR_STATION_DESC"),
-   icon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c.tga",
-   previewIcon="::/stations/rail/modular_station/addon_platform_passenger_stairs_era_c_preview.tga",
+   icon="mrnickert_ultimate_metro::/ui/light_rail_station.tga",
+   previewIcon="mrnickert_ultimate_metro::/ui/light_rail_station_preview.tga",
    attributes={cost={120000,900000},maintenanceCost={20000,30000}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
   menuCategory=stationApi.getMenuCategory(1015),
