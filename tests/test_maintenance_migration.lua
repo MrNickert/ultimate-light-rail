@@ -78,6 +78,16 @@ f=fixture();m=f.load();m.update({},f.state,1);f.objects[7]=nil
 for _=1,12 do m.update({},f.state,1)end
 eq(f.state.value.skipped,1,'Demolished queued station skipped')
 eq(f.state.value.updated,3,'Remaining candidates still updated')
+f=fixture();m=f.load()
+f.objects[2].MAINTENANCE_COST.maintenanceCost=20000
+f.objects[3].MAINTENANCE_COST.maintenanceCost=20000
+f.state.value={version=1,completed=true}
+for _=1,14 do m.update({},f.state,1)end
+eq(f.objects[2].MAINTENANCE_COST.maintenanceCost,20000,'Surface remains at the original base')
+eq(f.objects[3].MAINTENANCE_COST.maintenanceCost,24000,'Existing elevated station increases once after v1 migration')
+eq(f.state.value.updated,5,'Both eligible placements migrated')
+f.state.value={};m=f.load();m.update({},f.state,1)
+eq(#f.commands,5,'Rescan does not compound elevated maintenance')
 local env={};assert(loadfile('content/maintenance_migration.gs.lua','t',env))()
 eq(env.data().updateScript.fileName,'mrnickert_ultimate_metro::/maintenance_migration.script@update','Qualified migration script linkage')
 print('PASS: '..checks..' maintenance migration checks; native params, ownership, exact baselines, saved progress, accrued charges and command failures')

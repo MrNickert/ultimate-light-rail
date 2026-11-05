@@ -1,8 +1,8 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · mod revision 53 · Station API v1**
+**Release 1.0.0 · mod revision 54 · Station API v1**
 
-The additive UI integration (revision 52) has been tested in-game alongside Undo. The current underground-maintenance update (revision 53) still needs in-game validation. See [UI integration](docs/ui-integration.md).
+The additive UI integration (revision 52) has been tested in-game alongside Undo. The current station maintenance update (revision 54) still needs in-game validation. See [UI integration](docs/ui-integration.md).
 
 Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 

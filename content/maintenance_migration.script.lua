@@ -1,32 +1,36 @@
 -- Native maintenance units, not a literal annual UI price.
-local OLD=180000
-local TARGET=30000
-local VERSION=1
+local VERSION=2
+local UNDERGROUND={old=180000,target=30000}
+local ELEVATED={old=20000,target=24000}
 local PREFIX='mrnickert_ultimate_metro::'
 local function nameOf(value)
  if type(value)~='string'then return ''end
  return (value:gsub('^::/?',''):gsub('^/',''):gsub('::/','::'):gsub('%.lua$',''):gsub('%.tl$',''))
 end
-local function underground(construction)
+local function maintenanceRule(construction)
  local name=nameOf(construction.fileName)
- if name==PREFIX..'underground_terminus.con'then return true end
- if name~=PREFIX..'light_rail_station.con'then return false end
+ if name==PREFIX..'underground_terminus.con'then return UNDERGROUND end
+ if name~=PREFIX..'light_rail_station.con'then return end
  local placement
  if construction.params_native then
   local ok,value=pcall(function()return construction.params_native:find('placement')end)
-  if not ok then return false end
+  if not ok then return end
   placement=value
  elseif type(construction.params)=='table'then placement=construction.params.placement end
- return (type(placement)=='number'or type(placement)=='string')and tonumber(placement)==1
+ if type(placement)~='number'and type(placement)~='string'then return end
+ placement=tonumber(placement)
+ if placement==1 then return UNDERGROUND end
+ if placement==3 then return ELEVATED end
 end
-local function eligible(entity)
+local function targetFor(entity)
  if not api.engine.entityExists(entity)then return false end
  local construction=api.engine.getComponent(entity,api.type.ComponentType.CONSTRUCTION)
- if not construction or not underground(construction)then return false end
+ local rule=construction and maintenanceRule(construction)
+ if not rule then return end
  local owner=api.engine.getComponent(entity,api.type.ComponentType.PLAYER_OWNED)
  if not owner or owner.player~=api.engine.util.getPlayer()then return false end
  local cost=api.engine.getComponent(entity,api.type.ComponentType.MAINTENANCE_COST)
- return cost~=nil and cost.maintenanceCost==OLD
+ if cost and cost.maintenanceCost==rule.old then return rule.target end
 end
 local function message(text)log.message('[ULR maintenance] '..text)end
 local function warning(text)log.warning('[ULR maintenance] '..text)end
@@ -37,16 +41,16 @@ function data()
   if progress.version~=VERSION then
    local candidates={}
    for _,entity in ipairs(api.engine.getEntitiesWithComponent(api.type.ComponentType.CONSTRUCTION))do
-    if eligible(entity)then candidates[#candidates+1]=entity end
+    if targetFor(entity)then candidates[#candidates+1]=entity end
    end
    progress={version=VERSION,candidates=candidates,cursor=1,updated=0,skipped=0,completed=false,failed=false,pending=-1}
    state:set(progress)
-   message('Scan complete: '..tostring(#candidates)..' existing underground stations eligible')
+   message('Scan complete: '..tostring(#candidates)..' existing stations eligible')
   end
   if progress.completed or progress.failed then return end
   if progress.pending>=0 then
    local cost=api.engine.entityExists(progress.pending)and api.engine.getComponent(progress.pending,api.type.ComponentType.MAINTENANCE_COST)
-   if not cost or cost.maintenanceCost~=TARGET then
+   if not cost or cost.maintenanceCost~=progress.pendingTarget then
     progress.failed=true
     warning('Stopped: maintenance verification failed for entity '..tostring(progress.pending))
    else
@@ -63,7 +67,8 @@ function data()
    return
   end
   local entity=progress.candidates[progress.cursor]
-  if not eligible(entity)then
+  local target=targetFor(entity)
+  if not target then
    progress.skipped=progress.skipped+1;progress.cursor=progress.cursor+1;state:set(progress);return
   end
   local commandApi=api.cmd
@@ -71,10 +76,10 @@ function data()
   if not factory then
    progress.failed=true;state:set(progress);warning('Stopped: maintenance update command unavailable');return
   end
-  progress.pending=entity;state:set(progress)
+  progress.pending=entity;progress.pendingTarget=target;state:set(progress)
   local ok,err=pcall(function()
    -- No callback: game scripts reject them. false retains accrued charges.
-   commandApi.sendCommand(factory(entity,TARGET,false))
+   commandApi.sendCommand(factory(entity,target,false))
   end)
   if not ok then
    progress.pending=-1;progress.failed=true;state:set(progress);warning('Stopped: '..tostring(err))
