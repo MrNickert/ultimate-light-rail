@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archivePath = Join-Path $PSScriptRoot 'downloads/ultimate-light-rail-1.0.0.zip'
 $checksumPath = Join-Path $PSScriptRoot 'downloads/SHA256SUMS.txt'
-$targetRoot = [IO.Path]::GetFullPath('C:\Program Files (x86)\Steam\userdata\87691647\3493550\local\staging_area\mrnickert_ultimate_metro')
+$targetRoot = [IO.Path]::GetFullPath('C:\Program Files (x86)\Steam\userdata\87691647\3493540\local\staging_area\mrnickert_ultimate_metro')
 $expectedChecksum = ((Get-Content -LiteralPath $checksumPath | Where-Object { $_ -match '  ultimate-light-rail-1\.0\.0\.zip$' }) -split '  ')[0]
 if ((Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expectedChecksum) { throw 'Archive checksum mismatch.' }
 if (Test-Path -LiteralPath (Join-Path $targetRoot 'mod.json')) {
