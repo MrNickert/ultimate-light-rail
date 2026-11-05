@@ -6,7 +6,7 @@ Ultimate Light Rail balances its own underground stations. The standalone Underg
 
 The underground builder uses a maintenance base of **30,000**, matching the rebalanced vanilla stop. At the previously tested settings this corresponds to **$180,000 per year**. The base value is not a literal yearly UI price; game settings control the displayed amount.
 
-Both through and terminus stations use this base, for every supported platform length. The shared API v1 builder also gives new third-party underground designs this base automatically. Underground construction cost remains 900,000 in builder units. Elevated stations use 120% of the surface maintenance base (24,000 versus 20,000), for both station types and all lengths. Construction prices are unchanged.
+Both through and terminus stations use this base, for every supported platform length. The shared API v1 builder also gives new third-party underground designs this base automatically. Underground construction cost remains 900,000 in builder units. Elevated stations use 120% of the surface maintenance base (24,000 versus 20,000), for both station types and all lengths. Elevated construction prices also use 120% of the corresponding surface price (216,000 for through stations and 144,000 for termini).
 
 ## Existing bundled stations
 

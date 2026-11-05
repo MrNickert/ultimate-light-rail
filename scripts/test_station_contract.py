@@ -24,6 +24,12 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
             assert data.count(b'"maintenanceCost":30000,')==1, 'Unexpected underground maintenance: '+file.stem
             data=data.replace(b'"maintenanceCost":30000,',b'"maintenanceCost":180000,',1)
         if file.stem.startswith('3-') or file.stem=='defaults-3':
+            through=file.stem.startswith('3-1-')
+            elevated_cost=b'216000' if through else b'144000'
+            surface_cost=b'180000' if through else b'120000'
+            cost_field=b'"cost":'+elevated_cost+b','
+            assert data.count(cost_field)==1, 'Unexpected elevated construction cost: '+file.stem
+            data=data.replace(cost_field,b'"cost":'+surface_cost+b',',1)
             assert data.count(b'"maintenanceCost":24000,')==1, 'Unexpected elevated maintenance: '+file.stem
             data=data.replace(b'"maintenanceCost":24000,',b'"maintenanceCost":20000,',1)
         return data
@@ -50,4 +56,4 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
         assert not changed, 'Fixed/legacy full output changed: '+', '.join(changed)
         expected_functional=json.loads(functional_manifest.read_text(encoding='utf-8'))['sha256']
         assert functional==expected_functional, 'Functional output changed: '+', '.join(k for k in expected_functional if functional.get(k)!=expected_functional[k])
-        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved maintenance changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')
+        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved construction and maintenance cost changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')

@@ -18,7 +18,7 @@ The core uses the native pre-UI setup phase to install small additive adapters. 
 
 ## Maintenance
 
-The shared underground builder sets maintenance to 30,000 builder units; elevated maintenance is 120% of surface maintenance, and construction prices retain their existing values. A single production game script performs the saved, owner- and baseline-checked maintenance migration for existing bundled underground and elevated stations. It sends only maintenance-component commands and preserves accrued charges. No station reconstruction or geometry changes are submitted. See [maintenance](maintenance.md).
+The shared underground builder sets maintenance to 30,000 builder units; elevated construction and maintenance costs are 120% of their surface equivalents. A single production game script performs the saved, owner- and baseline-checked maintenance migration for existing bundled underground and elevated stations. It sends only maintenance-component commands and preserves accrued charges. No station reconstruction or geometry changes are submitted. See [maintenance](maintenance.md).
 
 ## Build
 

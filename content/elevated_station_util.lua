@@ -29,6 +29,7 @@ end
 return function(capture,params,isThrough,L,fence)
  local layout={length=L}
  local r=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
+ r.cost=r.cost*1.2
  r.maintenanceCost=r.maintenanceCost*1.2
  local sub=r.subconstructions[1]
  local vehicles=isThrough and 2 or 4

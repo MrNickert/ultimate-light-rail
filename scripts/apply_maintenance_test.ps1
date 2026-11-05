@@ -28,8 +28,8 @@ try {
     $modEntry = $archive.GetEntry('mrnickert_ultimate_metro/mod.json')
     $reader = [IO.StreamReader]::new($modEntry.Open())
     try { $candidate = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 56) { throw 'Unexpected release candidate.' }
-    if ($CheckOnly) { Write-Output ('Verified revision 56, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
+    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 57) { throw 'Unexpected release candidate.' }
+    if ($CheckOnly) { Write-Output ('Verified revision 57, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
     $backupRoot = Join-Path $PSScriptRoot ('staging-backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     foreach ($file in $files) {
         if (Test-Path -LiteralPath $file.Destination) {
@@ -40,12 +40,12 @@ try {
         New-Item -ItemType Directory -Path (Split-Path $file.Destination -Parent) -Force | Out-Null
         if ($file.Relative -eq 'mod.json') {
             $currentDefinition = Get-Content -LiteralPath $file.Destination -Raw | ConvertFrom-Json
-            $currentDefinition.revision = 56
+            $currentDefinition.revision = 57
             [IO.File]::WriteAllText($file.Destination, ($currentDefinition | ConvertTo-Json -Depth 100), [Text.UTF8Encoding]::new($false))
         } else {
             [IO.Compression.ZipFileExtensions]::ExtractToFile($file.Entry, $file.Destination, $true)
         }
     }
-    Write-Output ('Updated local staging to revision 56. Backup: ' + $backupRoot)
+    Write-Output ('Updated local staging to revision 57. Backup: ' + $backupRoot)
     Write-Output 'Maintenance files and build-menu artwork updated; metadata, artwork, UI and mod.io linkage preserved. Reload your save and let the simulation run to migrate existing stations.'
 } finally { $archive.Dispose() }
