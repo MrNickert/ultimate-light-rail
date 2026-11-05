@@ -1,2 +1,2 @@
 Underground Ultimate Light Rail stations now use the same maintenance base as rebalanced vanilla underground stops, without requiring the separate cost mod. Existing player-owned bundled underground stations using the previous default are adjusted once. Elevated stations now cost 20% more to maintain than surface stations. Existing player-owned bundled elevated stations using the old default are adjusted once. Construction prices and station layouts are unchanged.
-The Light Rail station has new artwork in the construction menu.
+The Light Rail station and track have new artwork in the construction menu.
