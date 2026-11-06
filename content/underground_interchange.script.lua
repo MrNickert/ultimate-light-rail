@@ -1,11 +1,11 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.lua"
 local laneutil=require "::/scripts/construction/laneutil.lua"
-local LENGTH,DEPTH=80,18
-local CENTRE=LENGTH/2
+local DEPTH=18
+local LENGTHS={40,60,80,100,120}
+local DEFAULT_ANGLES={1,3,2,4}
 local DIAGONAL=math.sqrt(0.5)
 local FOUR_LEVEL_ROTATIONS={{1,0},{DIAGONAL,DIAGONAL},{0,1},{-DIAGONAL,DIAGONAL}}
-local TWO_LEVEL_ROTATIONS={{1,0},{0,1}}
 
 local function transform(m,p,point)
  local offset=point and 1 or 0
@@ -81,12 +81,12 @@ local function transfer(sub,points)
  sub.laneLists[#sub.laneLists+1]=laneutil.createLane(curves,{"PERSON"},2,2,false)
 end
 
-local function buildLevel(capture,params,internal)
+local function buildLevel(capture,params,internal,length)
  local result=stationApi.buildStation({apiVersion=1,placement="underground",
-  stationType="through",platformLength=LENGTH,turnback=true},capture,params)
- result.subconstructions[1]=concourse(result.subconstructions[1],params,true,LENGTH,true,
+  stationType="through",platformLength=length,turnback=true},capture,params)
+ result.subconstructions[1]=concourse(result.subconstructions[1],params,true,length,true,
   {centred=true,internal=internal})
- result.snapPoint.transf[13]=CENTRE+8
+ result.snapPoint.transf[13]=length/2+8
  return result
 end
 
@@ -100,6 +100,24 @@ local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
  points[4]={-side*ls*16,side*lc*16,-30+offset}
  points[5]={-side*ls*11.75,side*lc*11.75,-30+offset}
  transfer(sub,points)
+end
+
+local function connectConfiguredLevels(sub,upper,lower,offset,side)
+ local ux,uy=-side*upper[2],side*upper[1]
+ local lx,ly=-lower[2],lower[1]
+ -- Use the same exterior quadrant when possible. Return the lower landing side
+ -- so the next flight can depart from the opposite side of that concourse.
+ local lowerSide=ux*lx+uy*ly<0 and -1 or 1
+ lx,ly=lx*lowerSide,ly*lowerSide
+ local scale=36/(1+ux*lx+uy*ly)
+ local x,y=(ux+lx)*scale,(uy+ly)*scale
+ local dx,dy=(uy+ly)*2,-(ux+lx)*2
+ transfer(sub,{
+  {ux*11.75,uy*11.75,-12+offset},{ux*16,uy*16,-12+offset},
+  {x+dx,y+dy,-21+offset},{x-dx,y-dy,-21+offset},
+  {lx*16,ly*16,-30+offset},{lx*11.75,ly*11.75,-30+offset},
+ })
+ return lowerSide
 end
 
 local function appendLevel(result,level)
@@ -123,12 +141,26 @@ end
 function data()
  return {updateFn=function(capture,params)
   local fourLevels=capture and capture.fourLevelTest==true
-  local rotations=fourLevels and FOUR_LEVEL_ROTATIONS or TWO_LEVEL_ROTATIONS
+  params=params or {}
+  local count=tonumber(params.levelCount)
+  if not count or count%1~=0 or count<1 or count>4 then count=2 end
+  if fourLevels then count=4 end
+  local rotations,lengths={},{}
+  local legacy=count==2
+  for i=1,count do
+   local angle=fourLevels and i or tonumber(params["levelAngle"..i])
+   local lengthIndex=not fourLevels and tonumber(params["levelLength"..i])
+   lengths[i]=LENGTHS[lengthIndex] or 80
+   rotations[i]=FOUR_LEVEL_ROTATIONS[angle] or FOUR_LEVEL_ROTATIONS[DEFAULT_ANGLES[i]]
+   legacy=legacy and rotations[i]==FOUR_LEVEL_ROTATIONS[DEFAULT_ANGLES[i]] and lengths[i]==80
+  end
   local result
   for i,rotation in ipairs(rotations) do
    local c,s=rotation[1],rotation[2]
-   local level=buildLevel(capture,params,i>1)
-   transformLevel(level,{c,s,0,0,-s,c,0,0,0,0,1,0,-CENTRE*c,-CENTRE*s,-DEPTH*(i-1),1})
+   local length=lengths[i]
+   local centre=length/2
+   local level=buildLevel(capture,params,i>1,length)
+   transformLevel(level,{c,s,0,0,-s,c,0,0,0,0,1,0,-centre*c,-centre*s,-DEPTH*(i-1),1})
    if i==1 then result=level else appendLevel(result,level) end
   end
   local sub=result.subconstructions[1]
@@ -137,8 +169,13 @@ function data()
     -- Opposite landings on intermediate levels avoid overlapping stair routes.
     connectLevels(sub,rotations[i],rotations[i+1],-DEPTH*(i-1),i%2==1 and 1 or -1)
    end
-  else
+  elseif legacy then
    transfer(sub,{{0,11.75,-12},{0,15.5,-12},{-16,15.5,-21},{-16,0,-30},{-11.75,0,-30}})
+  else
+   local side=1
+   for i=1,count-1 do
+    side=-connectConfiguredLevels(sub,rotations[i],rotations[i+1],-DEPTH*(i-1),side)
+   end
   end
   return result
  end}

@@ -1,4 +1,3 @@
-local menu=require "mrnickert_ultimate_metro::/station_menu.lua"
 function data()
  return {
   undergroundView=true,
@@ -8,7 +7,7 @@ function data()
    previewIcon="mrnickert_ultimate_metro::/ui/metro_underground_terminus_preview.tga",
    attributes={cost={31200000,-1},maintenanceCost={120000,-1}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},
-  menuCategory=menu.getMenuCategory(1021),
+  menuCategory={categories={}},
   params={},
   updateScript={fileName="mrnickert_ultimate_metro::/underground_interchange.script@updateFn",params={fourLevelTest=true}},
   configureLayerScript={fileName="::/gui/construction/construction_desc_layers.script@configureDefaultLayerFn",params={heightmapContours=true}},
