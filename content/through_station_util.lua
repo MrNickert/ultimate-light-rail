@@ -1,5 +1,6 @@
 -- First member of the through-station layout family. Future configuration
 -- can select length/platform layout through adapters while retaining save IDs.
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
 local underpass=require "mrnickert_ultimate_metro::/passenger_underpass_util.lua"
 local function transform(x,y,z,reverse)
@@ -19,14 +20,26 @@ local function vehicle(points)
 end
 return function(_capture,_params,options)
  local L=(options or {}).length or 80
+ local turnback=options and options.turnback
+ local approach=turnback and 30 or 10
  local crossing=underpass(L)
  local lanes={vehicle({{-10,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0},{L+10,-2.5,0}}),
   vehicle({{L+10,2.5,0},{L,2.5,0},{L/2,2.5,0},{0,2.5,0},{-10,2.5,0}})}
+ if turnback then
+  for i,side in ipairs({-1,1}) do
+   local y=side*2.5
+   lanes[i]=track.lane({{-approach,y,0},{0,y,0},{L/2,y,0},{L,y,0},{L+approach,y,0}},
+    track.modes,true,false)
+  end
+  track.addCrossover(lanes,-approach,track.modes)
+  track.addCrossover(lanes,L,track.modes)
+ end
+ local vehicleCount=#lanes
  for _,lane in ipairs(crossing.lanes)do lanes[#lanes+1]=lane end
  local modes={"TRAM","ELECTRIC_TRAM"}
  local terminals={}
  for i,waiting in ipairs(crossing.waiting)do
-  local personLane=i+1 -- zero-based lanes 2 and 3, after the vehicle lanes
+  local personLane=vehicleCount+i-1 -- zero-based, after the vehicle lanes
   local edges,nodes={},{}
   for _,index in ipairs(waiting.edges)do edges[#edges+1]={personLane,index}end
   for _,index in ipairs(waiting.nodes)do nodes[#nodes+1]={personLane,index}end
@@ -39,7 +52,7 @@ return function(_capture,_params,options)
  }
  for _,model in ipairs(crossing.models)do models[#models+1]=model end
  local faces={
-  {face=rectangle(-10,L+10,-5.5,5.5),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
+  {face=rectangle(-approach,L+approach,-5.5,5.5),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},
   {face=rectangle(0,L,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
   {face=rectangle(0,L,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
  }
@@ -49,22 +62,22 @@ return function(_capture,_params,options)
   -- Geometry, tangents and externally snappable endpoints stay unchanged.
   edgeLists={
    {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
-    edges={{{-20,0,0},{10,0,0}},{{-10,0,0},{10,0,0}}},snapNodes={0},freeNodes={0}},
+    edges={{{-approach-10,0,0},{10,0,0}},{{-approach,0,0},{10,0,0}}},snapNodes={0},freeNodes={0}},
    {type="STREET",params={type="mrnickert_ultimate_metro::/lightrail_fenced.street_template",tramTrackType="ELECTRIC"},
-    edges={{{L+10,0,0},{10,0,0}},{{L+20,0,0},{10,0,0}}},snapNodes={1},freeNodes={1}},
+    edges={{{L+approach,0,0},{10,0,0}},{{L+approach+10,0,0},{10,0,0}}},snapNodes={1},freeNodes={1}},
   },
-  snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,-20,0,0,1},snapToBaseEdgeTypes={"STREET"},
+  snapPoint={transf={0,-1,0,0,1,0,0,0,0,0,1,0,-approach-10,0,0,1},snapToBaseEdgeTypes={"STREET"},
    transportModes=modes,allowSnapToBaseEdgeEnds=true},
   subconstructions={{models=models,laneLists=lanes,
    station={tag=1,pool={edges={},capacity=0},terminals=terminals,
     catchmentAreas={{position={L/2,0,0},radius=160}}},groundFaces=faces,
-   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-20,L+20,-12,12)},slopeLow=0,slopeHigh=0}}}},
+   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-approach-10,L+approach+10,-12,12)},slopeLow=0,slopeHigh=0}}}},
   cost=180000,maintenanceCost=20000,
  }
- local poles={-6}
- for _,x in ipairs({8,L/2-12,L/2+12,L-8,L+6}) do
+ local poles={turnback and -15 or -6}
+ for _,x in ipairs({8,L/2-12,L/2+12,L-8,L+(turnback and 15 or 6)}) do
   if x~=poles[#poles] then poles[#poles+1]=x end
  end
  return decorate(result,{length=L,through=true,platformHeight=crossing.floor,platformScale=crossing.floor/1.1,
-  poles=poles})
+  poles=poles,approach=approach})
 end

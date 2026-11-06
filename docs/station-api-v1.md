@@ -78,7 +78,7 @@ The return value is directly usable as the construction update result. `capture`
 | `fence` | Optional boolean; defaults to true, effectively false underground |
 | `design` | Optional; omitting it uses the standard kit |
 
-A terminus includes a crossover; a through station does not. Locations are named values, not menu indices. Unknown fields and invalid values produce an API error.
+A terminus includes one crossover. A through station adds two crossovers when Turnback is enabled. Locations are named values, not menu indices. Unknown fields and invalid values produce an API error.
 
 ## Designs and helpers
 
@@ -111,3 +111,7 @@ A role applies only where the builder places that model. The platform role uses 
 API v1 supports exactly two tracks, fixed platform width and floor height, fixed entrances/stairs and the specified lengths. The underground hall is a fixed assembly. The API validates schemas and model paths; creators must check external meshes and colliders in the game.
 
 These fixed model interfaces and supported public calls are covered by the compatibility policy. Internal builder modules and generated UI recipes are not public extension points. Bug fixes and improvements must preserve the documented v1 contract; changes that cannot do so require a new API version.
+
+## Turnback
+
+With core revision 58 or later, pass `turnback = true` for a through station at any placement. This adds a 30 m scissors crossover at each end while retaining both external connections. The option defaults to false. Use a vehicle that fits the platform when reversing, and select terminals or waypoints if the line needs a specific track.

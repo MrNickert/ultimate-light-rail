@@ -95,8 +95,9 @@ return function(result,options)
   end
  end
  if options.through then
-  fenceApproach(-10,0)
-  fenceApproach(L,L+10)
+  local approach=options.approach or 10
+  fenceApproach(-approach,0)
+  fenceApproach(L,L+approach)
  else
   fenceApproach(-30,0)
  end

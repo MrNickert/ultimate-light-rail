@@ -26,15 +26,16 @@ local function lane(points,public)
  return {nodes=nodes,transportModes={"PERSON"},speedLimit=2,
   forwardOnly=false,needsReservation=false,linkable=public or false}
 end
-return function(capture,params,isThrough,L,fence)
- local layout={length=L}
+return function(capture,params,isThrough,L,fence,turnback)
+ local layout={length=L,turnback=turnback}
  local r=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
  r.cost=r.cost*1.2
  r.maintenanceCost=r.maintenanceCost*1.2
  local sub=r.subconstructions[1]
- local vehicles=isThrough and 2 or 4
+ local vehicles=turnback and 6 or (isThrough and 2 or 4)
  local centre=L/2
- local first,last=isThrough and -10 or -30,isThrough and L+10 or L+4
+ local approach=turnback and 30 or 10
+ local first,last=isThrough and -approach or -30,isThrough and L+approach or L+4
  local stairStart,stairEnd=centre-RUN/2,centre+RUN/2
  local groundCross=stairStart+1
  -- A single public entrance branches below the tracks to both stairs.
@@ -63,11 +64,11 @@ return function(capture,params,isThrough,L,fence)
   if m.id=="::/stations/street/small_stops/small_new.mdl" then shelters[#shelters+1]=m end
  end
  sub.models=shelters
- local poles={-6}
- for _,x in ipairs({8,centre-12,centre+12,L-8,L+6}) do
+ local poles={turnback and -15 or -6}
+ for _,x in ipairs({8,centre-12,centre+12,L-8,L+(turnback and 15 or 6)}) do
   if x~=poles[#poles] then poles[#poles+1]=x end
  end
- decorate(r,{through=true,length=L,poles=poles})
+ decorate(r,{through=true,length=L,poles=poles,approach=approach})
  local models={}
  for _,m in ipairs(sub.models) do
   if m.id~="mrnickert_ultimate_metro::/surface_platform.mdl" and m.id~=FENCE
@@ -179,7 +180,7 @@ return function(capture,params,isThrough,L,fence)
   crossGuard(stairStart,side*6.5-1.2,side*6.5+1.2,FLOOR)
   if fence then
    fenceLine(first,0,side*5.65,H)
-   if isThrough then fenceLine(L,L+10,side*5.65,H) end
+   if isThrough then fenceLine(L,last,side*5.65,H) end
   end
  end
  if not isThrough then slab(L,L+4,-4,4,FLOOR,0.25);crossGuard(L+4,-9,9,FLOOR) end

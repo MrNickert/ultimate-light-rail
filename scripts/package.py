@@ -45,6 +45,7 @@ CONTENT = {
     "content/through_station.con.lua",
     "content/through_station.script.lua",
     "content/through_station_util.lua",
+    "content/station_turnback_track.lua",
     "content/passenger_underpass_util.lua",
     "content/surface_underpass.mdl",
     "content/twin_terminus.script.lua",

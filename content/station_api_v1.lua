@@ -5,7 +5,7 @@ local kit=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
 local components=require "mrnickert_ultimate_metro::/station_components.lua"
 local api={apiVersion=1}
 local lengths={[40]=true,[60]=true,[80]=true,[100]=true,[120]=true}
-local fields={apiVersion=true,placement=true,stationType=true,platformLength=true,platformTracks=true,fence=true,design=true}
+local fields={apiVersion=true,placement=true,stationType=true,platformLength=true,platformTracks=true,fence=true,turnback=true,design=true}
 local function check(ok,message)
  if not ok then error("Ultimate Light Rail API v1: "..message,3) end
 end
@@ -37,6 +37,8 @@ function api.buildStation(spec,captureParams,constructionParams)
  check(lengths[spec.platformLength],"platformLength must be 40, 60, 80, 100 or 120 metres")
  check(spec.platformTracks==nil or spec.platformTracks==2,"v1 supports exactly two platform tracks")
  check(spec.fence==nil or type(spec.fence)=="boolean","fence must be a boolean")
+ check(spec.turnback==nil or type(spec.turnback)=="boolean","turnback must be a boolean")
+ check(not spec.turnback or spec.stationType=="through","turnback requires a through station")
  check(captureParams==nil or type(captureParams)=="table","captureParams must be a table")
  check(constructionParams==nil or type(constructionParams)=="table","constructionParams must be a table")
  local defaults=standard()
@@ -59,6 +61,7 @@ function api.buildStation(spec,captureParams,constructionParams)
   end
  end
  local normalized={placement=spec.placement,stationType=spec.stationType,platformLength=spec.platformLength,
+  turnback=spec.turnback,
   fence=spec.placement~="underground" and spec.fence~=false}
  local result=build(captureParams or {},constructionParams or {},normalized)
  -- Only model identifiers are replaceable. Core transforms, network references,

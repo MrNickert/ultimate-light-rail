@@ -2,14 +2,15 @@
 -- The legacy underground script is deliberately left intact for saved stations.
 local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua"
-return function(capture,params,isThrough,length)
+return function(capture,params,isThrough,length,turnback)
  local L=length or 80
- local layout={length=L}
+ local layout={length=L,turnback=turnback}
  local result=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
  local source=result.subconstructions[1]
- local vehicles=isThrough and 2 or 4
- local sub=entrance(params,{through=isThrough,length=L})
+ local vehicles=turnback and 6 or (isThrough and 2 or 4)
+ local sub=entrance(params,{through=isThrough,length=L,turnback=turnback})
  local pedestrians=sub.laneLists
  sub.laneLists={}
  for i=1,vehicles do
@@ -18,7 +19,11 @@ return function(capture,params,isThrough,length)
   sub.laneLists[#sub.laneLists+1]=lane
  end
  for _,lane in ipairs(pedestrians) do sub.laneLists[#sub.laneLists+1]=lane end
- if not isThrough then
+ if turnback then
+  local first=#sub.models+1
+  for i=3,vehicles do track.addRailVisuals(sub.models,sub.laneLists[i]) end
+  for i=first,#sub.models do sub.models[i].transf[15]=sub.models[i].transf[15]-18 end
+ elseif not isThrough then
   for _,model in ipairs(source.models) do
    if model.id:find("single_rail.mdl",1,true) and model.transf[13]<0 then
     model.transf[15]=model.transf[15]-18

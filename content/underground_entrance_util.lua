@@ -294,6 +294,7 @@ local generatedData = {
 return function(params,options)
  options=options or {}
  local L=options.length or 80
+ local approach=options.turnback and 30 or 10
  local centre=L-20
  local shift=transf.transl(vec3.new(centre,0,0))
  local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
@@ -316,16 +317,17 @@ return function(params,options)
  constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
  constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
  -- Native extensions fill the shell from the left throat to the 40m concourse.
- for x=20,(options.through and L-20 or L),10 do
+ for x=20,(options.through and L-30+approach or L),10 do
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
    transf.mul(shift,transf.mul(transf.rotZ(math.pi),transf.transl(vec3.new(x,0,0)))))
  end
  if options.through then
-  -- Fill the second open throat x=L..L+10 with the native extension.
-  constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
-   transf.transl(vec3.new(L,0,0)))
+  for x=L,L+approach-10,10 do
+   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
+    transf.transl(vec3.new(x,0,0)))
+  end
  end
- local ends=options.through and {{L+10,false},{-10,true}} or {{L,false},{-30,true}}
+ local ends=options.through and {{L+approach,false},{-approach,true}} or {{L,false},{-30,true}}
  for _,endpoint in ipairs(ends) do
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}

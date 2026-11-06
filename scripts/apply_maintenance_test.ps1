@@ -22,14 +22,14 @@ try {
         if (-not $relativeName -or $entry.FullName.EndsWith('/')) { continue }
         $destinationPath = [IO.Path]::GetFullPath((Join-Path $targetRoot $relativeName))
         if (-not $destinationPath.StartsWith($targetRoot + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Archive entry escapes the mod directory.' }
-        if ($relativeName -notin @('mod.json', 'content/light_rail_station.con.lua', 'content/ui/lightrail_fenced.tga', 'content/ui/light_rail_station.tga', 'content/ui/light_rail_station_preview.tga', 'content/underground_station_util.lua', 'content/elevated_station_util.lua', 'content/underground_terminus.con.lua', 'content/underground_terminus.script.lua', 'content/maintenance_migration.gs.lua', 'content/maintenance_migration.script.lua')) { continue }
+        if ($relativeName -notin @('mod.json', 'strings.json', 'content/station_turnback_track.lua', 'content/terminus_util.lua', 'content/through_station_util.lua', 'content/surface_station_util.lua', 'content/station_api_v1.lua', 'content/station_config_util.lua', 'content/station_layout_builder.lua', 'content/station_menu.script.lua', 'content/underground_entrance_util.lua', 'content/light_rail_station.con.lua', 'content/ui/lightrail_fenced.tga', 'content/ui/light_rail_station.tga', 'content/ui/light_rail_station_preview.tga', 'content/underground_station_util.lua', 'content/elevated_station_util.lua', 'content/underground_terminus.con.lua', 'content/underground_terminus.script.lua', 'content/maintenance_migration.gs.lua', 'content/maintenance_migration.script.lua')) { continue }
         $files += [PSCustomObject]@{Entry=$entry; Relative=$relativeName; Destination=$destinationPath}
     }
     $modEntry = $archive.GetEntry('mrnickert_ultimate_metro/mod.json')
     $reader = [IO.StreamReader]::new($modEntry.Open())
     try { $candidate = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 57) { throw 'Unexpected release candidate.' }
-    if ($CheckOnly) { Write-Output ('Verified revision 57, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
+    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 58) { throw 'Unexpected release candidate.' }
+    if ($CheckOnly) { Write-Output ('Verified revision 58, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
     $backupRoot = Join-Path $PSScriptRoot ('staging-backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     foreach ($file in $files) {
         if (Test-Path -LiteralPath $file.Destination) {
@@ -40,12 +40,12 @@ try {
         New-Item -ItemType Directory -Path (Split-Path $file.Destination -Parent) -Force | Out-Null
         if ($file.Relative -eq 'mod.json') {
             $currentDefinition = Get-Content -LiteralPath $file.Destination -Raw | ConvertFrom-Json
-            $currentDefinition.revision = 57
+            $currentDefinition.revision = 58
             [IO.File]::WriteAllText($file.Destination, ($currentDefinition | ConvertTo-Json -Depth 100), [Text.UTF8Encoding]::new($false))
         } else {
             [IO.Compression.ZipFileExtensions]::ExtractToFile($file.Entry, $file.Destination, $true)
         }
     }
-    Write-Output ('Updated local staging to revision 57. Backup: ' + $backupRoot)
-    Write-Output 'Maintenance files and build-menu artwork updated; metadata, artwork, UI and mod.io linkage preserved. Reload your save and let the simulation run to migrate existing stations.'
+    Write-Output ('Updated local staging to revision 58. Backup: ' + $backupRoot)
+    Write-Output 'Turnback test build installed; metadata, artwork, UI and mod.io linkage preserved. Reload your save and let the simulation run to migrate existing stations.'
 } finally { $archive.Dispose() }

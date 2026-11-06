@@ -2,8 +2,8 @@
 -- internal mixed-mode vehicle lanes. No root STREET switch junctions.
 -- Use native construction-lane values directly (native underground uses 40).
 -- Do not reuse the m/s conversion of street-template LaneConfig.speed here.
-local STATION_SPEED=80
-local CROSSOVER_SPEED=40
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
+local lane=track.lane
 local function transform(x,y,z,reverse)
  local a=reverse and -1 or 1
  return {a,0,0,0, 0,a,0,0, 0,0,1,0, x,y,z,1}
@@ -11,75 +11,22 @@ end
 local function rectangle(x0,x1,y0,y1)
  return {{x0,y0,0},{x1,y0,0},{x1,y1,0},{x0,y1,0}}
 end
-local function lane(points,modes,vehicle,linkable,overrides)
- local nodes={}
- for i=1,#points-1 do
-  local a,b=points[i],points[i+1]
-  local t={b[1]-a[1],b[2]-a[2],b[3]-a[3]}
-  local custom=overrides and overrides[i]
-  nodes[#nodes+1]={a,custom and custom[1] or t,2}
-  nodes[#nodes+1]={b,custom and custom[2] or t,2}
- end
- return {nodes=nodes,transportModes=modes,speedLimit=vehicle and STATION_SPEED or 2,
-  forwardOnly=false,needsReservation=vehicle,linkable=linkable}
-end
-local function position(a,b,t)
- local t2,t3=t*t,t*t*t
- local p={}
- for k=1,3 do
-  p[k]=(2*t3-3*t2+1)*a[1][k]+(t3-2*t2+t)*a[2][k]
-       +(-2*t3+3*t2)*b[1][k]+(t3-t2)*b[2][k]
- end
- return p
-end
-local function addRailVisuals(models,vehicleLane)
- -- Bare shared rail mesh (4m long), embedded almost flush in the paved surface.
- -- Two rails per path, no sleepers, ballast segments or railway buffer blocks.
- local halfGauge=1.435/2
- for i=1,#vehicleLane.nodes,2 do
-  local a,b=vehicleLane.nodes[i],vehicleLane.nodes[i+1]
-  local dx,dy=b[1][1]-a[1][1],b[1][2]-a[1][2]
-  local count=math.max(1,math.ceil(math.sqrt(dx*dx+dy*dy)))
-  local first=position(a,b,0)
-  for step=1,count do
-   local last=position(a,b,step/count)
-   local x,y=last[1]-first[1],last[2]-first[2]
-   local length=math.sqrt(x*x+y*y)
-   local nx,ny=-y/length,x/length
-   for _,side in ipairs({-1,1}) do
-    models[#models+1]={id="::/infrastructure/track/shared/single_rail.mdl",
-     transf={x/4,y/4,0,0, nx,ny,0,0, 0,0,1,0,
-       (first[1]+last[1])/2+side*halfGauge*nx,
-       (first[2]+last[2])/2+side*halfGauge*ny,-0.52,1}}
-   end
-   first=last
-  end
- end
-end
 return function(_captureParams,params,options)
   local L=(options or {}).length or 80
   params=params or {}
   local crossover=tonumber(params.crossover or 2)~=1
-  local modes={"TRAM","ELECTRIC_TRAM","TRAM_TRACK","ELECTRIC_TRAM_TRACK"}
+  local modes=track.modes
   local lanes={
    lane({{-30,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0}},modes,true,false),
    lane({{-30,2.5,0},{0,2.5,0},{L/2,2.5,0},{L,2.5,0}},modes,true,false),
   }
-  if crossover then
-   -- Exact halves of a smooth 30m S-curve. At both switches the
-   -- tangents are horizontal, matching the main track without a kink.
-   lanes[#lanes+1]=lane({{-30,-2.5,0},{-15,0,0},{0,2.5,0}},modes,true,false,
-    {[1]={{15,0,0},{15,3.75,0}},[2]={{15,3.75,0},{15,0,0}}})
-   lanes[#lanes+1]=lane({{-30,2.5,0},{-15,0,0},{0,-2.5,0}},modes,true,false,
-    {[1]={{15,0,0},{15,-3.75,0}},[2]={{15,-3.75,0},{15,0,0}}})
-   lanes[3].speedLimit=CROSSOVER_SPEED;lanes[4].speedLimit=CROSSOVER_SPEED
-  end
+  if crossover then track.addCrossover(lanes,-30,modes) end
   local vehicles=#lanes
   local models={
    {id="::/stations/street/small_stops/small_new.mdl",transf=transform(L/2,-7.5,0,true)},
    {id="::/stations/street/small_stops/small_new.mdl",transf=transform(L/2,7.5,0)},
   }
-  for i=1,vehicles do addRailVisuals(models,lanes[i]) end
+  for i=1,vehicles do track.addRailVisuals(models,lanes[i]) end
   lanes[#lanes+1]=lane({{0,-5.5,0},{L/2,-5.5,0},{L,-5.5,0}},{"PERSON"},false,false)
   lanes[#lanes+1]=lane({{0,5.5,0},{L/2,5.5,0},{L,5.5,0}},{"PERSON"},false,false)
   lanes[#lanes+1]=lane({{L,-5.5,0},{L+5,-5.5,0},{L+5,0,0},{L+5,5.5,0},{L,5.5,0}},{"PERSON"},false,false)

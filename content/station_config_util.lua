@@ -13,6 +13,7 @@ return function(capture,params)
   stationType=tonumber(params.stationType)==1 and "through" or "terminus",
   platformLength=lengths[tonumber(params.platformLength) or 3] or 80,
   platformTracks=2,
+  turnback=tonumber(params.stationType)==1 and tonumber(params.turnback)==2,
   fence=tonumber(params.fence or 2)~=1,
   design=standard(placement),
  },capture,params)

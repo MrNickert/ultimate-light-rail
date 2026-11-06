@@ -9,14 +9,14 @@ return function(capture,params,spec)
  -- Copy: the UI/save parameter table must not be changed by a builder.
  local config={};for k,v in pairs(params) do config[k]=v end
  local length=spec.platformLength
- local layout={length=length}
+ local layout={length=length,turnback=spec.turnback}
  local isThrough=spec.stationType=="through"
  local isUnderground=spec.placement=="underground"
  local fence=spec.fence
- -- No public crossover parameter. Even stale/injected values cannot override type.
+ -- Terminus geometry always includes its crossover. Through stations use turnback.
  config.crossover=isThrough and 1 or 2
- if isUnderground then return underground(capture,config,isThrough,length) end
- if spec.placement=="elevated" then return elevated(capture,config,isThrough,length,fence) end
+ if isUnderground then return underground(capture,config,isThrough,length,spec.turnback) end
+ if spec.placement=="elevated" then return elevated(capture,config,isThrough,length,fence,spec.turnback) end
  local result
  if isThrough then
   result=through(capture,config,layout)

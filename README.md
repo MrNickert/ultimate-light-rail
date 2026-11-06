@@ -1,8 +1,8 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · mod revision 57 · Station API v1**
+**Release 1.0.0 · mod revision 58 · Station API v1**
 
-The additive UI integration (revision 52) has been tested in-game alongside Undo. The current station cost update (revision 57) still needs in-game validation. See [UI integration](docs/ui-integration.md).
+The additive UI integration (revision 52) has been tested in-game alongside Undo. Turnback is available on through stations at all three elevations. It adds a 30 m crossover at each end. In-game routing validation is pending. See [UI integration](docs/ui-integration.md).
 
 Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 
@@ -19,7 +19,7 @@ Open **Light Rail**, between Road and Rail. The tram depot, light rail track and
 
 Bundled stations and the public light rail track become available in **1925**, matching the native modern tram track. The tram depot retains its native availability dates.
 
-All stations have two platform tracks. Terminus stations include a crossover and support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
+All stations have two platform tracks. Terminus stations include a crossover. Through stations can add a crossover at each end using Turnback. Both support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
 
 Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks are at -18m, with a fixed hall and street access. The public light rail track has low metal fences and preserves native tram traffic behaviour.
 
