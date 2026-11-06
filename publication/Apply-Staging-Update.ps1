@@ -25,8 +25,8 @@ try {
     $modEntry = $archive.GetEntry('mrnickert_ultimate_metro/mod.json')
     $reader = [IO.StreamReader]::new($modEntry.Open())
     try { $candidate = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 58) { throw 'Unexpected release candidate.' }
-    if ($CheckOnly) { Write-Output ('Verified revision 58, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
+    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 59) { throw 'Unexpected release candidate.' }
+    if ($CheckOnly) { Write-Output ('Verified revision 59, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
     $backupRoot = Join-Path $PSScriptRoot ('staging-backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     foreach ($file in $files) {
         if (Test-Path -LiteralPath $file.Destination) {
@@ -45,6 +45,6 @@ try {
             Move-Item -LiteralPath $obsoletePath -Destination $backupPath
         }
     }
-    Write-Output ('Updated local staging to revision 58. Backup: ' + $backupRoot)
+    Write-Output ('Updated local staging to revision 59. Backup: ' + $backupRoot)
     Write-Output 'Existing mod.io linkage and saves were preserved. Refresh the Mod Hub and rerun validation.'
 } finally { $archive.Dispose() }

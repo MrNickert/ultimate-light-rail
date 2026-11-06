@@ -295,15 +295,17 @@ return function(params,options)
  options=options or {}
  local L=options.length or 80
  local approach=options.turnback and 30 or 10
- local centre=L-20
+ local centre=options.centred and L/2 or L-20
  local shift=transf.transl(vec3.new(centre,0,0))
  local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
  local result={models={},laneLists={}}
  local function person(curves,linkable,matrix)
   result.laneLists[#result.laneLists+1]=laneutil.createLane(transform(curves,matrix or shift),{"PERSON"},2,2,linkable)
  end
- person(generatedData.base.curves.passenger_entrance_link,true,entranceShift)
- person(generatedData.base.curves.passenger_entrance,false,entranceShift)
+ if not options.internal then
+  person(generatedData.base.curves.passenger_entrance_link,true,entranceShift)
+  person(generatedData.base.curves.passenger_entrance,false,entranceShift)
+ end
  person(makeCircleEdges(-12,8.5,-90),false)
  person(generatedData.rotated.curves.passenger_passageway,false)
  -- Keep platforms at world x=0..L; break exactly at the relocated stairs.
@@ -311,18 +313,18 @@ return function(params,options)
   person({
    {{-centre,y,-17.65},{-14.66,y,-17.65}},
    {{-14.66,y,-17.65},{14.66,y,-17.65}},
-   {{14.66,y,-17.65},{20,y,-17.65}},
+   {{14.66,y,-17.65},{L-centre,y,-17.65}},
   },false)
  end
- constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
+ if not options.internal then constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift) end
  constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
  -- Native extensions fill the shell from the left throat to the 40m concourse.
- for x=20,(options.through and L-30+approach or L),10 do
+ for x=20,(options.through and centre-10+approach or L),10 do
   constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
    transf.mul(shift,transf.mul(transf.rotZ(math.pi),transf.transl(vec3.new(x,0,0)))))
  end
  if options.through then
-  for x=L,L+approach-10,10 do
+  for x=centre+20,L+approach-10,10 do
    constructionutil.addModelsAndGroups(params,generatedData.extended,result,nil,
     transf.transl(vec3.new(x,0,0)))
   end
@@ -332,7 +334,9 @@ return function(params,options)
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}
  end
- modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
+ if not options.internal then
+  modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
+ end
  -- Close the native tunnel opening visually at the dead-end only.
  -- Existing brick wall mesh: 4m wide, z=-3.2..2, fitted to the 14m head wall.
  if not options.through then

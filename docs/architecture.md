@@ -23,3 +23,7 @@ The shared underground builder sets maintenance to 30,000 builder units; elevate
 ## Build
 
 Generate the GUI and transparent 30×30 menu icon before packaging. `package.py` uses an explicit runtime file list, checks local resources and translations and writes only the core mod. The example mod and developer kit have separate ZIPs. Test files are not included in the core package.
+
+## Underground interchange prototype
+
+The interchange builds two underground through stations with Turnback using Station API v1. The core centres and combines their concourses into one station with four terminals and one public street entrance. The lower level is rotated 90 degrees and sits 18m below the upper level. Two stair flights connect the concourses. The first prototype uses fixed 80m platforms. Interchange composition is internal to the core.
