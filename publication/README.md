@@ -1,4 +1,4 @@
-# Ultimate Light Rail 1.0.0 — publication package
+# Ultimate Light Rail 1.1.0 — publication package
 
 Current release candidate: mod revision 65, Station API v1. Nothing is published by these packaging scripts.
 
@@ -37,7 +37,7 @@ Four known model warnings concern native game textures using BC3/DXT5 where the 
 2. Apply the refreshed candidate to the staging area, preserve any mod.io linkage file, and archive obsolete gallery files `5.png` and `6.png` outside `_metadata`.
 3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
 4. Load the updated staging copy and check the Interchange tile, layer settings, placement and a line after save/reload.
-5. Push the final commit. If distributing this update on GitHub, use a new release tag and attach the core, developer kit, example and checksums.
+5. Push the final commit. If distributing this update on GitHub, use the new `v1.1.0` release tag and attach the core, developer kit, example and checksums.
 6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the text in `interchange-update-changelog.txt`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
 
 The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.
