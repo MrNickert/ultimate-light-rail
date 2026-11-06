@@ -28,8 +28,8 @@ try {
     $modEntry = $archive.GetEntry('mrnickert_ultimate_metro/mod.json')
     $reader = [IO.StreamReader]::new($modEntry.Open())
     try { $candidate = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 59) { throw 'Unexpected release candidate.' }
-    if ($CheckOnly) { Write-Output ('Verified revision 59, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
+    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 60) { throw 'Unexpected release candidate.' }
+    if ($CheckOnly) { Write-Output ('Verified revision 60, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
     $backupRoot = Join-Path $PSScriptRoot ('staging-backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     foreach ($file in $files) {
         if (Test-Path -LiteralPath $file.Destination) {
@@ -40,12 +40,12 @@ try {
         New-Item -ItemType Directory -Path (Split-Path $file.Destination -Parent) -Force | Out-Null
         if ($file.Relative -eq 'mod.json') {
             $currentDefinition = Get-Content -LiteralPath $file.Destination -Raw | ConvertFrom-Json
-            $currentDefinition.revision = 59
+            $currentDefinition.revision = 60
             [IO.File]::WriteAllText($file.Destination, ($currentDefinition | ConvertTo-Json -Depth 100), [Text.UTF8Encoding]::new($false))
         } else {
             [IO.Compression.ZipFileExtensions]::ExtractToFile($file.Entry, $file.Destination, $true)
         }
     }
-    Write-Output ('Updated local staging to revision 59. Backup: ' + $backupRoot)
+    Write-Output ('Updated local staging to revision 60. Backup: ' + $backupRoot)
     Write-Output 'Underground Interchange test build installed; metadata, artwork, UI and mod.io linkage preserved. Reload your save and let the simulation run to migrate existing stations.'
 } finally { $archive.Dispose() }

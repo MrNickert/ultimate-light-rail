@@ -1,6 +1,5 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.lua"
-local mat=require "::/scripts/mat4.tl"
 local laneutil=require "::/scripts/construction/laneutil.lua"
 local LENGTH,DEPTH=80,18
 local CENTRE=LENGTH/2
@@ -11,6 +10,19 @@ local function transform(m,p,point)
  local offset=point and 1 or 0
  return {m[1]*p[1]+m[5]*p[2]+offset*m[13],
   m[2]*p[1]+m[6]*p[2]+offset*m[14],p[3]+offset*m[15]}
+end
+
+-- Construction model and snap transforms are serialized 4x4 arrays.
+local function transformMatrix(level,matrix)
+ local result={}
+ for i=1,16,4 do
+  local w=matrix[i+3]
+  result[i]=level[1]*matrix[i]+level[5]*matrix[i+1]+level[13]*w
+  result[i+1]=level[2]*matrix[i]+level[6]*matrix[i+1]+level[14]*w
+  result[i+2]=matrix[i+2]+level[15]*w
+  result[i+3]=w
+ end
+ return result
 end
 
 local function transformLevel(result,m)
@@ -27,7 +39,7 @@ local function transformLevel(result,m)
    node[2]=transform(m,node[2],false)
   end
  end
- for _,model in ipairs(sub.models) do model.transf=mat.mul(m,model.transf) end
+ for _,model in ipairs(sub.models) do model.transf=transformMatrix(m,model.transf) end
  for _,collider in ipairs(sub.colliders) do
   for i,p in ipairs(collider.params.points) do collider.params.points[i]=transform(m,p,true) end
  end
@@ -42,7 +54,7 @@ local function transformLevel(result,m)
    for i,p in ipairs(triangle) do triangle[i]=transform(m,p,true) end
   end
  end
- result.snapPoint.transf=mat.mul(m,result.snapPoint.transf)
+ result.snapPoint.transf=transformMatrix(m,result.snapPoint.transf)
 end
 
 local function append(target,source)

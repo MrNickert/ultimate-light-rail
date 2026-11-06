@@ -1,6 +1,6 @@
 # Ultimate Light Rail 1.0.0 — publication package
 
-Current release candidate: mod revision 59, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 60, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 

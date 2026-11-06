@@ -1,12 +1,14 @@
 local function main()
 -- Native lane/model/terrain helper code is loaded by test_native_layout.py.
 -- Only Teal math and engine serialization dependencies are replaced here.
-local function identity() return {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1} end
+local nativeMatrix={}
+local function identity() return setmetatable({1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1},nativeMatrix) end
 local mat={}
 function mat.transl(v) local m=identity();m[13]=v.x;m[14]=v.y;m[15]=v.z;return m end
 function mat.rotZ(a) local m=identity();m[1]=math.cos(a);m[2]=math.sin(a);m[5]=-m[2];m[6]=m[1];return m end
 function mat.mul(a,b)
- local m={}
+ assert(getmetatable(a)==nativeMatrix or getmetatable(b)==nativeMatrix,"native mat4.mul requires a native matrix operand")
+ local m=identity()
  for c=0,3 do for r=0,3 do local v=0;for k=0,3 do v=v+a[k*4+r+1]*b[c*4+k+1] end;m[c*4+r+1]=v end end
  return m
 end
