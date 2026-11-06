@@ -18,7 +18,7 @@ function data()
   undergroundView=true,
   availability={yearFrom=1925,yearTo=0},
   description={name=_("LR_INTERCHANGE_NAME"),description=_("LR_INTERCHANGE_DESC"),
-   icon="mrnickert_ultimate_metro::/ui/metro_underground_terminus.tga",
+   icon="mrnickert_ultimate_metro::/ui/underground_interchange.tga",
    previewIcon="",
    attributes={cost={900000,3600000},maintenanceCost={30000,120000}},
    cargoTypeSet={cargoClassesIncluded={"PASSENGERS"},cargoClassesExcluded={},cargoTypesIncluded={},cargoTypesExcluded={}}},

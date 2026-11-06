@@ -39,6 +39,7 @@ CONTENT = {
     "content/underground_interchange.script.lua",
     "content/lightrail_station_approach.street_template.lua",
     "content/ui/light_rail_station.tga",
+    "content/ui/underground_interchange.tga",
     "content/ui/light_rail_station_preview.tga",
     "content/ui/lightrail_fenced.tga",
     "content/ui/lightrail_fenced_preview.tga",
