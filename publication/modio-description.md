@@ -23,9 +23,13 @@ Take your tram network underground, keep it at street level, or carry it above t
 
 ## Change ends. Keep your network moving.
 
-Terminus stations include the crossover needed for reversing operations, without a visible turning loop. Through stations keep both ends open for intermediate stops. Choose your platform length and optional approach fences; underground stations use a fixed hall, elevated stations include a concrete structure and central stair access.
+Terminus stations include the crossover needed for reversing operations, without a visible turning loop. Through stations keep both ends open. Through stations can add a crossover at each end with Turnback. Choose your platform length and optional approach fences; underground stations use a fixed hall, elevated stations include a concrete structure and central stair access.
 
 
+
+## Underground Interchange
+
+Build an Underground Interchange with one to four layers. Choose a platform length of 40–120 m and an angle of 0°, 45°, 90° or 135° per layer. Each layer has Turnback crossovers. A shared street entrance and internal stairs connect all platforms.
 
 ## Built for players. Open to station creators.
 

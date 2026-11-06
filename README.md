@@ -1,8 +1,8 @@
 # Ultimate Light Rail
 
-**Release 1.0.0 · mod revision 64 · Station API v1**
+**Release 1.0.0 · mod revision 65 · Station API v1**
 
-The additive UI integration (revision 52) has been tested in-game alongside Undo. Turnback is available on through stations at all three elevations. It adds a 30 m crossover at each end. In-game routing validation is pending. See [UI integration](docs/ui-integration.md).
+The additive UI integration (revision 52) has been tested in-game alongside Undo. Turnback is available on through stations at all three elevations. It adds a 30 m crossover at each end. See [UI integration](docs/ui-integration.md).
 
 Tram-based light rail for Transport Fever 3, with a dedicated construction menu, track and configurable passenger stations.
 
@@ -19,11 +19,15 @@ Open **Light Rail**, between Road and Rail. The tram depot, light rail track and
 
 Bundled stations and the public light rail track become available in **1925**, matching the native modern tram track. The tram depot retains its native availability dates.
 
-All stations have two platform tracks. Terminus stations include a crossover. Through stations can add a crossover at each end using Turnback. Both support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
+Each station layer has two platform tracks. Terminus stations include a crossover. Through stations can add a crossover at each end using Turnback. Both support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
 
 Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks are at -18m, with a fixed hall and street access. The public light rail track has low metal fences and preserves native tram traffic behaviour.
 
-Underground stations use a maintenance base of **30,000** (about **$180,000/year at the previously tested settings**), matching the rebalanced vanilla underground stop. No separate cost mod is required for ULR stations. A saved, one-time migration updates player-owned bundled underground stations still using the previous base of 180,000. Surface/elevated stations, build prices, geometry, lines and accrued charges are preserved. Already adjusted or nonstandard costs are skipped. Migration changes remain in the save after removing a mod; no automatic refunds or reversions are performed.
+Underground stations use a maintenance base of **30,000** (about **$180,000/year at the previously tested settings**), matching the rebalanced vanilla underground stop. No separate cost mod is required for ULR stations. A saved, one-time migration updates player-owned bundled underground stations still using the previous base of 180,000. The migration also adjusts bundled elevated stations on the old default rate. It retains station geometry, lines and accrued charges. Already adjusted or nonstandard costs are skipped. Migration changes remain in the save after removing a mod; no automatic refunds or reversions are performed.
+
+### Underground Interchange
+
+Choose **Underground Interchange Station** in the Light Rail menu. Build an Underground Interchange with one to four layers. Choose a platform length of 40–120 m and an angle of 0°, 45°, 90° or 135° per layer. Each layer has Turnback crossovers. A shared street entrance and internal stairs connect all platforms. Track depths are −18, −36, −54 and −72 m. The default is two 80 m layers at 0° and 90°.
 
 [Maintenance and existing stations](docs/maintenance.md) · [Installation](docs/installation.md) · [Validation and limitations](docs/validation.md)
 

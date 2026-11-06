@@ -1,0 +1,1 @@
+Added a configurable Underground Interchange with up to four layers, independent angles and platform lengths, and internal transfers. Through stations can now add Turnback crossovers at both ends. Station API v1 remains compatible.

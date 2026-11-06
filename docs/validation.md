@@ -19,6 +19,8 @@ All three station locations have been placed and confirmed working. All platform
 
 The dedicated Light Rail button, compact icon and combined catalogue containing the tram depot, track and station have been confirmed in-game.
 
+The fixed two-layer interchange was tested in-game, including a passenger transfer. The four-layer prototype was placed and connected to working lines at all four depths. Its generated pedestrian network passed all 56 directed inter-platform checks. The configurable station settings were confirmed in-game. Automated tests cover one to four layers, all adjacent angle pairs and mixed platform lengths. The final upload candidate still needs Mod Hub validation and a visual check of the tile and settings.
+
 ## Scope
 
 The integrated 1.0.0 core has been used to build a working light rail line in an existing save, as confirmed by the user.

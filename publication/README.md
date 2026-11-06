@@ -1,6 +1,6 @@
 # Ultimate Light Rail 1.0.0 — publication package
 
-Current release candidate: mod revision 64, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 65, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 
@@ -27,7 +27,7 @@ Script Mod, Tram, Road Station, Road Construction, Depot. These labels were pres
 
 ## Validation
 
-The test candidate uses additive native recipe integration. GameBar and ConstructionListWindow are retained. A small checked bar adapter inserts the button and calls previous wrappers through; a scoped construction-content adapter appends the category and restores native helpers after each callback. See `docs/ui-integration.md`. In-game coexistence still requires verification.
+The test candidate uses additive native recipe integration. GameBar and ConstructionListWindow are retained. A small checked bar adapter inserts the button and calls previous wrappers through; a scoped construction-content adapter appends the category and restores native helpers after each callback. See `docs/ui-integration.md`. The earlier integration was tested alongside Undo!. Validate the final candidate in Mod Hub before uploading.
 
 Four known model warnings concern native game textures using BC3/DXT5 where the validator recommends BC1/DXT1 for opaque maps. They reference the native park-bench material, station canopy atlas (two models), and tram paving metal/gloss map. Those textures are not bundled or modified by this mod. The warning is recorded rather than suppressed or "fixed" by redistributing modified base-game textures.
 
@@ -36,8 +36,8 @@ Four known model warnings concern native game textures using BC3/DXT5 where the 
 1. Build UI and artwork, then the core, example, developer kit and publication packages with the scripts under `scripts/`.
 2. Apply the refreshed candidate to the staging area, preserve any mod.io linkage file, and archive obsolete gallery files `5.png` and `6.png` outside `_metadata`.
 3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
-4. Load the mod in a game and verify menu operation after the deferred-tool-lookup change. Confirm year availability separately.
-5. Push the final commit, verify the intended `v1.0.0` tag and create a public GitHub Release containing the core, developer kit, example and checksums. Do not overwrite a tag already published to users.
-6. Upload only the core as the mod.io game download. Apply `modio-description.html` in the website editor after the public images are reachable. Review the actual page while hidden/private, then publish when ready.
+4. Load the updated staging copy and check the Interchange tile, layer settings, placement and a line after save/reload.
+5. Push the final commit. If distributing this update on GitHub, use a new release tag and attach the core, developer kit, example and checksums.
+6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the text in `interchange-update-changelog.txt`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
 
 The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.
