@@ -2,7 +2,7 @@
   "name": "Ultimate Light Rail",
   "summary": "Build surface, underground and elevated light rail stations, including reversing terminus stations.",
   "version": "1.0.0",
-  "revision": 62,
+  "revision": 63,
   "modId": "mrnickert_ultimate_metro",
   "suggestedSlug": "ultimate-light-rail",
   "homepage": "https://github.com/MrNickert/ultimate-light-rail",

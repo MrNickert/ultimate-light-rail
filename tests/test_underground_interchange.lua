@@ -73,6 +73,7 @@ return function(resource)
  local con=resource("underground_interchange.con.lua")
  local menu=resource("station_menu.script.lua")
  assert(#con.params==9 and con.params[1].defaultIndex==2)
+ assert(con.description.previewIcon=="" and con.description.icon~="")
  assert(con.menuCategory.categories[1].category=="ulr_stations")
  assert(#resource("underground_interchange_four_test.con.lua").menuCategory.categories==0)
  for i=1,4 do
