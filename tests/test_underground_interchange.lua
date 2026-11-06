@@ -1,12 +1,13 @@
-return function(resource)
- local con=resource("underground_interchange.con.lua")
+local function check(resource,construction,rotations)
+ local con=resource(construction)
+ local levels=#rotations
  assert(con.undergroundView and #con.params==0)
  assert(con.menuCategory.categories[1].category=="ulr_stations")
- local result=resource("underground_interchange.script.lua").updateFn({}, {seed=42})
- assert(#result.subconstructions==1 and #result.edgeLists==4)
- assert(result.cost==1800000 and result.maintenanceCost==60000)
+ local result=resource("underground_interchange.script.lua").updateFn(con.updateScript.params or {}, {seed=42})
+ assert(#result.subconstructions==1 and #result.edgeLists==2*levels)
+ assert(result.cost==900000*levels and result.maintenanceCost==30000*levels)
  local sub=result.subconstructions[1]
- assert(#sub.station.terminals==4)
+ assert(#sub.station.terminals==2*levels)
  local function key(point)
   return ("%d,%d,%d"):format(math.floor(point[1]*1000+0.5),
    math.floor(point[2]*1000+0.5),math.floor(point[3]*1000+0.5))
@@ -36,10 +37,11 @@ return function(resource)
   nextIndex=nextIndex+1
  end
  for i,terminal in ipairs(sub.station.terminals) do
-  local upper=i<=2
+  local level=math.ceil(i/2)
+  local c,s=table.unpack(rotations[level])
   local vehicle=sub.laneLists[terminal.vehicleNode[1]+1]
   local stop=vehicle.nodes[terminal.vehicleNode[2]+1][1]
-  assert(stop[3]==(upper and -18 or -36) and stop[upper and 1 or 2]==0)
+  assert(stop[3]==-18*level and math.abs(stop[1]*c+stop[2]*s)<1e-8)
   assert(vehicle.needsReservation and not vehicle.forwardOnly)
   for _,ref in ipairs(terminal.personNodes) do
    local lane=sub.laneLists[ref[1]+1]
@@ -47,11 +49,12 @@ return function(resource)
   end
  end
  for i,edge in ipairs(result.edgeLists) do
-  local upper=i<=2
-  local axis=upper and 1 or 2
+  local level=math.ceil(i/2)
+  local c,s=table.unpack(rotations[level])
   local endpoint=edge.edges[edge.snapNodes[1]+1][1]
-  assert(edge.edgeType=="TUNNEL" and endpoint[3]==(upper and -18 or -36))
-  assert(math.abs(endpoint[axis])==80 and endpoint[3-axis]==0)
+  assert(edge.edgeType=="TUNNEL" and endpoint[3]==-18*level)
+  assert(math.abs(math.abs(endpoint[1]*c+endpoint[2]*s)-80)<1e-8)
+  assert(math.abs(-endpoint[1]*s+endpoint[2]*c)<1e-8)
  end
  local switchCount=0
  for _,lane in ipairs(sub.laneLists) do
@@ -60,6 +63,12 @@ return function(resource)
    switchCount=switchCount+1
   end
  end
- assert(switchCount==8)
- print("PASS: fixed interchange, four tunnel ends, four terminals, four scissors crossovers and pedestrian routes from one public entrance.")
+ assert(switchCount==4*levels)
+end
+
+return function(resource)
+ local diagonal=math.sqrt(0.5)
+ check(resource,"underground_interchange.con.lua",{{1,0},{0,1}})
+ check(resource,"underground_interchange_four_test.con.lua",{{1,0},{diagonal,diagonal},{0,1},{-diagonal,diagonal}})
+ print("PASS: two- and four-level interchanges; terminal and tunnel geometry, Turnback and pedestrian reachability.")
 end

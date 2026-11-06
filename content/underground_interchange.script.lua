@@ -3,8 +3,9 @@ local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.l
 local laneutil=require "::/scripts/construction/laneutil.lua"
 local LENGTH,DEPTH=80,18
 local CENTRE=LENGTH/2
-local UPPER={1,0,0,0,0,1,0,0,0,0,1,0,-CENTRE,0,0,1}
-local LOWER={0,1,0,0,-1,0,0,0,0,0,1,0,0,-CENTRE,-DEPTH,1}
+local DIAGONAL=math.sqrt(0.5)
+local FOUR_LEVEL_ROTATIONS={{1,0},{DIAGONAL,DIAGONAL},{0,1},{-DIAGONAL,DIAGONAL}}
+local TWO_LEVEL_ROTATIONS={{1,0},{0,1}}
 
 local function transform(m,p,point)
  local offset=point and 1 or 0
@@ -61,9 +62,7 @@ local function append(target,source)
  for _,value in ipairs(source) do target[#target+1]=value end
 end
 
-local function transfer(sub)
- -- Use the concourse side landings, keeping stairs outside the rail envelope.
- local points={{0,11.75,-12},{0,15.5,-12},{-16,15.5,-21},{-16,0,-30},{-11.75,0,-30}}
+local function transfer(sub,points)
  local curves={}
  for i=1,#points-1 do
   local a,b=points[i],points[i+1]
@@ -91,29 +90,56 @@ local function buildLevel(capture,params,internal)
  return result
 end
 
+local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
+ local c,s=upperRotation[1],upperRotation[2]
+ local points={{0,11.75,-12},{0,16,-12},{-26,18,-21}}
+ for i,point in ipairs(points) do
+  points[i]={side*(c*point[1]-s*point[2]),side*(s*point[1]+c*point[2]),point[3]+offset}
+ end
+ local lc,ls=lowerRotation[1],lowerRotation[2]
+ points[4]={-side*ls*16,side*lc*16,-30+offset}
+ points[5]={-side*ls*11.75,side*lc*11.75,-30+offset}
+ transfer(sub,points)
+end
+
+local function appendLevel(result,level)
+ local top,bottom=result.subconstructions[1],level.subconstructions[1]
+ local offset=#top.laneLists
+ -- All terminals share one station, with zero-based references into its lanes.
+ for _,terminal in ipairs(bottom.station.terminals) do
+  terminal.vehicleNode[1]=terminal.vehicleNode[1]+offset
+  for _,ref in ipairs(terminal.personEdges) do ref[1]=ref[1]+offset end
+  for _,ref in ipairs(terminal.personNodes) do ref[1]=ref[1]+offset end
+ end
+ append(top.station.terminals,bottom.station.terminals)
+ append(top.laneLists,bottom.laneLists)
+ append(top.models,bottom.models)
+ append(top.colliders,bottom.colliders)
+ append(result.edgeLists,level.edgeLists)
+ result.cost=result.cost+level.cost
+ result.maintenanceCost=result.maintenanceCost+level.maintenanceCost
+end
+
 function data()
  return {updateFn=function(capture,params)
-  local upper=buildLevel(capture,params,false)
-  local lower=buildLevel(capture,params,true)
-  transformLevel(upper,UPPER)
-  transformLevel(lower,LOWER)
-  local top,bottom=upper.subconstructions[1],lower.subconstructions[1]
-  local offset=#top.laneLists
-  -- One station with four terminals. Lane references are zero-based and local
-  -- to the resulting subconstructions entry.
-  for _,terminal in ipairs(bottom.station.terminals) do
-   terminal.vehicleNode[1]=terminal.vehicleNode[1]+offset
-   for _,ref in ipairs(terminal.personEdges) do ref[1]=ref[1]+offset end
-   for _,ref in ipairs(terminal.personNodes) do ref[1]=ref[1]+offset end
+  local fourLevels=capture and capture.fourLevelTest==true
+  local rotations=fourLevels and FOUR_LEVEL_ROTATIONS or TWO_LEVEL_ROTATIONS
+  local result
+  for i,rotation in ipairs(rotations) do
+   local c,s=rotation[1],rotation[2]
+   local level=buildLevel(capture,params,i>1)
+   transformLevel(level,{c,s,0,0,-s,c,0,0,0,0,1,0,-CENTRE*c,-CENTRE*s,-DEPTH*(i-1),1})
+   if i==1 then result=level else appendLevel(result,level) end
   end
-  append(top.station.terminals,bottom.station.terminals)
-  append(top.laneLists,bottom.laneLists)
-  append(top.models,bottom.models)
-  append(top.colliders,bottom.colliders)
-  append(upper.edgeLists,lower.edgeLists)
-  transfer(top)
-  upper.cost=upper.cost+lower.cost
-  upper.maintenanceCost=upper.maintenanceCost+lower.maintenanceCost
-  return upper
+  local sub=result.subconstructions[1]
+  if fourLevels then
+   for i=1,#rotations-1 do
+    -- Opposite landings on intermediate levels avoid overlapping stair routes.
+    connectLevels(sub,rotations[i],rotations[i+1],-DEPTH*(i-1),i%2==1 and 1 or -1)
+   end
+  else
+   transfer(sub,{{0,11.75,-12},{0,15.5,-12},{-16,15.5,-21},{-16,0,-30},{-11.75,0,-30}})
+  end
+  return result
  end}
 end

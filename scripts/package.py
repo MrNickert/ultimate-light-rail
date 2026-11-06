@@ -35,6 +35,7 @@ CONTENT = {
     "content/underground_station_util.lua",
     "content/underground_concourse_util.lua",
     "content/underground_interchange.con.lua",
+    "content/underground_interchange_four_test.con.lua",
     "content/underground_interchange.script.lua",
     "content/lightrail_station_approach.street_template.lua",
     "content/ui/light_rail_station.tga",

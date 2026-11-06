@@ -2,7 +2,7 @@
 from pathlib import Path
 import json, zipfile
 root=Path(__file__).resolve().parents[1]
-assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==60
+assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==61
 prefix='ultimate-light-rail-developer-kit-1.0.0'
 files={
  'README.md':'docs/developer-kit-readme.md',

@@ -27,3 +27,5 @@ Generate the GUI and transparent 30×30 menu icon before packaging. `package.py`
 ## Underground interchange prototype
 
 The interchange builds two underground through stations with Turnback using Station API v1. The core centres and combines their concourses into one station with four terminals and one public street entrance. The lower level is rotated 90 degrees and sits 18m below the upper level. Two stair flights connect the concourses. The first prototype uses fixed 80m platforms. Interchange composition is internal to the core.
+
+The separate four-level test construction uses the same composition and station API at track depths of 18, 36, 54 and 72m, with successive 45-degree rotations. It is experimental and does not change the two-level resource or the public contract.

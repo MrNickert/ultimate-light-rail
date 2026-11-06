@@ -115,5 +115,5 @@ assert(loadfile('tests/test_turnback.lua'))()(resource)
 assert(loadfile('tests/test_underground_interchange.lua'))()(resource)
 print('PASS: both switch settings, identical vehicle geometry at -18m, native pedestrian paths reach both platforms, native models/colliders/entrance terrain, 80/40 km/h limits. Engine placement still needs in-game validation.')
 end
-local ok,err=pcall(main)
+local ok,err=xpcall(main,debug.traceback)
 if not ok then io.stderr:write(tostring(err),'\n');os.exit(1)end
