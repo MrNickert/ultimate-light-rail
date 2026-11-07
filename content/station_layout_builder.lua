@@ -15,7 +15,7 @@ return function(capture,params,spec)
  local fence=spec.fence
  -- Terminus geometry always includes its crossover. Through stations use turnback.
  config.crossover=isThrough and 1 or 2
- if isUnderground then return underground(capture,config,isThrough,length,spec.turnback) end
+ if isUnderground then return underground(capture,config,isThrough,length,spec.turnback,spec.undergroundLevel) end
  if spec.placement=="elevated" then return elevated(capture,config,isThrough,length,fence,spec.turnback) end
  local result
  if isThrough then

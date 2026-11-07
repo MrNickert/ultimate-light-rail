@@ -41,7 +41,7 @@ return function(resource)
  local valid={apiVersion=1,placement="surface",stationType="through",platformLength=80}
  local invalid={
   {apiVersion=2},{placement="space"},{stationType="loop"},{platformLength=70},
-  {platformTracks=4},{fence=1},{crossover=true},{design=false},
+  {platformTracks=4},{undergroundLevel=-2},{fence=1},{crossover=true},{design=false},
   {design={apiVersion=2,id="x",assets={}}},
   {design={apiVersion=1,id="x",assets={typo="example::/x.mdl"}}},
   {design={apiVersion=1,id="x",assets={platformSurface="platform.mdl"}}},

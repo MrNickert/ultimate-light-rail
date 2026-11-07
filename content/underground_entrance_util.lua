@@ -305,7 +305,10 @@ return function(params,options)
  if not options.internal then
   person(generatedData.base.curves.passenger_entrance_link,true,entranceShift)
   person(generatedData.base.curves.passenger_entrance,false,entranceShift)
+  constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift)
+  modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
  end
+ if options.entranceOnly then return result end
  person(makeCircleEdges(-12,8.5,-90),false)
  person(generatedData.rotated.curves.passenger_passageway,false)
  -- Keep platforms at world x=0..L; break exactly at the relocated stairs.
@@ -316,7 +319,6 @@ return function(params,options)
    {{14.66,y,-17.65},{L-centre,y,-17.65}},
   },false)
  end
- if not options.internal then constructionutil.addModelsAndGroups(params,generatedData.base,result,nil,entranceShift) end
  constructionutil.addModelsAndGroups(params,generatedData.rotated,result,nil,shift)
  -- Native extensions fill the shell from the left throat to the 40m concourse.
  for x=20,(options.through and centre-10+approach or L),10 do
@@ -333,9 +335,6 @@ return function(params,options)
  for _,endpoint in ipairs(ends) do
   result.models[#result.models+1]={id="::/stations/street/underground_station/models/underground_station_end.mdl",
    transf=transf.mul(transf.transl(vec3.new(endpoint[1],0,0)),transf.rotZ(endpoint[2] and math.pi or 0))}
- end
- if not options.internal then
-  modulesutil.addGroundFaces("::/stations/street/underground_station/underground_station.gtex",generatedData,result,entranceShift)
  end
  -- Close the native tunnel opening visually at the dead-end only.
  -- Existing brick wall mesh: 4m wide, z=-3.2..2, fitted to the 14m head wall.

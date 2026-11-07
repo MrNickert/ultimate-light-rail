@@ -40,6 +40,9 @@ for _,path in ipairs({"content/light_rail_station.con.lua",
  "examples/contract_station/content/example.con.lua",
  "examples/contract_station/content/kit_example.con.lua"}) do
  local descriptionEnv={_=function(key)return key end,require=function(name)
+  if path=="content/light_rail_station.con.lua" and name=="mrnickert_ultimate_metro::/underground_levels.lua" then
+   return assert(loadfile("content/underground_levels.lua","t",{type=type}))()
+  end
   assert(name=="mrnickert_ultimate_metro::/station_menu.lua","construction must use lightweight menu helper")
   return menu
  end}

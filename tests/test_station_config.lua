@@ -17,16 +17,16 @@ return function(resource)
   return r
  end
  local con=resource("light_rail_station.con.lua")
- assert(#con.menuCategory.categories==1 and #con.params==5)
- local expected={"placement","stationType","platformLength","fence","turnback"}
+ assert(#con.menuCategory.categories==1 and #con.params==6)
+ local expected={"placement","stationType","platformLength","fence","turnback","depth"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and (#param.values==(i==3 and 5 or (i==1 and 3 or 2))) and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4})[i]) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  assert(con.params[1].values[1]=="LR_STATION_UNDERGROUND" and con.params[1].values[2]=="LR_STATION_SURFACE" and con.params[1].values[3]=="LR_STATION_ELEVATED")
  assert(con.params[1].defaultIndex==2 and con.params[1].displayMode=="Vertical","full-width location row, Surface selected by default")
  assert(#con.params[1].tooltips==3)
- for i=2,5 do assert(con.params[i].displayMode=="Horizontal") end
+ for i=2,6 do assert(con.params[i].displayMode=="Horizontal") end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
   assert(#resource(name..".con.lua").menuCategory.categories==0,"legacy menu entry hidden, not deleted")
  end
@@ -129,5 +129,5 @@ return function(resource)
   results[id]=r
  end end end
  equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
- print("PASS: one five-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
+ print("PASS: one six-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

@@ -33,6 +33,8 @@ CONTENT = {
     "content/light_rail_station.script.lua",
     "content/station_config_util.lua",
     "content/underground_station_util.lua",
+    "content/underground_levels.lua",
+    "content/underground_geometry.lua",
     "content/underground_concourse_util.lua",
     "content/underground_interchange.con.lua",
     "content/underground_interchange_four_test.con.lua",

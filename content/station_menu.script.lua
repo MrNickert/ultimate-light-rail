@@ -7,6 +7,9 @@ function data()
   checkTurnbackFn=function(_capture,params)
    return tonumber((params or {}).stationType)==1 and "Enabled" or "Disabled"
   end,
+  checkDepthFn=function(_capture,params)
+   return tonumber((params or {}).placement)==1 and "Enabled" or "Hidden"
+  end,
   checkFenceFn=function(_capture,params)
    return tonumber((params or {}).placement)==1 and "Disabled" or "Enabled"
   end,

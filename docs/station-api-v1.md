@@ -76,6 +76,7 @@ The return value is directly usable as the construction update result. `capture`
 | `platformLength` | Required: 40, 60, 80, 100 or 120 metres |
 | `platformTracks` | Optional, defaults to 2; only 2 is accepted |
 | `fence` | Optional boolean; defaults to true, effectively false underground |
+| `undergroundLevel` | Optional integer for underground stations: `-1`, `-2`, `-3` or `-4`. Defaults to `-1`. |
 | `design` | Optional; omitting it uses the standard kit |
 
 A terminus includes one crossover. A through station adds two crossovers when Turnback is enabled. Locations are named values, not menu indices. Unknown fields and invalid values produce an API error.
@@ -113,6 +114,8 @@ API v1 supports exactly two tracks, fixed platform width and floor height, fixed
 These fixed model interfaces and supported public calls are covered by the compatibility policy. Internal builder modules and generated UI recipes are not public extension points. Bug fixes and improvements must preserve the documented v1 contract; changes that cannot do so require a new API version.
 
 The core sets each terminal capacity to 35 waiting passengers per 20 m of platform length from revision 66. Existing API v1 station specifications use the new capacity when built.
+
+The core converts `undergroundLevel` to a track depth of −18, −36, −54 or −72 m. The entrance stays at street level. The option applies to single through and terminus stations. Existing callers may omit it to keep the original depth.
 
 ## Turnback
 

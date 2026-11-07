@@ -1,6 +1,9 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_menu.lua"
+local levels=require "mrnickert_ultimate_metro::/underground_levels.lua"
 -- One new resource ID; legacy construction IDs remain available to saved games.
 function data()
+ local depths={}
+ for i=1,levels.count do depths[i]=levels.trackZ(-i).." m" end
  return {
   availability={yearFrom=1925,yearTo=0},
   description={name=_("LR_STATION_NAME"),description=_("LR_STATION_DESC"),
@@ -23,6 +26,9 @@ function data()
    {key="turnback",group="ulr_station",name=_("LR_STATION_TURNBACK"),tooltip=_("LR_STATION_TURNBACK_TOOLTIP"),
     values={_("LR_STATION_NO"),_("LR_STATION_YES")},defaultIndex=1,uiType="Button",displayMode="Horizontal",
     checkEnabledScript={fileName="mrnickert_ultimate_metro::/station_menu.script@checkTurnbackFn",params={}}},
+   {key="depth",group="ulr_location",name=_("LR_STATION_DEPTH"),values=depths,
+    defaultIndex=1,uiType="Button",displayMode="Horizontal",
+    checkEnabledScript={fileName="mrnickert_ultimate_metro::/station_menu.script@checkDepthFn",params={}}},
   },
   updateScript={fileName="mrnickert_ultimate_metro::/light_rail_station.script@updateFn"},
   configureLayerScript={fileName="::/gui/construction/construction_desc_layers.script@configureDefaultLayerFn",params={heightmapContours=true}},

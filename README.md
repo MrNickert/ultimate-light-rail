@@ -15,6 +15,7 @@ Open **Light Rail**, between Road and Rail. The tram depot, light rail track and
 | Location | Underground / Surface / Elevated; Surface selected by default |
 | Station type | Through / Terminus |
 | Platform length | 40 / 60 / 80 / 100 / 120 metres |
+| Depth | Underground only: −18 / −36 / −54 / −72 m; defaults to −18 m |
 | Fences | No / Yes; disabled underground |
 
 Each track accommodates 35 waiting passengers per 20 m of platform length. An 80 m platform accommodates 140 passengers per track. The same rule applies independently to each Interchange layer.
@@ -23,7 +24,7 @@ Bundled stations and the public light rail track become available in **1925**, m
 
 Each station layer has two platform tracks. Terminus stations include a crossover. Through stations can add a crossover at each end using Turnback. Both support reversing without a visible turning loop. Use tram vehicles and native electric tram track. Vehicles must fit the selected platform length: overlong vehicles can keep a crossover occupied. Select terminals or add waypoints when you need a particular track assignment.
 
-Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks are at -18m, with a fixed hall and street access. The public light rail track has low metal fences and preserves native tram traffic behaviour.
+Surface stations have low platforms, furniture and a landscaped forecourt at the terminus end. Through stations have a pedestrian underpass. Elevated stations include a concrete structure, canopies and one central street-level entrance; tracks are at +12m. Underground tracks default to −18 m, with a fixed hall and a street-level entrance connected by stairs. The public light rail track has low metal fences and preserves native tram traffic behaviour.
 
 Underground stations use a maintenance base of **30,000** (about **$180,000/year at the previously tested settings**), matching the rebalanced vanilla underground stop. No separate cost mod is required for ULR stations. A saved, one-time migration updates player-owned bundled underground stations still using the previous base of 180,000. The migration also adjusts bundled elevated stations on the old default rate. It retains station geometry, lines and accrued charges. Already adjusted or nonstandard costs are skipped. Migration changes remain in the save after removing a mod; no automatic refunds or reversions are performed.
 

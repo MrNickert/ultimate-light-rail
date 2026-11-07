@@ -24,6 +24,10 @@ The shared underground builder sets maintenance to 30,000 builder units; elevate
 
 Generate the GUI and transparent 30×30 menu icon before packaging. `package.py` uses an explicit runtime file list, checks local resources and translations and writes only the core mod. The example mod and developer kit have separate ZIPs. Test files are not included in the core package.
 
+## Underground depth
+
+The standard station menu maps its depth selection to a logical level. The public API passes that optional level to the underground builder. The core shares the level-to-height mapping, geometry transforms and stair generator with Interchange. At deeper levels the builder keeps the native entrance and terrain alignment at street level and extends the pedestrian route to the shifted hall.
+
 ## Underground interchange
 
 The native construction settings select one to four consecutive layers. Each active layer has an independent angle (0, 45, 90 or 135 degrees) and platform length (40, 60, 80, 100 or 120m). Track depths are fixed at 18m intervals. The construction update builds the geometry for the native placement preview from the current settings.
