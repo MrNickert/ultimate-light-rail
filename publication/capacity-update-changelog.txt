@@ -1,0 +1,1 @@
+1.1.1 - Platform capacity now scales with length at 35 waiting passengers per 20 m per track. Each Underground Interchange layer uses its own platform length.

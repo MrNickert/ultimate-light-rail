@@ -33,6 +33,7 @@ return function(resource)
      end
     end
     for i,terminal in ipairs(sub.station.terminals) do
+     assert(terminal.capacity==L/20*35)
      assert(terminal.vehicleNode[1]==i-1)
      assert(paths[i].nodes[terminal.vehicleNode[2]+1][1][1]==L/2)
      for _,ref in ipairs(terminal.personEdges) do

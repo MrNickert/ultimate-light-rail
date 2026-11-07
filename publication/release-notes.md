@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.1.0
+# Ultimate Light Rail 1.1.1
+
+## Revision 66
+
+Platform capacity now scales with platform length at 35 waiting passengers per 20 m per track. Each Interchange layer uses its own platform length.
 
 ## Revision 65
 

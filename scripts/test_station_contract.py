@@ -19,6 +19,11 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
     subprocess.run([a.teal,'run','tests/test_underground.lua',str(temp),str(output)],cwd=root,check=True)
     def comparable(file):
         data=file.read_bytes()
+        parts=file.stem.split('-')
+        length=40+20*(int(parts[2])-1) if len(parts)==4 else 80
+        capacity_field=f'"capacity":{length//20*35},'.encode()
+        assert data.count(capacity_field)==2, 'Unexpected platform capacity: '+file.stem
+        data=data.replace(capacity_field,b'"capacity":100,')
         underground=file.stem.startswith('2-') or file.stem=='defaults-4' or file.stem.startswith('underground_terminus-')
         if underground:
             assert data.count(b'"maintenanceCost":30000,')==1, 'Unexpected underground maintenance: '+file.stem
@@ -56,4 +61,4 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
         assert not changed, 'Fixed/legacy full output changed: '+', '.join(changed)
         expected_functional=json.loads(functional_manifest.read_text(encoding='utf-8'))['sha256']
         assert functional==expected_functional, 'Functional output changed: '+', '.join(k for k in expected_functional if functional.get(k)!=expected_functional[k])
-        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved construction and maintenance cost changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')
+        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved capacity, construction and maintenance changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')

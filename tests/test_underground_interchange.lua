@@ -40,6 +40,7 @@ local function check(resource,construction,rotations,params,lengths)
  for i,terminal in ipairs(sub.station.terminals) do
   local level=math.ceil(i/2)
   local c,s=table.unpack(rotations[level])
+  assert(terminal.capacity==(lengths and lengths[level] or 80)/20*35)
   local vehicle=sub.laneLists[terminal.vehicleNode[1]+1]
   local stop=vehicle.nodes[terminal.vehicleNode[2]+1][1]
   assert(stop[3]==-18*level and math.abs(stop[1]*c+stop[2]*s)<1e-8)

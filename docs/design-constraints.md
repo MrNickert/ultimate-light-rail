@@ -1,4 +1,4 @@
-# Design constraints — Ultimate Light Rail 1.1.0
+# Design constraints — Ultimate Light Rail 1.1.1
 
 The mod uses the tram traffic system to connect to existing tram tracks and roads. The public light rail track preserves native reservations and traffic handling. Station logic supports reversing and crossovers; the mod does not replace the general route planner.
 

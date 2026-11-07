@@ -15,7 +15,7 @@ assert {p.relative_to(source).as_posix() for p in (source/'content').glob('*')}=
 assert (source/'content/example_platform.mdl').read_bytes()==(root/'content/surface_platform.mdl').read_bytes()
 assert (source/'content/example_platform20.mdl').read_bytes()==(root/'content/platform20.mdl').read_bytes()
 assert (source/'content/example_roof20.mdl').read_bytes()==(root/'content/platform_roof20.mdl').read_bytes()
-out=root/'dist/ultimate-light-rail-contract-example-1.1.0.zip'
+out=root/'dist/ultimate-light-rail-contract-example-1.1.1.zip'
 out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     for name in files:archive.write(source/name,mod['modId']+'/'+name)

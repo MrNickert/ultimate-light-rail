@@ -1,4 +1,4 @@
-# Station API v1 — Ultimate Light Rail 1.1.0
+# Station API v1 — Ultimate Light Rail 1.1.1
 
 The public API builds tram-based passenger stations. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
 
@@ -111,6 +111,8 @@ A role applies only where the builder places that model. The platform role uses 
 API v1 supports exactly two tracks, fixed platform width and floor height, fixed entrances/stairs and the specified lengths. The underground hall is a fixed assembly. The API validates schemas and model paths; creators must check external meshes and colliders in the game.
 
 These fixed model interfaces and supported public calls are covered by the compatibility policy. Internal builder modules and generated UI recipes are not public extension points. Bug fixes and improvements must preserve the documented v1 contract; changes that cannot do so require a new API version.
+
+The core sets each terminal capacity to 35 waiting passengers per 20 m of platform length from revision 66. Existing API v1 station specifications use the new capacity when built.
 
 ## Turnback
 

@@ -40,9 +40,9 @@ return function(_captureParams,params,options)
    subconstructions={{models=models,laneLists=lanes,
     station={tag=1,pool={edges={},capacity=0},terminals={
      {vehicleNode={0,3},transportModes=terminalModes,personEdges={{vehicles,0},{vehicles,1}},
-      personNodes={{vehicles,0},{vehicles,1},{vehicles,3}},passengers=true,cargo=false,capacity=100},
+      personNodes={{vehicles,0},{vehicles,1},{vehicles,3}},passengers=true,cargo=false,capacity=L/20*35},
      {vehicleNode={1,3},transportModes=terminalModes,personEdges={{vehicles+1,0},{vehicles+1,1}},
-      personNodes={{vehicles+1,0},{vehicles+1,1},{vehicles+1,3}},passengers=true,cargo=false,capacity=100},
+      personNodes={{vehicles+1,0},{vehicles+1,1},{vehicles+1,3}},passengers=true,cargo=false,capacity=L/20*35},
     },catchmentAreas={{position={L+5,0,0},radius=160}}},
     groundFaces={
      {face=rectangle(-30,L,-4,4),modes={{type="FILL",key="::/infrastructure/street/shared/street_fill.gtex"}}},

@@ -44,7 +44,7 @@ return function(_capture,_params,options)
   for _,index in ipairs(waiting.edges)do edges[#edges+1]={personLane,index}end
   for _,index in ipairs(waiting.nodes)do nodes[#nodes+1]={personLane,index}end
   terminals[#terminals+1]={vehicleNode={i-1,3},transportModes=modes,personEdges=edges,personNodes=nodes,
-   passengers=true,cargo=false,capacity=100}
+   passengers=true,cargo=false,capacity=L/20*35}
  end
  local models={
   {id="::/stations/street/small_stops/small_new.mdl",transf=transform(10,-7.5,crossing.floor,true)},

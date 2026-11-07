@@ -1,4 +1,4 @@
-# Validation status — release 1.1.0
+# Validation status — release 1.1.1
 
 ## Automated checks
 

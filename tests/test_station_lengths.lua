@@ -34,7 +34,7 @@ return function(resource)
    for _,terminal in ipairs(sub.station.terminals) do
     local v=terminal.vehicleNode
     assert(sub.laneLists[v[1]+1].nodes[v[2]+1][1][1]==L/2,"stop at platform midpoint")
-    assert(terminal.capacity==100,"length feature leaves capacity rebalance out of scope")
+    assert(terminal.capacity==L/20*35,"capacity per track scales with platform length")
     for _,ref in ipairs(terminal.personEdges) do
      local lane=sub.laneLists[ref[1]+1]
      assert(lane and ref[2]>=0 and ref[2]<#lane.nodes/2)
