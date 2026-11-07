@@ -71,7 +71,7 @@ return function(_capture,_params,options)
   subconstructions={{models=models,laneLists=lanes,
    station={tag=1,pool={edges={},capacity=0},terminals=terminals,
     catchmentAreas={{position={L/2,0,0},radius=160}}},groundFaces=faces,
-   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-approach-10,L+approach+10,-12,12)},slopeLow=0,slopeHigh=0}}}},
+   terrainAlignmentLists={{type="EQUAL",faces={rectangle(-approach-10,L+approach+10,-12,12)},slopeLow=0.3,slopeHigh=0.6}}}},
   cost=180000,maintenanceCost=20000,
  }
  local poles={turnback and -15 or -6}

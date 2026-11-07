@@ -28,6 +28,10 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
         if underground:
             assert data.count(b'"maintenanceCost":30000,')==1, 'Unexpected underground maintenance: '+file.stem
             data=data.replace(b'"maintenanceCost":30000,',b'"maintenanceCost":180000,',1)
+        if not underground:
+            terrain_slopes = f'"slopeHigh":{0.6:.17g},"slopeLow":{0.3:.17g},'.encode()
+            assert data.count(terrain_slopes) == 1, 'Unexpected terrain alignment slopes: '+file.stem
+            data = data.replace(terrain_slopes, b'"slopeHigh":0,"slopeLow":0,', 1)
         if file.stem.startswith('3-') or file.stem=='defaults-3':
             through=file.stem.startswith('3-1-')
             elevated_cost=b'216000' if through else b'144000'
@@ -61,4 +65,4 @@ with tempfile.TemporaryDirectory(prefix='ulr-contract-') as temp:
         assert not changed, 'Fixed/legacy full output changed: '+', '.join(changed)
         expected_functional=json.loads(functional_manifest.read_text(encoding='utf-8'))['sha256']
         assert functional==expected_functional, 'Functional output changed: '+', '.join(k for k in expected_functional if functional.get(k)!=expected_functional[k])
-        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved capacity, construction and maintenance changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')
+        print('PASS: all 72 functional results equal 0.16.0; all 27 underground/legacy complete results equal 0.14.2. The approved capacity, terrain slope, construction and maintenance changes are asserted and normalized for comparison. Standard presentation may use 20m modules.')

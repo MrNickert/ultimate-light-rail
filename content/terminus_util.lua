@@ -49,7 +49,7 @@ return function(_captureParams,params,options)
      {face=rectangle(0,L,-9,-4),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
      {face=rectangle(0,L,4,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
      {face=rectangle(L,L+12,-9,9),modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}},
-    },terrainAlignmentLists={{type="EQUAL",faces={rectangle(-40,L+12,-10,10)},slopeLow=0,slopeHigh=0}},
+    },terrainAlignmentLists={{type="EQUAL",faces={rectangle(-40,L+12,-10,10)},slopeLow=0.3,slopeHigh=0.6}},
    }},cost=120000,maintenanceCost=20000,
   }
 end

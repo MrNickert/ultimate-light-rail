@@ -255,7 +255,7 @@ return function(capture,params,isThrough,L,fence,turnback)
  end
  sub.groundFaces={{face=rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
- sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0,slopeHigh=0}}
+ sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0.3,slopeHigh=0.6}}
  sub.station.catchmentAreas={{position={centre,-14,0},radius=200}}
  -- Street tangent follows the front edge of the entrance apron (local X).
  -- The previous rail-end frame rotated the road across the pier rows.
