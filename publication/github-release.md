@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.2.2
+# Ultimate Light Rail 1.3.0
+
+## Revision 78
+
+Ultimate Light Rail 1.3.0 adds a public multi-level station builder to Station API v1. Add-on creators can combine levels with separate designs and platform lengths into one station with shared passenger routes. Existing station add-ons remain compatible.
 
 ## Revision 73
 
@@ -34,9 +38,9 @@ API v1 updates and extensions remain backward compatible with the documented con
 
 ## Downloads
 
-- **Players:** `ultimate-light-rail-1.2.2.zip` — the complete main mod, including its construction UI.
-- **Creators:** `ultimate-light-rail-developer-kit-1.2.2.zip` — documentation, reference declarations and example sources; not an installable mod.
-- **Optional examples:** `ultimate-light-rail-contract-example-1.2.2.zip` — install alongside the main mod to inspect the example stations.
+- **Players:** `ultimate-light-rail-1.3.0.zip` — the complete main mod, including its construction UI.
+- **Creators:** `ultimate-light-rail-developer-kit-1.3.0.zip` — documentation, reference declarations and example sources; not an installable mod.
+- **Optional examples:** `ultimate-light-rail-contract-example-1.3.0.zip` — install alongside the main mod to inspect the example stations.
 - **Integrity:** `SHA256SUMS.txt` lists the checksums for these three archives.
 
 The example and developer kit are optional. Current in-game testing uses Windows/Steam. The core and third-party asset mods must remain installed while their objects are used in a save.

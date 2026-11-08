@@ -1,11 +1,11 @@
-# Installation — Ultimate Light Rail 1.2.2
+# Installation — Ultimate Light Rail 1.3.0
 
-1. Extract `ultimate-light-rail-1.2.2.zip` into your local mod directory or Steam `staging_area`. The ZIP contains the `mrnickert_ultimate_metro` folder.
+1. Extract `ultimate-light-rail-1.3.0.zip` into your local mod directory or Steam `staging_area`. The ZIP contains the `mrnickert_ultimate_metro` folder.
 2. Enable **Ultimate Light Rail** and load your save.
 3. Open **Light Rail**, between Road and Rail. Place a station and connect native electric tram track or the light rail track.
 4. Connect a tram depot, create a line and assign tram vehicles that fit the selected platforms.
 
-The UI is included. If your test installation has the separate **Ultimate Light Rail UI Preview**, disable it; do not enable it alongside 1.2.2. Overwrite the core files when updating. Reloading the save is sufficient; you do not need to close the game completely.
+The UI is included. If your test installation has the separate **Ultimate Light Rail UI Preview**, disable it; do not enable it alongside 1.3.0. Overwrite the core files when updating. Reloading the save is sufficient; you do not need to close the game completely.
 
 Bundled stations and light rail track are available from 1925. Before that year, the native tram depot may still appear according to its own availability dates.
 
@@ -17,7 +17,7 @@ A line chooses a valid path, which does not necessarily use both tracks. Select 
 
 ## Optional example mod
 
-`ultimate-light-rail-contract-example-1.2.2.zip` is optional. Enable it with the core to view two API examples in the same menu. The core does not require the example. The developer-kit ZIP contains documentation and sources; it is not a directly installable mod.
+`ultimate-light-rail-contract-example-1.3.0.zip` is optional. Enable it with the core to view two API examples in the same menu. The core does not require the example. The developer-kit ZIP contains documentation and sources; it is not a directly installable mod.
 
 ## Compatibility
 

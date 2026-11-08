@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.2.2
+# Ultimate Light Rail 1.3.0
+
+## Revision 78
+
+Ultimate Light Rail 1.3.0 adds a public multi-level station builder to Station API v1. Add-on creators can combine levels with separate designs and platform lengths into one station with shared passenger routes. Existing station add-ons remain compatible.
 
 ## Revision 73
 

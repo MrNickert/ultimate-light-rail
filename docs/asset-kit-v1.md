@@ -1,4 +1,4 @@
-# Component Kit v1 — Ultimate Light Rail 1.2.2
+# Component Kit v1 — Ultimate Light Rail 1.3.0
 
 For creators of visual station designs. Requires core revision 49. Bundled stations use the same public build API and component rules.
 

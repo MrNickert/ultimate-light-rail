@@ -1,8 +1,8 @@
 # Ultimate Light Rail Developer Kit
 
-**Station API v1 · review checkout**
+**Ultimate Light Rail 1.3.0 · Station API v1**
 
-The single-station example works with published core revision 49 or later. The multi-level example requires the current review checkout.
+The single-station example works with published core revision 49 or later. The multi-level example requires core revision 78 or later.
 
 This package contains documentation, a standalone example mod and reference declarations. Install the core mod separately. Do not activate the developer kit itself in the game.
 

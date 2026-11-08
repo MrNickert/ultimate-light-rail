@@ -1,6 +1,6 @@
 # API compatibility policy
 
-**Ultimate Light Rail 1.2.2 · Station API v1**
+**Ultimate Light Rail 1.3.0 · Station API v1**
 
 ## Our commitment to add-on creators
 
@@ -24,7 +24,7 @@ This includes both supported design forms, `components` and `assets`. Existing v
 
 The core's release number, numeric mod revision and station API version have different purposes. A newer core release does not by itself require a new API version or an add-on rewrite.
 
-Use `revisionMin` to require the first core revision containing the features your add-on uses. The 1.0.0 developer kit requires revision 49. `revisionMax=-1` leaves later compatible core revisions available. When opting into a new v1 feature, increase the minimum revision only if that feature requires it. State the required minimum in your add-on documentation.
+Use `revisionMin` to require the first core revision containing the features your add-on uses. The 1.0.0 developer kit requires revision 49. `revisionMax=-1` leaves later compatible core revisions available. When opting into a new v1 feature, increase the minimum revision only if that feature requires it. State the required minimum in your add-on documentation. The numeric level and multi-level builder require core revision 78.
 
 ## Scope of the promise
 

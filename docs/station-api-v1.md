@@ -1,4 +1,4 @@
-# Station API v1 — Ultimate Light Rail 1.2.2
+# Station API v1 — Ultimate Light Rail 1.3.0
 
 The public API builds tram-based passenger stations. `buildStation()` builds one station at one level. [`buildInterchange()`](multi-level-stations.md) builds one station with multiple connected levels. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
 
@@ -21,7 +21,7 @@ Include this in your own `mod.json`:
 }]
 ```
 
-The minimum revision identifies the required feature set; it is not an API version. Leaving `revisionMax=-1` allows later compatible core revisions.
+Use `revisionMin=78` if your add-on uses `level`, `buildInterchange()` or the underground asset roles. The minimum revision identifies the required feature set; it is not an API version. Leaving `revisionMax=-1` allows later compatible core revisions.
 
 ## Construction description and shared menu
 
@@ -94,7 +94,7 @@ A terminus includes one crossover. A through station adds two crossovers when Tu
 | `0` | Surface | 0 m |
 | `1` | Elevated | +12 m |
 
-The core resolves track height. Legacy `placement` and `undergroundLevel` calls remain valid, including the default of −18 m when an underground depth is omitted. The numeric `level` field is available in the review checkout together with the [multi-level builder](multi-level-stations.md). It is not present in the published revision 73.
+The core resolves track height. Legacy `placement` and `undergroundLevel` calls remain valid, including the default of −18 m when an underground depth is omitted. The numeric `level` field and the [multi-level builder](multi-level-stations.md) require core revision 78 or later.
 
 ## Designs and helpers
 

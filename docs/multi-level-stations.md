@@ -1,6 +1,6 @@
 # Multi-level stations in Station API v1
 
-`buildInterchange()` is an additive feature in the current review checkout. The published core revision 73 (Ultimate Light Rail 1.2.2) predates it. Use the reviewed core locally to try the example. A minimum public core revision will be assigned when the feature ships. The existing single-station API remains backward compatible. Breaking changes require a new API version.
+`buildInterchange()` requires Ultimate Light Rail 1.3.0 (core revision 78) or later. The existing single-station API remains backward compatible. Breaking changes require a new API version.
 
 ## Build a station from layers
 
@@ -32,11 +32,11 @@ These limits reflect the current entrance and connection geometry. A configurati
 The developer kit includes `multi-level-example/station.con.lua` and `multi-level-example/station.script.lua`. In the repository these are under `examples/multi_level/`. The example gives the surface and elevated levels different lengths, offsets and visual kits using bundled models.
 
 1. Create `my_light_rail_mod/mod.json` and a `content/` directory. Copy the two example files into `content/`. Use your own `modId` and change `my_light_rail_mod::` in the construction's `updateScript.fileName` to match.
-2. Add the [required ULR dependency](station-api-v1.md#dependency) to `mod.json`. For this local review only, use `revisionMin=73` with the reviewed checkout enabled. The live revision 73 lacks `buildInterchange()`. Use the actual minimum feature revision when it is published.
-3. The construction description uses the public `station_menu.lua.getMenuCategory()` helper. The update script imports only the public station API. Enable the reviewed core and your own mod, then find **Example Light Rail Interchange** in the Light Rail menu from 1925.
+2. Add the [required ULR dependency](station-api-v1.md#dependency) to `mod.json`. Use `revisionMin=78` and leave `revisionMax=-1` to allow compatible updates.
+3. The construction description uses the public `station_menu.lua.getMenuCategory()` helper. The update script imports only the public station API. Enable the core and your own mod, then find **Example Light Rail Interchange** in the Light Rail menu from 1925.
 4. Check placement, both approach ends on each level, boarding and a transfer, then save and reload. Swap one layer's design and verify that the other layer's models and routes still match.
 
-This manifest is enough for local review.
+This manifest declares the dependency for a standalone add-on.
 
 ```json
 {
@@ -47,7 +47,7 @@ This manifest is enough for local review.
   "visible": true,
   "cosmetic": false,
   "dependencies": [{
-    "mod": {"modId": "mrnickert_ultimate_metro", "revisionMin": 73, "revisionMax": -1},
+    "mod": {"modId": "mrnickert_ultimate_metro", "revisionMin": 78, "revisionMax": -1},
     "modInfo": {"displayName": "Ultimate Light Rail"},
     "loadBefore": true,
     "optional": false

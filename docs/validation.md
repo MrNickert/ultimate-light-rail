@@ -1,4 +1,4 @@
-# Validation status — release 1.2.2
+# Validation status — release 1.3.0
 
 ## Automated checks
 
@@ -16,7 +16,7 @@ These checks support the [API v1 compatibility commitment](compatibility.md). Th
 
 The line-filter tests cover callable engine bindings, station and add-on recognition, the existing carrier filters and the read-only API fallback. They verify that the line list and bulk selection use the same predicate.
 
-The unreleased public multi-level API has a separate test suite for numeric levels, the independent SDK example, per-layer designs, connected terminals and correct track ends. The mixed six-level stack is covered by generated-network checks. See [multi-level validation status](multi-level-stations.md#validation-status) for the limits of that evidence.
+The public multi-level API has a separate test suite for numeric levels, the independent SDK example, per-layer designs, connected terminals and correct track ends. The mixed six-level stack is covered by generated-network checks. See [multi-level validation status](multi-level-stations.md#validation-status) for the limits of that evidence.
 
 ## In-game confirmation by the user
 

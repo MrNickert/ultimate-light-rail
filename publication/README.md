@@ -1,6 +1,6 @@
-# Ultimate Light Rail 1.2.2 — publication package
+# Ultimate Light Rail 1.3.0 — publication package
 
-Current release candidate: mod revision 73, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 78, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 
@@ -34,12 +34,12 @@ Four known model warnings concern native game textures using BC3/DXT5 where the 
 ## Upload workflow
 
 1. Build UI and artwork, then the core, example, developer kit and publication packages with the scripts under `scripts/`.
-2. Compare the staged runtime with the release core. Use `Apply-Staging-Update.ps1` if the staged files need updating. It preserves the existing listing metadata and linkage.
+2. Compare the staged runtime with the release core. Use `Apply-Staging-Update.ps1` if the staged files need updating. Before updating a prototype staging copy, remove its temporary stations from any test save you want to keep. The updater backs up and removes the obsolete prototype resources and preserves the existing listing metadata and linkage.
 3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
-4. Load the staged core and check the Light Rail filter next to Tram in the line manager. Verify the icon size and filter results in a save with Light Rail lines.
-5. Push the final commit. If distributing this update on GitHub, use the new `v1.2.2` release tag and attach the core, developer kit, example and checksums.
-6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the Revision 73 text in `release-notes.md`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
+4. Load the staged core and check the published stations and Underground Interchange. To validate the public multi-level API in TF3, follow the developer-kit guide and enable the independent example construction.
+5. Push the final commit. If distributing this update on GitHub, use the new `v1.3.0` release tag and attach the core, developer kit, example and checksums.
+6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the Revision 78 text in `release-notes.md`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
 
-7. The in-game uploader reads the integer revision in `mod.json` and offers a changelog field. It exposes no setting for the separate mod.io file version. Put `1.2.2` in the changelog. The mod.io Version column may still show `1.0`.
+7. The in-game uploader reads the integer revision in `mod.json` and offers a changelog field. It exposes no setting for the separate mod.io file version. Put `1.3.0` in the changelog. The mod.io Version column may still show `1.0`.
 
 The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.
