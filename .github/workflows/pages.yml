@@ -1,0 +1,55 @@
+name: Publish landing to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Assemble static site and creator downloads
+        shell: bash
+        run: |
+          python3 scripts/package_sdk.py
+          python3 scripts/package_contract_example.py
+          mkdir -p _site/{landing,media,downloads}
+          cp publication/landing/{index.html,styles.css} _site/landing/
+          cp publication/media/{cover.png,api-overview.png,gameplay-elevated-daylight.png,gameplay-fenced-crossing.png,gameplay-station-settings.png} _site/media/
+          cp dist/ultimate-light-rail-{developer-kit,contract-example}-*.zip _site/downloads/
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en">
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0;url=landing/">
+          <title>Ultimate Light Rail</title>
+          <a href="landing/">Open the Ultimate Light Rail website</a>
+          </html>
+          HTML
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}landing/
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
