@@ -1,11 +1,14 @@
 return function(resource)
  local con=resource("aboveground_interchange.con.lua")
  assert(not con.undergroundView and con.availability.yearFrom==1925)
- assert(con.menuCategory.categories[1].category=="ulr_stations")
+ assert(con.menuCategory.categories[1].category=="ulr_stations" and #con.params==0)
  local params={seed=42,ulrPlatformAccess=1,ulrStreetAlignment=2}
  local result=resource("aboveground_interchange.script.lua").updateFn({},params)
  assert(params.ulrPlatformAccess==1 and params.ulrStreetAlignment==2)
- assert(result.cost==396000 and result.maintenanceCost==44000)
+ local attributes=con.description.attributes
+ assert(#attributes.cost==2 and attributes.cost[1]==result.cost and attributes.cost[2]==-1)
+ assert(#attributes.maintenanceCost==2 and attributes.maintenanceCost[1]==result.maintenanceCost
+  and attributes.maintenanceCost[2]==-1)
  assert(#result.subconstructions==1 and #result.edgeLists==4)
  local sub=result.subconstructions[1]
  assert(#sub.station.terminals==4)
