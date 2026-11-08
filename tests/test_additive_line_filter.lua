@@ -1,3 +1,7 @@
+local function engineBinding(fn)
+ return setmetatable({}, {__call = function(_, ...) return fn(...) end, __metatable = false})
+end
+
 local function harness(readOnly)
  local currentRecipe = 'LineManagerActionButtons'
  local stats = {
@@ -18,10 +22,10 @@ local function harness(readOnly)
   areCarriersContainedInTransportModes = function() return true end,
  }
  local lines = {filterLine = function(carriers, entity) return carriers[1] == 'tram' and entity ~= 5 end}
- local carrierApi = {isLineCompatibleWithAnyCarrier = function(entity, carriers, flag)
+ local carrierApi = {isLineCompatibleWithAnyCarrier = engineBinding(function(entity, carriers, flag)
   assert(flag == false)
   return lines.filterLine(carriers, entity)
- end}
+ end)}
  if readOnly then
   carrierApi = setmetatable({}, {__index = carrierApi, __newindex = function() error('read-only') end})
  end
@@ -56,7 +60,7 @@ local function harness(readOnly)
    }},
    engine = {
     util = {line = carrierApi},
-    system = {streetConnectorSystem = {getConstructionEntityForStation = function(entity) return entity + 10 end}},
+    system = {streetConnectorSystem = {getConstructionEntityForStation = engineBinding(function(entity) return entity + 10 end)}},
     entityExists = function(entity) return entity ~= 9 end,
     getComponent = function(entity, component) return byComponent[component][entity] end,
    },
@@ -118,4 +122,4 @@ local original = untouchedStats.createCarrierCategoryFilter
 local installed, reason = disabled.install()
 assert(not installed and reason:find('cannot wrap isLineCompatibleWithAnyCarrier', 1, true))
 assert(untouchedStats.createCarrierCategoryFilter == original)
-print('PASS: additive line controls, foreign categories, light rail station detection, list and bulk-selection predicates, and read-only API fallback.')
+print('PASS: callable engine bindings, additive line controls, foreign categories, light rail station detection, list and bulk-selection predicates, and read-only API fallback.')

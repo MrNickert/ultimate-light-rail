@@ -112,13 +112,17 @@ function M.install()
   { 'statistics.getCarrierFilterFromCategories', getCarriers },
   { 'statistics.areCarriersContainedInTransportModes', depotMatches },
   { 'line_util.filterLine', lineMatches },
-  { 'engine.util.line.isLineCompatibleWithAnyCarrier', compatible },
-  { 'streetConnectorSystem.getConstructionEntityForStation', api.engine.system.streetConnectorSystem.getConstructionEntityForStation },
+  { 'engine.util.line.isLineCompatibleWithAnyCarrier', compatible, true },
+  { 'streetConnectorSystem.getConstructionEntityForStation', api.engine.system.streetConnectorSystem.getConstructionEntityForStation, true },
  }
  local missing = {}
  for _, dependency in ipairs(dependencies) do
-  if type(dependency[2]) ~= 'function' then
-   missing[#missing + 1] = dependency[1] .. ' (' .. type(dependency[2]) .. ')'
+  local name, value, engineBinding = table.unpack(dependency)
+  local valueType = type(value)
+  -- TF3 also exports native functions as callable tables. Their metatable
+  -- is managed by the game, so only accept tables for known engine bindings.
+  if valueType ~= 'function' and not (engineBinding and valueType == 'table') then
+   missing[#missing + 1] = name .. ' (' .. valueType .. ')'
   end
  end
  if #missing > 0 then return false, 'missing native helpers: ' .. table.concat(missing, ', ') end
