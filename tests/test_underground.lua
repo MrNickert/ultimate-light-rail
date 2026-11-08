@@ -113,6 +113,7 @@ assert(loadfile('tests/test_station_lengths.lua'))()(resource)
 assert(loadfile('tests/test_elevated_station.lua'))()(resource)
 assert(loadfile('tests/test_turnback.lua'))()(resource)
 assert(loadfile('tests/test_underground_interchange.lua'))()(resource)
+assert(loadfile('tests/test_aboveground_interchange.lua'))()(resource)
 assert(loadfile('tests/test_underground_depth.lua'))()(resource)
 print('PASS: both switch settings, identical vehicle geometry at -18m, native pedestrian paths reach both platforms, native models/colliders/entrance terrain, 80/40 km/h limits. Engine placement still needs in-game validation.')
 end

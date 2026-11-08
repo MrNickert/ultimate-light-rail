@@ -14,6 +14,7 @@ local namespace = 'mrnickert_ultimate_metro'
 local coreStations = {
  light_rail_station = true,
  underground_interchange = true,
+ aboveground_interchange = true,
  underground_interchange_four_test = true,
  underground_terminus = true,
  through_station = true,

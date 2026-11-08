@@ -1,4 +1,4 @@
--- Internal transforms and pedestrian stair flights for underground construction geometry.
+-- Rigid transforms for interchange levels and pedestrian stair flights.
 local laneutil=require "::/scripts/construction/laneutil.lua"
 local geometry={}
 
@@ -36,7 +36,7 @@ function geometry.transformLevel(result,m)
   end
  end
  for _,model in ipairs(sub.models) do model.transf=transformMatrix(m,model.transf) end
- for _,collider in ipairs(sub.colliders) do
+ for _,collider in ipairs(sub.colliders or {}) do
   for i,p in ipairs(collider.params.points) do collider.params.points[i]=transform(m,p,true) end
  end
  for _,entry in ipairs(sub.station.catchmentAreas) do entry.position=transform(m,entry.position,true) end
@@ -46,6 +46,9 @@ function geometry.transformLevel(result,m)
   end
  end
  for _,alignment in ipairs(sub.terrainAlignmentLists or {}) do
+  for _,face in ipairs(alignment.faces or {}) do
+   for i,p in ipairs(face) do face[i]=transform(m,p,true) end
+  end
   for _,triangle in ipairs(alignment.triangles or {}) do
    for i,p in ipairs(triangle) do triangle[i]=transform(m,p,true) end
   end

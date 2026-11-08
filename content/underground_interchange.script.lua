@@ -2,15 +2,14 @@ local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.lua"
 local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua"
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
+local interchange=require "mrnickert_ultimate_metro::/interchange_util.lua"
 local levels=require "mrnickert_ultimate_metro::/underground_levels.lua"
 local LENGTHS={40,60,80,100,120}
 local DEFAULT_ANGLES={1,3,2,4}
 local DIAGONAL=math.sqrt(0.5)
 local FOUR_LEVEL_ROTATIONS={{1,0},{DIAGONAL,DIAGONAL},{0,1},{-DIAGONAL,DIAGONAL}}
 
-local function append(target,source)
- for _,value in ipairs(source) do target[#target+1]=value end
-end
+local append=interchange.append
 
 local function buildLevel(capture,params,internal,length)
  local result=stationApi.buildStation({apiVersion=1,placement="underground",
@@ -65,24 +64,6 @@ local function connectConfiguredLevels(sub,upper,lower,offset,side)
  return lowerSide
 end
 
-local function appendLevel(result,level)
- local top,bottom=result.subconstructions[1],level.subconstructions[1]
- local offset=#top.laneLists
- -- All terminals share one station, with zero-based references into its lanes.
- for _,terminal in ipairs(bottom.station.terminals) do
-  terminal.vehicleNode[1]=terminal.vehicleNode[1]+offset
-  for _,ref in ipairs(terminal.personEdges) do ref[1]=ref[1]+offset end
-  for _,ref in ipairs(terminal.personNodes) do ref[1]=ref[1]+offset end
- end
- append(top.station.terminals,bottom.station.terminals)
- append(top.laneLists,bottom.laneLists)
- append(top.models,bottom.models)
- append(top.colliders,bottom.colliders)
- append(result.edgeLists,level.edgeLists)
- result.cost=result.cost+level.cost
- result.maintenanceCost=result.maintenanceCost+level.maintenanceCost
-end
-
 function data()
  return {updateFn=function(capture,params)
   local fourLevels=capture and capture.fourLevelTest==true
@@ -106,7 +87,7 @@ function data()
    local centre=length/2
    local level=buildLevel(capture,params,i>1 or not fourLevels,length)
    geometry.transformLevel(level,{c,s,0,0,-s,c,0,0,0,0,1,0,-centre*c,-centre*s,levels.offset(-i),1})
-   if i==1 then result=level else appendLevel(result,level) end
+   if i==1 then result=level else interchange.appendLevel(result,level) end
   end
   local sub=result.subconstructions[1]
   if fourLevels then
