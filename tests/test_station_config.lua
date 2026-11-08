@@ -17,16 +17,16 @@ return function(resource)
   return r
  end
  local con=resource("light_rail_station.con.lua")
- assert(#con.menuCategory.categories==1 and #con.params==7)
- local expected={"placement","stationType","platformLength","fence","turnback","depth","ulrPlatformAccess"}
+ assert(#con.menuCategory.categories==1 and #con.params==8)
+ local expected={"placement","stationType","platformLength","fence","turnback","depth","ulrPlatformAccess","ulrStreetAlignment"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4,2})[i]) and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4,2,2})[i]) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  assert(con.params[1].values[1]=="LR_STATION_UNDERGROUND" and con.params[1].values[2]=="LR_STATION_SURFACE" and con.params[1].values[3]=="LR_STATION_ELEVATED")
  assert(con.params[1].defaultIndex==2 and con.params[1].displayMode=="Vertical","full-width location row, Surface selected by default")
  assert(#con.params[1].tooltips==3)
- for i=2,7 do assert(con.params[i].displayMode=="Horizontal") end
+ for i=2,8 do assert(con.params[i].displayMode=="Horizontal") end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
   assert(#resource(name..".con.lua").menuCategory.categories==0,"legacy menu entry hidden, not deleted")
  end
@@ -101,6 +101,47 @@ return function(resource)
   end
   assert(crossingCount==2 and entranceCount==6)
  end end end
+ local standard=require "mrnickert_ultimate_metro::/station_config_util.lua"
+ local alignment=con.params[8]
+ assert(alignment.defaultIndex==1 and alignment.values[1]=="LR_STATION_STREET_PARALLEL")
+ assert(alignment.values[2]=="LR_STATION_STREET_PERPENDICULAR")
+ assert(alignment.checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkStreetAlignmentFn")
+ for placement=1,3 do
+  assert(menu.checkStreetAlignmentFn({}, {placement=placement})==(placement==3 and "Enabled" or "Hidden"))
+  for stationType=1,2 do for i,L in ipairs({40,60,80,100,120}) do
+   local params={placement=placement,stationType=stationType,platformLength=i,turnback=2,seed=42}
+   local result=script.updateFn({},params)
+   local geometry=standard({},params)
+   local frame=result.snapPoint.transf
+   if placement==2 and stationType==1 then
+    assert(frame[1]==1 and frame[2]==0 and frame[13]==L/2 and frame[14]==-10 and frame[15]==0)
+   elseif placement==2 then
+    assert(frame[1]==0 and frame[2]==1 and frame[13]==L+6 and frame[14]==0 and frame[15]==0)
+   elseif placement==3 then
+    assert(frame[1]==1 and frame[2]==0 and frame[13]==L/2 and frame[14]==-15 and frame[15]==0)
+    params.ulrStreetAlignment=2
+    local side=script.updateFn({},params)
+    local sideFrame=side.snapPoint.transf
+    assert(sideFrame[1]==0 and sideFrame[2]==-1 and sideFrame[5]==1 and sideFrame[6]==0)
+    assert(sideFrame[13]==L/2-11.5 and sideFrame[14]==-12.5 and sideFrame[15]==0)
+    equal(side.edgeLists,result.edgeLists,"elevated orientation keeps the same track ends")
+    local paths=side.subconstructions[1].laneLists
+    local entry=paths[#paths]
+    equal(entry.nodes[1][1],{sideFrame[13]+1,sideFrame[14],0.15},"haaks public entry")
+    equal(entry.nodes[#entry.nodes][1],{L/2-8,-6.5,0.15},"haaks route joins the existing stairs")
+   end
+   if placement~=1 then
+    equal(result.snapPoint.snapToBaseEdgeTypes,{"STREET"},"road placement target")
+    assert(not result.snapPoint.transportModes)
+    for _,edge in ipairs(result.edgeLists) do
+     assert(edge.maxNodeSnapAngle==0 and #edge.snapNodes==1 and #edge.freeNodes==1)
+     edge.maxNodeSnapAngle=nil
+    end
+    result.snapPoint=geometry.snapPoint
+   end
+   equal(result,geometry,"built-in placement wrapper preserves core geometry")
+  end end
+ end
  local legacySurface=resource("twin_terminus.script.lua")
  local legacyThrough=resource("through_station.script.lua")
  local legacyUnderground=resource("underground_terminus.script.lua")
@@ -127,7 +168,7 @@ return function(resource)
    local baseline=(stationType==1 and legacyThrough or legacySurface).updateFn({}, {crossover=2,seed=42})
    equal(sub.laneLists,baseline.subconstructions[1].laneLists,"validated surface vehicle/passenger paths")
    equal(sub.station,baseline.subconstructions[1].station,"validated surface station terminals")
-   if fence==2 then equal(functional(r),functional(baseline),"validated fenced surface functional layout") end
+   if fence==2 then equal(functional(standard({},params)),functional(baseline),"validated fenced surface functional layout") end
    for _,edge in ipairs(r.edgeLists) do
     local profile=edge.params.type
     if fence==1 then
@@ -188,6 +229,6 @@ return function(resource)
   end
   results[id]=r
  end end end
- equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
- print("PASS: one seven-option menu; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
+ equal(functional(standard({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
+ print("PASS: eight station settings; street alignment and retained track ends; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

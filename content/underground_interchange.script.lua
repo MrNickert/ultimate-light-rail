@@ -20,6 +20,37 @@ local function buildLevel(capture,params,internal,length)
  return result
 end
 
+local function alignEntranceToStreet(result)
+ local sub=result.subconstructions[1]
+ local minY,maxY=math.huge,-math.huge
+ for _,face in ipairs(sub.groundFaces) do
+  for _,point in ipairs(face.face) do
+   minY=math.min(minY,point[2])
+   maxY=math.max(maxY,point[2])
+  end
+ end
+ if minY>maxY then return end
+ -- Keep the road tangent independent of the first layer's rotation. Choose
+ -- the side of the rotated entrance footprint nearest its public walk lane.
+ local best,x,y,direction=math.huge
+ for _,lane in ipairs(sub.laneLists) do
+  if lane.linkable and lane.transportModes[1]=="PERSON" then
+   for _,node in ipairs(lane.nodes) do
+    local point=node[1]
+    local low,high=math.abs(point[2]-minY),math.abs(maxY-point[2])
+    local distance=math.min(low,high)
+    if distance<best then
+     best,x=distance,point[1]
+     if low<=high then y,direction=minY-1,1 else y,direction=maxY+1,-1 end
+    end
+   end
+  end
+ end
+ if x then
+  result.snapPoint.transf={direction,0,0,0,0,direction,0,0,0,0,1,0,x,y,0,1}
+ end
+end
+
 local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
  local c,s=upperRotation[1],upperRotation[2]
  local points={{0,11.75,-12},{0,16,-12},{-26,18,-21}}
@@ -107,6 +138,7 @@ function data()
     side=-connectConfiguredLevels(sub,rotations[i],rotations[i+1],levels.offset(-i),side)
    end
   end
+  if not fourLevels then alignEntranceToStreet(result) end
   return result
  end}
 end

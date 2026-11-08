@@ -38,6 +38,9 @@ return function(capture,params,isThrough,L,fence,turnback)
  local first,last=isThrough and -approach or -30,isThrough and L+approach or L+4
  local stairStart,stairEnd=centre-RUN/2,centre+RUN/2
  local groundCross=stairStart+1
+ local sideStreet=tonumber(params.ulrStreetAlignment)==2
+ local entryX,entryY=centre,-14
+ if sideStreet then entryX,entryY=centre-PLAZA_HALF,-12.5 end
  -- A single public entrance branches below the tracks to both stairs.
  local paths={}
  for i=1,vehicles do paths[#paths+1]=sub.laneLists[i] end
@@ -51,7 +54,11 @@ return function(capture,params,isThrough,L,fence,turnback)
    {stairEnd,side*4.65,FLOOR}})
  end
  paths[#paths+1]=lane({{groundCross,-6.5,GROUND},{groundCross,6.5,GROUND}})
- paths[#paths+1]=lane({{centre,-14,GROUND},{centre,-6.5,GROUND},{groundCross,-6.5,GROUND}},true)
+ local entrance={{entryX,entryY,GROUND}}
+ if sideStreet then entrance[#entrance+1]={centre,entryY,GROUND} end
+ entrance[#entrance+1]={centre,-6.5,GROUND}
+ entrance[#entrance+1]={groundCross,-6.5,GROUND}
+ paths[#paths+1]=lane(entrance,true)
  sub.laneLists=paths
  for i,terminal in ipairs(sub.station.terminals) do
   local index=vehicles+i-1
@@ -256,12 +263,11 @@ return function(capture,params,isThrough,L,fence,turnback)
  sub.groundFaces={{face=rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0.3,slopeHigh=0.6}}
- sub.station.catchmentAreas={{position={centre,-14,0},radius=200}}
- -- Street tangent follows the front edge of the entrance apron (local X).
- -- The previous rail-end frame rotated the road across the pier rows.
- -- Match the native street-entrance convention: public walking node 1m
- -- inside the snap line, with the station extending along positive local Y.
- r.snapPoint={transf={1,0,0,0,0,1,0,0,0,0,1,0,centre,-15,0,1},
-  snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
+ sub.station.catchmentAreas={{position={entryX,entryY,0},radius=200}}
+ -- Both approaches target the side of the street, one metre from the walking
+ -- node. The side entrance uses the gap between consecutive pier rows.
+ local frame={1,0,0,0,0,1,0,0,0,0,1,0,entryX,entryY-1,0,1}
+ if sideStreet then frame={0,-1,0,0,1,0,0,0,0,0,1,0,entryX-1,entryY,0,1} end
+ r.snapPoint={transf=frame,snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
  return r
 end

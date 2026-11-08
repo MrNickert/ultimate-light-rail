@@ -16,25 +16,27 @@ return function(resource,directory)
   elseif kind=="boolean" then file:write(tostring(value))
   else error("Unsupported snapshot value: "..kind) end
  end
- local function snapshot(name,script,params)
+ local function snapshot(name,build,params)
   local file=assert(io.open(directory.."/"..name..".txt","wb"))
-  local result=resource(script).updateFn({},params)
+  local result=build({},params)
   writeValue(file,result);file:close()
   -- Preserve a separate functional baseline before the standard-kit migration.
   for _,sub in ipairs(result.subconstructions or {}) do sub.models=nil end
   file=assert(io.open(directory.."/"..name..".functional","wb"))
   writeValue(file,result);file:close()
  end
- local script="light_rail_station.script.lua"
+ -- Keep historical geometry snapshots independent of the built-in placement
+ -- adapter. Snap frames and exposed approach nodes are tested separately.
+ local standard=require "mrnickert_ultimate_metro::/station_config_util.lua"
  for placement=1,3 do for kind=1,2 do for length=1,5 do for fence=1,2 do
-  snapshot(table.concat({placement,kind,length,fence},"-"),script,
+  snapshot(table.concat({placement,kind,length,fence},"-"),standard,
    {placement=({2,1,3})[placement],stationType=kind,platformLength=length,fence=fence,seed=42})
  end end end end
  for i,params in ipairs({{}, {seed=42}, {placement=3,seed=42},
   {placement=1,stationType=1,seed=42},
   {placement=2,stationType=2,crossover=1,seed=42},
-  {placement=2,stationType=1,platformLength=99,seed=42}}) do snapshot("defaults-"..i,script,params) end
+  {placement=2,stationType=1,platformLength=99,seed=42}}) do snapshot("defaults-"..i,standard,params) end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
-  for option=1,2 do snapshot(name.."-"..option,name..".script.lua",{crossover=option,seed=42}) end
+  for option=1,2 do snapshot(name.."-"..option,resource(name..".script.lua").updateFn,{crossover=option,seed=42}) end
  end
 end
