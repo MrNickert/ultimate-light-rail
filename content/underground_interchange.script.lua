@@ -1,5 +1,6 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.lua"
+local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua"
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
 local levels=require "mrnickert_ultimate_metro::/underground_levels.lua"
 local LENGTHS={40,60,80,100,120}
@@ -20,35 +21,18 @@ local function buildLevel(capture,params,internal,length)
  return result
 end
 
-local function alignEntranceToStreet(result)
+local function addStreetEntrance(result,params)
  local sub=result.subconstructions[1]
- local minY,maxY=math.huge,-math.huge
- for _,face in ipairs(sub.groundFaces) do
-  for _,point in ipairs(face.face) do
-   minY=math.min(minY,point[2])
-   maxY=math.max(maxY,point[2])
-  end
+ -- The street entrance uses the native frontage frame. Its lower landings
+ -- at (+/-8.5,0,-12) meet the 45-degree joints of the first concourse ring.
+ local street=entrance(params,{entranceOnly=true,streetAligned=true})
+ for _,field in ipairs({"models","colliders","laneLists"}) do
+  append(sub[field],street[field])
  end
- if minY>maxY then return end
- -- Keep the road tangent independent of the first layer's rotation. Choose
- -- the side of the rotated entrance footprint nearest its public walk lane.
- local best,x,y,direction=math.huge
- for _,lane in ipairs(sub.laneLists) do
-  if lane.linkable and lane.transportModes[1]=="PERSON" then
-   for _,node in ipairs(lane.nodes) do
-    local point=node[1]
-    local low,high=math.abs(point[2]-minY),math.abs(maxY-point[2])
-    local distance=math.min(low,high)
-    if distance<best then
-     best,x=distance,point[1]
-     if low<=high then y,direction=minY-1,1 else y,direction=maxY+1,-1 end
-    end
-   end
-  end
- end
- if x then
-  result.snapPoint.transf={direction,0,0,0,0,direction,0,0,0,0,1,0,x,y,0,1}
- end
+ sub.groundFaces=street.groundFaces
+ sub.terrainAlignmentLists=street.terrainAlignmentLists
+ sub.station.catchmentAreas={{position={0,9,0},radius=200}}
+ result.snapPoint.transf={1,0,0,0,0,1,0,0,0,0,1,0,0,8,0,1}
 end
 
 local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
@@ -120,7 +104,7 @@ function data()
    local c,s=rotation[1],rotation[2]
    local length=lengths[i]
    local centre=length/2
-   local level=buildLevel(capture,params,i>1,length)
+   local level=buildLevel(capture,params,i>1 or not fourLevels,length)
    geometry.transformLevel(level,{c,s,0,0,-s,c,0,0,0,0,1,0,-centre*c,-centre*s,levels.offset(-i),1})
    if i==1 then result=level else appendLevel(result,level) end
   end
@@ -138,7 +122,7 @@ function data()
     side=-connectConfiguredLevels(sub,rotations[i],rotations[i+1],levels.offset(-i),side)
    end
   end
-  if not fourLevels then alignEntranceToStreet(result) end
+  if not fourLevels then addStreetEntrance(result,params) end
   return result
  end}
 end

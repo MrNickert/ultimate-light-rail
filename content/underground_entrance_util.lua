@@ -297,7 +297,8 @@ return function(params,options)
  local approach=options.turnback and 30 or 10
  local centre=options.centred and L/2 or L-20
  local shift=transf.transl(vec3.new(centre,0,0))
- local entranceShift=transf.mul(shift,transf.rotZ(-math.pi/2))
+ local entranceShift=options.streetAligned and transf.transl(vec3.new(0,0,0))
+  or transf.mul(shift,transf.rotZ(-math.pi/2))
  local result={models={},laneLists={}}
  local function person(curves,linkable,matrix)
   result.laneLists[#result.laneLists+1]=laneutil.createLane(transform(curves,matrix or shift),{"PERSON"},2,2,linkable)

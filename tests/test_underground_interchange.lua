@@ -31,17 +31,28 @@ local function check(resource,construction,rotations,params,lengths)
  assert(entry)
  if construction=="underground_interchange.con.lua" then
   local frame=result.snapPoint.transf
-  assert(math.abs(frame[1])==1 and frame[2]==0 and frame[5]==0 and frame[6]==frame[1])
-  assert(frame[15]==0)
+  assert(frame[1]==1 and frame[2]==0 and frame[5]==0 and frame[6]==1)
+  assert(frame[13]==0 and frame[14]==8 and frame[15]==0)
+  assert(entry==key({3,9,0}),"public path stays at the street in every rotation")
+  local entranceModels=0
+  for _,model in ipairs(sub.models) do
+   if model.id=="::/stations/street/underground_station/models/underground_station_surface.mdl" then
+    local t=model.transf
+    assert(t[1]==1 and t[2]==0 and t[5]==0 and t[6]==1,"street entrance model is not rotated with the tracks")
+    assert(t[13]==0 and t[14]==0 and t[15]==0)
+    entranceModels=entranceModels+1
+   end
+  end
+  assert(entranceModels==1)
   local closest=math.huge
   for _,face in ipairs(sub.groundFaces) do
    for _,point in ipairs(face.face) do
     local clearance=(point[2]-frame[14])*frame[6]
-    assert(clearance>=1-1e-8,"the street stays outside the entrance footprint")
+    assert(clearance>=0,"the street stays outside the entrance footprint")
     closest=math.min(closest,clearance)
    end
   end
-  assert(math.abs(closest-1)<1e-8,"snap along the nearest entrance boundary")
+  assert(closest==0,"snap at the native street-facing entrance boundary")
  end
  local queue,visited={entry},{[entry]=true}
  local nextIndex=1
@@ -115,5 +126,5 @@ return function(resource)
   {levelCount=3,levelAngle1=1,levelAngle2=4,levelAngle3=3,levelLength1=5,levelLength2=1},{120,40,80})
  check(resource,"underground_interchange.con.lua",{{-diagonal,diagonal},{-diagonal,diagonal},{1,0},{diagonal,diagonal}},
   {levelCount=4,levelAngle1=4,levelAngle2=4,levelAngle3=1,levelAngle4=2,levelLength4=2},{80,80,80,60})
- print("PASS: one to four configured levels, all adjacent angle pairs, mixed lengths, independent street orientation, legacy geometry, tunnel ends and pedestrian reachability.")
+ print("PASS: one to four configured levels, all adjacent angle pairs, mixed lengths, fixed street entrance, legacy geometry, tunnel ends and pedestrian reachability.")
 end
