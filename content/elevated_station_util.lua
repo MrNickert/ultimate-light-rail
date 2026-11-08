@@ -2,7 +2,9 @@
 local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
-local H,FLOOR=12,12.25
+local levels=require "mrnickert_ultimate_metro::/station_levels.lua"
+local H=levels.trackZ(1)
+local FLOOR=H+0.25
 local RUN,STEPS=18,61
 local GROUND,PLAZA_HALF,PIER_SPACING=0.15,10.5,20
 local RISE=FLOOR-GROUND
@@ -53,7 +55,11 @@ return function(capture,params,isThrough,L,fence,turnback)
    {stairEnd,side*6.5,FLOOR},
    {stairEnd,side*4.65,FLOOR}})
  end
- paths[#paths+1]=lane({{groundCross,-6.5,GROUND},{groundCross,6.5,GROUND}})
+ local groundPassage={{groundCross,-6.5,GROUND}}
+ local plazaJoin=params.ulrInterchangePlazaJoin
+ if plazaJoin then groundPassage[#groundPassage+1]={groundCross,plazaJoin,GROUND} end
+ groundPassage[#groundPassage+1]={groundCross,6.5,GROUND}
+ paths[#paths+1]=lane(groundPassage)
  local entrance={{entryX,entryY,GROUND}}
  if sideStreet then entrance[#entrance+1]={centre,entryY,GROUND} end
  entrance[#entrance+1]={centre,-6.5,GROUND}

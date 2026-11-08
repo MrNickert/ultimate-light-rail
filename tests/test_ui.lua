@@ -38,10 +38,14 @@ local trackAvailability=trackEnv.data().availability
 assert(trackAvailability.yearFrom==1925 and trackAvailability.yearTo==0)
 for _,path in ipairs({"content/light_rail_station.con.lua",
  "examples/contract_station/content/example.con.lua",
- "examples/contract_station/content/kit_example.con.lua"}) do
+ "examples/contract_station/content/kit_example.con.lua",
+ "examples/multi_level/station.con.lua"}) do
  local descriptionEnv={_=function(key)return key end,require=function(name)
   if path=="content/light_rail_station.con.lua" and name=="mrnickert_ultimate_metro::/underground_levels.lua" then
-   return assert(loadfile("content/underground_levels.lua","t",{type=type}))()
+   local levels=assert(loadfile("content/station_levels.lua"))()
+   return assert(loadfile("content/underground_levels.lua","t",{require=function(module)
+    assert(module=="mrnickert_ultimate_metro::/station_levels.lua");return levels
+   end}))()
   end
   assert(name=="mrnickert_ultimate_metro::/station_menu.lua","construction must use lightweight menu helper")
   return menu

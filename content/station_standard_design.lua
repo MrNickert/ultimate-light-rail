@@ -10,6 +10,8 @@ return function()
    elevatedRoof="mrnickert_ultimate_metro::/elevated_platform_roof.mdl",
    elevatedEntranceBench="mrnickert_ultimate_metro::/elevated_entrance.mdl",
    entrancePaving="mrnickert_ultimate_metro::/elevated_paving.mdl",
+   undergroundBench="::/assets/buildings/res/grd_frn/bench_c_metal.mdl",
+   undergroundTicketMachine="::/assets/stations/street/tickets_era_c_1.mdl",
   },
  }
 end

@@ -12,7 +12,7 @@ If a feature requires a breaking change, it will be introduced in a new, explici
 
 ## What the public v1 contract covers
 
-- The `station_api_v1.lua` module and its documented methods, including `buildStation`, `getContract`, `getDefaultKit`, `getDefaultDesign` and `getMenuCategory`.
+- The `station_api_v1.lua` module and its documented methods, including `buildStation`, `buildInterchange`, `getContract`, `getDefaultKit`, `getDefaultDesign` and `getMenuCategory`.
 - The lightweight `station_menu.lua.getMenuCategory` helper and registration in the shared Light Rail menu.
 - Documented station fields, accepted values, component choices and supported asset roles.
 - The documented 20m module interface, reference profiles and fixed layout responsibilities.

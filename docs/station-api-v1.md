@@ -1,6 +1,6 @@
 # Station API v1 — Ultimate Light Rail 1.2.2
 
-The public API builds tram-based passenger stations. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
+The public API builds tram-based passenger stations. `buildStation()` builds one station at one level. [`buildInterchange()`](multi-level-stations.md) builds one station with multiple connected levels. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
 
 ## Compatibility commitment
 
@@ -71,21 +71,36 @@ The return value is directly usable as the construction update result. `capture`
 | Field | Contract |
 | --- | --- |
 | `apiVersion` | Required; exactly 1 |
-| `placement` | Required: `surface`, `underground`, `elevated` |
+| `placement` | `surface`, `underground` or `elevated`. Required unless `level` is supplied. |
+| `level` | Optional logical level `-4` through `1`. When combined with legacy placement/depth fields, their values must agree. |
 | `stationType` | Required: `through`, `terminus` |
 | `platformLength` | Required: 40, 60, 80, 100 or 120 metres |
 | `platformTracks` | Optional, defaults to 2; only 2 is accepted |
 | `fence` | Optional boolean; defaults to true, effectively false underground |
+| `turnback` | Optional boolean for through stations. Defaults to false. |
 | `undergroundLevel` | Optional integer for underground stations: `-1`, `-2`, `-3` or `-4`. Defaults to `-1`. |
 | `design` | Optional; omitting it uses the standard kit |
 
 A terminus includes one crossover. A through station adds two crossovers when Turnback is enabled. Locations are named values, not menu indices. Unknown fields and invalid values produce an API error.
 
+## Logical levels
+
+| Level | Placement | Track height |
+| --- | --- | --- |
+| `-4` | Underground | −72 m |
+| `-3` | Underground | −54 m |
+| `-2` | Underground | −36 m |
+| `-1` | Underground | −18 m |
+| `0` | Surface | 0 m |
+| `1` | Elevated | +12 m |
+
+The core resolves track height. Legacy `placement` and `undergroundLevel` calls remain valid, including the default of −18 m when an underground depth is omitted. The numeric `level` field is available in the review checkout together with the [multi-level builder](multi-level-stations.md). It is not present in the published revision 73.
+
 ## Designs and helpers
 
 A design contains `apiVersion=1`, a lowercase `id` and exactly one of `components` or `assets`. Prefer `components` for new designs; the [component guide](asset-kit-v1.md) describes standard/custom/none choices and all model dimensions.
 
-- `getContract()`: module length, platform dimensions, supported components and fixed layout responsibilities.
+- `getContract()`: module length, platform dimensions, supported components, logical levels and fixed layout responsibilities.
 - `getDefaultKit()`: fresh context-dependent default selections.
 - `getDefaultKit(placement)`: the concrete standard surface/elevated kit; an empty component kit for the fixed underground hall.
 - `getDefaultDesign()`: a fresh standard configuration using asset roles.
@@ -104,6 +119,8 @@ As an alternative to components, `assets` supports replacement of these roles. M
 | `elevatedRoof` | `elevated_platform_roof.mdl` |
 | `elevatedEntranceBench` | `elevated_entrance.mdl` |
 | `entrancePaving` | `elevated_paving.mdl` |
+| `undergroundBench` | native `::/assets/buildings/res/grd_frn/bench_c_metal.mdl` (underground only) |
+| `undergroundTicketMachine` | native `::/assets/stations/street/tickets_era_c_1.mdl` (underground only) |
 
 A role applies only where the builder places that model. The platform role uses local x=0..40m, y=-2.5..2.5m with its reference floor around z=1.1m before core transforms. The terminus forecourt uses x=-5..0m, y=-5..5m. The entrance pavement is a local 3×3m plane at z=0. Preserve the origin, clearance and complete reference profile. Use `components` for unscaled 20m modules.
 

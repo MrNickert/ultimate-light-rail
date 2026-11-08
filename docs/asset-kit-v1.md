@@ -10,6 +10,10 @@ Creators supply their own mod, construction description, update script and any m
 
 The core supplies two platform tracks, terminus crossovers, stopping positions, terminals, entrances, stairs, pedestrian routes, structural supports and safety features. Do not copy this logic into an asset mod.
 
+## Multi-level designs
+
+Assign a separate `design` to each layer using the [multi-level API](multi-level-stations.md). Surface and elevated levels accept the component kits below. The underground hall has fixed structural geometry. Its bench and ticket-machine models can be replaced through the [underground asset roles](station-api-v1.md#asset-roles).
+
 ## Three choices per component
 
 | Value | Meaning |

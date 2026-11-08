@@ -293,6 +293,12 @@ local generatedData = {
 -- stays near the far end; its entrance is rotated along the track axis.
 return function(params,options)
  options=options or {}
+ -- The native helper requires a seed even for an unrandomized hall.
+ if params.seed==nil then
+  local config={seed=0}
+  for key,value in pairs(params) do config[key]=value end
+  params=config
+ end
  local L=options.length or 80
  local approach=options.turnback and 30 or 10
  local centre=options.centred and L/2 or L-20

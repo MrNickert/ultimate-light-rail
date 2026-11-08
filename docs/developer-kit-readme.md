@@ -1,6 +1,8 @@
 # Ultimate Light Rail Developer Kit
 
-**Core 1.2.2 · revision 73 · Station API v1**
+**Station API v1 · review checkout**
+
+The single-station example works with published core revision 49 or later. The multi-level example requires the current review checkout.
 
 This package contains documentation, a standalone example mod and reference declarations. Install the core mod separately. Do not activate the developer kit itself in the game.
 
@@ -17,17 +19,19 @@ Updates and extensions within API v1 remain backward compatible with its documen
 5. Call `station_api_v1.lua.buildStation()` from your update script and supply your own 20m models.
 6. Test short and long platforms, both station types, stair clearance, boarding, crossing movements and save/reload.
 
-The example mod contains a configurable 20m component kit and a fixed design using asset roles. Use the component kit as the starting point for new designs. Both examples demonstrate the shared menu integration.
+The example mod contains a configurable 20m component kit and a fixed design using asset roles. Use the component kit as the starting point for new designs. Both examples demonstrate the shared menu integration. For an independent multi-level station, follow the [multi-level setup guide](multi-level-stations.md).
 
 ## Package contents
 
 - `docs/asset-kit-v1.md`: component choices, model dimensions and fixed parts.
 - `docs/station-api-v1.md`: API, dependency, construction description and asset roles.
 - `docs/compatibility.md`: public API stability and versioning policy.
-- `example/`: the complete optional example mod.
+- `example/`: the complete optional single-station example mod.
+- `docs/multi-level-stations.md`: supported layouts, layer fields and instructions for an independent add-on.
+- `multi-level-example/`: two construction files that use only the public API and menu helper.
 - `reference/`: model declarations and the concrete standard kit; no copies of native meshes or textures.
 
-Platform and canopy modules are exactly 20m long. Platform width, floor height, two tracks, entrances and stairs are fixed. The underground hall cannot be customised with component models. Models must respect reference profiles and clear routes; schema validation does not inspect every mesh or collider automatically.
+Platform and canopy modules are exactly 20m long. Platform width, floor height, two tracks, entrances and stairs are fixed. The underground hall uses fixed geometry. Its bench and ticket-machine models can be replaced through the documented underground asset roles. Models must respect reference profiles and clear routes; schema validation does not inspect every mesh or collider automatically.
 
 The bundled example stations start in 1925, matching the standard stations and modern native tram track. Availability is declared in each construction description; custom asset mods choose their own dates. This does not change the API v1 build contract or its minimum required revision.
 

@@ -1,6 +1,5 @@
 local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local concourse=require "mrnickert_ultimate_metro::/underground_concourse_util.lua"
-local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua"
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
 local interchange=require "mrnickert_ultimate_metro::/interchange_util.lua"
 local levels=require "mrnickert_ultimate_metro::/underground_levels.lua"
@@ -9,8 +8,6 @@ local DEFAULT_ANGLES={1,3,2,4}
 local DIAGONAL=math.sqrt(0.5)
 local FOUR_LEVEL_ROTATIONS={{1,0},{DIAGONAL,DIAGONAL},{0,1},{-DIAGONAL,DIAGONAL}}
 
-local append=interchange.append
-
 local function buildLevel(capture,params,internal,length)
  local result=stationApi.buildStation({apiVersion=1,placement="underground",
   stationType="through",platformLength=length,turnback=true},capture,params)
@@ -18,20 +15,6 @@ local function buildLevel(capture,params,internal,length)
   {centred=true,internal=internal})
  result.snapPoint.transf[13]=length/2+8
  return result
-end
-
-local function addStreetEntrance(result,params)
- local sub=result.subconstructions[1]
- -- The street entrance uses the native frontage frame. Its lower landings
- -- at (+/-8.5,0,-12) meet the 45-degree joints of the first concourse ring.
- local street=entrance(params,{entranceOnly=true,streetAligned=true})
- for _,field in ipairs({"models","colliders","laneLists"}) do
-  append(sub[field],street[field])
- end
- sub.groundFaces=street.groundFaces
- sub.terrainAlignmentLists=street.terrainAlignmentLists
- sub.station.catchmentAreas={{position={0,9,0},radius=200}}
- result.snapPoint.transf={1,0,0,0,0,1,0,0,0,0,1,0,0,8,0,1}
 end
 
 local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
@@ -44,24 +27,6 @@ local function connectLevels(sub,upperRotation,lowerRotation,offset,side)
  points[4]={-side*ls*16,side*lc*16,-30+offset}
  points[5]={-side*ls*11.75,side*lc*11.75,-30+offset}
  geometry.addStairs(sub,points)
-end
-
-local function connectConfiguredLevels(sub,upper,lower,offset,side)
- local ux,uy=-side*upper[2],side*upper[1]
- local lx,ly=-lower[2],lower[1]
- -- Use the same exterior quadrant when possible. Return the lower landing side
- -- so the next flight can depart from the opposite side of that concourse.
- local lowerSide=ux*lx+uy*ly<0 and -1 or 1
- lx,ly=lx*lowerSide,ly*lowerSide
- local scale=36/(1+ux*lx+uy*ly)
- local x,y=(ux+lx)*scale,(uy+ly)*scale
- local dx,dy=(uy+ly)*2,-(ux+lx)*2
- geometry.addStairs(sub,{
-  {ux*11.75,uy*11.75,-12+offset},{ux*16,uy*16,-12+offset},
-  {x+dx,y+dy,-21+offset},{x-dx,y-dy,-21+offset},
-  {lx*16,ly*16,-30+offset},{lx*11.75,ly*11.75,-30+offset},
- })
- return lowerSide
 end
 
 function data()
@@ -100,10 +65,11 @@ function data()
   else
    local side=1
    for i=1,count-1 do
-    side=-connectConfiguredLevels(sub,rotations[i],rotations[i+1],levels.offset(-i),side)
+    side=-interchange.connectUnderground(sub,rotations[i],rotations[i+1],
+     levels.trackZ(-i)+6,levels.trackZ(-i-1)+6,side)
    end
   end
-  if not fourLevels then addStreetEntrance(result,params) end
+  if not fourLevels then interchange.addStreetEntrance(result,params) end
   return result
  end}
 end

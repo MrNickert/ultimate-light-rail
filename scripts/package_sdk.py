@@ -8,6 +8,9 @@ files={
  'README.md':'docs/developer-kit-readme.md',
  'docs/asset-kit-v1.md':'docs/asset-kit-v1.md',
  'docs/station-api-v1.md':'docs/station-api-v1.md',
+ 'docs/multi-level-stations.md':'docs/multi-level-stations.md',
+ 'multi-level-example/station.con.lua':'examples/multi_level/station.con.lua',
+ 'multi-level-example/station.script.lua':'examples/multi_level/station.script.lua',
  'docs/compatibility.md':'docs/compatibility.md',
  'docs/validation-notes.md':'docs/validation-notes.md',
  'docs/maintenance.md':'docs/maintenance.md',
@@ -31,6 +34,7 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
 with zipfile.ZipFile(out) as archive:
     assert archive.testzip() is None and len(archive.namelist())==len(files)
     assert not any(n.endswith(('.blob','.dds','.tga')) for n in archive.namelist())
+    assert b'station.buildInterchange(' in archive.read(prefix+'/multi-level-example/station.script.lua')
     for name in ['README.md','docs/asset-kit-v1.md','docs/station-api-v1.md','docs/compatibility.md','example/README.md']:
         text=archive.read(prefix+'/'+name).decode('utf-8')
         assert '0.17.' not in text and 'UI Preview' not in text
