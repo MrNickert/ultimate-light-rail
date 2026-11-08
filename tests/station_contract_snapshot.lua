@@ -25,9 +25,22 @@ return function(resource,directory)
   file=assert(io.open(directory.."/"..name..".functional","wb"))
   writeValue(file,result);file:close()
  end
- -- Keep historical geometry snapshots independent of the built-in placement
- -- adapter. Snap frames and exposed approach nodes are tested separately.
- local standard=require "mrnickert_ultimate_metro::/station_config_util.lua"
+ -- Historical snapshots predate the road-placement frames. Keep that comparison
+ -- focused on geometry; the public and built-in snap results are tested separately.
+ local buildStandard=require "mrnickert_ultimate_metro::/station_config_util.lua"
+ local rawThrough=require "mrnickert_ultimate_metro::/through_station_util.lua"
+ local rawTerminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
+ local function standard(capture,params)
+  local result=buildStandard(capture,params)
+  if params.placement~=1 then
+   for _,edge in ipairs(result.edgeLists) do edge.maxNodeSnapAngle=nil end
+   if params.placement~=3 then
+    local raw=params.stationType==1 and rawThrough or rawTerminus
+    result.snapPoint=raw(capture,params).snapPoint
+   end
+  end
+  return result
+ end
  for placement=1,3 do for kind=1,2 do for length=1,5 do for fence=1,2 do
   snapshot(table.concat({placement,kind,length,fence},"-"),standard,
    {placement=({2,1,3})[placement],stationType=kind,platformLength=length,fence=fence,seed=42})

@@ -4,6 +4,26 @@ local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
 local underground=require "mrnickert_ultimate_metro::/underground_station_util.lua"
 local elevated=require "mrnickert_ultimate_metro::/elevated_station_util.lua"
+local function applyPlacementSnap(result,placement,length,isThrough)
+ if placement=="surface" then
+  local frame
+  if isThrough then
+   -- Align the long platform edge to the street, just outside its deck.
+   frame={1,0,0,0,0,1,0,0,0,0,1,0,length/2,-10,0,1}
+  else
+   -- The tram approach is at the opposite end from the public head plaza.
+   frame={0,1,0,0,-1,0,0,0,0,0,1,0,length+6,0,0,1}
+  end
+  result.snapPoint={transf=frame,snapToBaseEdgeTypes={"STREET"},allowSnapToBaseEdgeEnds=true}
+ end
+ for _,edge in ipairs(result.edgeLists) do
+  -- Constrain automatic approach alignment when building the station.
+  -- The end nodes remain exposed for drawing connections afterwards.
+  edge.maxNodeSnapAngle=0
+ end
+ return result
+end
+
 return function(capture,params,spec)
  params=params or {}
  -- Copy: the UI/save parameter table must not be changed by a builder.
@@ -16,7 +36,10 @@ return function(capture,params,spec)
  -- Terminus geometry always includes its crossover. Through stations use turnback.
  config.crossover=isThrough and 1 or 2
  if isUnderground then return underground(capture,config,isThrough,length,spec.turnback,spec.undergroundLevel) end
- if spec.placement=="elevated" then return elevated(capture,config,isThrough,length,fence,spec.turnback) end
+ if spec.placement=="elevated" then
+  local result=elevated(capture,config,isThrough,length,fence,spec.turnback)
+  return applyPlacementSnap(result,spec.placement,length,isThrough)
+ end
  local result
  if isThrough then
   layout.platformCrossing=tonumber(config.ulrPlatformAccess)==2
@@ -38,5 +61,5 @@ return function(capture,params,spec)
     or "mrnickert_ultimate_metro::/lightrail_double.street_template"
   end
  end
- return result
+ return applyPlacementSnap(result,spec.placement,length,isThrough)
 end

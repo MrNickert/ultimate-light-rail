@@ -17,7 +17,7 @@ return function(resource)
   local spec={apiVersion=1,placement=placements[placement],stationType=kinds[kind],platformLength=length,platformTracks=2,fence=fence==2}
   local params={placement=({2,1,3})[placement],stationType=kind,platformLength=index,fence=fence,seed=42,crossover=1}
   local savedSpec,savedParams=copy(spec),copy(params)
-  equal(api.buildStation(spec,{},params),standard({},params),"direct API equals the standard geometry before placement-only snapping")
+  equal(api.buildStation(spec,{},params),standard({},params),"direct API equals the standard result, including placement snapping")
   equal(spec,savedSpec,"no specification mutation");equal(params,savedParams,"no save parameter mutation")
  end end end end
  local defaults=api.getDefaultDesign()

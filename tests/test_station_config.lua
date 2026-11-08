@@ -8,7 +8,12 @@ return function(resource)
   for k in pairs(b) do assert(a[k]~=nil,path..": extra key "..tostring(k)) end
  end
  local function functional(result)
-  local r={};for k,v in pairs(result) do r[k]=v end
+  local r={};for k,v in pairs(result) do if k~="snapPoint" then r[k]=v end end
+  r.edgeLists={}
+  for i,edge in ipairs(result.edgeLists) do
+   local t={};for k,v in pairs(edge) do if k~="maxNodeSnapAngle" then t[k]=v end end
+   r.edgeLists[i]=t
+  end
   r.subconstructions={}
   for i,sub in ipairs(result.subconstructions or {}) do
    local t={};for k,v in pairs(sub) do if k~="models" then t[k]=v end end
@@ -101,7 +106,7 @@ return function(resource)
   end
   assert(crossingCount==2 and entranceCount==6)
  end end end
- local standard=require "mrnickert_ultimate_metro::/station_config_util.lua"
+ local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
  local alignment=con.params[8]
  assert(alignment.defaultIndex==1 and alignment.values[1]=="LR_STATION_STREET_PARALLEL")
  assert(alignment.values[2]=="LR_STATION_STREET_PERPENDICULAR")
@@ -111,7 +116,9 @@ return function(resource)
   for stationType=1,2 do for i,L in ipairs({40,60,80,100,120}) do
    local params={placement=placement,stationType=stationType,platformLength=i,turnback=2,seed=42}
    local result=script.updateFn({},params)
-   local geometry=standard({},params)
+   local spec={apiVersion=1,placement=({"underground","surface","elevated"})[placement],
+    stationType=stationType==1 and "through" or "terminus",platformLength=L,turnback=stationType==1}
+   local direct=api.buildStation(spec,{},params)
    local frame=result.snapPoint.transf
    if placement==2 and stationType==1 then
     assert(frame[1]==1 and frame[2]==0 and frame[13]==L/2 and frame[14]==-10 and frame[15]==0)
@@ -121,6 +128,7 @@ return function(resource)
     assert(frame[1]==1 and frame[2]==0 and frame[13]==L/2 and frame[14]==-15 and frame[15]==0)
     params.ulrStreetAlignment=2
     local side=script.updateFn({},params)
+    equal(side,api.buildStation(spec,{},params),"public elevated snapping matches the perpendicular builder")
     local sideFrame=side.snapPoint.transf
     assert(sideFrame[1]==0 and sideFrame[2]==-1 and sideFrame[5]==1 and sideFrame[6]==0)
     assert(sideFrame[13]==L/2-11.5 and sideFrame[14]==-12.5 and sideFrame[15]==0)
@@ -135,11 +143,9 @@ return function(resource)
     assert(not result.snapPoint.transportModes)
     for _,edge in ipairs(result.edgeLists) do
      assert(edge.maxNodeSnapAngle==0 and #edge.snapNodes==1 and #edge.freeNodes==1)
-     edge.maxNodeSnapAngle=nil
     end
-    result.snapPoint=geometry.snapPoint
    end
-   equal(result,geometry,"built-in placement wrapper preserves core geometry")
+   equal(result,direct,"public station snapping matches the built-in builder")
   end end
  end
  local legacySurface=resource("twin_terminus.script.lua")
@@ -168,7 +174,7 @@ return function(resource)
    local baseline=(stationType==1 and legacyThrough or legacySurface).updateFn({}, {crossover=2,seed=42})
    equal(sub.laneLists,baseline.subconstructions[1].laneLists,"validated surface vehicle/passenger paths")
    equal(sub.station,baseline.subconstructions[1].station,"validated surface station terminals")
-   if fence==2 then equal(functional(standard({},params)),functional(baseline),"validated fenced surface functional layout") end
+   if fence==2 then equal(functional(r),functional(baseline),"validated fenced surface functional layout") end
    for _,edge in ipairs(r.edgeLists) do
     local profile=edge.params.type
     if fence==1 then
@@ -229,6 +235,6 @@ return function(resource)
   end
   results[id]=r
  end end end
- equal(functional(standard({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
+ equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
  print("PASS: eight station settings; street alignment and retained track ends; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

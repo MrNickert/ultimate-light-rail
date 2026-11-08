@@ -96,6 +96,10 @@ A terminus includes one crossover. A through station adds two crossovers when Tu
 
 The core resolves track height. Legacy `placement` and `undergroundLevel` calls remain valid, including the default of −18 m when an underground depth is omitted. The numeric `level` field and the [multi-level builder](multi-level-stations.md) require core revision 78 or later.
 
+## Placement snapping
+
+The core applies the same road snapping to built-in and add-on stations. Surface through stations align along the platform side, and surface termini align at the end plaza. Elevated stations use their street entrance. The track ends remain available for connecting tram track after placement.
+
 ## Designs and helpers
 
 A design contains `apiVersion=1`, a lowercase `id` and exactly one of `components` or `assets`. Prefer `components` for new designs; the [component guide](asset-kit-v1.md) describes standard/custom/none choices and all model dimensions.
