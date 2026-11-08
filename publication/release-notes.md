@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.2.1
+# Ultimate Light Rail 1.2.2
+
+## Revision 73
+
+Ultimate Light Rail 1.2.2 adds a dedicated Light Rail filter to the line manager. It shows lines serving Ultimate Light Rail stations or compatible add-on stations. Light Rail lines also remain available under the standard Tram filter.
 
 ## Revision 70
 

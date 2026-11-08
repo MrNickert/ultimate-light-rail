@@ -1,6 +1,6 @@
 # Ultimate Light Rail Developer Kit
 
-**Core 1.2.1 · revision 70 · Station API v1**
+**Core 1.2.2 · revision 73 · Station API v1**
 
 This package contains documentation, a standalone example mod and reference declarations. Install the core mod separately. Do not activate the developer kit itself in the game.
 

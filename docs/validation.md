@@ -1,4 +1,4 @@
-# Validation status — release 1.2.1
+# Validation status — release 1.2.2
 
 ## Automated checks
 
@@ -14,13 +14,15 @@
 
 These checks support the [API v1 compatibility commitment](compatibility.md). They do not make undocumented internals part of the public contract.
 
+The line-filter tests cover callable engine bindings, station and add-on recognition, the existing carrier filters and the read-only API fallback. They verify that the line list and bulk selection use the same predicate.
+
 ## In-game confirmation by the user
 
 All three station locations have been placed and confirmed working. All platform lengths have been placed for visual inspection. Testing includes boarding/alighting, native connections, reversing, multiple lines/vehicles, crossing movements and save/reload. Independent component examples have been placed at 40m/80m with and without roofs; boarding and crossovers were confirmed for two variants.
 
 The surface through station with crossings was confirmed in-game by the user. The user also confirmed the new station snapping and the fixed Interchange street entrance.
 
-The dedicated Light Rail button, compact icon and combined catalogue containing the tram depot, track and station have been confirmed in-game.
+The dedicated Light Rail button, compact icon and combined catalogue containing the tram depot, track and station have been confirmed in-game. The user also confirmed the Light Rail line filter and its 18 px icon on Windows with revision 73.
 
 The fixed two-layer interchange was tested in-game, including a passenger transfer. The four-layer prototype was placed and connected to working lines at all four depths. Its generated pedestrian network passed all 56 directed inter-platform checks. The configurable station settings were confirmed in-game. Automated tests cover one to four layers, all adjacent angle pairs and mixed platform lengths. The final upload candidate still needs Mod Hub validation and a visual check of the tile and settings.
 

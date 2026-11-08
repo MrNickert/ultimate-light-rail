@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-**Release 1.2.1 · mod revision 70 · Station API v1**
+**Release 1.2.2 · mod revision 73 · Station API v1**
 
 The additive UI integration (revision 52) has been tested in-game alongside Undo. Turnback is available on through stations at all three elevations. It adds a 30 m crossover at each end. See [UI integration](docs/ui-integration.md).
 

@@ -1,6 +1,6 @@
-# Ultimate Light Rail 1.2.1 — publication package
+# Ultimate Light Rail 1.2.2 — publication package
 
-Current release candidate: mod revision 70, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 73, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 
@@ -34,12 +34,12 @@ Four known model warnings concern native game textures using BC3/DXT5 where the 
 ## Upload workflow
 
 1. Build UI and artwork, then the core, example, developer kit and publication packages with the scripts under `scripts/`.
-2. Apply the refreshed candidate to the staging area, preserve any mod.io linkage file, and archive obsolete gallery files `5.png` and `6.png` outside `_metadata`.
+2. Compare the staged runtime with the release core. Use `Apply-Staging-Update.ps1` if the staged files need updating. It preserves the existing listing metadata and linkage.
 3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
-4. Load the updated staging copy and check the surface platform and terminus snap points, both elevated alignments and the fixed Interchange entrance. Verify the tram approaches still accept track after placement.
-5. Push the final commit. If distributing this update on GitHub, use the new `v1.2.1` release tag and attach the core, developer kit, example and checksums.
-6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the Revision 70 text in `release-notes.md`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
+4. Load the staged core and check the Light Rail filter next to Tram in the line manager. Verify the icon size and filter results in a save with Light Rail lines.
+5. Push the final commit. If distributing this update on GitHub, use the new `v1.2.2` release tag and attach the core, developer kit, example and checksums.
+6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the Revision 73 text in `release-notes.md`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
 
-7. The in-game uploader reads the integer revision in `mod.json` and offers a changelog field. It exposes no setting for the separate mod.io file version. Put `1.2.1` in the changelog. The mod.io Version column may still show `1.0`.
+7. The in-game uploader reads the integer revision in `mod.json` and offers a changelog field. It exposes no setting for the separate mod.io file version. Put `1.2.2` in the changelog. The mod.io Version column may still show `1.0`.
 
 The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.

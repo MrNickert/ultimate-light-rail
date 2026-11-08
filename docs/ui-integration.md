@@ -14,6 +14,10 @@ The native construction-content callback continues to execute. During that callb
 
 The Light Rail button requests `light_rail` by category ID. The category adapter resolves its current index when opening it. No fixed Light Rail tab number is stored. Availability notifications are translated by category ID while the native notifications remain intact.
 
+## Line manager
+
+The Light Rail filter adds a control next to Tram in the native line manager. A line matches when it serves a built-in or API-registered Light Rail station. The native Tram filter still includes Light Rail lines. The adapter retains the existing search, visibility filter and selection controls and applies the Light Rail predicate to both the list and bulk selection. If the required native helpers cannot be wrapped, the adapter skips the filter and logs the reason.
+
 ## Limits and engine coupling
 
 The engine does not expose a public construction-category extension point. The small integration layer therefore uses checked native recipe registry entries and a scoped native-state adapter. It still needs review after engine changes. Layout mismatch skips the affected hook and writes a diagnostic instead of guessing a different target.
