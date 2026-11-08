@@ -1,6 +1,32 @@
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 $projectRoot = Split-Path -Parent $PSScriptRoot
+
+function Write-IconTga([System.Drawing.Bitmap]$source, [int]$size, [string]$destination, [string]$previewPath) {
+    $small = [System.Drawing.Bitmap]::new($size,$size)
+    $smallGraphics = [System.Drawing.Graphics]::FromImage($small)
+    try {
+        $smallGraphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+        $smallGraphics.DrawImage($source,0,0,$size,$size)
+        if ($previewPath) { $small.Save($previewPath,[System.Drawing.Imaging.ImageFormat]::Png) }
+        $bytes = [byte[]]::new(18+$size*$size*4)
+        $bytes[2]=2
+        [BitConverter]::GetBytes([uint16]$size).CopyTo($bytes,12)
+        [BitConverter]::GetBytes([uint16]$size).CopyTo($bytes,14)
+        $bytes[16]=32; $bytes[17]=40
+        $offset=18
+        for ($y=0;$y -lt $size;$y++) {
+            for ($x=0;$x -lt $size;$x++) {
+                $pixel=$small.GetPixel($x,$y)
+                $bytes[$offset]=255; $bytes[$offset+1]=255; $bytes[$offset+2]=255
+                $bytes[$offset+3]=$pixel.A
+                $offset+=4
+            }
+        }
+        [IO.File]::WriteAllBytes($destination,$bytes)
+    } finally { $smallGraphics.Dispose(); $small.Dispose() }
+}
+
 # Vector geometry based on the supplied side-profile: white mask, transparent
 # windows/background. Native ToolButton styles supply the displayed colour.
 $large = [System.Drawing.Bitmap]::new(120,120)
@@ -32,27 +58,7 @@ try {
     $graphics.DrawLine($pen,10,5,18,5)
     $graphics.DrawLine($pen,14,5,14,9)
     $graphics.DrawLine($pen,3,25,27,25)
-    $small = [System.Drawing.Bitmap]::new(30,30)
-    $smallGraphics = [System.Drawing.Graphics]::FromImage($small)
-    try {
-        $smallGraphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-        $smallGraphics.DrawImage($large,0,0,30,30)
-        $small.Save((Join-Path $projectRoot 'dist/light-rail-menu-icon.png'),[System.Drawing.Imaging.ImageFormat]::Png)
-        $bytes = [byte[]]::new(18+30*30*4)
-        $bytes[2]=2
-        [BitConverter]::GetBytes([uint16]30).CopyTo($bytes,12)
-        [BitConverter]::GetBytes([uint16]30).CopyTo($bytes,14)
-        $bytes[16]=32; $bytes[17]=40
-        $offset=18
-        for ($y=0;$y -lt 30;$y++) {
-            for ($x=0;$x -lt 30;$x++) {
-                $pixel=$small.GetPixel($x,$y)
-                $bytes[$offset]=255; $bytes[$offset+1]=255; $bytes[$offset+2]=255
-                $bytes[$offset+3]=$pixel.A
-                $offset+=4
-            }
-        }
-        [IO.File]::WriteAllBytes((Join-Path $projectRoot 'content/gui/light_rail.tga'),$bytes)
-    } finally { $smallGraphics.Dispose(); $small.Dispose() }
+    Write-IconTga $large 30 (Join-Path $projectRoot 'content/gui/light_rail.tga') (Join-Path $projectRoot 'dist/light-rail-menu-icon.png')
+    Write-IconTga $large 18 (Join-Path $projectRoot 'content/gui/light_rail_line_filter.tga')
 } finally { $pen.Dispose(); $body.Dispose(); $graphics.Dispose(); $large.Dispose() }
-Write-Output 'Rendered 30x30 transparent native-style vector icon.'
+Write-Output 'Rendered transparent Light Rail icons for the toolbar (30 px) and line filter (18 px).'

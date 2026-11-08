@@ -83,7 +83,7 @@ local function transform(change) state = change(state) end
 local function draw(kind) return stats.createCarrierCategoryFilter(categories, kind, get, transform, 'foreign argument') end
 local rendered = draw('Lines')
 assert(#categories == 4 and #rendered.categories == 5 and rendered.categories[3] == categories[3])
-assert(rendered.categories[4].imageFile == 'mrnickert_ultimate_metro::/gui/light_rail.tga')
+assert(rendered.categories[4].imageFile == 'mrnickert_ultimate_metro::/gui/light_rail_line_filter.tga')
 assert(rendered.get().category[5] and rendered.extra == 'foreign argument')
 rendered.transform(function(next) next.category[4] = true; return next end)
 assert(state.category.ulrOnly and state.category[4] and state.search == 'City' and state.onlyVisible)

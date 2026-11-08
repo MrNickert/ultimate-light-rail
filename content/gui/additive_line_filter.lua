@@ -65,7 +65,7 @@ end
 local function extendControls(nativeFilter, slot, categories, kind, oldState, transform, ...)
  local choices = copy(categories)
  table.insert(choices, slot, {
-  imageFile = 'mrnickert_ultimate_metro::/gui/light_rail.tga',
+  imageFile = 'mrnickert_ultimate_metro::/gui/light_rail_line_filter.tga',
   tooltip = _("ULR_SHOW_LIGHT_RAIL_LINES"),
   carrier = categories[slot - 1].carrier,
  })

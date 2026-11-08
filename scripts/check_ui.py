@@ -7,7 +7,7 @@ mod=json.loads((source/'mod.json').read_text(encoding='utf-8'))
 assert mod['modId']=='mrnickert_ultimate_metro' and mod['revision']==70
 manifest=json.loads((source/'content/gui/build_manifest.json').read_text(encoding='utf-8'))
 files=[p.relative_to(source).as_posix() for p in sorted((source/'content/gui').rglob('*')) if p.is_file()]
-assert len(files)==14,files
+assert len(files)==15,files
 native=set()
 game=Path(r'C:\Program Files (x86)\Steam\steamapps\common\Transport Fever 3/base/content')
 for archive_path in game.rglob('*.zip'):
@@ -47,5 +47,9 @@ pixels=[tuple(icon[i:i+4]) for i in range(18,len(icon),4)]
 assert all(pixel[:3]==(255,255,255) for pixel in pixels),'icon must be a tintable white mask'
 assert any(p[3]==0 for p in pixels) and any(p[3]==255 for p in pixels),'transparent background and opaque symbol required'
 assert all(pixels[y*w+x][3]==0 for y in range(h) for x in range(w) if x in (0,w-1) or y in (0,h-1)),'icon must fit inside its button'
+line_icon=(source/'content/gui/light_rail_line_filter.tga').read_bytes()
+assert struct.unpack_from('<HHB',line_icon,12)==(18,18,32) and len(line_icon)==18+18*18*4
+assert any(line_icon[i] == 0 for i in range(21,len(line_icon),4))
+assert any(line_icon[i] == 255 for i in range(21,len(line_icon),4))
 assert hashlib.sha256((source/'artwork/light_rail_reference.png').read_bytes()).hexdigest()==manifest['iconSourceSha256']
 print('PASS: additive native integration, scoped helpers, name-based routing, transparent icon and source provenance.')
