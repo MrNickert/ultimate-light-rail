@@ -51,16 +51,17 @@ for _,path in ipairs({"content/light_rail_station.con.lua",
  assert(description.menuCategory.categories[1].category=="ulr_stations",path)
  assert(description.availability.yearFrom==trackAvailability.yearFrom and description.availability.yearTo==trackAvailability.yearTo,"station availability must match modern tram track: "..path)
 end
-local files={"catalog.lua","ui_bridge.lua","additive_bar.lua","additive_construction.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua","native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
+local files={"catalog.lua","ui_bridge.lua","additive_bar.lua","additive_construction.lua","additive_line_filter.lua","replacement.res.lua","replacement.script.lua","stations_category.res.lua","native_bar.lua","native_construction.lua","native_bar.css.lua","native_construction.css.lua"}
 for _,file in ipairs(files)do assert(loadfile('content/gui/'..file),file)end
 local calls={}
-local env={ug_require=function(path)
- assert(path=='mrnickert_ultimate_metro::/gui/additive_bar.lua' or path=='mrnickert_ultimate_metro::/gui/additive_construction.lua')
- return {install=function()calls[#calls+1]=path end}
+local env={pcall=pcall,tostring=tostring,log={message=function()end,warning=function()end},ug_require=function(path)
+ assert(path=='mrnickert_ultimate_metro::/gui/additive_bar.lua' or path=='mrnickert_ultimate_metro::/gui/additive_construction.lua'
+  or path=='mrnickert_ultimate_metro::/gui/additive_line_filter.lua')
+ return {install=function()calls[#calls+1]=path;return true end}
 end}
 assert(loadfile('content/gui/replacement.script.lua','t',env))()
 assert(#calls==0,'UI setup must be deferred until the engine setup callback')
 env.data().doReplaceFn({ReplaceRecipe=function()error('Whole native recipes must not be replaced')end})
-assert(#calls==2)
+assert(#calls==3 and calls[3]=='mrnickert_ultimate_metro::/gui/additive_line_filter.lua')
 dofile('tests/test_additive_ui.lua')
 print('PASS: catalogue, availability, generated syntax and additive UI integration. Engine rendering still requires in-game testing.')

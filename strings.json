@@ -52,6 +52,7 @@
     "LR_STATION_SURFACE_TOOLTIP": "Platforms at ground level. Connect electric tram tracks and nearby streets.",
     "LR_STATION_ELEVATED_TOOLTIP": "Covered platforms 12 m above ground, with one central entrance and stairs from street level. Connect tram tracks on bridges.",
     "ULR_UI_MENU": "Light Rail",
+    "ULR_SHOW_LIGHT_RAIL_LINES": "Show Light Rail Lines",
     "ULR_UI_SEARCH": "Search..."
   },
   "nl": {
@@ -107,6 +108,7 @@
     "LR_STATION_SURFACE_TOOLTIP": "Perrons op maaiveld. Sluit elektrisch tramspoor en nabijgelegen straten aan.",
     "LR_STATION_ELEVATED_TOOLTIP": "Overdekte perrons op 12 m hoogte, met één centrale ingang en trappen vanaf straatniveau. Sluit tramsporen op bruggen aan.",
     "ULR_UI_MENU": "Light Rail",
+    "ULR_SHOW_LIGHT_RAIL_LINES": "Toon lightraillijnen",
     "ULR_UI_SEARCH": "Zoeken..."
   }
 }

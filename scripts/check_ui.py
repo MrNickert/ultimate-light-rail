@@ -7,7 +7,7 @@ mod=json.loads((source/'mod.json').read_text(encoding='utf-8'))
 assert mod['modId']=='mrnickert_ultimate_metro' and mod['revision']==70
 manifest=json.loads((source/'content/gui/build_manifest.json').read_text(encoding='utf-8'))
 files=[p.relative_to(source).as_posix() for p in sorted((source/'content/gui').rglob('*')) if p.is_file()]
-assert len(files)==13,files
+assert len(files)==14,files
 native=set()
 game=Path(r'C:\Program Files (x86)\Steam\steamapps\common\Transport Fever 3/base/content')
 for archive_path in game.rglob('*.zip'):
