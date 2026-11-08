@@ -24,7 +24,7 @@ jobs:
           python3 scripts/package_contract_example.py
           mkdir -p _site/{landing,media,downloads}
           cp publication/landing/{index.html,styles.css} _site/landing/
-          cp publication/media/{cover.png,api-overview.png,gameplay-elevated-daylight.png,gameplay-fenced-crossing.png,gameplay-station-settings.png} _site/media/
+          cp publication/media/{cover.png,api-overview.png,gameplay-elevated-daylight.png,gameplay-fenced-crossing.png,gameplay-station-settings.png,gameplay-interchange-settings.png} _site/media/
           cp dist/ultimate-light-rail-{developer-kit,contract-example}-*.zip _site/downloads/
           cat > _site/index.html <<'HTML'
           <!doctype html>
