@@ -1,41 +1,65 @@
 local aboveground=require "mrnickert_ultimate_metro::/aboveground_interchange_util.lua"
 local interchange=require "mrnickert_ultimate_metro::/interchange_util.lua"
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
-local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local LENGTH=80
-local DIAGONAL=math.sqrt(0.5)
+local CENTRE=LENGTH/2
+local PLAZA_HEIGHT=0.15
+local CONCOURSE_HEIGHT=-12
+-- These bounds align with the 3 m plaza tile grid, between the up stairs.
+local OPENING={x0=36,x1=42,y0=16,y1=28}
 
-local function streetEntrance(sub)
- for _,lane in ipairs(sub.laneLists) do
-  if lane.linkable and lane.transportModes[1]=="PERSON" then return lane.nodes[1][1] end
- end
- error("The underground interchange level has no public entrance")
+local function addWall(sub,x0,x1,y0,y1)
+ sub.models[#sub.models+1]={id="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl",
+  transf={(x1-x0)/6,0,0,0,0,(y1-y0)/4,0,0,0,0,(PLAZA_HEIGHT-CONCOURSE_HEIGHT)/2.4,0,
+   x0,y0,PLAZA_HEIGHT,1}}
 end
 
-local function connectEntrance(sub,from,to)
- sub.laneLists[#sub.laneLists+1]=track.lane({from,to},{"PERSON"},false,false)
- local dx,dy=to[1]-from[1],to[2]-from[2]
- local distance=math.sqrt(dx*dx+dy*dy)
- local nx,ny=-dy/distance,dx/distance
- sub.models[#sub.models+1]={id="mrnickert_ultimate_metro::/elevated_paving.mdl",
-  transf={dx/3,dy/3,(to[3]-from[3])/3,0,nx*0.8,ny*0.8,0,0,0,0,1,0,
-   from[1]-nx*1.2,from[2]-ny*1.2,from[3],1}}
+local function addRail(sub,x0,y0,x1,y1)
+ local dx,dy=x1-x0,y1-y0
+ local length=math.sqrt(dx*dx+dy*dy)
+ local count=math.ceil(length/1.6)
+ for i=1,count do
+  local t=(i-0.5)/count
+  sub.models[#sub.models+1]={id="mrnickert_ultimate_metro::/lightrail_fence.mdl",
+   transf={dx/(1.6*count),dy/(1.6*count),0,0,-dy/length,dx/length,0,0,0,0,1,0,
+    x0+t*dx,y0+t*dy,PLAZA_HEIGHT,1}}
+ end
+end
+
+local function connectPlaza(sub)
+ local a,b=OPENING.x0,OPENING.x1
+ local near,far=OPENING.y0,OPENING.y1
+ local left,right=a+1.5,b-1.5
+ local turn=far-1.5
+ local halfway=(PLAZA_HEIGHT+CONCOURSE_HEIGHT)/2
+ geometry.addStairs(sub,{
+  {CENTRE,12.5,PLAZA_HEIGHT},{left,near,PLAZA_HEIGHT},
+  {left,turn,halfway},{right,turn,halfway},
+  {right,near,CONCOURSE_HEIGHT},{CENTRE,near,CONCOURSE_HEIGHT},
+ })
+ addWall(sub,a,a+0.2,near,far)
+ addWall(sub,b-0.2,b,near,far)
+ addWall(sub,a+0.2,b-0.2,far-0.2,far)
+ addRail(sub,a,near,a,far)
+ addRail(sub,b,near,b,far)
+ addRail(sub,a,far,b,far)
+ addRail(sub,(a+b)/2,near,b,near)
 end
 
 function data()
  return {updateFn=function(capture,params)
-  local result=aboveground(capture,params)
-  local underground=interchange.buildLevel(-1,LENGTH,capture,params)
-  local c=DIAGONAL
-  -- The diagonal level has its native entrance next to the far surface exit,
-  -- clear of the viaduct and the surface tracks.
-  geometry.transformLevel(underground,{c,c,0,0,-c,c,0,0,0,0,1,0,
-   LENGTH/2+12-c*LENGTH/2,-1-c*LENGTH/2,0,1})
-  local combined,lower=result.subconstructions[1],underground.subconstructions[1]
+  local result=aboveground(capture,params,OPENING)
+  local undergroundParams={}
+  for key,value in pairs(params or {}) do undergroundParams[key]=value end
+  undergroundParams.ulrInterchangeInternalConcourse=true
+  local underground=interchange.buildLevel(-1,LENGTH,capture,undergroundParams)
+  -- Same axis as the elevated layer. The concourse ring meets the bottom
+  -- landing at the ring's near end, 8.5 m from its centre.
+  local concourseCentre=OPENING.y0+8.5
+  geometry.transformLevel(underground,{0,1,0,0,-1,0,0,0,0,0,1,0,
+   CENTRE,concourseCentre-CENTRE,0,1})
   interchange.appendLevel(result,underground)
-  interchange.append(combined.groundFaces,lower.groundFaces)
-  interchange.append(combined.terrainAlignmentLists,lower.terrainAlignmentLists)
-  connectEntrance(combined,{LENGTH-1.5,11,0.25},streetEntrance(lower))
+  connectPlaza(result.subconstructions[1])
   for _,edge in ipairs(underground.edgeLists) do edge.maxNodeSnapAngle=0 end
   return result
  end}

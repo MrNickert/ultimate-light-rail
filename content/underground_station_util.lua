@@ -42,6 +42,7 @@ return function(capture,params,isThrough,length,turnback,level)
  local L=length or 80
  local baseZ=levels.trackZ(-1)
  local deep=level~=nil and level~=-1
+ local internal=params.ulrInterchangeInternalConcourse==true
  local layout={length=L,turnback=turnback}
  local result=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
  local source=result.subconstructions[1]
@@ -49,7 +50,7 @@ return function(capture,params,isThrough,length,turnback,level)
  for i=1,vehicles do
   for _,node in ipairs(source.laneLists[i].nodes) do node[1][3]=baseZ end
  end
- local sub=concourse(source,params,isThrough,L,turnback,{internal=deep})
+ local sub=concourse(source,params,isThrough,L,turnback,{internal=deep or internal,centred=internal})
  for _,edge in ipairs(result.edgeLists) do
   -- No fences below ground; preserve native tram traffic for through stations.
   if isThrough then edge.params.type="::/infrastructure/street/tram/tram_new.street_template" end
@@ -64,6 +65,12 @@ return function(capture,params,isThrough,length,turnback,level)
  result.subconstructions={sub}
  result.cost=900000
  result.maintenanceCost=30000
- if deep then addDeepEntrance(result,params,L,level) end
+ if deep then
+  if internal then
+   geometry.transformLevel(result,{1,0,0,0,0,1,0,0,0,0,1,0,0,0,levels.offset(level),1})
+  else
+   addDeepEntrance(result,params,L,level)
+  end
+ end
  return result
 end

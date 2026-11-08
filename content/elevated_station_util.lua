@@ -234,13 +234,27 @@ return function(capture,params,isThrough,L,fence,turnback)
    row(centre+side*distance);distance=distance+PIER_SPACING
   end
  end
- -- Exactly one ground entrance porch, centred along the station.
- slab(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9,GROUND,GROUND,true)
+ -- The mixed interchange reserves whole paving tiles for its shared stairwell.
+ local plazaX0,plazaX1=centre-PLAZA_HALF,centre+PLAZA_HALF
+ local opening=params.ulrInterchangePlazaOpening
+ local function overlapsOpening(x0,x1,y0,y1)
+  return opening and x0<opening.x1 and x1>opening.x0 and y0<opening.y1 and y1>opening.y0
+ end
+ if opening then
+  slab(plazaX0,opening.x0,-14,9,GROUND,GROUND,true)
+  slab(opening.x1,plazaX1,-14,9,GROUND,GROUND,true)
+  slab(opening.x0,opening.x1,-14,opening.y0,GROUND,GROUND,true)
+  slab(opening.x0,opening.x1,opening.y1,9,GROUND,GROUND,true)
+ else
+  slab(plazaX0,plazaX1,-14,9,GROUND,GROUND,true)
+ end
  -- 3m tiles retain the native sidewalk pattern at a constant world scale.
  for x=centre-PLAZA_HALF,centre+PLAZA_HALF-0.001,3 do
   for y=-14,9-0.001,3 do
    local depth=math.min(3,9-y)
-   add("mrnickert_ultimate_metro::/elevated_paving.mdl",x,y,GROUND+0.001,1,depth/3,1)
+   if not overlapsOpening(x,x+3,y,y+depth) then
+    add("mrnickert_ultimate_metro::/elevated_paving.mdl",x,y,GROUND+0.001,1,depth/3,1)
+   end
   end
  end
  -- A park bench faces the street, beside the central walking route.
@@ -250,18 +264,27 @@ return function(capture,params,isThrough,L,fence,turnback)
  -- Keep the central public route and the frontage clear for a separately
  -- placed native bus stop. All greenery is behind the street-facing strip.
  for _,y in ipairs({-8.8,3.8}) do
-  add("::/assets/streets/tree_bed_new.mdl",centre+7.8,y,GROUND)
-  add("::/assets/vegetation/trees/apple_01/apple_01.mdl",centre+7.8,y,GROUND,0.45,0.45,0.45)
+  local x=centre+7.8
+  if not overlapsOpening(x-1,x+1,y-1,y+1) then
+   add("::/assets/streets/tree_bed_new.mdl",x,y,GROUND)
+   add("::/assets/vegetation/trees/apple_01/apple_01.mdl",x,y,GROUND,0.45,0.45,0.45)
+  end
  end
  for _,position in ipairs({{-5.5,-10.2},{5.5,-10.2},{4.5,1.8},{8.5,1.8}}) do
   local x,y=centre+position[1],position[2]
-  add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,y,GROUND)
-  for _,offset in ipairs({-0.5,0.5}) do
-   add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,y,GROUND+0.72,0.35,0.35,0.35)
+  if not overlapsOpening(x-1.2,x+1.2,y-1.2,y+1.2) then
+   add("::/assets/buildings/res/flower_pots/raised_bed_c.mdl",x,y,GROUND)
+   for _,offset in ipairs({-0.5,0.5}) do
+    add("::/assets/vegetation/trees/azalea_01/azalea_01.mdl",x+offset,y,GROUND+0.72,0.35,0.35,0.35)
+   end
   end
  end
  sub.groundFaces={{face=rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
+ if opening then
+  sub.groundFaces[#sub.groundFaces+1]={face=rectangle(opening.x0,opening.x1,opening.y0,opening.y1),
+   modes={{type="FILL",key="::/infrastructure/shared/hole.gtex"}}}
+ end
  sub.terrainAlignmentLists={{type="EQUAL",faces=pads,slopeLow=0.3,slopeHigh=0.6}}
  sub.station.catchmentAreas={{position={entryX,entryY,0},radius=200}}
  -- Both approaches target the side of the street, one metre from the walking

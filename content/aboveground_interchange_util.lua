@@ -8,12 +8,18 @@ local CENTRE=LENGTH/2
 local ELEVATED_OFFSET=20.5
 local STREET_Y=-20
 
-return function(capture,params)
+return function(capture,params,plazaOpening)
  local surfaceParams={ulrPlatformAccess=2}
  local elevatedParams={}
  for key,value in pairs(params or {}) do
   if key~="ulrPlatformAccess" then surfaceParams[key]=value end
   if key~="ulrStreetAlignment" then elevatedParams[key]=value end
+ end
+ if plazaOpening then
+  elevatedParams.ulrInterchangePlazaOpening={
+   x0=plazaOpening.y0+CENTRE-ELEVATED_OFFSET,x1=plazaOpening.y1+CENTRE-ELEVATED_OFFSET,
+   y0=CENTRE-plazaOpening.x1,y1=CENTRE-plazaOpening.x0,
+  }
  end
  local result=interchange.buildLevel(0,LENGTH,capture,surfaceParams)
  local elevated=interchange.buildLevel(1,LENGTH,capture,elevatedParams)

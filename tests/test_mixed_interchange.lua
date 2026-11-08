@@ -21,7 +21,7 @@ return function(resource)
   elseif level==2 then
    assert(edge.edgeType=="BRIDGE" and tangent[1]==0)
   else
-   assert(edge.edgeType=="TUNNEL" and tangent[1]==tangent[2] and tangent[1]~=0)
+   assert(edge.edgeType=="TUNNEL" and point[1]==40 and tangent[1]==0 and tangent[2]~=0)
   end
  end
 
@@ -73,17 +73,38 @@ return function(resource)
    assert(personLane.transportModes[1]=="PERSON" and personLane.nodes[ref[2]*2+2])
   end
  end
- local upperColliders=0
- for _,collider in ipairs(sub.colliders) do
-  local top=-math.huge
-  for _,point in ipairs(collider.params.points) do top=math.max(top,point[3]) end
-  if top>0 then
-   for _,point in ipairs(collider.params.points) do
-    assert(point[1]>60 and point[2]>12,"underground entrance collider overlaps the ground station or viaduct")
+ local plaza=key({40,12.5,0.15})
+ assert(visited[plaza] and graph[plaza][key({37.5,16,0.15})])
+ assert(graph[key({40.5,16,-12})][key({40,16,-12})])
+ local holes=0
+ for _,groundFace in ipairs(sub.groundFaces) do
+  if groundFace.modes[1].key=="::/infrastructure/shared/hole.gtex" then
+   local corners={[key({36,16,0})]=true,[key({42,16,0})]=true,
+    [key({36,28,0})]=true,[key({42,28,0})]=true}
+   assert(#groundFace.face==4)
+   for _,point in ipairs(groundFace.face) do
+    local corner=key(point)
+    assert(corners[corner]); corners[corner]=nil
    end
-   upperColliders=upperColliders+1
+   holes=holes+1
   end
  end
- assert(upperColliders==1)
- print("PASS: mixed interchange has six connected platforms, six snappable track ends and a clear underground entrance.")
+ assert(holes==1)
+ for _,model in ipairs(sub.models) do
+  assert(model.id~="::/stations/street/underground_station/models/underground_station_surface.mdl")
+  local t=model.transf
+  local paver=model.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" and t[15]==0.151
+  local foundation=model.id=="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl"
+   and t[15]==0.15 and t[11]==0.15/2.4
+  if paver or foundation then
+   local xMax,yMin=t[13],t[14]
+   local xMin=xMax+t[5]*(paver and 3 or 4)
+   local yMax=yMin+t[2]*(paver and 3 or 6)
+   assert(xMax<=36 or xMin>=42 or yMax<=16 or yMin>=28,"plaza geometry covers the stair opening")
+  end
+ end
+ for _,collider in ipairs(sub.colliders) do
+  for _,point in ipairs(collider.params.points) do assert(point[3]<0) end
+ end
+ print("PASS: parallel tunnel and viaduct, six connected platforms and six track ends, one shared plaza stairwell with clear paving.")
 end

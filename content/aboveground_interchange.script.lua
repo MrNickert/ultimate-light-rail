@@ -1,5 +1,5 @@
 local build=require "mrnickert_ultimate_metro::/aboveground_interchange_util.lua"
 
 function data()
- return {updateFn=build}
+ return {updateFn=function(capture,params) return build(capture,params) end}
 end

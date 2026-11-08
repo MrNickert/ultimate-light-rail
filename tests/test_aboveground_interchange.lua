@@ -98,6 +98,9 @@ return function(resource)
    assert(edge.edges[edge.snapNodes[1]+1][1][3]==z,"wrong track height for level "..level)
   end
  end
+ local internal=interchange.buildLevel(-4,80,{}, {seed=42,ulrInterchangeInternalConcourse=true})
+ for _,edge in ipairs(internal.edgeLists) do assert(edge.edges[1][1][3]==-72) end
+ for _,lane in ipairs(internal.subconstructions[1].laneLists) do assert(not lane.linkable) end
  for _,level in ipairs({-5,-0.5,2,"1"}) do
   assert(not pcall(interchange.buildLevel,level,80,{},{}))
  end
