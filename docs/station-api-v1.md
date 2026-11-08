@@ -1,4 +1,4 @@
-# Station API v1 — Ultimate Light Rail 1.2.0
+# Station API v1 — Ultimate Light Rail 1.2.1
 
 The public API builds tram-based passenger stations. The core owns geometry, the transport network, terminals, entrances and pedestrian routes; a design supplies visual components.
 

@@ -1,4 +1,4 @@
-# Validation status — release 1.2.0
+# Validation status — release 1.2.1
 
 ## Automated checks
 
@@ -18,7 +18,7 @@ These checks support the [API v1 compatibility commitment](compatibility.md). Th
 
 All three station locations have been placed and confirmed working. All platform lengths have been placed for visual inspection. Testing includes boarding/alighting, native connections, reversing, multiple lines/vehicles, crossing movements and save/reload. Independent component examples have been placed at 40m/80m with and without roofs; boarding and crossovers were confirmed for two variants.
 
-The surface through station with crossings was confirmed in-game by the user.
+The surface through station with crossings was confirmed in-game by the user. The user also confirmed the new station snapping and the fixed Interchange street entrance.
 
 The dedicated Light Rail button, compact icon and combined catalogue containing the tram depot, track and station have been confirmed in-game.
 

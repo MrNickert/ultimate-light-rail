@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.2.0
+# Ultimate Light Rail 1.2.1
+
+## Revision 70
+
+Ultimate Light Rail 1.2.1 improves road snapping for stations. Surface through stations align along the platform side, and surface termini snap at the end plaza. Elevated stations can align parallel or perpendicular to the road. The Underground Interchange entrance stays aligned with the street when the first level rotates.
 
 ## Revision 68
 
@@ -26,9 +30,9 @@ API v1 updates and extensions remain backward compatible with the documented con
 
 ## Downloads
 
-- **Players:** `ultimate-light-rail-1.2.0.zip` — the complete main mod, including its construction UI.
-- **Creators:** `ultimate-light-rail-developer-kit-1.2.0.zip` — documentation, reference declarations and example sources; not an installable mod.
-- **Optional examples:** `ultimate-light-rail-contract-example-1.2.0.zip` — install alongside the main mod to inspect the example stations.
+- **Players:** `ultimate-light-rail-1.2.1.zip` — the complete main mod, including its construction UI.
+- **Creators:** `ultimate-light-rail-developer-kit-1.2.1.zip` — documentation, reference declarations and example sources; not an installable mod.
+- **Optional examples:** `ultimate-light-rail-contract-example-1.2.1.zip` — install alongside the main mod to inspect the example stations.
 - **Integrity:** `SHA256SUMS.txt` lists the checksums for these three archives.
 
 The example and developer kit are optional. Current in-game testing uses Windows/Steam. The core and third-party asset mods must remain installed while their objects are used in a save.

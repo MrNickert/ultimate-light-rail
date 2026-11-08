@@ -1,6 +1,6 @@
 # API compatibility policy
 
-**Ultimate Light Rail 1.2.0 · Station API v1**
+**Ultimate Light Rail 1.2.1 · Station API v1**
 
 ## Our commitment to add-on creators
 

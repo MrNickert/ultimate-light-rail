@@ -2,8 +2,8 @@
 from pathlib import Path
 import json, zipfile
 root=Path(__file__).resolve().parents[1]
-assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==68
-prefix='ultimate-light-rail-developer-kit-1.2.0'
+assert json.loads((root/'mod.json').read_text(encoding='utf-8'))['revision']==70
+prefix='ultimate-light-rail-developer-kit-1.2.1'
 files={
  'README.md':'docs/developer-kit-readme.md',
  'docs/asset-kit-v1.md':'docs/asset-kit-v1.md',
@@ -24,7 +24,7 @@ for path in (root/'examples/contract_station').rglob('*'):
     if path.is_file():
         assert path.suffix in ('.md','.json','.lua','.mdl')
         files['example/'+path.relative_to(root/'examples/contract_station').as_posix()]=path.relative_to(root).as_posix()
-out=root/'dist/ultimate-light-rail-developer-kit-1.2.0.zip'
+out=root/'dist/ultimate-light-rail-developer-kit-1.2.1.zip'
 out.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as archive:
     for target,source in sorted(files.items()):archive.write(root/source,prefix+'/'+target)

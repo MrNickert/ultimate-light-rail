@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.2.0
+# Ultimate Light Rail 1.2.1
+
+## Revision 70
+
+Ultimate Light Rail 1.2.1 improves road snapping for stations. Surface through stations align along the platform side, and surface termini snap at the end plaza. Elevated stations can align parallel or perpendicular to the road. The Underground Interchange entrance stays aligned with the street when the first level rotates.
 
 ## Revision 68
 

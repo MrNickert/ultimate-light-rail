@@ -1,6 +1,6 @@
 # Ultimate Light Rail
 
-**Release 1.2.0 · mod revision 68 · Station API v1**
+**Release 1.2.1 · mod revision 70 · Station API v1**
 
 The additive UI integration (revision 52) has been tested in-game alongside Undo. Turnback is available on through stations at all three elevations. It adds a 30 m crossover at each end. See [UI integration](docs/ui-integration.md).
 
@@ -18,6 +18,7 @@ Open **Light Rail**, between Road and Rail. The tram depot, light rail track and
 | Depth | Underground only: −18 / −36 / −54 / −72 m; defaults to −18 m |
 | Fences | No / Yes; disabled underground |
 | Platform access | Surface through stations only. Underpass (default) / Crossing at both platform ends |
+| Street alignment | Elevated only. Parallel (default) / Perpendicular |
 
 Each track accommodates 35 waiting passengers per 20 m of platform length. An 80 m platform accommodates 140 passengers per track. The same rule applies independently to each Interchange layer.
 
