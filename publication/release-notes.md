@@ -1,4 +1,8 @@
-# Ultimate Light Rail 1.1.1
+# Ultimate Light Rail 1.2.0
+
+## Revision 68
+
+Surface through stations can now use paved pedestrian crossings at both platform ends. Choose Crossing under Platform access to replace the stairs with level access between platforms. Underpass remains the default.
 
 ## Revision 66
 

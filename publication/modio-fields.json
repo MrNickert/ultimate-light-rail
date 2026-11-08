@@ -1,8 +1,8 @@
 {
   "name": "Ultimate Light Rail",
   "summary": "Build surface, underground and elevated light rail stations, including reversing terminus stations.",
-  "version": "1.1.1",
-  "revision": 66,
+  "version": "1.2.0",
+  "revision": 68,
   "modId": "mrnickert_ultimate_metro",
   "suggestedSlug": "ultimate-light-rail",
   "homepage": "https://github.com/MrNickert/ultimate-light-rail",
@@ -16,7 +16,7 @@
     "Depot"
   ],
   "initialVisibility": "Hidden / Private while reviewing",
-  "primaryFile": "ultimate-light-rail-1.1.1.zip",
+  "primaryFile": "ultimate-light-rail-1.2.0.zip",
   "developerKit": "https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-developer-kit-1.0.0.zip",
   "exampleMod": "https://github.com/MrNickert/ultimate-light-rail/releases/download/v1.0.0/ultimate-light-rail-contract-example-1.0.0.zip",
   "linkStatus": "Prepared destinations; public repository and GitHub Release availability must be checked before publishing.",

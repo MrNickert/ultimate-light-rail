@@ -1,7 +1,7 @@
 param([switch]$CheckOnly)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$archivePath = Join-Path $PSScriptRoot 'downloads/ultimate-light-rail-1.1.1.zip'
+$archivePath = Join-Path $PSScriptRoot 'downloads/ultimate-light-rail-1.2.0.zip'
 $checksumPath = Join-Path $PSScriptRoot 'downloads/SHA256SUMS.txt'
 $targetRoot = [IO.Path]::GetFullPath('C:\Program Files (x86)\Steam\userdata\87691647\3493540\local\staging_area\mrnickert_ultimate_metro')
 $expectedChecksum = ((Get-Content -LiteralPath $checksumPath | Where-Object { $_ -match '  ultimate-light-rail-1\.1\.1\.zip$' }) -split '  ')[0]
@@ -25,8 +25,8 @@ try {
     $modEntry = $archive.GetEntry('mrnickert_ultimate_metro/mod.json')
     $reader = [IO.StreamReader]::new($modEntry.Open())
     try { $candidate = $reader.ReadToEnd() | ConvertFrom-Json } finally { $reader.Dispose() }
-    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 66) { throw 'Unexpected release candidate.' }
-    if ($CheckOnly) { Write-Output ('Verified revision 66, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
+    if ($candidate.modId -ne 'mrnickert_ultimate_metro' -or $candidate.revision -ne 68) { throw 'Unexpected release candidate.' }
+    if ($CheckOnly) { Write-Output ('Verified revision 68, checksum, target and ' + $files.Count + ' safe archive paths. No files changed.'); return }
     $backupRoot = Join-Path $PSScriptRoot ('staging-backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     foreach ($file in $files) {
         if (Test-Path -LiteralPath $file.Destination) {
@@ -45,6 +45,6 @@ try {
             Move-Item -LiteralPath $obsoletePath -Destination $backupPath
         }
     }
-    Write-Output ('Updated local staging to revision 66. Backup: ' + $backupRoot)
+    Write-Output ('Updated local staging to revision 68. Backup: ' + $backupRoot)
     Write-Output 'Existing mod.io linkage and saves were preserved. Refresh the Mod Hub and rerun validation.'
 } finally { $archive.Dispose() }

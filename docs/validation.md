@@ -1,9 +1,10 @@
-# Validation status — release 1.1.1
+# Validation status — release 1.2.0
 
 ## Automated checks
 
 - 72 functional station cases are compared with recorded reference outputs; routing, terminals and other non-visual build data remain unchanged.
 - 27 fixed underground/internal layouts also have complete-output comparisons.
+- Surface platform crossings are checked across all five platform lengths and both fence and Turnback settings. Both crossings connect to each platform.
 - Native resources, mesh buffers, platform/canopy coverage, fixed stairs, clear pole zones, fences and all supported lengths are checked.
 - Bundled and example station descriptions are checked against the public track introduction year, 1925.
 - API validation, default selections, model replacement and unchanged caller-owned tables are tested.
@@ -16,6 +17,8 @@ These checks support the [API v1 compatibility commitment](compatibility.md). Th
 ## In-game confirmation by the user
 
 All three station locations have been placed and confirmed working. All platform lengths have been placed for visual inspection. Testing includes boarding/alighting, native connections, reversing, multiple lines/vehicles, crossing movements and save/reload. Independent component examples have been placed at 40m/80m with and without roofs; boarding and crossovers were confirmed for two variants.
+
+The surface through station with crossings was confirmed in-game by the user.
 
 The dedicated Light Rail button, compact icon and combined catalogue containing the tram depot, track and station have been confirmed in-game.
 

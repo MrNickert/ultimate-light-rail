@@ -1,6 +1,6 @@
-# Ultimate Light Rail 1.1.1 — publication package
+# Ultimate Light Rail 1.2.0 — publication package
 
-Current release candidate: mod revision 66, Station API v1. Nothing is published by these packaging scripts.
+Current release candidate: mod revision 68, Station API v1. Nothing is published by these packaging scripts.
 
 ## Visual direction and gallery
 
@@ -36,8 +36,10 @@ Four known model warnings concern native game textures using BC3/DXT5 where the 
 1. Build UI and artwork, then the core, example, developer kit and publication packages with the scripts under `scripts/`.
 2. Apply the refreshed candidate to the staging area, preserve any mod.io linkage file, and archive obsolete gallery files `5.png` and `6.png` outside `_metadata`.
 3. Refresh the Mod Hub. Check the cover, selected gallery, concise description and five tags. Run its validation again and confirm that the Construction-tool error is absent. Record any remaining warnings.
-4. Load the updated staging copy and check the Interchange tile, layer settings, placement and a line after save/reload.
-5. Push the final commit. If distributing this update on GitHub, use the new `v1.1.1` release tag and attach the core, developer kit, example and checksums.
-6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the text in `capacity-update-changelog.txt`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
+4. Load the updated staging copy and check the Surface / Through platform access options, both crossings and a line after save/reload.
+5. Push the final commit. If distributing this update on GitHub, use the new `v1.2.0` release tag and attach the core, developer kit, example and checksums.
+6. Upload the staged core through Mod Hub. Confirm the dialog says it will update the existing listing. Use the Revision 68 text in `release-notes.md`. Leave Update Metadata off if keeping the current listing copy and artwork. The web description is available separately.
+
+7. In mod.io **Admin → Files**, check the Version column for the new desktop and console files. If the uploader shows `1.0`, use the file edit form to set each to `1.2.0`.
 
 The developer kit is documentation and source; it is not a directly installable mod. The example is an optional add-on requiring the core. Updates within the documented API v1 contract remain backward compatible; breaking changes use a new API version alongside v1.
