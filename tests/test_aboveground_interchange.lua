@@ -91,5 +91,15 @@ return function(resource)
   end
  end
  assert(piers>0)
+ local interchange=require "mrnickert_ultimate_metro::/interchange_util.lua"
+ for level,z in pairs({[-4]=-72,[-3]=-54,[-2]=-36,[-1]=-18,[0]=0,[1]=12}) do
+  local layout=interchange.buildLevel(level,80,{}, {seed=42})
+  for _,edge in ipairs(layout.edgeLists) do
+   assert(edge.edges[edge.snapNodes[1]+1][1][3]==z,"wrong track height for level "..level)
+  end
+ end
+ for _,level in ipairs({-5,-0.5,2,"1"}) do
+  assert(not pcall(interchange.buildLevel,level,80,{},{}))
+ end
  print("PASS: Aboveground Interchange has four connected platforms, two clear stair flights, eight turnback switch lanes and four native track ends.")
 end

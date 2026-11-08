@@ -1,4 +1,3 @@
-local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
 local interchange=require "mrnickert_ultimate_metro::/interchange_util.lua"
 local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
@@ -9,11 +8,6 @@ local CENTRE=LENGTH/2
 local ELEVATED_OFFSET=20.5
 local STREET_Y=-20
 
-local function build(placement,capture,params)
- return api.buildStation({apiVersion=1,placement=placement,stationType="through",
-  platformLength=LENGTH,turnback=true,design=api.getDefaultKit(placement)},capture,params)
-end
-
 function data()
  return {updateFn=function(capture,params)
   local surfaceParams={ulrPlatformAccess=2}
@@ -22,8 +16,8 @@ function data()
    if key~="ulrPlatformAccess" then surfaceParams[key]=value end
    if key~="ulrStreetAlignment" then elevatedParams[key]=value end
   end
-  local result=build("surface",capture,surfaceParams)
-  local elevated=build("elevated",capture,elevatedParams)
+  local result=interchange.buildLevel(0,LENGTH,capture,surfaceParams)
+  local elevated=interchange.buildLevel(1,LENGTH,capture,elevatedParams)
   geometry.transformLevel(elevated,{0,1,0,0,-1,0,0,0,0,0,1,0,CENTRE,ELEVATED_OFFSET-CENTRE,0,1})
   local ground,upper=result.subconstructions[1],elevated.subconstructions[1]
   interchange.appendLevel(result,elevated)

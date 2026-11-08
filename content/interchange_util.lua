@@ -1,5 +1,20 @@
--- Merge internal station levels without changing the public station contract.
+-- Build and merge internal station levels through the public station contract.
+local stationApi=require "mrnickert_ultimate_metro::/station_api_v1.lua"
+local undergroundLevels=require "mrnickert_ultimate_metro::/underground_levels.lua"
 local interchange={}
+local abovegroundPlacements={[0]="surface",[1]="elevated"}
+
+function interchange.buildLevel(level,length,capture,params)
+ local placement=abovegroundPlacements[level]
+ local undergroundLevel
+ if undergroundLevels.trackZ(level) then
+  placement="underground"
+  undergroundLevel=level
+ end
+ assert(placement,"Unsupported interchange level: "..tostring(level))
+ return stationApi.buildStation({apiVersion=1,placement=placement,undergroundLevel=undergroundLevel,
+  stationType="through",platformLength=length,turnback=true,design=stationApi.getDefaultKit(placement)},capture,params)
+end
 
 local function append(target,source)
  for _,value in ipairs(source) do target[#target+1]=value end
