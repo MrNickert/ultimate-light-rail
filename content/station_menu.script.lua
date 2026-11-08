@@ -10,6 +10,10 @@ function data()
   checkDepthFn=function(_capture,params)
    return tonumber((params or {}).placement)==1 and "Enabled" or "Hidden"
   end,
+  checkPlatformAccessFn=function(_capture,params)
+   params=params or {}
+   return tonumber(params.placement)==2 and tonumber(params.stationType)==1 and "Enabled" or "Hidden"
+  end,
   checkFenceFn=function(_capture,params)
    return tonumber((params or {}).placement)==1 and "Disabled" or "Enabled"
   end,

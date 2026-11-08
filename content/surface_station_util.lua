@@ -145,7 +145,7 @@ return function(result,options)
     first=first+span
    end
   end
-  if options.through then deck(0,L/2-20);deck(L/2+20,L)
+  if options.through and not options.platformCrossing then deck(0,L/2-20);deck(L/2+20,L)
   else deck(0,L) end
   local facing=side==1 and -math.pi/2 or math.pi/2
   -- On the 40m through deck the front shelter occupies the whole plain end;

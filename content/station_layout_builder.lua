@@ -19,6 +19,7 @@ return function(capture,params,spec)
  if spec.placement=="elevated" then return elevated(capture,config,isThrough,length,fence,spec.turnback) end
  local result
  if isThrough then
+  layout.platformCrossing=tonumber(config.ulrPlatformAccess)==2
   result=through(capture,config,layout)
  else
   result=decorate(terminus(capture,config,layout),layout)

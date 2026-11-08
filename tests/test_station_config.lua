@@ -17,16 +17,16 @@ return function(resource)
   return r
  end
  local con=resource("light_rail_station.con.lua")
- assert(#con.menuCategory.categories==1 and #con.params==6)
- local expected={"placement","stationType","platformLength","fence","turnback","depth"}
+ assert(#con.menuCategory.categories==1 and #con.params==7)
+ local expected={"placement","stationType","platformLength","fence","turnback","depth","ulrPlatformAccess"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4})[i]) and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4,2})[i]) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  assert(con.params[1].values[1]=="LR_STATION_UNDERGROUND" and con.params[1].values[2]=="LR_STATION_SURFACE" and con.params[1].values[3]=="LR_STATION_ELEVATED")
  assert(con.params[1].defaultIndex==2 and con.params[1].displayMode=="Vertical","full-width location row, Surface selected by default")
  assert(#con.params[1].tooltips==3)
- for i=2,6 do assert(con.params[i].displayMode=="Horizontal") end
+ for i=2,7 do assert(con.params[i].displayMode=="Horizontal") end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
   assert(#resource(name..".con.lua").menuCategory.categories==0,"legacy menu entry hidden, not deleted")
  end
@@ -41,6 +41,66 @@ return function(resource)
  assert(menu.checkTurnbackFn({}, {stationType=1})=="Enabled")
  assert(menu.checkTurnbackFn({}, {stationType=2})=="Disabled")
  assert(menu.checkTurnbackFn({}, nil)=="Disabled")
+ local access=con.params[7]
+ assert(access.defaultIndex==1 and access.values[1]=="LR_STATION_UNDERPASS" and access.values[2]=="LR_STATION_CROSSING")
+ assert(access.checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkPlatformAccessFn")
+ for placement=1,3 do for stationType=1,2 do
+  local params={placement=placement,stationType=stationType,platformLength=3,fence=1,seed=42}
+  local enabled=placement==2 and stationType==1
+  assert(menu.checkPlatformAccessFn({},params)==(enabled and "Enabled" or "Hidden"))
+  if not enabled then
+   local ordinary=script.updateFn({},params)
+   params.ulrPlatformAccess=2
+   equal(script.updateFn({},params),ordinary,"crossing selection is ignored when unavailable")
+  end
+ end end
+ assert(menu.checkPlatformAccessFn({},nil)=="Hidden")
+ for index,L in ipairs({40,60,80,100,120}) do for turnback=1,2 do for fence=1,2 do
+  local params={placement=2,stationType=1,platformLength=index,turnback=turnback,fence=fence,seed=42}
+  local ordinary=script.updateFn({},params)
+  params.ulrPlatformAccess=1
+  equal(script.updateFn({},params),ordinary,"missing access parameter defaults to the underpass")
+  params.ulrPlatformAccess=2
+  local result=script.updateFn({},params)
+  local sub=result.subconstructions[1]
+  local vehicleCount=turnback==2 and 6 or 2
+  equal(result.edgeLists,ordinary.edgeLists,"crossing retains track approaches")
+  for i=1,vehicleCount do
+   equal(sub.laneLists[i],ordinary.subconstructions[1].laneLists[i],"crossing retains vehicle lanes")
+  end
+  assert(#sub.groundFaces==3,"solid platform ground without stair holes")
+  local slabs=0
+  for _,model in ipairs(sub.models) do
+   assert(model.id~="mrnickert_ultimate_metro::/surface_underpass.mdl")
+   if model.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" then slabs=slabs+1 end
+  end
+  assert(slabs==6,"two crossing surfaces, each with two ramps")
+  local crossingCount,entranceCount=0,0
+  for i=vehicleCount+1,#sub.laneLists do
+   local lane=sub.laneLists[i]
+   assert(lane.transportModes[1]=="PERSON" and not lane.forwardOnly)
+   for _,node in ipairs(lane.nodes) do assert(node[1][3]>=0,"crossing routes never go underground") end
+   if lane.linkable then entranceCount=entranceCount+1 end
+   local start,last=lane.nodes[1][1],lane.nodes[#lane.nodes][1]
+   if start[2]<0 and last[2]>0 then
+    crossingCount=crossingCount+1
+    local x=crossingCount==1 and 1.5 or L-1.5
+    assert(start[1]==x and last[1]==x and not lane.linkable)
+    for side,point in ipairs({start,last}) do
+     local terminal=sub.station.terminals[side]
+     assert(terminal.capacity==L/20*35)
+     local platform=sub.laneLists[terminal.personNodes[1][1]+1]
+     local connected=false
+     for _,node in ipairs(platform.nodes) do
+      local p=node[1]
+      if p[1]==point[1] and p[2]==point[2] and p[3]==point[3] then connected=true end
+     end
+     assert(connected,"each crossing must connect directly to both terminal paths")
+    end
+   end
+  end
+  assert(crossingCount==2 and entranceCount==6)
+ end end end
  local legacySurface=resource("twin_terminus.script.lua")
  local legacyThrough=resource("through_station.script.lua")
  local legacyUnderground=resource("underground_terminus.script.lua")
@@ -129,5 +189,5 @@ return function(resource)
   results[id]=r
  end end end
  equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
- print("PASS: one six-option menu; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
+ print("PASS: one seven-option menu; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end

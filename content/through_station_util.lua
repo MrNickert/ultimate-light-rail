@@ -3,6 +3,7 @@
 local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
 local underpass=require "mrnickert_ultimate_metro::/passenger_underpass_util.lua"
+local atGradeCrossings=require "mrnickert_ultimate_metro::/passenger_crossing_util.lua"
 local function transform(x,y,z,reverse)
  local a=reverse and -1 or 1
  return {a,0,0,0,0,a,0,0,0,0,1,0,x,y,z,1}
@@ -22,7 +23,8 @@ return function(_capture,_params,options)
  local L=(options or {}).length or 80
  local turnback=options and options.turnback
  local approach=turnback and 30 or 10
- local crossing=underpass(L)
+ local platformCrossing=options and options.platformCrossing
+ local crossing=platformCrossing and atGradeCrossings(L) or underpass(L)
  local lanes={vehicle({{-10,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0},{L+10,-2.5,0}}),
   vehicle({{L+10,2.5,0},{L,2.5,0},{L/2,2.5,0},{0,2.5,0},{-10,2.5,0}})}
  if turnback then
@@ -79,5 +81,5 @@ return function(_capture,_params,options)
   if x~=poles[#poles] then poles[#poles+1]=x end
  end
  return decorate(result,{length=L,through=true,platformHeight=crossing.floor,platformScale=crossing.floor/1.1,
-  poles=poles,approach=approach})
+  poles=poles,approach=approach,platformCrossing=platformCrossing})
 end
