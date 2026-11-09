@@ -14,7 +14,7 @@ return function(resource)
   return ("%.0f,%.0f,%.0f"):format(math.floor(p[1]*1000+0.5),
    math.floor(p[2]*1000+0.5),math.floor(p[3]*1000+0.5))
  end
- local function check(result,z,length,vehicleCount,isTerminus)
+ local function check(result,z,length,vehicleCount,isTerminus,parallel)
   local sub=result.subconstructions[1]
   assert(result.snapPoint.transf[15]==0 and sub.station.catchmentAreas[1].position[3]==0)
   assert(#result.edgeLists==(isTerminus and 1 or 2))
@@ -56,7 +56,11 @@ return function(resource)
   for _,terminal in ipairs(sub.station.terminals) do
    local ref=terminal.vehicleNode
    local stop=sub.laneLists[ref[1]+1].nodes[ref[2]+1][1]
-   assert(stop[1]==length/2 and stop[3]==z)
+   if parallel then
+    assert(stop[2]==length/2-(length-20) and stop[3]==z)
+   else
+    assert(stop[1]==length/2 and stop[3]==z)
+   end
    assert(terminal.capacity==length/20*35)
    for _,node in ipairs(terminal.personNodes) do
     local lane=sub.laneLists[node[1]+1]
@@ -84,6 +88,29 @@ return function(resource)
   end
   assert(entrance and deepCollider)
  end
+ local function getEntrance(sub)
+  for _,model in ipairs(sub.models) do
+   if model.id:find("underground_station_surface.mdl",1,true) then return model.transf end
+  end
+ end
+ local function checkAlignment(perpendicular,parallel,length)
+  local sub1,sub2=perpendicular.subconstructions[1],parallel.subconstructions[1]
+  local centre=length-20
+  for i,value in ipairs(perpendicular.snapPoint.transf) do
+   assert(value==parallel.snapPoint.transf[i],"alignment must preserve the road snap frame")
+  end
+  for i,value in ipairs(getEntrance(sub1)) do
+   assert(value==getEntrance(sub2)[i],"alignment must preserve the street entrance transform")
+  end
+  for i,edge in ipairs(perpendicular.edgeLists) do
+   for j,node in ipairs(edge.edges) do
+    local rotated=parallel.edgeLists[i].edges[j]
+    local p,t=node[1],node[2]
+    assert(key(rotated[1])==key({centre-p[2],p[1]-centre,p[3]}),"track end must rotate with the hall")
+    assert(key(rotated[2])==key({-t[2],t[1],t[3]}),"track end tangent must rotate with the hall")
+   end
+  end
+ end
  for index=1,4 do
   local z=-18*index
   assert(depth.values[index]==z.." m")
@@ -91,7 +118,12 @@ return function(resource)
    for _,variant in ipairs({{1,1,2},{1,2,6},{2,1,4}}) do
     local params={placement=1,depth=index,platformLength=lengthIndex,seed=42,
      stationType=variant[1],turnback=variant[2]}
-    check(update({},params),z,length,variant[3],variant[1]==2)
+    local perpendicular=update({},params)
+    check(perpendicular,z,length,variant[3],variant[1]==2)
+    params.ulrUndergroundAlignment=1
+    local parallel=update({},params)
+    check(parallel,z,length,variant[3],variant[1]==2,true)
+    checkAlignment(perpendicular,parallel,length)
    end
   end
  end
@@ -109,5 +141,5 @@ return function(resource)
   local result=update({}, {placement=placement,depth=4,seed=42})
   assert(result.edgeLists[1].edges[1][1][3]==(placement==2 and 0 or 12))
  end
- print("PASS: all 60 underground depth/length/layout combinations; tracks, capacity, colliders, surface access and pedestrian paths.")
+ print("PASS: all 120 underground depth/length/layout/alignment combinations; tracks, capacity, colliders, surface access and pedestrian paths.")
 end

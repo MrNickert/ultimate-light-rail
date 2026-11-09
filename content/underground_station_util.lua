@@ -7,12 +7,16 @@ local entrance=require "mrnickert_ultimate_metro::/underground_entrance_util.lua
 local geometry=require "mrnickert_ultimate_metro::/underground_geometry.lua"
 local levels=require "mrnickert_ultimate_metro::/underground_levels.lua"
 
-local function addDeepEntrance(result,params,length,level)
+local function placeWithStreetEntrance(result,params,length,level,parallel)
  local offset=levels.offset(level)
+ local centre=length-20
+ -- Rotate around the concourse ring, then attach the entrance in its original street frame.
+ local frame=parallel and {0,1,0,0,-1,0,0,0,0,0,1,0,centre,-centre,offset,1}
+  or {1,0,0,0,0,1,0,0,0,0,1,0,0,0,offset,1}
  local sub=result.subconstructions[1]
  local snap,catchment=result.snapPoint.transf,sub.station.catchmentAreas
  sub.station.catchmentAreas={}
- geometry.transformLevel(result,{1,0,0,0,0,1,0,0,0,0,1,0,0,0,offset,1})
+ geometry.transformLevel(result,frame)
  result.snapPoint.transf=snap
  sub.station.catchmentAreas=catchment
  local street=entrance(params,{length=length,entranceOnly=true})
@@ -21,9 +25,9 @@ local function addDeepEntrance(result,params,length,level)
  end
  sub.groundFaces=street.groundFaces
  sub.terrainAlignmentLists=street.terrainAlignmentLists
+ if level==-1 then return end
  -- The native street entrance ends at the first concourse height. Stack
  -- switchback flights outside the station shell down to the selected hall.
- local centre=length-20
  local points={{centre,8.5,-12},{centre,16,-12}}
  for layer=-1,level+1,-1 do
   local top=-12+levels.offset(layer)
@@ -34,15 +38,18 @@ local function addDeepEntrance(result,params,length,level)
   points[#points+1]={centre+3.5,16,bottom}
   points[#points+1]={centre,16,bottom}
  end
- points[#points+1]={centre,11.75,-12+offset}
+ -- With the hall rotated, the straight landing meets a joint on the concourse ring.
+ points[#points+1]={centre,parallel and 8.5 or 11.75,-12+offset}
  geometry.addStairs(sub,points)
 end
 
 return function(capture,params,isThrough,length,turnback,level)
  local L=length or 80
  local baseZ=levels.trackZ(-1)
- local deep=level~=nil and level~=-1
+ level=level or -1
+ local deep=level~=-1
  local internal=params.ulrInterchangeInternalConcourse==true
+ local parallel=not internal and tonumber(params.ulrUndergroundAlignment)==1
  local layout={length=L,turnback=turnback}
  local result=isThrough and through(capture,params,layout) or terminus(capture,params,layout)
  local source=result.subconstructions[1]
@@ -50,7 +57,7 @@ return function(capture,params,isThrough,length,turnback,level)
  for i=1,vehicles do
   for _,node in ipairs(source.laneLists[i].nodes) do node[1][3]=baseZ end
  end
- local sub=concourse(source,params,isThrough,L,turnback,{internal=deep or internal,centred=internal})
+ local sub=concourse(source,params,isThrough,L,turnback,{internal=deep or internal or parallel,centred=internal})
  for _,edge in ipairs(result.edgeLists) do
   -- No fences below ground; preserve native tram traffic for through stations.
   if isThrough then edge.params.type="::/infrastructure/street/tram/tram_new.street_template" end
@@ -65,12 +72,10 @@ return function(capture,params,isThrough,length,turnback,level)
  result.subconstructions={sub}
  result.cost=900000
  result.maintenanceCost=30000
- if deep then
-  if internal then
-   geometry.transformLevel(result,{1,0,0,0,0,1,0,0,0,0,1,0,0,0,levels.offset(level),1})
-  else
-   addDeepEntrance(result,params,L,level)
-  end
+ if internal and deep then
+  geometry.transformLevel(result,{1,0,0,0,0,1,0,0,0,0,1,0,0,0,levels.offset(level),1})
+ elseif parallel or deep then
+  placeWithStreetEntrance(result,params,L,level,parallel)
  end
  return result
 end

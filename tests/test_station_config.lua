@@ -22,16 +22,16 @@ return function(resource)
   return r
  end
  local con=resource("light_rail_station.con.lua")
- assert(#con.menuCategory.categories==1 and #con.params==8)
- local expected={"placement","stationType","platformLength","fence","turnback","depth","ulrPlatformAccess","ulrStreetAlignment"}
+ assert(#con.menuCategory.categories==1 and #con.params==9)
+ local expected={"placement","stationType","platformLength","fence","turnback","depth","ulrPlatformAccess","ulrUndergroundAlignment","ulrStreetAlignment"}
  for i,param in ipairs(con.params) do
-  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4,2,2})[i]) and param.uiType=="Button")
+  assert(param.key==expected[i] and (#param.values==({3,2,5,2,2,4,2,2,2})[i]) and param.uiType=="Button")
   assert(param.key~="crossover" and not param.postConstructionModifiable)
  end
  assert(con.params[1].values[1]=="LR_STATION_UNDERGROUND" and con.params[1].values[2]=="LR_STATION_SURFACE" and con.params[1].values[3]=="LR_STATION_ELEVATED")
  assert(con.params[1].defaultIndex==2 and con.params[1].displayMode=="Vertical","full-width location row, Surface selected by default")
  assert(#con.params[1].tooltips==3)
- for i=2,8 do assert(con.params[i].displayMode=="Horizontal") end
+ for i=2,9 do assert(con.params[i].displayMode=="Horizontal") end
  for _,name in ipairs({"twin_terminus","through_station","underground_terminus"}) do
   assert(#resource(name..".con.lua").menuCategory.categories==0,"legacy menu entry hidden, not deleted")
  end
@@ -107,7 +107,11 @@ return function(resource)
   assert(crossingCount==2 and entranceCount==6)
  end end end
  local api=require "mrnickert_ultimate_metro::/station_api_v1.lua"
- local alignment=con.params[8]
+ local undergroundAlignment=con.params[8]
+ assert(undergroundAlignment.defaultIndex==2 and undergroundAlignment.values[1]=="LR_STATION_STREET_PARALLEL")
+ assert(undergroundAlignment.values[2]=="LR_STATION_STREET_PERPENDICULAR")
+ assert(undergroundAlignment.checkEnabledScript.fileName==con.params[6].checkEnabledScript.fileName)
+ local alignment=con.params[9]
  assert(alignment.defaultIndex==1 and alignment.values[1]=="LR_STATION_STREET_PARALLEL")
  assert(alignment.values[2]=="LR_STATION_STREET_PERPENDICULAR")
  assert(alignment.checkEnabledScript.fileName=="mrnickert_ultimate_metro::/station_menu.script@checkStreetAlignmentFn")
@@ -146,6 +150,11 @@ return function(resource)
     end
    end
    equal(result,direct,"public station snapping matches the built-in builder")
+   if placement~=1 then
+    local before=script.updateFn({},params)
+    params.ulrUndergroundAlignment=1
+    equal(script.updateFn({},params),before,"Underground alignment is ignored for other locations")
+   end
   end end
  end
  local legacySurface=resource("twin_terminus.script.lua")
@@ -236,5 +245,5 @@ return function(resource)
   results[id]=r
  end end end
  equal(functional(script.updateFn({},nil)),functional(legacySurface.updateFn({}, {crossover=2})),"defaults use validated surface terminus function")
- print("PASS: eight station settings; street alignment and retained track ends; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
+ print("PASS: nine station settings; street alignment and retained track ends; two connected level crossings in 20 combinations; all eight selections; fixed type/crossover; legacy layout equality, fence isolation, both underground platform accesses and open through tunnels.")
 end
