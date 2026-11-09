@@ -38,7 +38,8 @@ construction=(source/'content/gui/additive_construction.lua').read_text(encoding
 assert 'groupPrevious(' in button and 'buttonPrevious(...)' in button
 assert "tab = 17" not in button and "tab=17" not in button
 assert 'ulrConstructionOpenCategory' in button and 'findCategory(categories,request.categoryId)' in construction
-assert 'react.useStateLazy=originalState' in construction and 'util.getMenuCategories=originalMenus' in construction
+assert 'util.getMenuCategories=originalMenus' in construction and 'scope.entries and bridge.isCategoryList(value)' in construction
+assert 'contentOffset' not in construction and '_react.recipes' not in construction
 assert "menus.LIGHT_RAIL" in construction and 'M.appendCategory' in bridge
 icon=(source/'content/gui/light_rail.tga').read_bytes()
 w,h,depth=struct.unpack_from('<HHB',icon,12)

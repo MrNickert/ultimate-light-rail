@@ -1,4 +1,5 @@
 -- These are real adapter calls, including the installed foreign wrapper when present.
+function _(key)return key end
 local bridge=assert(loadfile('content/gui/ui_bridge.lua'))()
 local source={buttonData={{id='menu.construction.road',gameCtx={}},{id='foreign.button'},{id='menu.construction.rail',gameCtx={}}},foreignOption={}}
 local changed,added=bridge.addButton(source)
@@ -82,50 +83,84 @@ runBarTest('generic')
 local f=io.open(undoPath,'r')
 if f then f:close();runBarTest('before');runBarTest('after');print('PASS: installed Undo wrapper + additive Light Rail, both setup orders, including Undo/Redo/Clear and native reference forwarding')
 else print('SKIP: optional installed Undo integration fixture unavailable')end
--- The construction callback and helpers remain native, including foreign additions.
-local window=function()end
+-- The shared catalogue adapter works with native and replacement windows.
 local events={};local fired
 local originalMenus={ROAD={{{category='native'},{{resName='native-road'}}}},ROADS={{{category='tracks'},{{resName='mrnickert_ultimate_metro::/lightrail_fenced.street_template'}}}},LIGHT_RAIL={{{category='ulr_stations'},{{resName='mrnickert_ultimate_metro::/light_rail_station.con'}}}}}
 local getMenus=function()return originalMenus end
 local util={getMenuCategories=getMenus}
-local nativeState=function(generate)local value=generate();return {old=function()return value end}end
-local react={GetRecipeId=function(value)assert(value==window);return 300 end,useStateLazy=nativeState,
+local slots,index
+local nativeState=function(generate)
+ index=index+1
+ if not slots[index] then
+  local value=generate()
+  slots[index]={old=function()return value end}
+ end
+ return slots[index]
+end
+local react={useStateLazy=nativeState,
  onEvent=function(name,fn)events[name]=fn end,fireEvent=function(_,name,p)fired={name=name,params=p}end}
 local category=function(id)return {id=id,getSublists=function()return {}end}end
-local registry={recipes={},recipeReplace={}}
-local priorCalls=0
-registry.recipes[299]=function(ctx)
- priorCalls=priorCalls+1
+local function render(ctx,window)
+ slots,index,events=ctx.slots,0,{}
+ return window(ctx)
+end
+local function window(ctx)
  react.useStateLazy(function()return false end)
  ctx.categories=react.useStateLazy(function()
-  util.getMenuCategories({})
+  local menus=util.getMenuCategories({})
+  if ctx.fail then error('intentional catalogue initialization failure') end
+  assert(#menus.ROADS[1][2]==0,'ULR track must be moved out of the regular catalogue')
   return {category('road'),category('rail'),{id='module-bulldozer',definition={}},category('foreign-category')}
  end):old()
- if ctx.fail then error('intentional foreign callback failure')end
- ctx.foreignDecoration='preserved'
  return 'native-result',nil,23
 end
-local env=setmetatable({_react=registry,ug_require=function(path)
+local env=setmetatable({ug_require=function(path)
  if path=='::/gui/main/react.lua'then return react end
  if path=='::/gui/construction/construction_react_util.tl'then return util end
- if path=='::/gui/construction/construction.tl'then return window end
- if path=='mrnickert_ultimate_metro::/gui/native_construction.lua'then return assert(loadfile('content/gui/native_construction.lua'))()end
  if path=='mrnickert_ultimate_metro::/gui/ui_bridge.lua'then return bridge end
  if path=='mrnickert_ultimate_metro::/gui/catalog.lua'then return assert(loadfile('content/gui/catalog.lua'))()end
  error(path)
 end},{__index=_G})
-local adapter=assert(loadfile('content/gui/additive_construction.lua','t',env))();assert(adapter.install())
-local ctx={};local a,b,c=registry.recipes[299](ctx)
-assert(a=='native-result'and b==nil and c==23 and ctx.foreignDecoration=='preserved')
-assert(priorCalls==1 and #ctx.categories==5 and ctx.categories[4].id=='foreign-category')
-assert(originalMenus.ROADS[1][2][1].resName=='mrnickert_ultimate_metro::/lightrail_fenced.street_template','Foreign/native source catalogue must not be mutated')
-assert(react.useStateLazy==nativeState and util.getMenuCategories==getMenus,'Temporary helpers must be restored')
-events.ulrConstructionOpenCategory(nil,{categoryId='light_rail'})
-assert(fired.name=='constructionMenuSetTab'and fired.params.tabIndex==5)
-table.insert(ctx.categories,1,category('another-foreign-category'))
-events.ulrConstructionOpenCategory(nil,{categoryId='light_rail'})
-assert(fired.params.tabIndex==6,'Named routing must follow category insertion by other mods')
-assert(not pcall(registry.recipes[299],{fail=true}))
-assert(react.useStateLazy==nativeState and util.getMenuCategories==getMenus,'Restore helpers after errors too')
-assert(registry.recipeReplace[300]==nil,'ConstructionListWindow itself must remain untouched')
-print('PASS: native construction callback preserved, foreign category retained, name-based routing, catalogue isolation and helper restoration after success/error')
+local adapter=assert(loadfile('content/gui/additive_construction.lua','t',env))()
+assert(adapter.install())
+local hook=react.useStateLazy
+assert(adapter.install() and react.useStateLazy==hook)
+
+-- The replacement has its own callback and lazy-state order. No native recipe
+-- is mounted, and the adapter never looks up either callback in a registry.
+local function replacement(ctx)
+ react.useStateLazy(function()return 'replacement state' end)
+ local a,b,c=window(ctx)
+ ctx.foreignDecoration='preserved'
+ return a,b,c
+end
+for _,activeWindow in ipairs({window,replacement}) do
+ local ctx={slots={}}
+ local a,b,c=render(ctx,activeWindow)
+ assert(a=='native-result' and b==nil and c==23)
+ assert(#ctx.categories==5 and ctx.categories[4].id=='foreign-category')
+ if activeWindow==replacement then assert(ctx.foreignDecoration=='preserved') end
+ events.ulrConstructionOpenCategory(nil,{categoryId='light_rail'})
+ assert(fired.name=='constructionMenuSetTab' and fired.params.tabIndex==5)
+ events.constructionMenuCategoryEmpty(nil,{index=5,empty=true})
+ assert(fired.name=='ulrConstructionCategoryAvailability' and fired.params.empty)
+ table.insert(ctx.categories,1,category('another-foreign-category'))
+ local previous=ctx.categories
+ render(ctx,activeWindow)
+ assert(ctx.categories==previous and #ctx.categories==6,'Cached renders must not insert a second tab')
+ events.ulrConstructionOpenCategory(nil,{categoryId='light_rail'})
+ assert(fired.params.tabIndex==6,'Named routing must follow category insertion by other mods')
+end
+
+assert(originalMenus.ROADS[1][2][1].resName=='mrnickert_ultimate_metro::/lightrail_fenced.street_template')
+assert(util.getMenuCategories==getMenus,'Catalogue helper restored after success')
+assert(not pcall(render,{slots={},fail=true},replacement))
+assert(util.getMenuCategories==getMenus,'Catalogue helper restored after errors')
+
+local unrelated={category('road'),category('rail')}
+render({slots={}},function()
+ assert(react.useStateLazy(function()return unrelated end):old()==unrelated)
+ assert(react.useStateLazy(function()return 42 end):old()==42)
+end)
+assert(#unrelated==2 and next(events)==nil,'Unrelated state is ignored even if it resembles categories')
+print('PASS: native and replacement windows, cached renders, foreign category preservation, named routing and scoped catalogue restoration')

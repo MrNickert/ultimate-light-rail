@@ -10,7 +10,7 @@ The group adapter shallow-copies the button descriptor list and inserts Light Ra
 
 ## Construction categories
 
-The native construction-content callback continues to execute. During that callback only, scoped wrappers collect a copy of the native catalogue and augment the native lazy category state with Light Rail. The original callback's render result, APIs and other categories are preserved. Both helper functions are restored after success or an exception; they are not left globally replaced between callbacks.
+The category adapter uses TF3's shared lazy state and construction catalogue helpers. It adds Light Rail when an initializer calls the catalogue helper and returns a construction category list. The catalogue wrapper is scoped to initialization and restored even after an error. The active window keeps its renderer, APIs and categories. The adapter does not use a construction recipe ID or registration offset, so replacement windows using the same helpers can receive the category.
 
 The Light Rail button requests `light_rail` by category ID. The category adapter resolves its current index when opening it. No fixed Light Rail tab number is stored. Availability notifications are translated by category ID while the native notifications remain intact.
 
@@ -20,9 +20,7 @@ The Light Rail filter adds a control next to Tram in the native line manager. A 
 
 ## Limits and engine coupling
 
-The engine does not expose a public construction-category extension point. The small integration layer therefore uses checked native recipe registry entries and a scoped native-state adapter. It still needs review after engine changes. Layout mismatch skips the affected hook and writes a diagnostic instead of guessing a different target.
-
-Mods that add controls or categories through the retained native recipes can coexist. A mod that entirely replaces the native construction-content implementation can bypass this adapter; arbitrary UI rewrites are not guaranteed compatible. That condition needs its own investigation, not an ever-growing list of per-mod patches.
+The engine does not expose a public construction-category extension point. The bar integration uses checked native recipe registry entries, and the catalogue integration uses shared TF3 helpers. A bar layout mismatch skips the affected hook and writes a diagnostic. A replacement catalogue using a different state structure or ignoring the native tab-selection event can still be incompatible.
 
 ## Diagnostics and verification
 
