@@ -125,7 +125,7 @@ return function()
   end
  end
  assert(holes==1)
- local piers=0
+ local piers,foundations=0,0
  for _,model in ipairs(plaza.models) do
   assert(model.id~="::/stations/street/underground_station/models/underground_station_surface.mdl")
   local t=model.transf
@@ -136,7 +136,8 @@ return function()
    piers=piers+1
   end
   local paver=model.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" and t[15]==0.151
-  local foundation=model.id=="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl" and t[15]==0.15 and t[11]==0.15/2.4
+  local foundation=model.id=="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl" and t[15]>0 and t[15]<0.15 and math.abs(t[15]-2.4*t[11])<1e-8
+  if foundation then foundations=foundations+1;assert(0.151-t[15]>=0.05) end
   if paver or foundation then
    local xMax,yMin=t[13],t[14]
    local xMin=xMax+t[5]*(paver and 3 or 4)
@@ -144,7 +145,7 @@ return function()
    assert(xMax<=-4 or xMin>=2 or yMax<=16 or yMin>=28,"plaza geometry covers the stair opening")
   end
  end
- assert(piers>0)
+ assert(piers>0 and foundations>0)
  for _,collider in ipairs(plaza.colliders) do
   for _,point in ipairs(collider.params.points) do assert(point[3]<0) end
  end

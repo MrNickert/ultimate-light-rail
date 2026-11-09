@@ -36,8 +36,8 @@ return function(resource)
  assert(resource("station_menu.script.lua").checkFenceFn({}, {placement=3})=="Enabled")
  local function key(p)return string.format("%.5f,%.5f,%.5f",p[1]+0,p[2]+0,p[3]+0)end
  for index,L in ipairs({40,60,80,100,120}) do
-  for kind=1,2 do for fence=1,2 do
-   local p={placement=3,stationType=kind,fence=fence,platformLength=index,seed=42}
+  for kind=1,2 do for fence=1,2 do for alignment=1,2 do
+   local p={placement=3,stationType=kind,fence=fence,platformLength=index,seed=42,ulrStreetAlignment=alignment}
    local r=script.updateFn({},p)
    local surface=script.updateFn({}, {placement=2,stationType=kind,fence=fence,platformLength=index,seed=42})
    local sub=r.subconstructions[1]
@@ -73,24 +73,26 @@ return function(resource)
    end
    assert(#public==1,"exactly one public entrance, no elevated street links")
    local entry=public[1].nodes[1][1]
-   assert(entry[1]==L/2 and entry[2]==-14 and entry[3]==0.15)
+   local sideStreet=alignment==2
+   assert(entry[1]==(sideStreet and L/2-10.5 or L/2) and entry[2]==(sideStreet and -12.5 or -14) and entry[3]==0.15)
    local frame=r.snapPoint.transf
    local apron=sub.groundFaces[1].face
    -- A road snapped along this tangent must follow the frontage, not cross
    -- the station's pier rows. Its inward normal must point to the public node.
-   local frontage={apron[2][1]-apron[1][1],apron[2][2]-apron[1][2]}
+   local endPoint=apron[sideStreet and 4 or 2]
+   local frontage={endPoint[1]-apron[1][1],endPoint[2]-apron[1][2]}
    assert(math.abs(frame[1]*frontage[2]-frame[2]*frontage[1])<1e-6,"road tangent parallel to entrance frontage")
    local delta={entry[1]-frame[13],entry[2]-frame[14],entry[3]-frame[15]}
    assert(math.abs(delta[1]*frame[1]+delta[2]*frame[2])<1e-6,"entry centred on snap frame")
    assert(math.abs(delta[1]*frame[5]+delta[2]*frame[6]-1)<1e-6,"public node 1m inward from snap line")
-   assert(frame[13]==L/2 and frame[14]==-15 and frame[15]==0)
+   assert(frame[13]==(sideStreet and L/2-11.5 or L/2) and frame[14]==(sideStreet and -12.5 or -15) and frame[15]==0)
    -- A street running along the frontage must stay clear of all solid
    -- near-ground structural boxes (including the piers).
    for _,m in ipairs(sub.models) do
     local t=m.transf
     if m.id=="mrnickert_ultimate_metro::/elevated_concrete.mdl" then
      local minZ=t[15]-2.4*t[11]+math.min(0,6*t[3])
-     if minZ<9.5 then
+     if minZ<9.5 and not sideStreet then
       assert(t[14]>frame[14]+1,"low structure cannot cross the snapped street frontage")
      end
     end
@@ -206,19 +208,41 @@ return function(resource)
      assert(covered,"no gap in rigid track trough")
     end
    end
-   local entryVisuals,paving=0,0
+   local entryVisuals,paving,plazaSlabs=0,0,0
+   local lowestPaver,highestSlab=math.huge,-math.huge
    for _,m in ipairs(sub.models) do
     if m.id=="mrnickert_ultimate_metro::/elevated_paving.mdl" then
      paving=paving+1;assert(m.transf[15]==0.151 and m.transf[1]==1 and m.transf[6]<=1)
+     lowestPaver=math.min(lowestPaver,m.transf[15])
+    elseif m.id=="mrnickert_ultimate_metro::/elevated_concrete_visual.mdl" and m.transf[15]<0.15 then
+     plazaSlabs=plazaSlabs+1
+     highestSlab=math.max(highestSlab,m.transf[15])
+     assert(math.abs(m.transf[15]-2.4*m.transf[11])<1e-8,"plaza base must meet leveled terrain")
     end
     if m.id=="mrnickert_ultimate_metro::/elevated_entrance.mdl" then entryVisuals=entryVisuals+1;assert(m.transf[15]==0.15 and m.transf[13]==L/2+2.8 and m.transf[2]==-1) end
    end
-   assert(entryVisuals==1 and paving==56,"complete tiled entrance sidewalk")
+   assert(entryVisuals==1 and paving==56 and plazaSlabs==4,"complete tiled entrance sidewalk")
+   assert(lowestPaver-highestSlab>=0.05,"paving must clear the concrete top by at least 5cm")
    assert(#sub.groundFaces==1 and sub.groundFaces[1].face[1][1]==L/2-10.5)
-   for _,alignment in ipairs(sub.terrainAlignmentLists) do
-    for _,face in ipairs(alignment.faces) do for _,point in ipairs(face) do assert(point[3]==0,"never raise terrain to deck height") end end
+   assert(#sub.terrainAlignmentLists==1)
+   local grading=sub.terrainAlignmentLists[1]
+   assert(grading.type=="EQUAL" and grading.slopeLow==0.3 and grading.slopeHigh==0.6)
+   local footprint=grading.faces[1]
+   for i,offset in ipairs({{-0.5,-0.5},{0.5,-0.5},{0.5,0.5},{-0.5,0.5}}) do
+    assert(footprint[i][1]==apron[i][1]+offset[1] and footprint[i][2]==apron[i][2]+offset[2],
+     "flat terrain must cover the entire plaza and reach beyond its paving")
    end
-  end end
+   local streetGap=sideStreet and footprint[1][1]-frame[13] or footprint[1][2]-frame[14]
+   assert(streetGap==0.5,"the leveling margin leaves the road snap line clear")
+   for i,face in ipairs(grading.faces) do
+    for _,point in ipairs(face) do assert(point[3]==0,"level terrain meets the plaza underside and pier bases") end
+    assert(face[1][1]<face[2][1] and face[1][2]<face[3][2],"valid terrain face")
+    if i>1 then
+     assert(face[2][1]<=footprint[1][1] or face[1][1]>=footprint[2][1],
+      "pier pads and plaza may meet but cannot overlap")
+    end
+   end
+  end end end
  end
- print("PASS: 20 elevated combinations; unchanged vehicle geometry at +12m, exactly one central ground entrance reaches both platforms, 122 visible treads and two supporting waists, clear stair shafts, piers, bridge approaches and safety railings.")
+ print("PASS: 40 elevated combinations; both road orientations, graded plaza and pier pads; unchanged vehicle geometry at +12m, exactly one central ground entrance reaches both platforms, 122 visible treads and two supporting waists, clear stair shafts, piers, bridge approaches and safety railings.")
 end

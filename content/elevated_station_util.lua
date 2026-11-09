@@ -220,7 +220,13 @@ return function(capture,params,isThrough,L,fence,turnback)
   end
  end
  -- Piers/crossbeams avoid the stairs and lower pedestrian cross-passage.
- local pads={rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9)}
+ local plazaX0,plazaX1=centre-PLAZA_HALF,centre+PLAZA_HALF
+ local plazaY0,plazaY1=-14,9
+ -- Keep the terrain transition outside the paving and inside the street setback.
+ -- The level terrain meets the underside of the plaza slab at z=0.
+ local terrainMargin=0.5
+ local terrainX0,terrainX1=plazaX0-terrainMargin,plazaX1+terrainMargin
+ local pads={rectangle(terrainX0,terrainX1,plazaY0-terrainMargin,plazaY1+terrainMargin)}
  local rows={}
  local function row(x)
   if x<first+2 or x>last-2 or math.abs(x-centre)<PLAZA_HALF-0.01 then return end
@@ -229,7 +235,11 @@ return function(capture,params,isThrough,L,fence,turnback)
   slab(x-1.2,x+1.2,-9,9,BEAM_TOP,0.8)
   for _,y in ipairs({-2.8,2.8}) do
    add(SLAB,x-0.75,y-0.75,PIER_TOP,1.5/6,1.5/4,PIER_TOP/2.4)
-   pads[#pads+1]=rectangle(x-0.9,x+0.9,y-0.9,y+0.9)
+   -- The plaza already levels the inner portion of the nearest pier pads.
+   local padX0,padX1=x-0.9,x+0.9
+   if x<centre then padX1=math.min(padX1,terrainX0)
+   else padX0=math.max(padX0,terrainX1) end
+   pads[#pads+1]=rectangle(padX0,padX1,y-0.9,y+0.9)
   end
  end
  -- Anchor both pier lines at the plaza sides. No extra end piers may
@@ -241,23 +251,24 @@ return function(capture,params,isThrough,L,fence,turnback)
   end
  end
  -- The mixed interchange reserves whole paving tiles for its shared stairwell.
- local plazaX0,plazaX1=centre-PLAZA_HALF,centre+PLAZA_HALF
  local opening=params.ulrInterchangePlazaOpening
  local function overlapsOpening(x0,x1,y0,y1)
   return opening and x0<opening.x1 and x1>opening.x0 and y0<opening.y1 and y1>opening.y0
  end
+ -- Keep the concrete top clear of the paving plane to avoid z-fighting.
+ local plazaBaseTop=GROUND-0.05
  if opening then
-  slab(plazaX0,opening.x0,-14,9,GROUND,GROUND,true)
-  slab(opening.x1,plazaX1,-14,9,GROUND,GROUND,true)
-  slab(opening.x0,opening.x1,-14,opening.y0,GROUND,GROUND,true)
-  slab(opening.x0,opening.x1,opening.y1,9,GROUND,GROUND,true)
+  slab(plazaX0,opening.x0,plazaY0,plazaY1,plazaBaseTop,plazaBaseTop,true)
+  slab(opening.x1,plazaX1,plazaY0,plazaY1,plazaBaseTop,plazaBaseTop,true)
+  slab(opening.x0,opening.x1,plazaY0,opening.y0,plazaBaseTop,plazaBaseTop,true)
+  slab(opening.x0,opening.x1,opening.y1,plazaY1,plazaBaseTop,plazaBaseTop,true)
  else
-  slab(plazaX0,plazaX1,-14,9,GROUND,GROUND,true)
+  slab(plazaX0,plazaX1,plazaY0,plazaY1,plazaBaseTop,plazaBaseTop,true)
  end
  -- 3m tiles retain the native sidewalk pattern at a constant world scale.
- for x=centre-PLAZA_HALF,centre+PLAZA_HALF-0.001,3 do
-  for y=-14,9-0.001,3 do
-   local depth=math.min(3,9-y)
+ for x=plazaX0,plazaX1-0.001,3 do
+  for y=plazaY0,plazaY1-0.001,3 do
+   local depth=math.min(3,plazaY1-y)
    if not overlapsOpening(x,x+3,y,y+depth) then
     add("mrnickert_ultimate_metro::/elevated_paving.mdl",x,y,GROUND+0.001,1,depth/3,1)
    end
@@ -285,7 +296,7 @@ return function(capture,params,isThrough,L,fence,turnback)
    end
   end
  end
- sub.groundFaces={{face=rectangle(centre-PLAZA_HALF,centre+PLAZA_HALF,-14,9),
+ sub.groundFaces={{face=rectangle(plazaX0,plazaX1,plazaY0,plazaY1),
   modes={{type="FILL",key="::/stations/shared/industry_floor_high_priority.gtex"}}}}
  if opening then
   sub.groundFaces[#sub.groundFaces+1]={face=rectangle(opening.x0,opening.x1,opening.y0,opening.y1),

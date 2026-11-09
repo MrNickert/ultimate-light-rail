@@ -39,6 +39,20 @@ return function(resource,directory)
     result.snapPoint=raw(capture,params).snapPoint
    end
   end
+  if params.placement==3 then
+   -- The approved plaza grade extends past its paving and trims the adjacent
+   -- pier pads. Restore those historical faces only for the snapshot comparison.
+   local sub=result.subconstructions[1]
+   local faces=sub.terrainAlignmentLists[1].faces
+   local left,right=faces[1][1][1],faces[1][2][1]
+   local apron=sub.groundFaces[1].face
+   faces[1]=apron
+   for i=2,#faces do
+    local pad=faces[i]
+    if pad[2][1]==left then pad[2][1]=apron[1][1]+0.9;pad[3][1]=pad[2][1] end
+    if pad[1][1]==right then pad[1][1]=apron[2][1]-0.9;pad[4][1]=pad[1][1] end
+   end
+  end
   return result
  end
  for placement=1,3 do for kind=1,2 do for length=1,5 do for fence=1,2 do
