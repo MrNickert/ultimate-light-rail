@@ -159,15 +159,18 @@ return function(resource)
      local modular=m.id=="mrnickert_ultimate_metro::/platform_roof20.mdl"
      roofs[side][#roofs[side]+1]={t[13],t[13]+(modular and 20 or 40)*t[1]}
      assert(t[6]==1 and t[11]==1 and t[15]==(modular and 12.25 or 12.25-1.1),"canopy retains reference width and height")
-     assert(t[15]+(modular and resource("platform_roof20.mdl").boundingInfo.bbMax[3] or roof.boundingInfo.bbMax[3])<17.5,"roof must clear longitudinal contact wire")
+     local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
+     assert(t[15]+(modular and resource("platform_roof20.mdl").boundingInfo.bbMax[3] or roof.boundingInfo.bbMax[3])<12+track.WIRE_HEIGHT,"roof must clear longitudinal contact wire")
     elseif m.id=="::/assets/stations/rail/era_c_perron_pillar.mdl" then
      posts=posts+1
      assert(t[13]<=L/2-10 or t[13]>=L/2+10,"roof supports clear stair openings")
     elseif m.id=="::/assets/streets/tram_pole_crossbar.mdl" then
      assert(math.abs(t[14])==9.8 and t[13]>=first+0.5 and t[13]<=last-0.5)
-     local wireY=t[14]+3.13368*t[6]
-     assert(math.abs(math.abs(wireY)-2.5)<1e-6,"outboard mast still supports the same contact wire")
+     local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
+     local hang,tip=t[14]+track.HANG_POINT*t[6],t[14]+3.13368*t[6]
+     assert(math.abs(math.abs(hang)-2.5)<1e-6 or math.abs(tip)<1e-6,"outboard mast still supports the same contact wire")
      assert(t[15]==12.25)
+     assert(math.abs(t[15]+5.17*t[11]-(12+track.WIRE_HEIGHT+0.35))<1e-6,"arm meets the isolator above the wire")
     elseif m.id=="::/assets/vegetation/trees/apple_01/apple_01.mdl" then
      trees=trees+1;assert(t[15]==0.15 and t[14]>-11,"tree behind free bus-stop frontage")
     elseif m.id=="::/assets/buildings/res/flower_pots/raised_bed_c.mdl" then

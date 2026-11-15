@@ -62,12 +62,16 @@ local function main()
     local reverse=key(b).."|"..vector(b[2],-1).."|"..key(a).."|"..vector(a[2],-1)
     assert(not seen[forward] and not seen[reverse],"no duplicate opposite vehicle curves")
     seen[forward]=true
-    assert(a[1][1]<b[1][1] and a[2][1]>0 and b[2][1]>0,"no vehicle turnaround curve")
+    -- Track 2 is drawn -x (doors open on the right of the drawn lane); all others +x.
+    local dir=i==2 and -1 or 1
+    assert((b[1][1]-a[1][1])*dir>0 and a[2][1]*dir>0 and b[2][1]*dir>0,"no vehicle turnaround curve")
     connect(a,b)
    end
   end
   for i,y in ipairs({-2.5,2.5}) do
-   assert(sub.laneLists[i].nodes[1][1][1]==-30 and sub.laneLists[i].nodes[1][1][2]==y,"internal endpoints match native double tram offsets")
+   local nodes=sub.laneLists[i].nodes
+   local outer=i==1 and nodes[1] or nodes[#nodes]
+   assert(outer[1][1]==-30 and outer[1][2]==y,"internal endpoints match native double tram offsets")
   end
   local function reachable(a,b)
    local visited,queue={},{a}
@@ -82,6 +86,10 @@ local function main()
    local laneIndex,nodeIndex=terminal.vehicleNode[1],terminal.vehicleNode[2]
    local point=assert(sub.laneLists[laneIndex+1].nodes[nodeIndex+1])[1]
    assert(laneIndex==track-1 and point[1]==40 and point[2]==(track==1 and -2.5 or 2.5),"internal terminal actually targets its own platform midpoint")
+   -- Door side: the platform must lie on the right of the lane's drawn direction.
+   local tangent=sub.laneLists[laneIndex+1].nodes[nodeIndex+1][2]
+   local wait=sub.laneLists[terminal.personNodes[1][1]+1].nodes[terminal.personNodes[1][2]+1][1]
+   assert((wait[1]-point[1])*tangent[2]-(wait[2]-point[2])*tangent[1]>0,"platform on the right of the drawn lane (door side)")
    for _,reference in ipairs(terminal.personNodes) do
     local lane=assert(sub.laneLists[reference[1]+1])
     assert(lane.transportModes[1]=="PERSON" and lane.nodes[reference[2]+1],"passenger references adjust with crossover option")
@@ -193,8 +201,9 @@ local function main()
   end
   for _,model in ipairs(sub.models) do
    assert(not model.id:find("_standard.mdl",1,true),"no sleeper-track models or railway buffers")
-   if model.id:find("single_rail.mdl",1,true) then
-    assert(model.transf[15]>5,"rail mesh is used only for overhead wires; ground uses native tram texture")
+   assert(not model.id:find("single_rail.mdl",1,true),"no rail meshes; ground uses native tram texture")
+   if model.id=="mrnickert_ultimate_metro::/tram_wire.mdl" then
+    assert(math.abs(model.transf[15]-4.82)<1e-6,"contact wire at vanilla height")
    end
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end

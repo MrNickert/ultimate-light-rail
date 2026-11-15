@@ -97,7 +97,10 @@ return function(resource)
      if placement=="surface" and kind=="through" then assert(math.abs(t[13]-L/2)>=11,"roof post clears fixed underpass opening") end
     elseif m.id=="::/assets/streets/tram_pole_crossbar.mdl" and placement=="surface" then
      assert(math.abs(t[14])==9.8,"mast outside new surface canopy")
-     assert(math.abs(math.abs(t[14]+3.13368*t[6])-2.5)<1e-6,"contact wire location unchanged")
+     local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
+     local hang,tip=t[14]+track.HANG_POINT*t[6],t[14]+3.13368*t[6]
+     assert(math.abs(math.abs(hang)-2.5)<1e-6 or math.abs(tip)<1e-6,
+      "isolator hang point over its track, or crossover arm reaching the centreline")
     end
    end end
    assert(roofs==2*L/20 and posts>=4)

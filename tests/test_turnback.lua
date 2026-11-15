@@ -23,7 +23,9 @@ return function(resource)
      assert(path.speedLimit==(i<=2 and 80 or 40))
      for _,node in ipairs(path.nodes) do assert(node[1][3]==z) end
      if i<=2 then
-      assert(path.nodes[1][1][1]==-30 and path.nodes[#path.nodes][1][1]==L+30)
+      -- Track 2 is drawn in its traffic direction (-x): doors open on the right of the drawn lane.
+      local from,to=i==1 and -30 or L+30,i==1 and L+30 or -30
+      assert(path.nodes[1][1][1]==from and path.nodes[#path.nodes][1][1]==to)
      else
       local first,last=path.nodes[1][1],path.nodes[4][1]
       local x=i<=4 and -30 or L
@@ -35,7 +37,12 @@ return function(resource)
     for i,terminal in ipairs(sub.station.terminals) do
      assert(terminal.capacity==L/20*35)
      assert(terminal.vehicleNode[1]==i-1)
-     assert(paths[i].nodes[terminal.vehicleNode[2]+1][1][1]==L/2)
+     local stop=paths[i].nodes[terminal.vehicleNode[2]+1]
+     assert(stop[1][1]==L/2)
+     -- Door side: the platform must lie on the right of the lane's drawn direction.
+     local wait=paths[terminal.personNodes[1][1]+1].nodes[terminal.personNodes[1][2]+1][1]
+     local tx,ty=stop[2][1],stop[2][2]
+     assert((wait[1]-stop[1][1])*ty-(wait[2]-stop[1][2])*tx>0,"platform on the right of the drawn lane (door side)")
      for _,ref in ipairs(terminal.personEdges) do
       assert(paths[ref[1]+1].transportModes[1]=="PERSON")
       assert(paths[ref[1]+1].nodes[ref[2]*2+2])

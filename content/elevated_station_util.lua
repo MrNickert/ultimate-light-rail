@@ -1,4 +1,5 @@
 -- Supported viaduct, real stair openings and individual concrete stair treads.
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local terminus=require "mrnickert_ultimate_metro::/terminus_util.lua"
 local through=require "mrnickert_ultimate_metro::/through_station_util.lua"
 local decorate=require "mrnickert_ultimate_metro::/surface_station_util.lua"
@@ -83,16 +84,21 @@ return function(capture,params,isThrough,L,fence,turnback)
  end
  decorate(r,{through=true,length=L,poles=poles,approach=approach})
  local models={}
+ local crossings=track.crossingPoles(sub.models)
  for _,m in ipairs(sub.models) do
   if m.id~="mrnickert_ultimate_metro::/surface_platform.mdl" and m.id~=FENCE
    and m.id~="::/stations/street/small_stops/small_new.mdl"
-   and not (m.id=="::/assets/streets/tram_pole_crossbar.mdl" and (m.transf[13]<first+0.5 or m.transf[13]>last-0.5)) then
+   and not ((m.id=="::/assets/streets/tram_pole_crossbar.mdl" or m.id==track.ISOLATOR_MODEL)
+    and (m.transf[13]<first+0.5 or m.transf[13]>last-0.5)) then
    m.transf[15]=m.transf[15]+H
    if m.id=="::/assets/streets/tram_pole_crossbar.mdl" then
-    -- Outside the canopy/fascia; extend the inward bracket to the same wire.
+    -- Outside the canopy/fascia; extend the inward bracket to the same wire:
+    -- isolator 7.3 m from the mast (9.8 -> track centre 2.5); crossover masts reach y=0.
     m.transf[14]=m.transf[14]<0 and -9.8 or 9.8
-    m.transf[5]=m.transf[5]*7.3/4;m.transf[6]=m.transf[6]*7.3/4
+    track.fitArm(m,9.8,crossings)
     m.transf[15]=FLOOR
+    -- Footing top is FLOOR (0.25 above the track): arm must still meet the wire.
+    m.transf[11]=track.poleScale(FLOOR-H)
    end
    models[#models+1]=m
   end

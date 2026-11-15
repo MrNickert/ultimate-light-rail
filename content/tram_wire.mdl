@@ -1,0 +1,13 @@
+-- Visual-only contact wire, 1m long along +x, using the native tram cable material.
+-- No transport provider: electrification still comes from the station lanes.
+function data()
+ return {boundingInfo={bbMin={0,-0.008,-0.008},bbMax={1,0.008,0.008}},
+  collider={type="BOX",params={halfExtents={0,0,0}},
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+  lods={{node={children={{
+   materials={"::/infrastructure/street/shared/mat/tram_cable.mtl"},
+   mesh="mrnickert_ultimate_metro::/tram_wire.msh",name="tram_wire",
+   transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}}},
+   name="RootNode",transf={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}},
+   visibleFrom=0,visibleTo=1000}},metadata={},version=2}
+end

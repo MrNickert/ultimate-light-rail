@@ -30,8 +30,11 @@ return function(_capture,_params,options)
  if turnback then
   for i,side in ipairs({-1,1}) do
    local y=side*2.5
-   lanes[i]=track.lane({{-approach,y,0},{0,y,0},{L/2,y,0},{L,y,0},{L+approach,y,0}},
-    track.modes,true,false)
+   local points={{-approach,y,0},{0,y,0},{L/2,y,0},{L,y,0},{L+approach,y,0}}
+   -- Trams open their doors on the right of the lane's drawn direction: draw track 2
+   -- in its normal traffic direction (-x), as the simple through station does.
+   if side==1 then points={points[5],points[4],points[3],points[2],points[1]} end
+   lanes[i]=track.lane(points,track.modes,true,false)
   end
   track.addCrossover(lanes,-approach,track.modes)
   track.addCrossover(lanes,L,track.modes)
