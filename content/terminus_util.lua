@@ -18,7 +18,10 @@ return function(_captureParams,params,options)
   local modes=track.modes
   local lanes={
    lane({{-30,-2.5,0},{0,-2.5,0},{L/2,-2.5,0},{L,-2.5,0}},modes,true,false),
-   lane({{-30,2.5,0},{0,2.5,0},{L/2,2.5,0},{L,2.5,0}},modes,true,false),
+   -- Trams open their doors on the right of the lane's drawn direction, so track 2
+   -- (platform at +y) is drawn -x. The extra 3L/4 point keeps node 3 (vehicleNode)
+   -- at the platform centre.
+   lane({{L,2.5,0},{3*L/4,2.5,0},{L/2,2.5,0},{0,2.5,0},{-30,2.5,0}},modes,true,false),
   }
   if crossover then track.addCrossover(lanes,-30,modes) end
   local vehicles=#lanes
