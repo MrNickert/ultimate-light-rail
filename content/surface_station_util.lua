@@ -1,5 +1,6 @@
 -- Decoration is applied only by the surface adapter, after the shared builder.
 -- The underground builder never loads this module or the visual platform model.
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local PLATFORM_HEIGHT=0.25
 local PLATFORM_SCALE=PLATFORM_HEIGHT/0.8
 local PLATFORM="mrnickert_ultimate_metro::/surface_platform.mdl"
@@ -37,9 +38,11 @@ local function tramSurface(models,lane,layer)
   end
  end
 end
+-- tram_wire.msh is 1.6 cm thick; scaled to match the vanilla street cable.
+local WIRE_THICKNESS=2
 local function wires(models,lane,curved)
- -- The existing bare rail mesh becomes a thin decorative metal contact wire.
- -- This is visual only; electrical availability still comes from the lanes.
+ -- Thin contact wire (1 m mesh along +x) with the native tram cable material, at the
+ -- vanilla height (track.WIRE_HEIGHT). Visual only; electricity still comes from the lanes.
  for i=1,#lane.nodes,2 do
   local a,b=lane.nodes[i],lane.nodes[i+1]
   local steps=curved and 6 or 1
@@ -48,9 +51,9 @@ local function wires(models,lane,curved)
    local current=curve(a,b,step/steps)
    local dx,dy=current[1]-previous[1],current[2]-previous[2]
    local length=math.sqrt(dx*dx+dy*dy)
-   models[#models+1]={id="::/infrastructure/track/shared/single_rail.mdl",
-    transf={dx/4,dy/4,0,0,-dy/length*0.15,dx/length*0.15,0,0,0,0,0.15,0,
-     (previous[1]+current[1])/2,(previous[2]+current[2])/2,5.5-0.53*0.15,1}}
+   models[#models+1]={id=track.WIRE_MODEL,
+    transf={dx,dy,0,0,-dy/length*WIRE_THICKNESS,dx/length*WIRE_THICKNESS,0,0,0,0,WIRE_THICKNESS,0,
+     previous[1],previous[2],track.WIRE_HEIGHT,1}}
    previous=current
   end
  end
@@ -159,9 +162,20 @@ return function(result,options)
    add("::/assets/buildings/res/garden_lamp/garden_lamp_c_stand.mdl",x,side*8.7,floorHeight,
     side==1 and 0 or math.pi)
   end
+  local crossovers=track.crossoverCentres(sub.laneLists)
   for _,x in ipairs(options.poles or {-15,8*L/80,28*L/80,52*L/80,72*L/80}) do
-   add("::/assets/streets/tram_pole_crossbar.mdl",x,side*6.5,(x<0 or x>L) and 0 or floorHeight,
-    side==1 and math.pi or 0,1,4/3.13368,0.75)
+   -- Mast track.MAST_DISTANCE from the track; arm stretched so its isolator hangs over
+   -- the track centre (y=2.5), mast height so the vanilla isolator reaches the wire.
+   -- At a crossover centre both arms reach the centreline and touch, carrying one more
+   -- isolator where the two crossover wires cross (y=0).
+   local base=(x<0 or x>L) and 0 or floorHeight
+   local mastY=2.5+track.MAST_DISTANCE
+   local crossing=track.isCrossover(crossovers,x)
+   add("::/assets/streets/tram_pole_crossbar.mdl",x,side*mastY,base,side==1 and math.pi or 0,1,
+    crossing and track.crossingArmScale(mastY) or track.armScale(track.MAST_DISTANCE),
+    track.poleScale(base))
+   add(track.ISOLATOR_MODEL,x,side*2.5,track.WIRE_HEIGHT)
+   if crossing and side==1 then add(track.ISOLATOR_MODEL,x,0,track.WIRE_HEIGHT) end
   end
  end
  if not options.through then

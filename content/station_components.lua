@@ -1,6 +1,7 @@
 -- Optional presentation only. Fixed routes, stairs, structure and safety stay core-owned.
 local M={}
 local standardKit=require "mrnickert_ultimate_metro::/station_standard_kit.lua"
+local track=require "mrnickert_ultimate_metro::/station_turnback_track.lua"
 local PREFIX="mrnickert_ultimate_metro::/"
 local keys={platform=true,shelter=true,canopy=true,trees=true,planters=true,benches=true,bins=true,lights=true}
 local ids={
@@ -141,9 +142,11 @@ function M.apply(result,spec,components)
      end
     end
     -- Move masts outside the roof; contact-wire position and vehicle lanes stay.
+    local crossings=track.crossingPoles(models)
     for _,m in ipairs(models) do if m.id=="::/assets/streets/tram_pole_crossbar.mdl" then
      m.transf=copy(m.transf);m.transf[14]=m.transf[14]<0 and -9.8 or 9.8
-     m.transf[5]=m.transf[5]*7.3/4;m.transf[6]=m.transf[6]*7.3/4
+     -- Isolator 7.3 m from the mast (9.8 -> track centre 2.5); crossover masts reach y=0.
+     track.fitArm(m,9.8,crossings)
     elseif m.id=="::/stations/street/small_stops/small_new.mdl" or (type(components.shelter)=="table" and m.id==components.shelter.model) then
      -- Keep the reference shelter footprint clear of canopy columns at y=6.5.
      m.transf=copy(m.transf);m.transf[14]=m.transf[14]<0 and -7.9 or 7.9

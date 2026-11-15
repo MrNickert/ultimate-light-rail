@@ -201,8 +201,9 @@ local function main()
   end
   for _,model in ipairs(sub.models) do
    assert(not model.id:find("_standard.mdl",1,true),"no sleeper-track models or railway buffers")
-   if model.id:find("single_rail.mdl",1,true) then
-    assert(model.transf[15]>5,"rail mesh is used only for overhead wires; ground uses native tram texture")
+   assert(not model.id:find("single_rail.mdl",1,true),"no rail meshes; ground uses native tram texture")
+   if model.id=="mrnickert_ultimate_metro::/tram_wire.mdl" then
+    assert(math.abs(model.transf[15]-4.82)<1e-6,"contact wire at vanilla height")
    end
    for _,value in ipairs(model.transf) do assert(value==value and math.abs(value)<1e6,"decorative transforms finite") end
   end
